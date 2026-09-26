@@ -152,7 +152,13 @@ where the numbers come from.
   - Only a Discord ID that the commissioner has put on a `Manager` (in the admin) gets in. A User is
     created on that manager's first sign-in. Anyone else sees their Discord ID and is asked to send it
     to the commissioner.
-  - Commissioner = Django staff. Permissions: managers
+  - The account is keyed by Discord ID (`discord-<id>`), so handing a team to someone else never
+    hands over the old account.
+  - `accounts.middleware.DiscordAccountMiddleware` re-checks the link on every request. It turns
+    admin rights (staff + superuser) on exactly while the Manager is marked **Is commissioner**, so
+    unlinking or removing the flag applies immediately, the admin included.
+  - League pages use `league.access.member_required`: a linked Discord manager, or the commissioner's
+    password account. Permissions: managers
   edit only their own team while signing is open. The commissioner can edit
   everything.
 

@@ -126,3 +126,83 @@ def test_banner_warns_while_reconciliation_is_pending(manager_client):
 
 def test_no_banner_when_nothing_is_pending(manager_client):
     assert b"await commissioner review" not in manager_client.get("/teams/").content
+
+
+def test_team_page_breakdown_adds_up_including_farm(manager_client):
+    team = Team.objects.get(code="MB")
+    farm = team.farm.filter(status="active").first()
+    farm.salary_season = 2027  # a keep recorded for next season
+    farm.save()
+    page = manager_client.get("/teams/MB/")
+    budget = page.context["budget"]
+    assert budget.farm == farm.salary
+    ledger = page.context["ledger"]
+    assert len(ledger) == len(budget.lines)
+    assert budget.base + budget.cash_net - budget.missed_ip - sum(line["amount"] for line in ledger) == budget.remaining
+    html = page.content.decode()
+    assert "Farm" in html and farm.player.name in html
+
+
+def test_team_list_shows_farm_money(manager_client):
+    assert b'<th class="num">Farm</th>' in manager_client.get("/teams/").content
+
+
+def test_missed_ip_penalties_are_itemised(manager_client):
+    from league.models import BudgetAdjustment
+
+    team = Team.objects.get(code="MB")
+    BudgetAdjustment.objects.create(team=team, season=2027, kind="missed_ip", amount=5, note="Week 12")
+    html = manager_client.get("/teams/MB/").content.decode()
+    assert "Week 12" in html and "$5" in html
+
+
+def test_team_page_lists_past_cash_trades_too(manager_client):
+    from league.models import CashTrade
+
+    team = Team.objects.get(code="MB")
+    past = (
+        CashTrade.objects.filter(budget_season__lt=2027).filter(from_team=team).first()
+        or CashTrade.objects.filter(budget_season__lt=2027, to_team=team).first()
+    )
+    assert past is not None
+    assert f"{past.budget_season}: ${past.amount}" in manager_client.get("/teams/MB/").content.decode()
+
+
+def test_ended_contracts_are_only_last_seasons(manager_client, settings):
+    team = Team.objects.get(code="MB")
+    ended = manager_client.get("/teams/MB/").context["expired"]
+    assert ended and all(c.final_year == 2026 for c in ended)
+    settings.LEAGUE_SEASON = 2027
+    assert all(c.final_year == 2027 for c in manager_client.get("/teams/MB/").context["expired"])
+    assert team
+
+
+def test_impossible_buyout_is_refused():
+    from django.core.exceptions import ValidationError
+
+    call_command("import_league", verbosity=0)
+    b = Buyout.objects.select_related("contract").first()
+    b.dropped_in_season = b.contract.final_year  # a final-year drop is free, not a buyout
+    with pytest.raises(ValidationError):
+        b.full_clean()
+
+
+def test_banner_is_not_shown_to_people_without_a_team(league, client):
+    call_command("reconcile", verbosity=0)
+    client.force_login(User.objects.create_user("discord-999"))
+    response = client.get("/contracts/")
+    assert response.status_code == 403 and b"await commissioner review" not in response.content
+
+
+def test_help_page_for_managers_hides_the_commissioner_guide(manager_client):
+    html = manager_client.get("/help/").content.decode()
+    assert "Signing in" in html and "Commissioner guide" not in html
+
+
+def test_help_page_shows_commissioners_their_guide(league, client):
+    client.force_login(User.objects.create_user("commish", is_staff=True))
+    assert "Commissioner guide" in client.get("/help/").content.decode()
+
+
+def test_help_needs_sign_in(client):
+    assert client.get("/help/").status_code == 302

@@ -10,4 +10,5 @@ urlpatterns = [
     path("farm/", views.farm, name="farm"),
     path("picks/", views.picks, name="picks"),
     path("cash/", views.cash, name="cash"),
+    path("help/", views.help_page, name="help"),
 ]

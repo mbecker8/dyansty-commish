@@ -3,11 +3,12 @@
 from collections import defaultdict
 
 from django.conf import settings
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 
 from league.access import is_league_member, member_required
 from league.budget import team_budget
-from league.models import Buyout, CashTrade, Contract, FarmPick, FarmPlayer, Team
+from league.models import BudgetAdjustment, Buyout, CashTrade, Contract, FarmPick, FarmPlayer, Player, Team
 from rules.buyouts import buyout_schedule
 from rules.farm import retained_salary
 
@@ -64,28 +65,44 @@ def teams(request):
     return render(request, "league/teams.html", {"teams": rows})
 
 
+LINE_LABELS = {"contract": "Contract", "buyout": "Buyout", "farm": "Farm"}
+
+
+def ledger(budget):
+    """Every charge in the budget, as the rules engine itemised it."""
+    players = Player.objects.in_bulk([int(pid) for _, pid, _ in budget.lines])
+    return [
+        {"kind": LINE_LABELS.get(kind, kind), "player": players.get(int(pid)), "amount": amount}
+        for kind, pid, amount in budget.lines
+    ]
+
+
 @member_required
 def team(request, code):
     team = get_object_or_404(Team, code=code.upper())
     season = next_season()
-    live = Contract.live.filter(team=team).select_related("player")
-    buyouts = Buyout.objects.filter(team=team).select_related("contract__player")
+    budget = team_budget(team, season)
+    live = Contract.live.filter(team=team).select_related("player").order_by("player__name")
+    buyouts = Buyout.objects.filter(team=team).select_related("contract__player").order_by("contract__player__name")
     farm = FarmPlayer.objects.filter(team=team, status=FarmPlayer.Status.ACTIVE).select_related("player")
     return render(
         request,
         "league/team.html",
         {
             "team": team,
-            "budget": team_budget(team, season),
+            "budget": budget,
+            "ledger": ledger(budget),
+            "adjustments": BudgetAdjustment.objects.filter(team=team, season=season),
             "contracts": contract_rows(c for c in live if c.final_year >= season),
-            "expired": [c for c in live if c.final_year < season],
+            "expired": [c for c in live if c.final_year == settings.LEAGUE_SEASON],
             "buyouts": buyout_rows(buyouts),
-            "farm": farm_rows(farm),
-            "picks": FarmPick.objects.filter(owner=team, year__gte=season).select_related("original_team"),
-            "cash": CashTrade.objects.filter(budget_season__gte=season)
-            .filter(from_team=team)
-            .union(CashTrade.objects.filter(budget_season__gte=season, to_team=team))
-            .order_by("budget_season"),
+            "farm": farm_rows(farm.order_by("player__name")),
+            "picks": FarmPick.objects.filter(owner=team, year__gte=season)
+            .select_related("original_team")
+            .order_by("year", "round", "original_team__code"),
+            "cash": CashTrade.objects.filter(Q(from_team=team) | Q(to_team=team))
+            .select_related("from_team", "to_team")
+            .order_by("-budget_season", "pk"),
             "managers": team.managers.all(),
         },
     )
@@ -100,7 +117,9 @@ def contracts(request):
 
 @member_required
 def buyouts(request):
-    all_buyouts = Buyout.objects.select_related("contract__player", "team").order_by("team__code")
+    all_buyouts = Buyout.objects.select_related("contract__player", "team").order_by(
+        "team__code", "contract__player__name"
+    )
     return render(request, "league/buyouts.html", {"rows": buyout_rows(all_buyouts)})
 
 
@@ -123,3 +142,8 @@ def picks(request):
 def cash(request):
     trades = CashTrade.objects.select_related("from_team", "to_team").order_by("-budget_season", "from_team__code")
     return render(request, "league/cash.html", {"trades": trades})
+
+
+@member_required
+def help_page(request):
+    return render(request, "league/help.html", {"is_commissioner": request.user.is_staff})

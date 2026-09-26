@@ -194,3 +194,32 @@ def test_staff_without_a_team_can_see_league_pages(client, team):
 def test_signed_in_user_without_a_manager_is_refused(client, team):
     client.force_login(User.objects.create_user("stranger"))
     assert client.get("/contracts/").status_code == 403
+
+
+def test_commissioner_manager_gets_the_admin(client, team):
+    Manager.objects.create(team=team, discord_id=DISCORD_ID, name="Matt", is_commissioner=True)
+    sign_in(client)
+    assert client.get("/admin/").status_code == 200
+    assert client.get("/admin/league/reconciliationitem/").status_code == 200
+
+
+def test_ordinary_manager_does_not_get_the_admin(client, team):
+    Manager.objects.create(team=team, discord_id=DISCORD_ID, name="Matt")
+    sign_in(client)
+    assert client.get("/admin/").status_code == 302
+
+
+def test_removing_the_commissioner_flag_takes_the_admin_away_at_once(client, team):
+    manager = Manager.objects.create(team=team, discord_id=DISCORD_ID, name="Matt", is_commissioner=True)
+    sign_in(client)
+    Manager.objects.filter(pk=manager.pk).update(is_commissioner=False)  # even bypassing save()
+    assert client.get("/admin/").status_code == 302
+    assert client.get("/contracts/").status_code == 200  # still a manager
+
+
+def test_unlinked_commissioner_loses_the_admin_too(client, team):
+    manager = Manager.objects.create(team=team, discord_id=DISCORD_ID, name="Matt", is_commissioner=True)
+    sign_in(client)
+    manager.delete()
+    assert client.get("/admin/").status_code == 302
+    assert not User.objects.get(username=f"discord-{DISCORD_ID}").is_staff

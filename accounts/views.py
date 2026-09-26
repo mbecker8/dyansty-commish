@@ -10,7 +10,7 @@ from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_GET, require_POST
 
 from accounts import discord
-from league.access import discord_username
+from league.access import discord_username, sync_commissioner_rights
 from league.models import Manager
 
 SESSION_STATE = "discord_oauth_state"
@@ -88,6 +88,7 @@ def discord_callback(request):
     manager.user = user
     manager.discord_username = str(identity.get("username", ""))[:100]
     manager.save(update_fields=["user", "discord_username"])
+    sync_commissioner_rights(user)
     login(request, manager.user, backend=f"{ModelBackend.__module__}.{ModelBackend.__name__}")
     return redirect(_safe_next(request, next_url))
 

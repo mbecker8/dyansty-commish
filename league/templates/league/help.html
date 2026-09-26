@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block title %}Help · Dynasty Commish{% endblock %}
+{% block content %}
+<article class="doc">
+<h1>Help</h1>
+<p>Dynasty Commish replaces the contract-signing spreadsheet. Fantrax still runs everything
+else: trades, the auction and drafts, lineups, waivers and scoring. This site handles the parts
+done by hand outside Fantrax: contracts, buyouts, the farm system, and the auction budget math.</p>
+
+<h2>Signing in</h2>
+<ul>
+  <li>Click <strong>Sign in with Discord</strong> and use the Discord account you use in the league server. The site only
+    learns your Discord ID and username. It never sees your email, servers or messages.</li>
+  <li>If you see <em>“Your Discord account isn't linked to a team”</em>, send the commissioner the Discord ID shown on
+    that page. Once they've linked it, sign in again.</li>
+  <li>Sign out from the button in the top right. If you're removed from a team, you lose access on the next page you open.</li>
+</ul>
+
+<h2>What you can see</h2>
+<p>Every manager can see every team. Nothing here is private to a team.</p>
+<ul>
+  <li><strong>Teams</strong>: each team's {{ next_season }} auction budget: the $400 base, minus contracts, buyouts, farm
+    salaries and missed-IP penalties, plus or minus cash trades. This is what's <em>already committed</em>. The contracts you
+    sign and the farm players you keep in February come out of it.</li>
+  <li><strong>Your team page</strong>: your contracts, buyouts, farm, farm picks and cash trades. Open
+    <em>How it adds up</em> to see every charge behind the budget.</li>
+  <li><strong>Contracts</strong>: every contract that runs through {{ next_season }} or later, with its price per year,
+    final year and years left.</li>
+  <li><strong>Buyouts</strong>: dropped contracts that still owe penalties, season by season.</li>
+  <li><strong>Farm</strong>: every farm system, with what each player would cost to keep next season.</li>
+  <li><strong>Farm picks</strong>: who owns each future farm draft pick. Bold means it was traded.</li>
+  <li><strong>Cash</strong>: auction money traded between teams, and which auction it applies to.</li>
+</ul>
+<p>A yellow banner at the top means the commissioner is still reviewing moves from the {{ league_season }} season
+  (trades, drops, promotions). Until that's done, rosters and budgets may still change.</p>
+
+<h2>The rules in brief</h2>
+<ul>
+  <li><strong>Contract price per year</strong> (P = end-of-season salary): 1 year P; 2 years P+$5; 3 years P+$10;
+    4 years P+$15; 5 or more years P + $4 × years.</li>
+  <li><strong>Contract term</strong>: signed after season S for L years, it covers seasons S+1 to S+L. The final year is S+L.</li>
+  <li><strong>Buyouts</strong>: dropping a contract before its final year costs 80% of the annual price at the next auction,
+    then 70%, 60%, … for each season left, rounded half up. The team holding the contract when he's dropped pays.
+    A final-year drop is free.</li>
+  <li><strong>Farm</strong>: a pick costs $1. Keeping a player adds $1 to his salary, or $2 once he has appeared in
+    MLB (1 plate appearance or 0.1 innings pitched). Once called up, a farm player can't go back down.</li>
+  <li><strong>Limit</strong>: up to 10 contracts going into the auction, plus sign-and-trades. Kept farm players don't count.</li>
+</ul>
+<p class="muted">The full rulebook is the league's Google Doc. Contract signing moves onto this site for February {{ next_season }}.</p>
+
+{% if is_commissioner %}
+<h2 id="commissioner">Commissioner guide</h2>
+<p>You see this section because you're a commissioner. Everything below happens in the <a href="{% url 'admin:index' %}">admin</a>.</p>
+
+<h3>Link a manager to a team</h3>
+<ol>
+  <li>Ask them to sign in once. The page they land on shows their Discord ID. (Or, in Discord, turn on
+    Developer Mode, right-click their name and choose <em>Copy User ID</em>.)</li>
+  <li>Admin → <strong>Managers</strong> → Add: name, team, and the numeric Discord ID. Tick <strong>Is commissioner</strong>
+    for co-commissioners.</li>
+  <li>They sign in again. A team can have more than one manager.</li>
+</ol>
+<ul>
+  <li><strong>Remove access</strong>: clear the Discord ID or delete the Manager. They're locked out on their next page.</li>
+  <li><strong>Hand a team to someone new</strong>: change the Discord ID. The new person gets their own account. Nothing
+    carries over from the old one.</li>
+  <li><strong>Commissioner rights</strong> follow the <em>Is commissioner</em> box. Admin access is granted or removed on
+    that person's next page load.</li>
+</ul>
+
+<h3>Review the season's moves (reconciliation)</h3>
+<p>After a season (and again before signing, once offseason trades are done), the app replays every Fantrax trade, drop and
+  claim against the contracts and proposes the changes. Nothing changes until you decide.</p>
+<ol>
+  <li>Admin → <strong>Reconciliation items</strong>. Filter by kind or status.</li>
+  <li>Tick items → action <strong>Accept selected</strong> (apply) or <strong>Reject selected</strong> (no change).
+    To leave a note, open a pending item, type it, and save before you decide. The note is kept with the decision.</li>
+  <li><em>Needs a look</em> items and <em>cash comments</em> can't be accepted. Fix the data by hand (e.g. add a Cash trade),
+    write what you did in the note, then reject the item.</li>
+  <li>Decided items are read-only. Re-running reconciliation on a newer Fantrax snapshot only brings back a player if
+    something changed (a later trade, drop or debut).</li>
+</ol>
+<p>Accepting does this: <em>traded</em> moves the contract; <em>dropped</em> creates the buyout, owed by the team that dropped him;
+  <em>dropped in final year</em> voids the contract; <em>farm</em> items apply a trade, promotion, release or MLB debut;
+  <em>not on the sheet</em> adds a $1 farm pick.</p>
+
+<h3>Enter things by hand</h3>
+<ul>
+  <li><strong>Cash trades</strong>: Admin → Cash trades. The budget season is the auction the money applies to.</li>
+  <li><strong>Missed-IP penalties</strong>: Admin → Budget adjustments, kind “Missed IP penalty”, the season it's charged to, and a note (e.g. the week).</li>
+  <li><strong>Farm pick trades</strong>: Admin → Farm picks, then change the owner.</li>
+  <li><strong>Buyouts</strong> are normally created by accepting a <em>dropped</em> item. The drop season must be before the contract's final year.</li>
+</ul>
+
+<h3>Command line (on the machine that runs the site)</h3>
+<ul>
+  <li><code>bin/local-review.sh</code>: run the site locally on its own database (review.sqlite3), keeping your decisions.
+    It reads Discord credentials from <code>secrets/discord.env</code>.</li>
+  <li><code>uv run python scripts/fantrax_snapshot.py &lt;league id&gt; data/fantrax/&lt;name&gt;</code>: take a fresh Fantrax snapshot
+    (needs the Fantrax cookie in <code>secrets/fantrax_cookie.txt</code>).</li>
+  <li><code>uv run python manage.py reconcile --fantrax data/fantrax/&lt;name&gt; --preview</code>: propose changes from that
+    snapshot and print next season's budgets as if you accepted everything.</li>
+  <li><code>uv run python manage.py import_league</code>: first-time load of the Year 19 sheet and the 2026 Fantrax snapshot.
+    It refuses to overwrite data once you've made decisions or admin edits.</li>
+</ul>
+{% endif %}
+</article>
+{% endblock %}

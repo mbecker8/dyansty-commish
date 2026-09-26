@@ -22,3 +22,5 @@ tfoot td { font-weight:600; }
 .tag { font-size:.75rem; padding:0 .35rem; border:1px solid var(--line); border-radius:3px; color:var(--muted); }
 .card { max-width:28rem; margin:3rem auto; background:#fff; border:1px solid var(--line); padding:1.5rem; }
 .button { display:inline-block; background:#5865f2; color:#fff; padding:.6rem 1rem; text-decoration:none; border-radius:4px; }
+details { margin:.5rem 0 1rem; } details summary { cursor:pointer; color:var(--accent); }
+.doc { max-width:48rem; } .doc li { margin:.25rem 0; } code { background:#eef1f4; padding:0 .25rem; border-radius:3px; font-size:.9em; }

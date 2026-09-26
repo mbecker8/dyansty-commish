@@ -14,7 +14,7 @@ class TeamAdmin(admin.ModelAdmin):
 class ManagerAdmin(admin.ModelAdmin):
     """Link a person to a team. They can sign in once their Discord ID is here."""
 
-    list_display = ["name", "team", "discord_username", "discord_id", "user"]
+    list_display = ["name", "team", "is_commissioner", "discord_username", "discord_id", "user"]
     list_filter = ["team"]
     search_fields = ["name", "discord_username", "discord_id"]
     readonly_fields = ["discord_username", "user"]
