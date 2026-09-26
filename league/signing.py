@@ -177,9 +177,23 @@ class Evaluation:
         """Ready to submit or lock: no errors and every farm player decided."""
         return not self.errors and not self.undecided_farm
 
+    # The change from `committed` to `budget`, line by line; they add up by construction.
     @property
     def new_contract_total(self) -> int:
         return sum(c.annual_price for c in self.new_contracts)
+
+    @property
+    def freed(self) -> int:
+        """Next season's price of the contracts being bought out."""
+        return self.committed.contracts - (self.budget.contracts - self.new_contract_total)
+
+    @property
+    def new_penalties(self) -> int:
+        return self.budget.buyouts - self.committed.buyouts
+
+    @property
+    def farm_cost(self) -> int:
+        return self.budget.farm - self.committed.farm
 
     def buyout_schedules(self) -> dict[int, dict[int, int]]:
         """Contract id -> the penalty per season if it's bought out now."""

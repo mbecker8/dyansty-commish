@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Signing · Dynasty Commish{% endblock %}
+{% block content %}
+<h1>{{ next_season }} signing: {{ team.name }}</h1>
+{% if period.status == "locked" %}
+<p>Signing is locked. Every team's decisions have been applied: see <a href="{% url 'team' team.code %}">the team page</a> for contracts and the auction budget.</p>
+{% else %}
+<p>Signing isn't open yet. The commissioner opens it at the blackout, after the season's trades and drops are reviewed.</p>
+{% endif %}
+{% endblock %}

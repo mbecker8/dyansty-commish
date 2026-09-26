@@ -1,0 +1,239 @@
+"""The signing screen, commissioner console, audit log and export, through the web."""
+
+import csv
+import io
+
+import pytest
+from django.contrib.auth.models import User
+from django.core.management import call_command
+from django.test import Client
+
+from league import signing
+from league.budget import team_budget
+from league.models import AuditEntry, CashTrade, Manager, SigningPeriod, Submission, Team
+from league.tests.test_signing import decide_everything
+
+pytestmark = pytest.mark.django_db
+SEASON = 2026
+
+
+@pytest.fixture
+def ready():
+    call_command("import_league", verbosity=0)
+    call_command("reconcile", verbosity=0)
+    decide_everything()
+    call_command("sync_rosters", verbosity=0)
+
+
+@pytest.fixture
+def opened(ready):
+    signing.open_period(SEASON, None)
+
+
+def manager_login(code, discord_id, commissioner=False):
+    user = User.objects.create_user(f"discord-{discord_id}")
+    Manager.objects.create(
+        team=Team.objects.get(code=code), name=code, discord_id=discord_id, user=user, is_commissioner=commissioner
+    )
+    client = Client()
+    client.force_login(user)
+    return client
+
+
+@pytest.fixture
+def mb():
+    return manager_login("MB", "100")
+
+
+@pytest.fixture
+def commish():
+    client = manager_login("SM", "200", commissioner=True)
+    client.get("/teams/")  # the middleware grants admin rights on the first page
+    return client
+
+
+def form_for(code, signings=(), buyouts=(), farm="keep", **extra):
+    """The signing form. farm: "keep" or "release" for every farm player, or None to leave them undecided."""
+    team = Team.objects.get(code=code)
+    data = {f"sign-{p.player.pk}": str(n) for p, n in signings}
+    data["buyout"] = [str(c.pk) for c in buyouts]
+    if farm:
+        data |= {f"farm-{f.pk}": farm for f in signing.farm_candidates(team, SEASON)}
+    return data | extra
+
+
+def signable(code):
+    return [p for p in signing.pool(Team.objects.get(code=code), SEASON) if p.can_sign]
+
+
+def submission(code):
+    return Submission.objects.filter(team__code=code).first()
+
+
+def test_signing_is_closed_until_the_commissioner_opens_it(ready, mb):
+    page = mb.get("/signing/MB/")
+    assert page.status_code == 200 and b"isn't open yet" in page.content
+    assert b">Signing<" not in mb.get("/teams/").content
+
+
+def test_manager_sees_their_signing_page_and_the_nav_link(opened, mb):
+    page = mb.get("/signing/MB/")
+    assert page.status_code == 200
+    html = page.content.decode()
+    assert signable("MB")[0].player.name in html and "Left for the auction" in html
+    assert "<strong>Signing</strong>" in html
+    assert mb.get("/signing/")["Location"] == "/signing/MB/"
+
+
+def test_drafts_are_private_to_the_team(opened, mb):
+    assert mb.get("/signing/SM/").status_code == 403
+    assert mb.post("/signing/SM/preview", {}).status_code == 403
+    assert mb.post("/signing/SM/", form_for("SM", action="save")).status_code == 403
+    assert submission("SM") is None
+
+
+def test_preview_prices_the_form_without_saving(opened, mb):
+    p = signable("MB")[0]
+    response = mb.post("/signing/MB/preview", form_for("MB", signings=[(p, 2)]))
+    assert response.status_code == 200
+    ev = response.context["ev"]
+    assert ev.new_contract_total == p.prices[2]
+    assert f"${ev.budget.remaining}" in response.content.decode()
+    assert submission("MB") is None
+
+
+def test_save_submit_withdraw(opened, mb):
+    p = signable("MB")[0]
+    mb.post("/signing/MB/", form_for("MB", signings=[(p, 3)], action="save"))
+    sub = submission("MB")
+    assert sub.status == "draft" and sub.signings.get().length == 3
+
+    mb.post("/signing/MB/", form_for("MB", signings=[(p, 2)], action="submit"))
+    sub.refresh_from_db()
+    assert sub.status == "submitted" and sub.signings.get().length == 2 and sub.submitted_by is not None
+
+    mb.post("/signing/MB/", form_for("MB", action="save"))  # refused while submitted
+    assert sub.signings.get().length == 2
+
+    mb.post("/signing/MB/", {"action": "withdraw"})
+    sub.refresh_from_db()
+    assert sub.status == "draft"
+    actions = list(AuditEntry.objects.filter(team__code="MB").values_list("action", flat=True))
+    assert {"Saved signing decisions", "Submitted signing", "Withdrew signing submission"} <= set(actions)
+
+
+def test_incomplete_submission_stays_a_draft(opened, mb):
+    p = signable("MB")[0]
+    response = mb.post("/signing/MB/", form_for("MB", signings=[(p, 1)], farm=None, action="submit"), follow=True)
+    assert submission("MB").status == "draft"
+    assert b"not submitted" in response.content
+
+
+def test_another_teams_player_is_not_saved(opened, mb):
+    theirs = signable("SM")[0]
+    mb.post("/signing/MB/", {f"sign-{theirs.player.pk}": "1", "action": "save"})
+    assert not submission("MB").signings.exists()
+
+
+def test_commissioner_needs_a_note_to_change_another_team(opened, commish):
+    p = signable("MB")[0]
+    commish.post("/signing/MB/", form_for("MB", signings=[(p, 1)], action="save"))
+    assert submission("MB") is None
+    commish.post("/signing/MB/", form_for("MB", signings=[(p, 1)], action="save", note="Per Discord DM"))
+    assert submission("MB").signings.exists()
+    assert AuditEntry.objects.filter(team__code="MB", note="Per Discord DM").exists()
+
+
+def test_commissioner_can_edit_a_submitted_team(opened, mb, commish):
+    mb.post("/signing/MB/", form_for("MB", action="submit"))
+    assert submission("MB").status == "submitted"
+    p = signable("MB")[0]
+    commish.post("/signing/MB/", form_for("MB", signings=[(p, 1)], action="save", note="fix"))
+    assert submission("MB").signings.exists() and submission("MB").status == "submitted"
+
+
+def test_console_is_for_commissioners(opened, mb, commish):
+    assert mb.get("/commish/").status_code == 403
+    assert mb.get("/commish/audit/").status_code == 403
+    page = commish.get("/commish/")
+    assert page.status_code == 200 and len(page.context["rows"]) == 14
+
+
+def test_console_opens_and_locks(ready, commish):
+    page = commish.get("/commish/")
+    assert b"Open signing" in page.content
+    commish.post("/commish/", {"action": "open"})
+    assert SigningPeriod.objects.get(season=SEASON).status == "open"
+
+    commish.post("/commish/", {"action": "lock", "confirm": "yes"})  # farm undecided everywhere
+    assert SigningPeriod.objects.get(season=SEASON).status == "open"
+
+    for t in Team.objects.all():
+        sub = Submission.objects.create(period=SigningPeriod.objects.get(season=SEASON), team=t)
+        signing.save_plan(sub, signing.Plan(farm={f.pk: True for f in signing.farm_candidates(t, SEASON)}))
+    commish.post("/commish/", {"action": "lock"})  # no confirmation
+    assert SigningPeriod.objects.get(season=SEASON).status == "open"
+    response = commish.post("/commish/", {"action": "lock", "confirm": "yes", "note": "all in"}, follow=True)
+    assert SigningPeriod.objects.get(season=SEASON).status == "locked"
+    assert b"Locked" in response.content
+    assert AuditEntry.objects.filter(action="Locked signing", note="all in").exists()
+
+
+@pytest.fixture
+def unreconciled():
+    call_command("import_league", verbosity=0)
+    call_command("reconcile", verbosity=0)
+    call_command("sync_rosters", verbosity=0)
+
+
+def test_console_open_refuses_with_pending_reconciliation(unreconciled, commish):
+    response = commish.post("/commish/", {"action": "open"}, follow=True)
+    assert b"still pending" in response.content
+    assert not SigningPeriod.objects.filter(status="open").exists()
+
+
+def test_audit_log_lists_changes(opened, mb, commish):
+    mb.post("/signing/MB/", form_for("MB", action="save"))
+    page = commish.get("/commish/audit/?team=MB")
+    assert b"Saved signing decisions" in page.content
+
+
+def test_admin_changes_are_audited(ready, commish):
+    trade = CashTrade.objects.first()
+    commish.post(
+        f"/admin/league/cashtrade/{trade.pk}/change/",
+        {
+            "budget_season": trade.budget_season,
+            "from_team": trade.from_team_id,
+            "to_team": trade.to_team_id,
+            "amount": trade.amount + 1,
+            "note": trade.note,
+            "fantrax_tx_id": trade.fantrax_tx_id,
+        },
+    )
+    entry = AuditEntry.objects.get(action="Admin: changed cash trade")
+    assert "amount" in entry.detail
+
+
+@pytest.mark.parametrize("name", ["budgets", "contracts", "buyouts", "farm", "picks", "cash"])
+def test_exports(ready, mb, name):
+    response = mb.get(f"/export/{name}.csv")
+    assert response.status_code == 200 and response["Content-Type"] == "text/csv"
+    rows = list(csv.reader(io.StringIO(response.content.decode())))
+    assert len(rows) > 1
+
+
+def test_budget_export_matches_the_rules_engine(ready, mb):
+    rows = list(csv.DictReader(io.StringIO(mb.get("/export/budgets.csv").content.decode())))
+    assert len(rows) == 14
+    for row in rows:
+        assert int(row["remaining"]) == team_budget(Team.objects.get(code=row["team"]), 2027).remaining
+
+
+def test_export_needs_sign_in(ready, client):
+    assert client.get("/export/budgets.csv").status_code == 302
+    assert client.get("/export/").status_code == 302
+
+
+def test_unknown_export_is_404(ready, mb):
+    assert mb.get("/export/secrets.csv").status_code == 404

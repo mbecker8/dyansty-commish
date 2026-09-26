@@ -258,3 +258,18 @@ def test_replace_refuses_once_signing_has_started():
     signing.open_period(SEASON, None)
     with pytest.raises(CommandError, match="signing"):
         call_command("import_league", replace=True, verbosity=0)
+
+
+def test_panel_lines_add_up(opened):
+    mb = team()
+    plan = signing.Plan(
+        signings={signable(mb)[0].player.pk: 4},
+        buyouts={signing.buyout_candidates(mb, SEASON)[0].pk},
+        farm=farm_all(mb),
+    )
+    ev = signing.evaluate(mb, SEASON, plan)
+    assert ev.new_contract_total and ev.freed and ev.new_penalties and ev.farm_cost
+    assert (
+        ev.committed.remaining - ev.new_contract_total + ev.freed - ev.new_penalties - ev.farm_cost
+        == ev.budget.remaining
+    )

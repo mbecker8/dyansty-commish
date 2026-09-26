@@ -24,3 +24,18 @@ tfoot td { font-weight:600; }
 .button { display:inline-block; background:#5865f2; color:#fff; padding:.6rem 1rem; text-decoration:none; border-radius:4px; }
 details { margin:.5rem 0 1rem; } details summary { cursor:pointer; color:var(--accent); }
 .doc { max-width:48rem; } .doc li { margin:.25rem 0; } code { background:#eef1f4; padding:0 .25rem; border-radius:3px; font-size:.9em; }
+.messages { list-style:none; padding:0; margin:0 0 1rem; } .messages li { padding:.5rem .75rem; border:1px solid var(--line); background:#fff; margin-bottom:.25rem; }
+.messages .success, .ok { color:#1b6b3a; } .messages .error, .errors, .error-text { color:#a1261b; }
+.tag.ok { border-color:#1b6b3a; color:#1b6b3a; }
+.banner-inline { padding:.5rem .75rem; background:var(--warn); border:1px solid #eedc9a; }
+.signing { display:grid; grid-template-columns:minmax(0,1fr) 20rem; gap:1.5rem; align-items:start; }
+.signing aside { position:sticky; top:1rem; background:#fff; border:1px solid var(--line); padding:.75rem 1rem; }
+.signing aside h2 { margin-top:0; } table.panel td { white-space:normal; }
+.errors { padding-left:1.2rem; } .todo { color:#8a5a00; }
+.actions { display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.75rem; }
+button { font:inherit; padding:.35rem .8rem; border:1px solid var(--line); background:#fff; border-radius:4px; cursor:pointer; }
+button.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+.note { display:block; margin-top:.75rem; } .note textarea { display:block; width:100%; font:inherit; }
+td.choice label { margin-right:.75rem; } td.wrap { white-space:normal; min-width:12rem; }
+.checklist { padding-left:1.2rem; } form.lock { max-width:28rem; }
+@media (max-width: 60rem) { .signing { grid-template-columns:1fr; } .signing aside { position:static; } }

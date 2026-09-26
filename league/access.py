@@ -50,3 +50,20 @@ def member_required(view):
         return view(request, *args, **kwargs)
 
     return wrapper
+
+
+def manages(user, team) -> bool:
+    """The user signs in as one of this team's managers."""
+    manager = linked_manager(user) if is_discord_account(user) else None
+    return manager is not None and manager.team_id == team.pk
+
+
+def commissioner_required(view):
+    @wraps(view)
+    @member_required
+    def wrapper(request, *args, **kwargs):
+        if not request.user.is_staff:
+            return render(request, "league/forbidden.html", {"why": "This page is for commissioners."}, status=403)
+        return view(request, *args, **kwargs)
+
+    return wrapper

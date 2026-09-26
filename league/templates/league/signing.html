@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}Signing · {{ team.code }} · Dynasty Commish{% endblock %}
+{% block content %}
+<h1>{{ next_season }} signing: {{ team.name }} <span class="muted">({{ team.code }})</span></h1>
+<p class="muted">
+  {% if submission.status == "submitted" %}<span class="tag ok">Submitted</span> {{ submission.submitted_at|date:"M j, g:i A" }}{% if submission.submitted_by %} by {{ submission.submitted_by.manager.name|default:submission.submitted_by }}{% endif %}.
+  {% elif submission %}<span class="tag">Draft</span> last saved {{ submission.updated_at|date:"M j, g:i A" }}.
+  {% else %}<span class="tag">Not started</span>{% endif %}
+  {% if period.deadline %}Deadline: <strong>{{ period.deadline|date:"D M j, g:i A" }}</strong> (Eastern).{% endif %}
+  Your decisions are private to your team and the commissioners until signing locks.
+</p>
+{% if for_other %}<p class="banner-inline">You're editing another team as commissioner. Saving needs a note, and it's recorded in the audit log.</p>{% endif %}
+{% if not editable %}<p class="banner-inline">Submitted. To change anything, withdraw the submission first (while signing is open).</p>{% endif %}
+
+<form method="post" hx-post="{% url 'signing_preview' team.code %}" hx-trigger="change" hx-target="#panel" hx-swap="innerHTML">
+{% csrf_token %}
+<div class="signing">
+<div class="decisions">
+  <h2>Sign players</h2>
+  <p class="muted">Price per year by length, from each player's end-of-{{ league_season }} salary (P): 1 yr P, 2 yr P+5, 3 yr P+10, 4 yr P+15, 5+ yr P + $4 × years.</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Player</th><th>Pos</th><th class="num">Salary (P)</th><th>Contract</th></tr></thead>
+    <tbody>
+    {% for row in signable %}
+      <tr>
+        <td>{{ row.p.player.name }}{% if row.p.entry.status != "Active" %} <span class="tag">{{ row.p.entry.status }}</span>{% endif %}</td>
+        <td>{{ row.p.player.positions }}</td>
+        <td class="num">${{ row.p.entry.salary }}</td>
+        <td><select name="sign-{{ row.p.player.pk }}" aria-label="Contract for {{ row.p.player.name }}"{% if not editable %} disabled{% endif %}>
+          <option value="">Don't sign</option>
+          {% for n, price in row.p.prices.items %}<option value="{{ n }}"{% if row.chosen == n %} selected{% endif %}>{{ n }} yr · ${{ price }}/yr</option>{% endfor %}
+        </select></td>
+      </tr>
+    {% empty %}<tr><td colspan="4" class="muted">No signable players on your roster.</td></tr>{% endfor %}
+    </tbody>
+  </table></div>
+
+  <h2>Buy out a contract</h2>
+  <p class="muted">Dropping a contract now charges 80% of its price at the {{ next_season }} auction, then 70%, 60%, … each season it had left. It frees a contract spot.</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Buy out</th><th>Player</th><th class="num">Per year</th><th class="num">Final year</th><th>Penalties if bought out</th><th class="num">Total</th></tr></thead>
+    <tbody>
+    {% for row in buyouts %}
+      <tr>
+        <td><input type="checkbox" name="buyout" value="{{ row.contract.pk }}" aria-label="Buy out {{ row.contract.player.name }}"{% if row.checked %} checked{% endif %}{% if not editable %} disabled{% endif %}></td>
+        <td>{{ row.contract.player.name }}</td>
+        <td class="num">${{ row.annual }}</td>
+        <td class="num">{{ row.contract.final_year }}</td>
+        <td>{% for s, amount in row.schedule.items %}{{ s }}: ${{ amount }}{% if not forloop.last %} · {% endif %}{% endfor %}</td>
+        <td class="num">${{ row.total }}</td>
+      </tr>
+    {% empty %}<tr><td colspan="6" class="muted">No contracts running past {{ league_season }}.</td></tr>{% endfor %}
+    </tbody>
+  </table></div>
+
+  <h2>Farm</h2>
+  <p class="muted">Keeping a player adds $1 to his salary, or $2 if he's appeared in MLB. Released players leave your farm. Decide every one before you submit.</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Player</th><th class="num">Salary</th><th>MLB time</th><th class="num">Cost to keep</th><th>Decision</th></tr></thead>
+    <tbody>
+    {% for row in farm %}
+      <tr>
+        <td>{{ row.farm.player.name }}</td>
+        <td class="num">${{ row.farm.salary }}</td>
+        <td>{% if row.farm.has_mlb_appearance %}yes{% else %}<span class="muted">no</span>{% endif %}</td>
+        <td class="num">${{ row.keep_cost }}</td>
+        <td class="choice">
+          <label><input type="radio" name="farm-{{ row.farm.pk }}" value="keep"{% if row.keep == True %} checked{% endif %}{% if not editable %} disabled{% endif %}> Keep</label>
+          <label><input type="radio" name="farm-{{ row.farm.pk }}" value="release"{% if row.keep == False %} checked{% endif %}{% if not editable %} disabled{% endif %}> Release</label>
+        </td>
+      </tr>
+    {% empty %}<tr><td colspan="5" class="muted">No farm players.</td></tr>{% endfor %}
+    </tbody>
+  </table></div>
+
+  {% if not_signable %}
+  <details>
+    <summary>Rest of your roster ({{ not_signable|length }}): not signable</summary>
+    <div class="table-wrap"><table>
+      <tbody>{% for p in not_signable %}<tr><td>{{ p.player.name }}</td><td class="muted">{{ p.reason }}</td></tr>{% endfor %}</tbody>
+    </table></div>
+  </details>
+  {% endif %}
+</div>
+
+<aside>
+  <div id="panel" aria-live="polite">{% include "league/_signing_panel.html" %}</div>
+  {% if for_other %}<label class="note">Note (required)<textarea name="note" rows="2"></textarea></label>{% endif %}
+  <div class="actions">
+    {% if editable %}
+      <button type="submit" name="action" value="save">Save draft</button>
+      <button type="submit" name="action" value="submit" class="primary">Submit</button>
+    {% endif %}
+    {% if submission.status == "submitted" %}<button type="submit" name="action" value="withdraw">Withdraw submission</button>{% endif %}
+  </div>
+</aside>
+</div>
+</form>
+{% endblock %}

@@ -1,7 +1,7 @@
 from django.conf import settings
 
 from league.access import is_league_member
-from league.models import ReconciliationItem
+from league.models import ReconciliationItem, SigningPeriod
 
 
 def league(request):
@@ -10,4 +10,6 @@ def league(request):
         context["pending_review"] = ReconciliationItem.objects.filter(
             season=settings.LEAGUE_SEASON, status=ReconciliationItem.Status.PENDING
         ).count()
+        period = SigningPeriod.objects.filter(season=settings.LEAGUE_SEASON).first()
+        context["signing_status"] = period.status if period else None
     return context

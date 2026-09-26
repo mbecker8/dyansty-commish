@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Commissioner · Dynasty Commish{% endblock %}
+{% block content %}
+<h1>Commissioner console</h1>
+<p class="muted">Signing after the {{ league_season }} season: <strong>{{ period.get_status_display|default:"Not open yet" }}</strong>.
+  <a href="{% url 'audit' %}">Audit log</a></p>
+
+{% if not period or period.status == "planned" %}
+<h2>Before you open signing</h2>
+<ul class="checklist">
+  <li class="{% if pending %}todo{% else %}ok{% endif %}">{% if pending %}{{ pending }} reconciliation item{{ pending|pluralize }} still pending: <a href="{% url 'admin:league_reconciliationitem_changelist' %}?status__exact=pending">decide them</a>.{% else %}The season's moves are reconciled.{% endif %}</li>
+  <li class="{% if roster_count %}ok{% else %}todo{% endif %}">{% if roster_count %}{{ roster_count }} roster spots loaded.{% else %}No rosters loaded: run <code>manage.py sync_rosters</code> on the blackout snapshot.{% endif %}</li>
+  {% if missing_salaries %}<li class="todo">{{ missing_salaries|length }} player{{ missing_salaries|pluralize }} without an end-of-season salary can't be signed:
+    {% for e in missing_salaries %}{{ e.player.name }} ({{ e.team.code }}){% if not forloop.last %}, {% endif %}{% endfor %}. Set it in Admin → Roster entries if needed.</li>{% endif %}
+</ul>
+<form method="post">{% csrf_token %}<button type="submit" name="action" value="open" class="primary">Open signing</button></form>
+{% endif %}
+
+{% if period.status == "open" %}
+<h2>Teams</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Team</th><th>Status</th><th class="num">New</th><th class="num">Buyouts</th><th class="num">Contracts</th><th class="num">Left for auction</th><th>Problems</th><th></th></tr></thead>
+  <tbody>
+  {% for row in rows %}
+    <tr>
+      <td>{{ row.team.code }} {{ row.team.name }}</td>
+      <td>{% if row.submission.status == "submitted" %}<span class="tag ok">Submitted</span> {{ row.submission.submitted_at|date:"M j" }}{% elif row.submission %}<span class="tag">Draft</span>{% else %}<span class="muted">Not started</span>{% endif %}</td>
+      <td class="num">{{ row.ev.plan.signings|length }}</td>
+      <td class="num">{{ row.ev.plan.buyouts|length }}</td>
+      <td class="num">{{ row.ev.contract_count }}/{{ row.ev.contract_limit }}</td>
+      <td class="num">${{ row.ev.budget.remaining }}</td>
+      <td>{% for e in row.ev.errors %}<div class="error-text">{{ e }}</div>{% endfor %}{% if row.ev.undecided_farm %}<div class="muted">{{ row.ev.undecided_farm|length }} farm undecided</div>{% endif %}</td>
+      <td><a href="{% url 'signing' row.team.code %}">Review / edit</a></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table></div>
+
+<h2>Lock signing</h2>
+<p>Locking applies every team's saved decisions at once: new contracts, buyouts, farm keeps and releases. It can't be undone here.
+  {% if not ready %}<strong>Some teams still have problems or undecided farm players</strong>, so locking will be refused until they're fixed.{% endif %}</p>
+{% if unsubmitted %}<p class="todo">Not submitted: {{ unsubmitted|join:", " }}. Their saved drafts will be applied as they stand.</p>{% endif %}
+<form method="post" class="lock">{% csrf_token %}
+  <label><input type="checkbox" name="confirm" value="yes"> Apply every team's decisions and lock</label>
+  <label class="note">Note (optional)<textarea name="note" rows="2"></textarea></label>
+  <button type="submit" name="action" value="lock" class="primary">Lock signing</button>
+</form>
+{% endif %}
+
+{% if period.status == "locked" %}
+<p>Locked {{ period.locked_at|date:"M j, Y g:i A" }}. Contracts and budgets are published on the <a href="{% url 'teams' %}">Teams</a> page; download them from <a href="{% url 'export' %}">Export</a>.</p>
+{% endif %}
+
+<h2>Enter things by hand</h2>
+<ul>
+  <li><a href="{% url 'admin:league_cashtrade_add' %}">Add a cash trade</a> · <a href="{% url 'admin:league_budgetadjustment_add' %}">Add a missed-IP penalty</a></li>
+  <li><a href="{% url 'admin:league_farmpick_changelist' %}">Farm pick trades</a> (change the owner) · <a href="{% url 'admin:league_farmplayer_add' %}">Add a farm player</a></li>
+  <li><a href="{% url 'admin:league_contract_changelist' %}">Contracts</a> (e.g. tick sign-and-trade) · <a href="{% url 'admin:league_rosterentry_changelist' %}">Roster entries</a> (fix a missing salary)</li>
+</ul>
+<p class="muted">Admin changes are recorded in the audit log too.</p>
+{% endblock %}
