@@ -8,7 +8,9 @@ claim/drop history and trade history, then a flattened rosters.csv for quick che
 
 import csv
 import json
+import shutil
 import sys
+import tempfile
 from pathlib import Path
 
 from fantrax_client import call, session
@@ -21,7 +23,21 @@ def data(resp: dict) -> dict:
 
 
 def main(league_id: str, out: Path) -> None:
-    out.mkdir(parents=True, exist_ok=True)
+    """Fetch into a scratch directory and swap it in only when everything succeeded,
+    so a failure part way never leaves a mix of old and new files."""
+    out.parent.mkdir(parents=True, exist_ok=True)
+    scratch = Path(tempfile.mkdtemp(prefix=f".{out.name}-", dir=out.parent))
+    try:
+        fetch(league_id, scratch)
+    except BaseException:
+        shutil.rmtree(scratch)
+        raise
+    if out.exists():
+        shutil.rmtree(out)
+    scratch.rename(out)
+
+
+def fetch(league_id: str, out: Path) -> None:
     s = session()
 
     info = data(call(s, league_id, ("getFantasyLeagueInfo", {})))

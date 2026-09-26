@@ -12,6 +12,7 @@ import json
 from pathlib import Path
 
 from django.conf import settings
+from django.contrib.admin.models import LogEntry
 from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 
@@ -53,6 +54,8 @@ class Command(BaseCommand):
                 raise CommandError(
                     "The commissioner has accepted or rejected reconciliation items; --replace would erase them."
                 )
+            if LogEntry.objects.filter(content_type__app_label="league").exists():
+                raise CommandError("League data has been edited in the admin; --replace would erase those edits.")
             for model in (
                 ReconciliationItem,
                 BudgetAdjustment,

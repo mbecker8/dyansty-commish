@@ -35,8 +35,13 @@ class Command(BaseCommand):
     def handle(self, *args, season, since, fantrax, **options):
         if not Team.objects.exists():
             raise CommandError("No league data yet; run import_league first.")
+        try:
+            cutoff = datetime.combine(date.fromisoformat(since), time(), EASTERN)
+        except ValueError:
+            raise CommandError(f"--since must be a date like 2026-02-25, not {since!r}") from None
         snapshot = Snapshot(Path(fantrax))
-        cutoff = datetime.combine(date.fromisoformat(since), time(), EASTERN)
+        if snapshot.season != season:
+            raise CommandError(f"--season {season} doesn't match the Fantrax snapshot, which is {snapshot.season}")
         moves_by_player = {}
         for m in snapshot.moves():
             if m.when >= cutoff:
@@ -134,11 +139,17 @@ class Command(BaseCommand):
                 )
             )
         players = {p.fantrax_id: p for p in Player.objects.filter(fantrax_id__in=ends)}
+        decided_unknown = set(
+            ReconciliationItem.objects.filter(season=season, kind=Kind.FARM_UNKNOWN)
+            .exclude(status=ReconciliationItem.Status.PENDING)
+            .values_list("player__fantrax_id", flat=True)
+        )
         for fid, end in ends.items():
             team_id, status = end.team, end.status
             if (
                 status == "Minors"
                 and fid not in on_farm
+                and fid not in decided_unknown
                 and not FarmPlayer.objects.filter(player__fantrax_id=fid).exists()
             ):
                 items.append(

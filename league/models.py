@@ -3,7 +3,7 @@
 Budget math lives in the pure `rules` package; models convert to rules objects.
 """
 
-from django.db import models
+from django.db import models, transaction
 
 import rules.contracts
 
@@ -182,9 +182,10 @@ class ReconciliationItem(models.Model):
 
     season = models.PositiveIntegerField()
     kind = models.CharField(max_length=20, choices=Kind.choices)
-    contract = models.ForeignKey(Contract, on_delete=models.CASCADE, null=True, blank=True, related_name="+")
-    farm_player = models.ForeignKey(FarmPlayer, on_delete=models.CASCADE, null=True, blank=True, related_name="+")
-    player = models.ForeignKey(Player, on_delete=models.CASCADE, null=True, blank=True, related_name="+")
+    # PROTECT: a decision is history; deleting what it refers to must not erase it.
+    contract = models.ForeignKey(Contract, on_delete=models.PROTECT, null=True, blank=True, related_name="+")
+    farm_player = models.ForeignKey(FarmPlayer, on_delete=models.PROTECT, null=True, blank=True, related_name="+")
+    player = models.ForeignKey(Player, on_delete=models.PROTECT, null=True, blank=True, related_name="+")
     mlb_debut = models.BooleanField(default=False, help_text="Farm player appeared in MLB this season")
     team = models.ForeignKey(
         Team,
@@ -200,15 +201,21 @@ class ReconciliationItem(models.Model):
     decided_note = models.TextField(blank=True)
 
     class Meta:
-        ordering = ["kind", "contract__team__code"]
+        ordering = ["kind", "player__name"]
 
     def __str__(self):
         return f"{self.get_kind_display()}: {self.contract or self.farm_player or self.player or self.detail}"
 
+    def _lock_pending(self):
+        """Re-read status under a row lock so a stale copy (second tab, double submit) can't decide twice."""
+        status = ReconciliationItem.objects.select_for_update().values_list("status", flat=True).get(pk=self.pk)
+        if status != self.Status.PENDING:
+            raise ValueError(f"Item {self.pk} is already {status}")
+
+    @transaction.atomic
     def accept(self, note: str = ""):
-        """Apply the proposed change."""
-        if self.status != self.Status.PENDING:
-            raise ValueError(f"Item {self.pk} is already {self.status}")
+        """Apply the proposed change, all or nothing."""
+        self._lock_pending()
         if self.kind == self.Kind.DROPPED:
             self.contract.team = self.team  # the team holding him when he was dropped
             self.contract.save(update_fields=["team"])
@@ -223,7 +230,7 @@ class ReconciliationItem(models.Model):
             self.contract.save(update_fields=["team"])
         elif self.kind == self.Kind.FARM_UNKNOWN:
             # A farm draft pick the sheet missed.
-            FarmPlayer.objects.create(
+            self.farm_player = FarmPlayer.objects.create(
                 team=self.team, player=self.player, drafted_year=self.season, salary=1, salary_season=self.season
             )
         elif self.kind in (self.Kind.INCONSISTENT, self.Kind.FARM_INCONSISTENT, self.Kind.CASH_COMMENT):
@@ -241,11 +248,11 @@ class ReconciliationItem(models.Model):
             farm.save()
         self.status = self.Status.ACCEPTED
         self.decided_note = note
-        self.save(update_fields=["status", "decided_note"])
+        self.save(update_fields=["status", "decided_note", "farm_player"])
 
+    @transaction.atomic
     def reject(self, note: str):
-        if self.status != self.Status.PENDING:
-            raise ValueError(f"Item {self.pk} is already {self.status}")
+        self._lock_pending()
         self.status = self.Status.REJECTED
         self.decided_note = note
         self.save(update_fields=["status", "decided_note"])

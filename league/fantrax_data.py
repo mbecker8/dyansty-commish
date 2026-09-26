@@ -72,6 +72,7 @@ class EndState:
 class Snapshot:
     def __init__(self, directory: Path):
         self.dir = directory
+        self.league_info = json.loads((directory / "league_info.json").read_text())
         self.teams = json.loads((directory / "teams.json").read_text())
         self.rosters = {t["id"]: json.loads((directory / f"roster_{t['id']}.json").read_text()) for t in self.teams}
         self.transactions = json.loads((directory / "transactions.json").read_text())
@@ -110,6 +111,10 @@ class Snapshot:
         for p in self.players().values():
             index[normalize_name(p.name)].add(p.fantrax_id)
         return index
+
+    @property
+    def season(self) -> int:
+        return int(self.league_info["fantasySettings"]["season"]["displayYear"])
 
     STATUS = {"1": "Active", "2": "Reserve", "3": "IR", "9": "Minors"}
 
