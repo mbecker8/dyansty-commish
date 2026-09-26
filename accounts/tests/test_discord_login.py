@@ -223,3 +223,11 @@ def test_unlinked_commissioner_loses_the_admin_too(client, team):
     manager.delete()
     assert client.get("/admin/").status_code == 302
     assert not User.objects.get(username=f"discord-{DISCORD_ID}").is_staff
+
+
+@pytest.mark.parametrize("bad", ["mbecker", " 8035111022467891 ", "8035-1110"])
+def test_discord_id_must_be_digits(team, bad):
+    from django.core.exceptions import ValidationError
+
+    with pytest.raises(ValidationError):
+        Manager(team=team, name="Matt", discord_id=bad).full_clean()

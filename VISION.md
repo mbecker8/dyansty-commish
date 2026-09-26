@@ -59,7 +59,7 @@ signing period**.
 | Role | Who | Can |
 |---|---|---|
 | **Manager** | One (or more) per team, ~14 teams | View whole league; edit *their own team's* signing decisions while the signing window is open; submit. |
-| **Commissioner** | League commish (possibly a co-commish) | Everything managers can, plus: open/lock periods, edit any team, run Fantrax sync, enter trades/penalties/farm picks, season rollover. |
+| **Commissioner** | Any manager marked *Is commissioner* (the commish and co-commissioners; decided 2026-09-26) | Everything managers can, plus: open/lock periods, edit any team, run Fantrax sync, enter trades/penalties/farm picks, season rollover. |
 
 Sign-in: **Sign in with Discord** (no passwords, no email). The commissioner
 links each manager's Discord account to a team; anyone not linked is turned away.
@@ -253,7 +253,7 @@ testing with the league.
    old formula be retired?
 8. **Missed-IP penalties:** commissioner-entered for MVP, or pulled from
    Fantrax?
-9. **Co-commissioners and the banker:** do they need special roles?
+9. **The banker:** does the banker need a special role? (Co-commissioners are resolved: any manager can be marked commissioner and gets full admin.)
 10. ~~Sign-in~~ — **resolved**: Sign in with Discord (decided 2026-09-26). No email provider needed.
 11. **Farm draft channel:** the farm draft now happens on Discord, not email.
     Confirm, and decide whether the MVP should import picks from a channel or

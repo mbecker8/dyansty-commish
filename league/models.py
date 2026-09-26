@@ -4,6 +4,7 @@ Budget math lives in the pure `rules` package; models convert to rules objects.
 """
 
 from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator
 from django.db import models, transaction
 
 import rules.contracts
@@ -39,7 +40,12 @@ class Manager(models.Model):
     team = models.ForeignKey(Team, on_delete=models.PROTECT, related_name="managers")
     name = models.CharField(max_length=100)
     discord_id = models.CharField(
-        max_length=32, unique=True, null=True, blank=True, help_text="Discord user ID (numeric), not the username"
+        max_length=32,
+        unique=True,
+        null=True,
+        blank=True,
+        validators=[RegexValidator(r"^\d+$", "A Discord user ID is all digits (not the username).")],
+        help_text="Discord user ID (numeric), not the username",
     )
     discord_username = models.CharField(max_length=100, blank=True, help_text="Last seen at sign-in")
     is_commissioner = models.BooleanField(

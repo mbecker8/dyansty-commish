@@ -1,6 +1,6 @@
 # Dynasty Commish — Architecture
 
-> Status: reflects the code as of **M3 (Read side)**, in progress 2026-09-26.
+> Status: reflects the code as of **M3 (Read side)**, merged 2026-09-26.
 > Sections marked **(planned)** describe where M2+ is headed. They're design
 > intent, not code yet. For goals, scope and the rules themselves, see
 > [VISION.md](VISION.md) and [the rulebook](docs/reference/rulebook-year19.md).
