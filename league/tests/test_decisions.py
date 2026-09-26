@@ -122,3 +122,16 @@ def test_admin_cannot_edit_or_delete_decided_items(admin_client):
 def test_reconcile_refuses_a_season_the_snapshot_is_not_from(reconciled):
     with pytest.raises(CommandError, match="2026"):
         call_command("reconcile", season=2027, verbosity=0)
+
+
+def test_note_typed_on_a_pending_item_is_kept_when_rejecting(admin_client):
+    item = ReconciliationItem.objects.filter(kind=Kind.TRADED).first()
+    change = admin_client.get(f"/admin/league/reconciliationitem/{item.pk}/change/").content.decode()
+    assert 'name="decided_note"' in change and 'name="team"' not in change
+    item.decided_note = "entered the trade by hand"
+    item.save()
+    admin_client.post(
+        "/admin/league/reconciliationitem/", {"action": "reject_selected", "_selected_action": [item.pk]}, follow=True
+    )
+    item.refresh_from_db()
+    assert item.status == "rejected" and "entered the trade by hand" in item.decided_note

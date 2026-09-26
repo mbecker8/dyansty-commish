@@ -105,3 +105,29 @@ def test_contract_player_in_a_minors_slot_is_not_proposed_as_a_farm_pick(reconci
     later_snapshot(monkeypatch, end_changes={item.contract.player.fantrax_id: {"status": "Minors"}})
     call_command("reconcile", verbosity=0)
     assert not ReconciliationItem.objects.filter(kind=Kind.FARM_UNKNOWN, player=item.contract.player).exists()
+
+
+@pytest.mark.parametrize("kind", [Kind.TRADED, Kind.DROPPED, Kind.DROPPED_FREE])
+def test_rejected_contract_item_stays_rejected_on_rerun(reconciled, kind):
+    item = ReconciliationItem.objects.filter(kind=kind).first()
+    item.reject("not applying this")
+    call_command("reconcile", verbosity=0)
+    assert not ReconciliationItem.objects.filter(contract=item.contract, status=Status.PENDING).exists()
+
+
+@pytest.mark.parametrize("kind", [Kind.FARM_TRADED, Kind.FARM_PROMOTED, Kind.FARM_RELEASED])
+def test_rejected_farm_item_stays_rejected_on_rerun(reconciled, kind):
+    item = ReconciliationItem.objects.filter(kind=kind).first()
+    item.reject("not applying this")
+    call_command("reconcile", verbosity=0)
+    assert not ReconciliationItem.objects.filter(farm_player=item.farm_player, status=Status.PENDING).exists()
+
+
+def test_rerun_after_accepting_everything_proposes_nothing(reconciled):
+    for item in ReconciliationItem.objects.filter(status=Status.PENDING):
+        try:
+            item.accept()
+        except ValueError:
+            item.reject("by hand")
+    call_command("reconcile", verbosity=0)
+    assert list(ReconciliationItem.objects.filter(status=Status.PENDING)) == []

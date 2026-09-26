@@ -4,7 +4,6 @@ Proposals are saved as ReconciliationItems for the commissioner to accept or
 reject; nothing about the contracts changes until they do.
 """
 
-from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 
@@ -21,9 +20,6 @@ from league.reconcile import Outcome, replay, replay_farm
 # pre-auction drop was 15:11 on Feb 25 and the first auction claim 18:21; drops before the
 # auction belong to the previous season (the sheet already charges them).
 DEFAULT_SINCE = "2026-02-25T16:00"
-
-# Outcomes that change nothing; after an earlier decision they mean "nothing new happened".
-NOTHING_NEW = {"continues", "expiring"}
 
 
 class Command(BaseCommand):
@@ -51,17 +47,15 @@ class Command(BaseCommand):
         if snapshot.season != season:
             raise CommandError(f"--season {season} doesn't match the Fantrax snapshot, which is {snapshot.season}")
         moves_by_player = {}
-        all_moves = snapshot.moves()
-        for m in all_moves:
+        for m in snapshot.moves():
             if m.when >= cutoff:
                 moves_by_player.setdefault(m.fantrax_id, []).append(m)
-        self.horizon = max((m.when for m in all_moves), default=cutoff)
         rostered = snapshot.rostered()
         teams = {t.fantrax_id: t for t in Team.objects.all()}
         names = {t["id"]: t["name"] for t in snapshot.teams}
 
         ReconciliationItem.objects.filter(season=season, status=ReconciliationItem.Status.PENDING).delete()
-        decided = self.decided_through(season, "contract_id")
+        decided = self.last_decisions(season, "contract_id")
 
         contracts = Contract.live.filter(player__fantrax_id__isnull=False).select_related("team", "player")
         created = []
@@ -70,24 +64,28 @@ class Command(BaseCommand):
                 continue
             fid = c.player.fantrax_id
             end_team = rostered[fid][0] if fid in rostered else None
-            # Already decided: replay only what happened since, from where the decision left him.
-            moves = self.since_decision(moves_by_player.get(fid, []), decided, c.pk)
-            r = replay(c.team.fantrax_id, c.final_year, moves, season, end_team=end_team)
-            if c.pk in decided and r.outcome.value in NOTHING_NEW:
-                continue
+            # Replay from the season's starting holder, even if a decision has since moved him.
+            last = decided.get(c.pk)
+            start = last.start_team if last and last.start_team else c.team
+            r = replay(start.fantrax_id, c.final_year, moves_by_player.get(fid, []), season, end_team=end_team)
+            team_id = r.buyout_team if r.outcome is Outcome.DROPPED else r.holder
+            if last and (last.kind, last.team_id) == (r.outcome.value, getattr(teams.get(team_id), "pk", None)):
+                continue  # same answer the commissioner already decided on
             detail = r.detail
-            for team_id, name in names.items():
-                detail = detail.replace(team_id, name)
+            for fantrax_team, name in names.items():
+                detail = detail.replace(fantrax_team, name)
             if r.dropped_at:
                 detail = "; ".join(filter(None, [f"dropped {r.dropped_at.when:%Y-%m-%d}", detail]))
             if r.claimed_by:
                 detail += f"; later claimed by {names[r.claimed_by]}"
-            team_id = r.buyout_team if r.outcome is Outcome.DROPPED else r.holder
+            if last:
+                detail = f"changed since your earlier decision ({last.get_kind_display()}); {detail}".rstrip("; ")
             created.append(
                 ReconciliationItem(
                     season=season,
                     kind=r.outcome.value,
                     contract=c,
+                    start_team=start,
                     team=teams.get(team_id),
                     detail=detail,
                     fantrax_tx_ids=",".join(r.tx_ids),
@@ -95,8 +93,6 @@ class Command(BaseCommand):
             )
         created += self.farm_items(season, snapshot, moves_by_player, teams, names)
         created += self.cash_comment_items(season, snapshot, cutoff, teams)
-        for item in created:
-            item.through = self.horizon
         ReconciliationItem.objects.bulk_create(created)
         if options["verbosity"]:
             self.report(season)
@@ -104,27 +100,26 @@ class Command(BaseCommand):
             self.preview(season)
 
     @staticmethod
-    def decided_through(season, field):
-        """Decided items' subject id -> the latest snapshot time any decision on it was based on."""
-        through = defaultdict(lambda: None)
-        decided = ReconciliationItem.objects.filter(season=season, **{f"{field}__isnull": False}).exclude(
-            status=ReconciliationItem.Status.PENDING
-        )
-        for subject, when in decided.values_list(field, "through"):
-            if through[subject] is None or (when is not None and when > through[subject]):
-                through[subject] = when
-        return dict(through)
+    def last_decisions(season, field):
+        """Contract or farm player id -> the latest accepted or rejected item about it this season.
 
-    @staticmethod
-    def since_decision(moves, decided, pk):
-        if pk not in decided:
-            return moves
-        if decided[pk] is None:
-            return []
-        return [m for m in moves if m.when > decided[pk]]
+        A re-run (e.g. on a newer snapshot) proposes something only when its answer differs.
+        """
+        decided = (
+            ReconciliationItem.objects.filter(season=season, **{f"{field}__isnull": False})
+            .exclude(status=ReconciliationItem.Status.PENDING)
+            .select_related("start_team")
+            .order_by("pk")
+        )
+        return {getattr(item, field): item for item in decided}
 
     def farm_items(self, season, snapshot, moves_by_player, teams, names):
-        decided = self.decided_through(season, "farm_player_id")
+        decided = self.last_decisions(season, "farm_player_id")
+        debut_decided = set(
+            ReconciliationItem.objects.filter(season=season, mlb_debut=True)
+            .exclude(status=ReconciliationItem.Status.PENDING)
+            .values_list("farm_player_id", flat=True)
+        )
         Kind = ReconciliationItem.Kind
         kinds = {
             "continues": Kind.FARM_CONTINUES,
@@ -145,23 +140,31 @@ class Command(BaseCommand):
             fid = f.player.fantrax_id
             on_farm.add(fid)
             end = ends.get(fid)
-            moves = self.since_decision(moves_by_player.get(fid, []), decided, f.pk)
-            r = replay_farm(f.team.fantrax_id, moves, end, f.has_mlb_appearance)
-            if f.pk in decided and r.outcome.value in NOTHING_NEW and not r.mlb_debut:
-                continue
+            last = decided.get(f.pk)
+            start = last.start_team if last and last.start_team else f.team
+            r = replay_farm(start.fantrax_id, moves_by_player.get(fid, []), end, f.has_mlb_appearance)
+            kind, team = kinds[r.outcome.value], teams.get(r.team)
+            new_debut = r.mlb_debut and f.pk not in debut_decided
+            # An accepted "not on the sheet" pick is a farm player continuing on that team.
+            last_kind = Kind.FARM_CONTINUES if last and last.kind == Kind.FARM_UNKNOWN else getattr(last, "kind", None)
+            if last and (last_kind, last.team_id) == (kind, getattr(team, "pk", None)) and not new_debut:
+                continue  # same answer the commissioner already decided on
             detail = r.detail
-            for team_id, name in names.items():
-                detail = detail.replace(team_id, name)
+            for fantrax_team, name in names.items():
+                detail = detail.replace(fantrax_team, name)
             if r.mlb_debut:
                 debut = f"MLB debut ({end.games_played} G, {end.plate_appearances}+ PA, {end.outs} outs)"
                 detail = "; ".join(filter(None, [debut, detail]))
+            if last:
+                detail = f"changed since your earlier decision ({last.get_kind_display()}); {detail}".rstrip("; ")
             items.append(
                 ReconciliationItem(
                     season=season,
-                    kind=kinds[r.outcome.value],
+                    kind=kind,
                     farm_player=f,
                     player=f.player,
-                    team=teams.get(r.team),
+                    start_team=start,
+                    team=team,
                     mlb_debut=r.mlb_debut,
                     detail=detail,
                 )

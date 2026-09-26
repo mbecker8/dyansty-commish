@@ -197,8 +197,13 @@ class ReconciliationItem(models.Model):
     )
     detail = models.TextField(blank=True)
     fantrax_tx_ids = models.CharField(max_length=500, blank=True)
-    through = models.DateTimeField(
-        null=True, blank=True, help_text="Latest Fantrax move in the snapshot this was worked out from"
+    start_team = models.ForeignKey(
+        Team,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        related_name="+",
+        help_text="Team the replay started from (holder before the season's moves)",
     )
     status = models.CharField(max_length=10, choices=Status.choices, default=Status.PENDING)
     decided_note = models.TextField(blank=True)
@@ -237,7 +242,7 @@ class ReconciliationItem(models.Model):
                 team=self.team, player=self.player, drafted_year=self.season, salary=1, salary_season=self.season
             )
         elif self.kind in (self.Kind.INCONSISTENT, self.Kind.FARM_INCONSISTENT, self.Kind.CASH_COMMENT):
-            raise ValueError("This item must be fixed by hand, then rejected with a note")
+            raise ValueError("Fix this by hand, write what you did in the note, then reject it")
         elif self.farm_player_id:
             farm = self.farm_player
             if self.mlb_debut:
