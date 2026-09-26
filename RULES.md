@@ -26,6 +26,10 @@ the rulebook, including decisions the rulebook doesn't spell out.
   - The buyout is owed by the team holding him when he's dropped (so a
     contract traded and then dropped is the new team's buyout), and it stands
     even if the same team re-claims him (decided 2026-09-26).
+  - A final-year drop also voids the contract. If anyone re-claims him,
+    including the team that dropped him, he's signable at his new claim price
+    rather than expiring (decided 2026-09-26; e.g. Kodai Senga and Tanner
+    Bibee, re-claimed at $0).
   - Today this is an honor system: drops are announced on Discord and the
     commissioner spot-checks. The app *detects* these by replaying the
     season's Fantrax trades, drops and claims from the auction onward
@@ -38,7 +42,9 @@ the rulebook, including decisions the rulebook doesn't spell out.
   historical contracts.)
 - **Buyouts:** 80% of annual price for the first unpaid year, then 70%, 60%,
   50%, … for each remaining year (never truncated). Final-year contracts drop
-  free.
+  free. Each year's penalty is rounded to whole dollars, **half up**: 50% of
+  $33 is $17 (decided 2026-09-26). The sheet builds the percentage in floating
+  point, so on exact halves it may round down; the app doesn't copy that.
 - **Farm:** $1 per pick; retention adds $1 (no MLB appearance) or $2 (has
   appeared); promoted players can't return to the farm.
 - **Budget:** base $400 − contracts − buyout penalties − farm − missed-IP
@@ -54,6 +60,8 @@ The fixture (`data/league/year19_post_signing.json`) is extracted from
 a Google Sheets export by `scripts/extract_workbook_fixture.py`. Every contract
 price and buyout penalty matches. Two budgets differ because of sheet bugs:
 DC's farm total skips Farm 1 (+$3 of budget), and JM's buyout total only sums
-4 of its 6 buyouts (+$10).
+4 of its 6 buyouts (+$10). Separately, the AW tab is missing two of AW's 2026
+farm draft picks (Brendan Lawson, Shunpeita Yamashita), so AW's 2026 budget
+was $2 too high. Reconciliation adds them.
 Where the app disagrees with the sheet, each difference is either a
 documented spreadsheet bug or a bug in the app.

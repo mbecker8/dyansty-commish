@@ -13,7 +13,7 @@ from django.db import transaction
 
 from league.budget import team_budget
 from league.fantrax_data import EASTERN, Snapshot
-from league.models import Contract, FarmPlayer, Player, ReconciliationItem, Team
+from league.models import CashTrade, Contract, FarmPlayer, Player, ReconciliationItem, Team
 from league.reconcile import EndState, Outcome, replay, replay_farm
 
 # The post-signing sheet reflects every move up to the auction, so replay from there.
@@ -143,7 +143,7 @@ class Command(BaseCommand):
                         kind=Kind.FARM_UNKNOWN,
                         player=players[fid],
                         team=teams[team_id],
-                        detail="In a Fantrax minors slot but on no sheet farm (farm adds are draft or trade only)",
+                        detail="In a Fantrax minors slot but on no sheet farm; accepting adds him as a $1 draft pick",
                     )
                 )
         return items
@@ -155,6 +155,7 @@ class Command(BaseCommand):
             .exclude(status=ReconciliationItem.Status.PENDING)
             .values_list("fantrax_tx_ids", flat=True)
         )
+        decided |= set(CashTrade.objects.exclude(fantrax_tx_id="").values_list("fantrax_tx_id", flat=True))
         items = []
         for tx, when, team_ids, text in snapshot.trade_comments():
             if when < cutoff or tx in decided:

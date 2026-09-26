@@ -3,7 +3,7 @@ from django.core.management import call_command
 from django.core.management.base import CommandError
 
 from league.budget import team_budget
-from league.models import Buyout, Contract, ReconciliationItem, Team
+from league.models import Buyout, CashTrade, Contract, ReconciliationItem, Team
 
 pytestmark = pytest.mark.django_db
 
@@ -68,14 +68,26 @@ def test_rerun_replaces_pending_items(reconciled):
     assert ReconciliationItem.objects.count() == n
 
 
-def test_trade_comments_about_cash_are_listed_for_manual_entry(reconciled):
-    comments = ReconciliationItem.objects.filter(kind=Kind.CASH_COMMENT)
-    texts = sorted(i.detail for i in comments)
-    assert len(texts) == 3
-    assert any("$5 2027 budget to Devin" in t for t in texts)
-    assert all("DC" in t or "MT" in t or "AW" in t for t in texts)
+def test_cash_comments_already_entered_are_not_listed(reconciled):
+    # All three 2026 comments are recorded in data/league/cash_trades_from_fantrax.json.
+    assert not ReconciliationItem.objects.filter(kind=Kind.CASH_COMMENT).exists()
+
+
+def test_cash_from_trade_comments_is_imported(reconciled):
+    got = {
+        (c.budget_season, c.from_team.code, c.to_team.code, c.amount)
+        for c in CashTrade.objects.exclude(fantrax_tx_id="")
+    }
+    assert got == {(2027, "MB", "DC", 5), (2027, "MB", "MT", 6), (2028, "MH", "AW", 10)}
+
+
+def test_unentered_cash_comment_is_listed_for_manual_entry(reconciled):
+    CashTrade.objects.filter(fantrax_tx_id="7o4nrf9dmme7yit3").delete()
+    call_command("reconcile", verbosity=0)
+    item = ReconciliationItem.objects.get(kind=Kind.CASH_COMMENT)
+    assert "2028 draft budget" in item.detail
     with pytest.raises(ValueError):
-        comments.first().accept()
+        item.accept()
 
 
 def test_preview_shows_2027_commitments_without_changing_anything(reconciled, capsys):

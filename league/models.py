@@ -138,6 +138,7 @@ class CashTrade(models.Model):
     to_team = models.ForeignKey(Team, on_delete=models.PROTECT, related_name="cash_received")
     amount = models.PositiveIntegerField()
     note = models.CharField(max_length=200, blank=True)
+    fantrax_tx_id = models.CharField(max_length=32, blank=True, help_text="Fantrax trade this cash was part of")
 
     def __str__(self):
         return f"${self.amount} {self.from_team.code} -> {self.to_team.code} ({self.budget_season})"
@@ -220,12 +221,12 @@ class ReconciliationItem(models.Model):
         elif self.kind == self.Kind.TRADED:
             self.contract.team = self.team
             self.contract.save(update_fields=["team"])
-        elif self.kind in (
-            self.Kind.INCONSISTENT,
-            self.Kind.FARM_INCONSISTENT,
-            self.Kind.FARM_UNKNOWN,
-            self.Kind.CASH_COMMENT,
-        ):
+        elif self.kind == self.Kind.FARM_UNKNOWN:
+            # A farm draft pick the sheet missed.
+            FarmPlayer.objects.create(
+                team=self.team, player=self.player, drafted_year=self.season, salary=1, salary_season=self.season
+            )
+        elif self.kind in (self.Kind.INCONSISTENT, self.Kind.FARM_INCONSISTENT, self.Kind.CASH_COMMENT):
             raise ValueError("This item must be fixed by hand, then rejected with a note")
         elif self.farm_player_id:
             farm = self.farm_player

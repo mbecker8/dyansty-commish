@@ -21,8 +21,13 @@ def test_every_linked_farm_player_gets_one_item(reconciled):
 def test_minors_players_missing_from_the_sheet_are_flagged(reconciled):
     flagged = ReconciliationItem.objects.filter(kind=Kind.FARM_UNKNOWN)
     assert {i.player.name for i in flagged} == {"Brendan Lawson", "Shunpeita Yamashita"}
-    with pytest.raises(ValueError):
-        flagged.first().accept()
+
+
+def test_accepting_an_unknown_minors_player_adds_him_as_a_draft_pick(reconciled):
+    item = ReconciliationItem.objects.get(kind=Kind.FARM_UNKNOWN, player__name="Brendan Lawson")
+    item.accept()
+    farm = FarmPlayer.objects.get(player=item.player)
+    assert (farm.team.code, farm.drafted_year, farm.salary, farm.salary_season) == ("AW", 2026, 1, 2026)
 
 
 def test_accepting_promotion_takes_him_off_the_farm(reconciled):
