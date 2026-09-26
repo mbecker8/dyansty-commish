@@ -93,7 +93,7 @@ covers how the code is shaped.
 Constants (`BASE_BUDGET`, `CONTRACT_LIMIT`, buyout percentages, farm bumps,
 `CURRENT_FORMULA_SINCE`) are module-level today. Functions that a commissioner
 might tune take them as keyword arguments with those defaults (e.g.
-`compute_budget(base=…)`, `validate_signing(limit=…, extra_allowed=…)`).
+`compute_budget(base=…)`, `validate_signing(limit=…)`).
 **(planned)** A per-season rules configuration stored with the `Season`
 record, passed into the engine by the caller. The engine stays unaware of
 where the numbers come from.

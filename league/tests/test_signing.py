@@ -195,13 +195,6 @@ def test_buying_out_makes_room_under_the_limit(opened):
     assert not [e for e in signing.evaluate(mb, SEASON, plan).errors if "limit" in e]
 
 
-def test_sign_and_trade_flag_raises_the_limit(opened):
-    mb = team()
-    base = signing.evaluate(mb, SEASON, signing.Plan()).contract_limit
-    Contract.objects.filter(pk=signing.buyout_candidates(mb, SEASON)[0].pk).update(sign_and_trade=True)
-    assert signing.evaluate(mb, SEASON, signing.Plan()).contract_limit == base + 1
-
-
 def test_budget_cannot_go_below_zero(opened):
     mb, sm = team(), team("SM")
     left = team_budget(mb, SEASON + 1).remaining

@@ -66,10 +66,10 @@ the rulebook, including decisions the rulebook doesn't spell out.
   flagged for a manual check rather than decided.
 - **Budget:** base $400 − contracts − buyout penalties − farm − missed-IP
   penalties ± cash trades.
-- **Validation:** ≤10 contracts (retained farm excluded; sign-and-trade
-  exception, recorded per contract), only signable players, etc.
-- **Signing period** (built in M4). Decisions marked *provisional* are the
-  app's defaults until the commissioner confirms them:
+- **Validation:** ≤10 contracts at signing (retained farm excluded), only
+  signable players, etc.
+- **Signing period** (built in M4; the calls below confirmed by the
+  commissioner 2026-09-26):
   - A new contract's original price is the player's **end-of-season Fantrax
     salary**, taken from the season-end snapshot even when rosters come from a
     later blackout snapshot. A roster player with no season-end salary can't be
@@ -80,19 +80,17 @@ the rulebook, including decisions the rulebook doesn't spell out.
     is flagged for the commissioner instead.
   - Contracts signed now have year signed = the season just ended; buyouts
     decided now are dropped in that season (80% charged at the next auction).
-  - *Provisional:* each contract flagged sign-and-trade that still runs next
-    season allows its team one contract over the limit (VISION §14.6). The
-    rulebook grants the exception only for contracts acquired "via sign and
-    trade between contract sheet signing and auction", which would mean a
-    flag shouldn't carry into later signings. No effect in 2027: the only
-    flagged contract (Bryson Stott, MH) ended in 2026. To confirm.
-  - *Provisional:* contract length is 1–10 years. The rulebook sets no
+  - **Sign-and-trade isn't in the app's logic.** The limit at signing is a
+    flat 10. A sign-and-trade happens in Fantrax after signing, and going
+    over 10 that way is a gentlemen's agreement. The contract's
+    `sign_and_trade` flag is a record only.
+  - Contract length is 1–10 years. The rulebook sets no
     maximum; the longest in the Year 19 sheet is 8.
-  - *Provisional:* the auction budget left after signing can't be below $0.
+  - The auction budget left after signing can't be below $0.
     There's no minimum for filling the auction roster.
-  - *Provisional:* every farm player needs an explicit keep or release before
+  - Every farm player needs an explicit keep or release before
     a team can submit, and before the commissioner can lock.
-  - *Provisional:* a team's draft decisions are visible only to that team and
+  - A team's draft decisions are visible only to that team and
     the commissioners until signing locks. The audit log is commissioner-only.
   - Locking applies every team's saved decisions at once, submitted or not,
     and is refused while any team has a problem.

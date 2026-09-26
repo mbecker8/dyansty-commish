@@ -248,7 +248,7 @@ testing with the league.
 4. ~~Contract years~~ — **resolved**: final year = S+L, inclusive (see RULES.md).
 5. **Special Waivers:** the rulebook refers to a section that wasn't in the exported doc (another tab?) —
    write it, or drop it?
-6. ~~Sign-and-trade~~ — **resolved**: a per-contract `sign_and_trade` flag set by the commissioner; each flag allows one contract over the limit.
+6. ~~Sign-and-trade~~ — **resolved** (2026-09-26): not enforced by the app. Signing allows 10 contracts; sign-and-trades happen in Fantrax afterwards by gentlemen's agreement. The `sign_and_trade` flag is a record only.
 7. **Legacy contracts:** are any pre-2014 contracts still active, or can the
    old formula be retired?
 8. **Missed-IP penalties:** commissioner-entered for MVP, or pulled from

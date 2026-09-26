@@ -9,7 +9,7 @@
   </tbody>
   <tfoot><tr><td>Left for the auction</td><td class="num">${{ ev.budget.remaining }}</td></tr></tfoot>
 </table>
-<p>Contracts for {{ ev.season|add:1 }}: <strong>{{ ev.contract_count }} of {{ ev.contract_limit }}</strong>{% if ev.contract_limit > 10 %} <span class="muted">(includes sign-and-trade)</span>{% endif %}</p>
+<p>Contracts for {{ ev.season|add:1 }}: <strong>{{ ev.contract_count }} of {{ ev.contract_limit }}</strong></p>
 {% if ev.errors %}
   <ul class="errors">{% for e in ev.errors %}<li>{{ e }}</li>{% endfor %}</ul>
 {% endif %}

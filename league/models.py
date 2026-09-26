@@ -99,7 +99,7 @@ class Contract(models.Model):
     original_price = models.PositiveIntegerField()
     year_signed = models.PositiveIntegerField(help_text="League season that had just ended when signed")
     length = models.PositiveIntegerField()
-    sign_and_trade = models.BooleanField(default=False, help_text="Counts under the sign-and-trade exception")
+    sign_and_trade = models.BooleanField(default=False, help_text="Record only: acquired by sign-and-trade")
     voided_in_season = models.PositiveIntegerField(null=True, blank=True, help_text="Dropped in its final year")
     note = models.TextField(blank=True)
 

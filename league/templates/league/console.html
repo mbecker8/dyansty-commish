@@ -55,7 +55,7 @@
 <ul>
   <li><a href="{% url 'admin:league_cashtrade_add' %}">Add a cash trade</a> · <a href="{% url 'admin:league_budgetadjustment_add' %}">Add a missed-IP penalty</a></li>
   <li><a href="{% url 'admin:league_farmpick_changelist' %}">Farm pick trades</a> (change the owner) · <a href="{% url 'admin:league_farmplayer_add' %}">Add a farm player</a></li>
-  <li><a href="{% url 'admin:league_contract_changelist' %}">Contracts</a> (e.g. tick sign-and-trade) · <a href="{% url 'admin:league_rosterentry_changelist' %}">Roster entries</a> (fix a missing salary)</li>
+  <li><a href="{% url 'admin:league_contract_changelist' %}">Contracts</a> · <a href="{% url 'admin:league_rosterentry_changelist' %}">Roster entries</a> (fix a missing salary)</li>
 </ul>
 <p class="muted">Admin changes are recorded in the audit log too.</p>
 {% endblock %}

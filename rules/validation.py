@@ -6,7 +6,7 @@ from collections.abc import Mapping, Sequence
 from rules.contracts import Contract
 
 CONTRACT_LIMIT = 10
-# The rulebook sets no maximum; 8-year contracts exist. Provisional app limit (RULES.md).
+# The rulebook sets no maximum; 8-year contracts exist. League decision 2026-09-26 (RULES.md).
 MAX_CONTRACT_LENGTH = 10
 
 
@@ -15,14 +15,12 @@ def validate_signing(
     new: Sequence[Contract],
     after_season: int,
     limit: int = CONTRACT_LIMIT,
-    extra_allowed: int = 0,
     names: Mapping[str, str] | None = None,
 ) -> list[str]:
     """Problems with a team's contracts going into the next season's auction.
 
     existing: contracts the team already holds (bought-out ones excluded).
     new: contracts being signed at this signing period.
-    extra_allowed: sign-and-trade exception, one per flagged contract.
     names: player id -> display name for the messages.
     """
 
@@ -46,6 +44,6 @@ def validate_signing(
         if c.player_id in under_contract:
             errors.append(f"{name(c.player_id)} already has a contract covering {next_season}")
     active = [c for c in [*existing, *new] if c.covers(next_season)]
-    if len(active) > limit + extra_allowed:
-        errors.append(f"{len(active)} contracts for {next_season}; the limit is {limit + extra_allowed}")
+    if len(active) > limit:
+        errors.append(f"{len(active)} contracts for {next_season}; the limit is {limit}")
     return errors

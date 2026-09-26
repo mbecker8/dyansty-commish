@@ -29,7 +29,7 @@ from rules.budget import Budget
 from rules.buyouts import buyout_schedule
 from rules.farm import retained_salary
 from rules.signability import Signability, signability
-from rules.validation import MAX_CONTRACT_LENGTH, validate_signing
+from rules.validation import CONTRACT_LIMIT, MAX_CONTRACT_LENGTH, validate_signing
 
 LENGTHS = range(1, MAX_CONTRACT_LENGTH + 1)
 
@@ -250,9 +250,8 @@ def evaluate(team: Team, season: int, plan: Plan) -> Evaluation:
     budget = team_budget(team, season + 1, changes)
 
     existing = [c for c in Contract.live.filter(team=team).select_related("player") if c.pk not in clean.buyouts]
-    extra = sum(1 for c in existing if c.sign_and_trade and c.as_rules().covers(season + 1))
     names = {str(p.player.pk): p.player.name for p in players} | {str(c.player_id): c.player.name for c in existing}
-    errors += validate_signing([c.as_rules() for c in existing], new, season, extra_allowed=extra, names=names)
+    errors += validate_signing([c.as_rules() for c in existing], new, season, names=names)
     if budget.remaining < 0:
         errors.append(f"This leaves ${budget.remaining} for the {season + 1} auction; it can't go below $0")
 
@@ -269,7 +268,7 @@ def evaluate(team: Team, season: int, plan: Plan) -> Evaluation:
         errors=errors,
         undecided_farm=[f for f in farm if f.pk not in clean.farm],
         contract_count=sum(1 for c in [*[c.as_rules() for c in existing], *new] if c.covers(season + 1)),
-        contract_limit=10 + extra,
+        contract_limit=CONTRACT_LIMIT,
     )
 
 
