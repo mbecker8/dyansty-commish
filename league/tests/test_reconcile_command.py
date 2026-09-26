@@ -121,3 +121,9 @@ def test_replace_refuses_when_decisions_exist(reconciled):
     items(Kind.TRADED).first().accept()
     with pytest.raises(CommandError):
         call_command("import_league", replace=True, verbosity=0)
+
+
+@pytest.mark.django_db
+def test_refuses_to_run_before_the_league_is_imported():
+    with pytest.raises(CommandError, match="import_league"):
+        call_command("reconcile", verbosity=0)

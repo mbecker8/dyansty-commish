@@ -8,7 +8,7 @@ from datetime import date, datetime, time
 from pathlib import Path
 
 from django.conf import settings
-from django.core.management.base import BaseCommand
+from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 
 from league.budget import team_budget
@@ -33,6 +33,8 @@ class Command(BaseCommand):
 
     @transaction.atomic
     def handle(self, *args, season, since, fantrax, **options):
+        if not Team.objects.exists():
+            raise CommandError("No league data yet; run import_league first.")
         snapshot = Snapshot(Path(fantrax))
         cutoff = datetime.combine(date.fromisoformat(since), time(), EASTERN)
         moves_by_player = {}

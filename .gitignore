@@ -13,7 +13,7 @@ __pycache__/
 
 # Django
 staticfiles/
-db.sqlite3
+*.sqlite3
 
 .DS_Store
 
