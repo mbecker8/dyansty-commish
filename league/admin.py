@@ -41,7 +41,8 @@ class ReconciliationItemAdmin(admin.ModelAdmin):
     list_display = ["contract", "kind", "team", "status", "detail"]
     list_filter = ["season", "kind", "status"]
     search_fields = ["contract__player__name"]
-    actions = ["accept_selected"]
+    actions = ["accept_selected", "reject_selected"]
+    readonly_fields = ["status", "decided_note"]
 
     @admin.action(description="Accept selected (apply the change)")
     def accept_selected(self, request, queryset):
@@ -53,3 +54,11 @@ class ReconciliationItemAdmin(admin.ModelAdmin):
             except ValueError as e:
                 self.message_user(request, f"{item}: {e}", level="error")
         self.message_user(request, f"Accepted {done} item(s).")
+
+    @admin.action(description="Reject selected (no change)")
+    def reject_selected(self, request, queryset):
+        done = 0
+        for item in queryset.filter(status=models.ReconciliationItem.Status.PENDING):
+            item.reject(note=f"Rejected by {request.user}")
+            done += 1
+        self.message_user(request, f"Rejected {done} item(s).")

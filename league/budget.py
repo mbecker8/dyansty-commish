@@ -7,7 +7,7 @@ from rules.budget import Budget, compute_budget
 
 
 def team_budget(team: Team, season: int) -> Budget:
-    contracts = Contract.objects.filter(team=team, buyout__isnull=True)
+    contracts = Contract.live.filter(team=team)
     buyouts = Buyout.objects.filter(team=team).select_related("contract")
     farm = FarmPlayer.objects.filter(team=team, salary_season=season, status=FarmPlayer.Status.ACTIVE)
     received = CashTrade.objects.filter(to_team=team, budget_season=season).aggregate(s=Sum("amount"))["s"] or 0

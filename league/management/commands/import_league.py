@@ -23,6 +23,7 @@ from league.models import (
     FarmPick,
     FarmPlayer,
     Player,
+    ReconciliationItem,
     Team,
     TeamAlias,
 )
@@ -47,7 +48,22 @@ class Command(BaseCommand):
         if Team.objects.exists():
             if not replace:
                 raise CommandError("League data already exists; pass --replace to reload it.")
-            for model in (BudgetAdjustment, CashTrade, FarmPick, FarmPlayer, Buyout, Contract, Player, TeamAlias, Team):
+            if ReconciliationItem.objects.exclude(status=ReconciliationItem.Status.PENDING).exists():
+                raise CommandError(
+                    "The commissioner has accepted or rejected reconciliation items; --replace would erase them."
+                )
+            for model in (
+                ReconciliationItem,
+                BudgetAdjustment,
+                CashTrade,
+                FarmPick,
+                FarmPlayer,
+                Buyout,
+                Contract,
+                Player,
+                TeamAlias,
+                Team,
+            ):
                 model.objects.all().delete()
 
         self.verbosity = options["verbosity"]

@@ -1,5 +1,6 @@
 import pytest
 from django.core.management import call_command
+from django.core.management.base import CommandError
 
 from league.budget import team_budget
 from league.models import Buyout, Contract, ReconciliationItem, Team
@@ -93,3 +94,18 @@ def test_preview_shows_2027_commitments_without_changing_anything(reconciled, ca
         b = team_budget(team, 2027)
         line = next(line for line in out.splitlines() if line.startswith(f"{team.code} "))
         assert f"contracts ${b.contracts} " in line and f"buyouts ${b.buyouts} " in line, line
+
+
+def test_accepting_a_free_drop_voids_the_contract(reconciled):
+    # Kodai Senga: JM's final-year contract, dropped and re-claimed by JM -> now signable, not expiring.
+    item = items(Kind.DROPPED_FREE).get(contract__player__name="Kodai Senga")
+    item.accept()
+    item.contract.refresh_from_db()
+    assert item.contract.voided_in_season == 2026
+    assert not Contract.live.filter(pk=item.contract.pk).exists()
+
+
+def test_replace_refuses_when_decisions_exist(reconciled):
+    items(Kind.TRADED).first().accept()
+    with pytest.raises(CommandError):
+        call_command("import_league", replace=True, verbosity=0)

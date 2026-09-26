@@ -47,7 +47,7 @@ class Command(BaseCommand):
         decided = set(ReconciliationItem.objects.filter(season=season).values_list("contract_id", flat=True))
 
         contracts = (
-            Contract.objects.filter(buyout__isnull=True, player__fantrax_id__isnull=False)
+            Contract.live.filter(player__fantrax_id__isnull=False)
             .exclude(pk__in=decided)
             .select_related("team", "player")
         )

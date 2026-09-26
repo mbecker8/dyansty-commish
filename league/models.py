@@ -44,8 +44,17 @@ class Player(models.Model):
         return self.name
 
 
+class LiveContractManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(buyout__isnull=True, voided_in_season__isnull=True)
+
+
 class Contract(models.Model):
-    """A multi-year contract. `team` is the current holder; a trade moves it."""
+    """A multi-year contract. `team` is the current holder; a trade moves it.
+
+    A drop voids the contract: before the final year it gets a Buyout, in the final
+    year it's just marked voided (no penalty, and the player becomes signable).
+    """
 
     team = models.ForeignKey(Team, on_delete=models.PROTECT, related_name="contracts")
     player = models.ForeignKey(Player, on_delete=models.PROTECT, related_name="contracts")
@@ -53,7 +62,11 @@ class Contract(models.Model):
     year_signed = models.PositiveIntegerField(help_text="League season that had just ended when signed")
     length = models.PositiveIntegerField()
     sign_and_trade = models.BooleanField(default=False, help_text="Counts under the sign-and-trade exception")
+    voided_in_season = models.PositiveIntegerField(null=True, blank=True, help_text="Dropped in its final year")
     note = models.TextField(blank=True)
+
+    objects = models.Manager()
+    live = LiveContractManager()
 
     class Meta:
         ordering = ["team", "player__name"]
@@ -201,6 +214,9 @@ class ReconciliationItem(models.Model):
             Buyout.objects.create(
                 contract=self.contract, team=self.team, dropped_in_season=self.season, note=self.detail
             )
+        elif self.kind == self.Kind.DROPPED_FREE:
+            self.contract.voided_in_season = self.season
+            self.contract.save(update_fields=["voided_in_season"])
         elif self.kind == self.Kind.TRADED:
             self.contract.team = self.team
             self.contract.save(update_fields=["team"])
