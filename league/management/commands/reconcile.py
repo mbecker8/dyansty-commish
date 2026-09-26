@@ -57,7 +57,10 @@ class Command(BaseCommand):
         ReconciliationItem.objects.filter(season=season, status=ReconciliationItem.Status.PENDING).delete()
         decided = self.last_decisions(season, "contract_id")
 
-        contracts = Contract.live.filter(player__fantrax_id__isnull=False).select_related("team", "player")
+        # Contracts signed at the signing after this season start next season; nothing this season moves them.
+        contracts = Contract.live.filter(player__fantrax_id__isnull=False, year_signed__lt=season).select_related(
+            "team", "player"
+        )
         created = []
         for c in contracts:
             if c.final_year < season:

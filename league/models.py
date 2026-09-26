@@ -99,7 +99,7 @@ class Contract(models.Model):
     original_price = models.PositiveIntegerField()
     year_signed = models.PositiveIntegerField(help_text="League season that had just ended when signed")
     length = models.PositiveIntegerField()
-    sign_and_trade = models.BooleanField(default=False, help_text="Counts under the sign-and-trade exception")
+    sign_and_trade = models.BooleanField(default=False, help_text="Record only: acquired by sign-and-trade")
     voided_in_season = models.PositiveIntegerField(null=True, blank=True, help_text="Dropped in its final year")
     note = models.TextField(blank=True)
 
@@ -316,3 +316,117 @@ class ReconciliationItem(models.Model):
         self.status = self.Status.REJECTED
         self.decided_note = note
         self.save(update_fields=["status", "decided_note"])
+
+
+class RosterEntry(models.Model):
+    """A player on a Fantrax roster at the signing blackout: the pool each team signs from.
+
+    `salary` is the player's end-of-season Fantrax salary (his original price if signed). It
+    comes from the season-end snapshot, not the blackout one, and is null when that snapshot
+    doesn't have him, which makes him unsignable until the commissioner sorts it out.
+    """
+
+    season = models.PositiveIntegerField(help_text="The season that just ended")
+    team = models.ForeignKey(Team, on_delete=models.PROTECT, related_name="roster")
+    player = models.ForeignKey(Player, on_delete=models.PROTECT, related_name="roster_entries")
+    salary = models.PositiveIntegerField(null=True, blank=True)
+    status = models.CharField(max_length=10, help_text="Fantrax roster slot: Active, Reserve, IR, Minors")
+
+    class Meta:
+        ordering = ["team", "player__name"]
+        constraints = [models.UniqueConstraint(fields=["season", "player"], name="one_roster_spot_per_season")]
+
+    def __str__(self):
+        return f"{self.player} ({self.team.code}, {self.season})"
+
+
+class SigningPeriod(models.Model):
+    """The signing blackout after `season`. Managers edit while it's open; locking applies every team's decisions."""
+
+    class Status(models.TextChoices):
+        PLANNED = "planned", "Not open yet"
+        OPEN = "open", "Open"
+        LOCKED = "locked", "Locked"
+
+    season = models.PositiveIntegerField(unique=True, help_text="The season that just ended")
+    status = models.CharField(max_length=10, choices=Status.choices, default=Status.PLANNED)
+    deadline = models.DateTimeField(null=True, blank=True, help_text="Shown to managers; nothing locks automatically")
+    opened_at = models.DateTimeField(null=True, blank=True)
+    locked_at = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return f"Signing after {self.season} ({self.get_status_display()})"
+
+
+class Submission(models.Model):
+    """One team's signing decisions. Saved as a draft until the manager submits."""
+
+    class Status(models.TextChoices):
+        DRAFT = "draft"
+        SUBMITTED = "submitted"
+
+    period = models.ForeignKey(SigningPeriod, on_delete=models.PROTECT, related_name="submissions")
+    team = models.ForeignKey(Team, on_delete=models.PROTECT, related_name="submissions")
+    status = models.CharField(max_length=10, choices=Status.choices, default=Status.DRAFT)
+    submitted_at = models.DateTimeField(null=True, blank=True)
+    submitted_by = models.ForeignKey("auth.User", on_delete=models.SET_NULL, null=True, blank=True, related_name="+")
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["team"]
+        constraints = [models.UniqueConstraint(fields=["period", "team"], name="one_submission_per_team")]
+
+    def __str__(self):
+        return f"{self.team.code} signing after {self.period.season} ({self.status})"
+
+
+class SubmissionSigning(models.Model):
+    """A new contract. The price is not stored: it's the player's roster salary, read when needed."""
+
+    submission = models.ForeignKey(Submission, on_delete=models.CASCADE, related_name="signings")
+    player = models.ForeignKey(Player, on_delete=models.PROTECT, related_name="+")
+    length = models.PositiveIntegerField()
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=["submission", "player"], name="sign_player_once")]
+
+
+class SubmissionBuyout(models.Model):
+    submission = models.ForeignKey(Submission, on_delete=models.CASCADE, related_name="buyouts")
+    contract = models.ForeignKey(Contract, on_delete=models.PROTECT, related_name="+")
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=["submission", "contract"], name="buy_out_once")]
+
+
+class SubmissionFarm(models.Model):
+    submission = models.ForeignKey(Submission, on_delete=models.CASCADE, related_name="farm")
+    farm_player = models.ForeignKey(FarmPlayer, on_delete=models.PROTECT, related_name="+")
+    keep = models.BooleanField()
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=["submission", "farm_player"], name="decide_farm_once")]
+
+
+class AuditEntry(models.Model):
+    """Who changed league state, when, and why. Written by every signing, console and admin change."""
+
+    at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey("auth.User", on_delete=models.SET_NULL, null=True, blank=True, related_name="+")
+    team = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, blank=True, related_name="+")
+    action = models.CharField(max_length=100)
+    detail = models.TextField(blank=True)
+    note = models.TextField(blank=True)
+
+    class Meta:
+        ordering = ["-at", "-pk"]
+        verbose_name_plural = "audit entries"
+
+    def __str__(self):
+        return f"{self.at:%Y-%m-%d %H:%M} {self.user}: {self.action}"
+
+
+def audit(user, action: str, detail: str = "", team: Team | None = None, note: str = "") -> AuditEntry:
+    return AuditEntry.objects.create(
+        user=user if user and user.is_authenticated else None, team=team, action=action, detail=detail, note=note
+    )

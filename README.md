@@ -1,9 +1,11 @@
 # Dynasty Commish
 
 The league office for our dynasty baseball league. It replaces the contract-signing
-spreadsheet: managers sign in with Discord and see every team's contracts, buyouts, farm
-systems, farm picks, cash trades and auction budget. Contract signing moves here for
-February 2027. Fantrax still runs trades, the auction, drafts, lineups and scoring.
+spreadsheet. Managers sign in with Discord and see every team's contracts, buyouts, farm
+systems, farm picks, cash trades and auction budget. During the signing period they make
+their own contract, buyout and farm decisions against a live budget. The commissioner
+reviews them and locks the period. Fantrax still runs trades, the auction, drafts,
+lineups and scoring.
 
 - **Managers and commissioners:** the in-app **Help** page (`/help/`) explains the pages and
   the rules. Commissioners also see a commissioner guide there (linking managers,
@@ -23,6 +25,7 @@ The script:
 - sets up `review.sqlite3`,
 - loads the league from the committed data (`data/`),
 - proposes the 2026 season's changes,
+- loads the signing pool from the Fantrax rosters (first run only),
 - asks you to create an admin login,
 - and serves http://127.0.0.1:8000/.
 

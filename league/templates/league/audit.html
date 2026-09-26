@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Audit log · Dynasty Commish{% endblock %}
+{% block content %}
+<h1>Audit log</h1>
+<form method="get" class="filter">
+  <select name="team" onchange="this.form.submit()"><option value="">All teams</option>{% for t in teams %}<option value="{{ t.code }}"{% if request.GET.team == t.code %} selected{% endif %}>{{ t.code }}</option>{% endfor %}</select>
+  <noscript><button type="submit">Filter</button></noscript>
+</form>
+<div class="table-wrap"><table>
+  <thead><tr><th>When</th><th>Who</th><th>Team</th><th>What</th><th>Detail</th><th>Note</th></tr></thead>
+  <tbody>
+  {% for e in entries %}
+    <tr><td>{{ e.at|date:"Y-m-d H:i" }}</td><td>{{ e.user.manager.name|default:e.user|default:"command line" }}</td><td>{{ e.team.code|default:"" }}</td>
+      <td>{{ e.action }}</td><td class="wrap">{{ e.detail }}</td><td class="wrap">{{ e.note }}</td></tr>
+  {% empty %}<tr><td colspan="6" class="muted">Nothing yet.</td></tr>{% endfor %}
+  </tbody>
+</table></div>
+{% endblock %}

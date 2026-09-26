@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Export · Dynasty Commish{% endblock %}
+{% block content %}
+<h1>Export</h1>
+<p class="muted">The league as it stands now, as CSV files (open them in Excel or Google Sheets). Budgets are for the {{ next_season }} auction.</p>
+<ul>{% for name, label in exports %}<li><a href="{% url 'export_csv' name %}">{{ label }}</a> <span class="muted">({{ name }}.csv)</span></li>{% endfor %}</ul>
+{% endblock %}

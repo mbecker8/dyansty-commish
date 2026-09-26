@@ -5,20 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Dynasty Commish{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'core/site.css' %}">
+  <script src="{% static 'core/htmx.min.js' %}" defer></script>
 </head>
 <body>
   <header class="site">
     <a class="brand" href="/">Dynasty Commish</a>
     {% if user.is_authenticated %}
     <nav>
+      {% if signing_status == "open" %}<a href="{% url 'signing_home' %}"><strong>Signing</strong></a>{% endif %}
       <a href="{% url 'teams' %}">Teams</a>
       <a href="{% url 'contracts' %}">Contracts</a>
       <a href="{% url 'buyouts' %}">Buyouts</a>
       <a href="{% url 'farm' %}">Farm</a>
       <a href="{% url 'picks' %}">Farm picks</a>
       <a href="{% url 'cash' %}">Cash</a>
+      <a href="{% url 'export' %}">Export</a>
       <a href="{% url 'help' %}">Help</a>
-      {% if user.is_staff %}<a href="{% url 'admin:index' %}">Admin</a>{% endif %}
+      {% if user.is_staff %}<a href="{% url 'console' %}">Commish</a> <a href="{% url 'admin:index' %}">Admin</a>{% endif %}
     </nav>
     <form method="post" action="{% url 'logout' %}" class="logout">{% csrf_token %}
       <span>{{ user.manager.name|default:user.get_username }}</span> <button type="submit">Sign out</button>
@@ -29,6 +32,9 @@
   <p class="banner">{{ pending_review }} change{{ pending_review|pluralize }} from the {{ league_season }} season
     await commissioner review; rosters and numbers below may still change.</p>
   {% endif %}
-  <main>{% block content %}{% endblock %}</main>
+  <main>
+    {% if messages %}<ul class="messages">{% for m in messages %}<li class="{{ m.tags }}">{{ m }}</li>{% endfor %}</ul>{% endif %}
+    {% block content %}{% endblock %}
+  </main>
 </body>
 </html>

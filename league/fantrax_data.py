@@ -137,6 +137,20 @@ class Snapshot:
                     )
         return out
 
+    def salaries(self) -> dict[str, int]:
+        """Fantrax player id -> salary on the roster he's on."""
+        out = {}
+        for roster in self.rosters.values():
+            for table in roster["tables"]:
+                headers = [c.get("name") for c in table["header"]["cells"]]
+                if "Salary" not in headers:
+                    continue
+                col = headers.index("Salary")
+                for row in table["rows"]:
+                    if "scorer" in row and (text := row["cells"][col].get("content")):
+                        out[row["scorer"]["scorerId"]] = int(float(text))
+        return out
+
     def trade_comments(self) -> list[tuple[str, datetime, set[str], str]]:
         """(trade id, date, team ids involved, comment) for trades with a commissioner comment."""
         teams, dates, comments = defaultdict(set), {}, {}

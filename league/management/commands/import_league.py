@@ -18,6 +18,7 @@ from django.db import transaction
 
 from league.fantrax_data import Snapshot, normalize_name
 from league.models import (
+    AuditEntry,
     BudgetAdjustment,
     Buyout,
     CashTrade,
@@ -26,6 +27,8 @@ from league.models import (
     FarmPlayer,
     Player,
     ReconciliationItem,
+    RosterEntry,
+    SigningPeriod,
     Team,
     TeamAlias,
 )
@@ -56,7 +59,13 @@ class Command(BaseCommand):
                 )
             if LogEntry.objects.filter(content_type__app_label="league").exists():
                 raise CommandError("League data has been edited in the admin; --replace would erase those edits.")
+            if SigningPeriod.objects.exists() or AuditEntry.objects.exclude(user=None).exists():
+                raise CommandError(
+                    "A signing period has started or people have made changes; --replace would erase them."
+                )
+            AuditEntry.objects.all().delete()  # only command-line entries (roster syncs) are left
             for model in (
+                RosterEntry,
                 ReconciliationItem,
                 BudgetAdjustment,
                 CashTrade,

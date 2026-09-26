@@ -1,0 +1,19 @@
+<h2>{{ ev.season|add:1 }} auction budget</h2>
+<table class="panel">
+  <tbody>
+    <tr><td>Before signing</td><td class="num">${{ ev.committed.remaining }}</td></tr>
+    <tr><td>New contracts</td><td class="num">−${{ ev.new_contract_total }}</td></tr>
+    {% if ev.freed %}<tr><td>Bought-out contracts' price</td><td class="num">+${{ ev.freed }}</td></tr>{% endif %}
+    {% if ev.new_penalties %}<tr><td>Buyout penalties</td><td class="num">−${{ ev.new_penalties }}</td></tr>{% endif %}
+    <tr><td>Farm players kept</td><td class="num">−${{ ev.farm_cost }}</td></tr>
+  </tbody>
+  <tfoot><tr><td>Left for the auction</td><td class="num">${{ ev.budget.remaining }}</td></tr></tfoot>
+</table>
+<p>Contracts for {{ ev.season|add:1 }}: <strong>{{ ev.contract_count }} of {{ ev.contract_limit }}</strong></p>
+{% if ev.errors %}
+  <ul class="errors">{% for e in ev.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+{% endif %}
+{% if ev.undecided_farm %}
+  <p class="todo">Still to decide: {% for f in ev.undecided_farm %}{{ f.player.name }}{% if not forloop.last %}, {% endif %}{% endfor %} (farm)</p>
+{% endif %}
+{% if ev.complete %}<p class="ok">Ready to submit.</p>{% endif %}

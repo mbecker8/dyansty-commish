@@ -93,7 +93,7 @@ covers how the code is shaped.
 Constants (`BASE_BUDGET`, `CONTRACT_LIMIT`, buyout percentages, farm bumps,
 `CURRENT_FORMULA_SINCE`) are module-level today. Functions that a commissioner
 might tune take them as keyword arguments with those defaults (e.g.
-`compute_budget(base=…)`, `validate_signing(limit=…, extra_allowed=…)`).
+`compute_budget(base=…)`, `validate_signing(limit=…)`).
 **(planned)** A per-season rules configuration stored with the `Season`
 record, passed into the engine by the caller. The engine stays unaware of
 where the numbers come from.
@@ -126,26 +126,49 @@ where the numbers come from.
 - Static files are served by WhiteNoise (compressed, manifest-hashed).
 - Routes:
   - `/` sends you to your team, or to sign-in.
-  - `/teams/`, `/teams/<code>/`, `/contracts/`, `/buyouts/`, `/farm/`, `/picks/` and `/cash/` are league pages that need sign-in.
+  - `/teams/`, `/teams/<code>/`, `/contracts/`, `/buyouts/`, `/farm/`, `/picks/`, `/cash/`, `/export/` and `/help/` are league pages that need sign-in.
+  - `/signing/<code>/` is a team's signing page; `/commish/` and `/commish/audit/` are for commissioners.
   - `/auth/…` is Discord sign-in, `/healthz` is the Render health check, and `/admin/` is the Django admin.
 - League pages show the *next* auction's committed money (`LEAGUE_SEASON` + 1), using
   `league.budget.team_budget`. While reconciliation items are pending, a banner says the numbers
   may still change.
 
-### (planned) Domain app and screens
+### Signing, console, audit and export (built in M4)
 
-- A domain app holding the models from VISION §5: `Season`, `Team`,
-  `Manager`, `Player`, `Contract`, `Buyout`, `FarmPlayer`, `FarmPick`,
-  budget adjustments (cash trades, missed-IP penalties), `SigningDecision`
-  and `AuditLog`. Every external entity stores its **Fantrax ID**.
-- **Model ↔ engine boundary:** a thin adapter turns ORM rows into
-  `rules.Contract` values and back. Views never re-implement rule math. They
-  call the engine and render its output.
-- **Signing screen:** server-rendered Django templates, with HTMX partials
-  re-rendering the budget and validation panel on each change.
-- **Commissioner console:** custom views for the common workflows, with
-  Django admin as the escape hatch. Every write that changes league state
-  writes an audit entry (who, what, when, note).
+- **Models** (`league/models.py`): `RosterEntry` (the blackout roster and each player's
+  season-end salary, loaded by `manage.py sync_rosters`), `SigningPeriod` (planned → open →
+  locked), `Submission` per team with `SubmissionSigning` / `SubmissionBuyout` /
+  `SubmissionFarm` rows, and `AuditEntry` (who, what, when, team, note).
+- **`league/signing.py`** holds the logic; views only render it.
+  - `pool()` classifies a team's roster with `rules.signability`.
+  - `plan_from_form()` parses the form and trusts nothing. `evaluate()` checks every id
+    against the team and prices the plan.
+  - `league.budget.team_budget(team, season, Changes(...))` does the pricing: the pending
+    decisions are passed as `Changes`, so a preview and the post-lock budget take the same
+    code path. The end-to-end test asserts they're equal for every team.
+  - `lock_period()` applies every team's plan in one transaction, with `select_for_update`
+    on the period.
+- **Model ↔ engine boundary:** ORM rows become `rules.Contract` values through
+  `Contract.as_rules()`. Views never re-implement rule math.
+- **Signing screen** (`/signing/<code>/`): a server-rendered form. HTMX (vendored in
+  `core/static/core/htmx.min.js`) posts it to `/signing/<code>/preview` on every change and
+  swaps in the budget panel. The page works without JavaScript, minus the live panel.
+  - Drafts are private to the team and commissioners.
+  - A manager can't change a submitted plan until they withdraw it.
+  - A commissioner can edit any team, with a required note.
+- **Commissioner console** (`/commish/`): open and lock signing, see every team's status,
+  budget and problems, jump to any team's page, and follow links to the admin for manual
+  entries (cash trades, missed-IP penalties, farm picks and farm players).
+- **Audit log** (`/commish/audit/`): signing saves, submits, withdrawals, open, lock,
+  roster syncs, reconciliation decisions, and every admin add, change or delete (through
+  `league.admin.AuditedAdmin`).
+- **Export** (`/export/`): CSV downloads of budgets, contracts, buyouts, farm, picks and
+  cash, built from the same row helpers as the league pages.
+- `reconcile` skips contracts signed at the signing after the season it replays. Otherwise
+  re-running it after lock would replay the new contracts against last season's moves.
+
+### Sign-in and permissions
+
 - **Auth (built in M3):** Sign in with Discord.
   - `accounts/views.py` stores a single-use `state` in the session and compares it in constant time.
   - It exchanges the code on the server and reads `/users/@me`. The token isn't kept.
@@ -158,9 +181,8 @@ where the numbers come from.
     admin rights (staff + superuser) on exactly while the Manager is marked **Is commissioner**, so
     unlinking or removing the flag applies immediately, the admin included.
   - League pages use `league.access.member_required`: a linked Discord manager, or the commissioner's
-    password account. Permissions: managers
-  edit only their own team while signing is open. The commissioner can edit
-  everything.
+    password account. `commissioner_required` adds staff. `manages(user, team)` decides who edits
+    which team's signing.
 
 ## 5. External data
 
