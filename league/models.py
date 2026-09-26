@@ -197,6 +197,9 @@ class ReconciliationItem(models.Model):
     )
     detail = models.TextField(blank=True)
     fantrax_tx_ids = models.CharField(max_length=500, blank=True)
+    through = models.DateTimeField(
+        null=True, blank=True, help_text="Latest Fantrax move in the snapshot this was worked out from"
+    )
     status = models.CharField(max_length=10, choices=Status.choices, default=Status.PENDING)
     decided_note = models.TextField(blank=True)
 

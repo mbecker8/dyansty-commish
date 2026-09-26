@@ -102,6 +102,13 @@ def replay_farm(start_team: str, moves: Sequence[Move], end: EndState | None, ha
     if r.outcome is Outcome.INCONSISTENT:
         return FarmReplay(FarmOutcome.INCONSISTENT, r.holder, detail=r.detail)
     if r.outcome is Outcome.DROPPED:
+        if end is not None and end.status == "Minors":
+            # Farm adds are only by draft or trade; a claim can't put him back on a farm.
+            return FarmReplay(
+                FarmOutcome.INCONSISTENT,
+                r.claimed_by,
+                detail=f"released, then claimed into a Minors slot; {r.detail}".rstrip("; "),
+            )
         return FarmReplay(FarmOutcome.RELEASED, None, detail=r.detail)
     debut = not had_mlb and end.debuted
     detail = r.detail

@@ -37,6 +37,18 @@ the rulebook, including decisions the rulebook doesn't spell out.
     proposal. Moves into the team that already has a player (pre-auction
     sign-and-trades, farm draft picks entered as claims) are already in the
     sheet and are skipped.
+  - The replay starts when the auction does, not at midnight: drops made
+    earlier on auction day belong to the previous season (2026: last
+    pre-auction drop 15:11, first auction claim 18:21, cutoff 16:00).
+  - Reconciliation is re-run on a fresh snapshot before signing, because
+    offseason trades and drops count toward the season just ended. A player
+    already decided is replayed only for moves after the snapshot that
+    decision came from, starting from where the decision left him. He gets a
+    new item only if something changed (a later trade, drop or MLB debut).
+  - A farm player released and then claimed back into a Minors slot is
+    flagged, because farm adds are only by draft or trade. A farm player
+    promoted and sent back down in the same season can't be detected, since
+    Fantrax lineup history isn't in the snapshot.
 - **Contract price per year:** 1 yr = P; 2 yr = P+5; 3 yr = P+10;
   4 yr = P+15; 5+ yr = P + 4×years. (Legacy pre-2014 formula retained only for
   historical contracts.)

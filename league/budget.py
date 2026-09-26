@@ -7,6 +7,14 @@ from rules.budget import Budget, compute_budget
 
 
 def team_budget(team: Team, season: int) -> Budget:
+    """The auction budget for `season`, computed from who holds what *now*.
+
+    Only meaningful for the next auction. A past season's budget was fixed when its
+    auction ran, and accepting that season's reconciliation (trades, drops, promotions)
+    changes current holdings, so recomputing it afterwards gives a different number.
+    Budgets aren't stored yet; if a past season's figure is ever shown, snapshot it
+    at auction time instead of calling this.
+    """
     contracts = Contract.live.filter(team=team)
     buyouts = Buyout.objects.filter(team=team).select_related("contract")
     farm = FarmPlayer.objects.filter(team=team, salary_season=season, status=FarmPlayer.Status.ACTIVE)

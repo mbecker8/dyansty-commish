@@ -4,7 +4,8 @@ Proposals are saved as ReconciliationItems for the commissioner to accept or
 reject; nothing about the contracts changes until they do.
 """
 
-from datetime import date, datetime, time
+from collections import defaultdict
+from datetime import datetime
 from pathlib import Path
 
 from django.conf import settings
@@ -16,8 +17,13 @@ from league.fantrax_data import EASTERN, Snapshot
 from league.models import CashTrade, Contract, FarmPlayer, Player, ReconciliationItem, Team
 from league.reconcile import Outcome, replay, replay_farm
 
-# The post-signing sheet reflects every move up to the auction, so replay from there.
-DEFAULT_SINCE = "2026-02-25"
+# The post-signing sheet reflects every move up to the auction, so replay from there. The last
+# pre-auction drop was 15:11 on Feb 25 and the first auction claim 18:21; drops before the
+# auction belong to the previous season (the sheet already charges them).
+DEFAULT_SINCE = "2026-02-25T16:00"
+
+# Outcomes that change nothing; after an earlier decision they mean "nothing new happened".
+NOTHING_NEW = {"continues", "expiring"}
 
 
 class Command(BaseCommand):
@@ -25,7 +31,9 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument("--season", type=int, default=2026)
-        parser.add_argument("--since", default=DEFAULT_SINCE, help="Ignore moves before this date (YYYY-MM-DD)")
+        parser.add_argument(
+            "--since", default=DEFAULT_SINCE, help="Ignore moves before this Eastern time (YYYY-MM-DD[THH:MM])"
+        )
         parser.add_argument("--fantrax", default=str(Path(settings.BASE_DIR) / "data" / "fantrax" / "2026-final"))
         parser.add_argument(
             "--preview", action="store_true", help="Also show next season's commitments if every proposal is accepted"
@@ -36,35 +44,37 @@ class Command(BaseCommand):
         if not Team.objects.exists():
             raise CommandError("No league data yet; run import_league first.")
         try:
-            cutoff = datetime.combine(date.fromisoformat(since), time(), EASTERN)
+            cutoff = datetime.fromisoformat(since).replace(tzinfo=EASTERN)
         except ValueError:
-            raise CommandError(f"--since must be a date like 2026-02-25, not {since!r}") from None
+            raise CommandError(f"--since must be a time like 2026-02-25T16:00, not {since!r}") from None
         snapshot = Snapshot(Path(fantrax))
         if snapshot.season != season:
             raise CommandError(f"--season {season} doesn't match the Fantrax snapshot, which is {snapshot.season}")
         moves_by_player = {}
-        for m in snapshot.moves():
+        all_moves = snapshot.moves()
+        for m in all_moves:
             if m.when >= cutoff:
                 moves_by_player.setdefault(m.fantrax_id, []).append(m)
+        self.horizon = max((m.when for m in all_moves), default=cutoff)
         rostered = snapshot.rostered()
         teams = {t.fantrax_id: t for t in Team.objects.all()}
         names = {t["id"]: t["name"] for t in snapshot.teams}
 
         ReconciliationItem.objects.filter(season=season, status=ReconciliationItem.Status.PENDING).delete()
-        decided = set(ReconciliationItem.objects.filter(season=season).values_list("contract_id", flat=True))
+        decided = self.decided_through(season, "contract_id")
 
-        contracts = (
-            Contract.live.filter(player__fantrax_id__isnull=False)
-            .exclude(pk__in=decided)
-            .select_related("team", "player")
-        )
+        contracts = Contract.live.filter(player__fantrax_id__isnull=False).select_related("team", "player")
         created = []
         for c in contracts:
             if c.final_year < season:
                 continue
             fid = c.player.fantrax_id
             end_team = rostered[fid][0] if fid in rostered else None
-            r = replay(c.team.fantrax_id, c.final_year, moves_by_player.get(fid, []), season, end_team=end_team)
+            # Already decided: replay only what happened since, from where the decision left him.
+            moves = self.since_decision(moves_by_player.get(fid, []), decided, c.pk)
+            r = replay(c.team.fantrax_id, c.final_year, moves, season, end_team=end_team)
+            if c.pk in decided and r.outcome.value in NOTHING_NEW:
+                continue
             detail = r.detail
             for team_id, name in names.items():
                 detail = detail.replace(team_id, name)
@@ -83,22 +93,38 @@ class Command(BaseCommand):
                     fantrax_tx_ids=",".join(r.tx_ids),
                 )
             )
-        created += self.farm_items(
-            season,
-            snapshot,
-            moves_by_player,
-            teams,
-            names,
-            decided_farm=set(ReconciliationItem.objects.filter(season=season).values_list("farm_player_id", flat=True)),
-        )
+        created += self.farm_items(season, snapshot, moves_by_player, teams, names)
         created += self.cash_comment_items(season, snapshot, cutoff, teams)
+        for item in created:
+            item.through = self.horizon
         ReconciliationItem.objects.bulk_create(created)
         if options["verbosity"]:
             self.report(season)
         if options["preview"]:
             self.preview(season)
 
-    def farm_items(self, season, snapshot, moves_by_player, teams, names, decided_farm):
+    @staticmethod
+    def decided_through(season, field):
+        """Decided items' subject id -> the latest snapshot time any decision on it was based on."""
+        through = defaultdict(lambda: None)
+        decided = ReconciliationItem.objects.filter(season=season, **{f"{field}__isnull": False}).exclude(
+            status=ReconciliationItem.Status.PENDING
+        )
+        for subject, when in decided.values_list(field, "through"):
+            if through[subject] is None or (when is not None and when > through[subject]):
+                through[subject] = when
+        return dict(through)
+
+    @staticmethod
+    def since_decision(moves, decided, pk):
+        if pk not in decided:
+            return moves
+        if decided[pk] is None:
+            return []
+        return [m for m in moves if m.when > decided[pk]]
+
+    def farm_items(self, season, snapshot, moves_by_player, teams, names):
+        decided = self.decided_through(season, "farm_player_id")
         Kind = ReconciliationItem.Kind
         kinds = {
             "continues": Kind.FARM_CONTINUES,
@@ -112,7 +138,6 @@ class Command(BaseCommand):
         farm = (
             FarmPlayer.objects.filter(salary_season=season, status=FarmPlayer.Status.ACTIVE)
             .filter(player__fantrax_id__isnull=False)
-            .exclude(pk__in=decided_farm)
             .select_related("team", "player")
         )
         on_farm = set()
@@ -120,7 +145,10 @@ class Command(BaseCommand):
             fid = f.player.fantrax_id
             on_farm.add(fid)
             end = ends.get(fid)
-            r = replay_farm(f.team.fantrax_id, moves_by_player.get(fid, []), end, f.has_mlb_appearance)
+            moves = self.since_decision(moves_by_player.get(fid, []), decided, f.pk)
+            r = replay_farm(f.team.fantrax_id, moves, end, f.has_mlb_appearance)
+            if f.pk in decided and r.outcome.value in NOTHING_NEW and not r.mlb_debut:
+                continue
             detail = r.detail
             for team_id, name in names.items():
                 detail = detail.replace(team_id, name)
@@ -151,6 +179,7 @@ class Command(BaseCommand):
                 and fid not in on_farm
                 and fid not in decided_unknown
                 and not FarmPlayer.objects.filter(player__fantrax_id=fid).exists()
+                and not Contract.live.filter(player__fantrax_id=fid).exists()
             ):
                 items.append(
                     ReconciliationItem(

@@ -59,11 +59,17 @@ def test_dropped_is_released():
     assert r.outcome is FarmOutcome.RELEASED
 
 
-def test_dropped_and_claimed_elsewhere_is_released():
-    r = replay_farm(A, [mv(1, "DROP", frm=A), mv(2, "CLAIM", to=B)], minors(B), had_mlb=False)
+def test_dropped_and_claimed_onto_an_active_roster_is_released():
+    r = replay_farm(A, [mv(1, "DROP", frm=A), mv(2, "CLAIM", to=B)], EndState(B, "Active", 10), had_mlb=False)
     assert r.outcome is FarmOutcome.RELEASED
 
 
 def test_unexplained_end_state_needs_a_look():
     r = replay_farm(A, [], minors(B), had_mlb=False)
+    assert r.outcome is FarmOutcome.INCONSISTENT
+
+
+def test_released_then_back_in_a_minors_slot_needs_a_look():
+    # Farm adds are only by draft or trade, so a released player can't be re-stashed by a claim.
+    r = replay_farm(A, [mv(1, "DROP", frm=A), mv(2, "CLAIM", to=B)], minors(B), had_mlb=False)
     assert r.outcome is FarmOutcome.INCONSISTENT
