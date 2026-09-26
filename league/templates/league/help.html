@@ -108,7 +108,8 @@ done by hand outside Fantrax: contracts, buyouts, the farm system, and the aucti
 <p>Everything here is on the <a href="{% url 'console' %}">commissioner console</a> (<strong>Commish</strong> in the menu).</p>
 <ol>
   <li><strong>Take the blackout snapshot</strong> once offseason trades stop, and re-run reconciliation on it (see the
-    command line below). Decide every item. The console won't open signing while any are pending.</li>
+    command line below). Decide every item. The console won't open signing while any are pending. <em>Known gap:</em> reconcile only reads
+    snapshots of the league that just ended, not a renewed Fantrax league with a new league ID.</li>
   <li><strong>Load the rosters</strong>: <code>manage.py sync_rosters --fantrax data/fantrax/&lt;blackout&gt;</code>. Prices
     always come from the end-of-season snapshot (<code>--salaries</code>, 2026-final by default). The command lists any
     contract whose player isn't on his team's roster. That's a drop or trade reconciliation missed. Rosters can be

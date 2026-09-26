@@ -80,8 +80,12 @@ the rulebook, including decisions the rulebook doesn't spell out.
     is flagged for the commissioner instead.
   - Contracts signed now have year signed = the season just ended; buyouts
     decided now are dropped in that season (80% charged at the next auction).
-  - Each sign-and-trade contract still running next season allows its team
-    one contract over the limit.
+  - *Provisional:* each contract flagged sign-and-trade that still runs next
+    season allows its team one contract over the limit (VISION §14.6). The
+    rulebook grants the exception only for contracts acquired "via sign and
+    trade between contract sheet signing and auction", which would mean a
+    flag shouldn't carry into later signings. No effect in 2027: the only
+    flagged contract (Bryson Stott, MH) ended in 2026. To confirm.
   - *Provisional:* contract length is 1–10 years. The rulebook sets no
     maximum; the longest in the Year 19 sheet is 8.
   - *Provisional:* the auction budget left after signing can't be below $0.
