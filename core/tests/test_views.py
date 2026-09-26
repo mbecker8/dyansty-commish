@@ -1,5 +1,5 @@
-def test_home_page_renders(client):
-    response = client.get("/")
+def test_login_page_renders(client):
+    response = client.get("/auth/login")
     assert response.status_code == 200
     assert b"Dynasty Commish" in response.content
 

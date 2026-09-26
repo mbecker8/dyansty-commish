@@ -1,0 +1,15 @@
+<div class="table-wrap"><table>
+  <thead><tr>{% if show_team %}<th>Team</th>{% endif %}<th>Player</th><th class="num">Drafted</th><th class="num">Salary</th><th>MLB time</th><th class="num">Cost to keep for {{ next_season }}</th></tr></thead>
+  <tbody>
+  {% for row in rows %}{% with f=row.farm %}
+    <tr>
+      {% if show_team %}<td><a href="{% url 'team' f.team.code %}">{{ f.team.code }}</a></td>{% endif %}
+      <td>{{ f.player.name }}</td>
+      <td class="num">{{ f.drafted_year }}</td>
+      <td class="num">${{ f.salary }}</td>
+      <td>{% if f.has_mlb_appearance %}yes{% else %}<span class="muted">no</span>{% endif %}</td>
+      <td class="num">${{ row.keep }}</td>
+    </tr>
+  {% endwith %}{% empty %}<tr><td colspan="6" class="muted">None.</td></tr>{% endfor %}
+  </tbody>
+</table></div>

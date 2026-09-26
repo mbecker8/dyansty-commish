@@ -9,6 +9,8 @@ cd "$(dirname "$0")/.."
 
 export DATABASE_URL="sqlite:///$PWD/review.sqlite3"
 export DJANGO_DEBUG=1
+# Discord sign-in: DISCORD_CLIENT_ID / DISCORD_CLIENT_SECRET (gitignored).
+if [ -f secrets/discord.env ]; then set -a; . secrets/discord.env; set +a; fi
 
 uv sync --quiet
 uv run python manage.py migrate --verbosity 0
@@ -23,5 +25,5 @@ if [ "$(uv run python manage.py shell --no-imports -c 'from django.contrib.auth.
   uv run python manage.py createsuperuser
 fi
 
-echo "Review at http://127.0.0.1:8000/admin/league/reconciliationitem/"
+echo "League pages: http://127.0.0.1:8000/   Reconciliation: http://127.0.0.1:8000/admin/league/reconciliationitem/"
 exec uv run python manage.py runserver 127.0.0.1:8000

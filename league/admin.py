@@ -10,6 +10,16 @@ class TeamAdmin(admin.ModelAdmin):
     list_display = ["code", "name", "fantrax_id"]
 
 
+@admin.register(models.Manager)
+class ManagerAdmin(admin.ModelAdmin):
+    """Link a person to a team. They can sign in once their Discord ID is here."""
+
+    list_display = ["name", "team", "discord_username", "discord_id", "user"]
+    list_filter = ["team"]
+    search_fields = ["name", "discord_username", "discord_id"]
+    readonly_fields = ["discord_username", "user"]
+
+
 @admin.register(models.Player)
 class PlayerAdmin(admin.ModelAdmin):
     list_display = ["name", "fantrax_id", "positions"]

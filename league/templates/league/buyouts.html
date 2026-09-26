@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Buyouts · Dynasty Commish{% endblock %}
+{% block content %}
+<h1>Buyouts</h1>
+<p class="muted">80% of the annual price for the first unpaid year, then 70%, 60%, … Owed by the team holding the contract when he was dropped.</p>
+{% include "league/_buyouts_table.html" with show_team=True %}
+{% endblock %}

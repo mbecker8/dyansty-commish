@@ -32,6 +32,24 @@ class TeamAlias(models.Model):
         return self.alias
 
 
+class Manager(models.Model):
+    """A person who runs a team. The commissioner creates these and links them to Discord accounts."""
+
+    team = models.ForeignKey(Team, on_delete=models.PROTECT, related_name="managers")
+    name = models.CharField(max_length=100)
+    discord_id = models.CharField(
+        max_length=32, unique=True, null=True, blank=True, help_text="Discord user ID (numeric), not the username"
+    )
+    discord_username = models.CharField(max_length=100, blank=True, help_text="Last seen at sign-in")
+    user = models.OneToOneField("auth.User", on_delete=models.SET_NULL, null=True, blank=True, related_name="manager")
+
+    class Meta:
+        ordering = ["team", "name"]
+
+    def __str__(self):
+        return f"{self.name} ({self.team.code})"
+
+
 class Player(models.Model):
     name = models.CharField(max_length=100)
     fantrax_id = models.CharField(max_length=16, unique=True, null=True, blank=True)
