@@ -2184,5 +2184,523 @@
     }
    ]
   }
+ },
+ "cash_trades": [
+  {
+   "from": "DAWSYN",
+   "to": "Becker's Wreckers",
+   "amount": 5,
+   "note": "Olson"
+  },
+  {
+   "from": "Metro",
+   "to": "Brockasaurus",
+   "amount": 2,
+   "note": "Gaddis"
+  },
+  {
+   "from": "Tradezilla",
+   "to": "Brockasaurus",
+   "amount": 8,
+   "note": "Vladdy"
+  },
+  {
+   "from": "DAWSYN",
+   "to": "Cliff Lee",
+   "amount": 5,
+   "note": "Iglesias"
+  },
+  {
+   "from": "JMoney",
+   "to": "Cliff Lee",
+   "amount": 11,
+   "note": "Bellinger"
+  },
+  {
+   "from": "Tradezilla",
+   "to": "Cliff Lee",
+   "amount": 5,
+   "note": "Bogaerts"
+  },
+  {
+   "from": "Minor Legalities",
+   "to": "DAWSYN",
+   "amount": 75,
+   "note": "Pick"
+  },
+  {
+   "from": "DAWSYN",
+   "to": "JMoney",
+   "amount": 10,
+   "note": "Altuve"
+  },
+  {
+   "from": "Shag Dawgs",
+   "to": "JMoney",
+   "amount": 10,
+   "note": "Rodon"
+  },
+  {
+   "from": "Stat Sandwich",
+   "to": "JMoney",
+   "amount": 11,
+   "note": "Bellinger"
+  },
+  {
+   "from": "DAWSYN",
+   "to": "Minor Legalities",
+   "amount": 10,
+   "note": "Yordan"
+  },
+  {
+   "from": "DAWSYN",
+   "to": "Minor Legalities",
+   "amount": 10,
+   "note": "Pages"
+  },
+  {
+   "from": "Stat Sandwich",
+   "to": "Minor Legalities",
+   "amount": 5,
+   "note": "Kopech"
+  },
+  {
+   "from": "Stat Sandwich",
+   "to": "Minor Legalities",
+   "amount": 3,
+   "note": "Gausman"
+  },
+  {
+   "from": "Tradezilla",
+   "to": "Minor Legalities",
+   "amount": 3,
+   "note": "Manoah"
+  },
+  {
+   "from": "Tradezilla",
+   "to": "Nygaardians",
+   "amount": 3,
+   "note": "Doval"
+  },
+  {
+   "from": "Tradezilla",
+   "to": "Sabermutrics",
+   "amount": 5,
+   "note": "Cease"
+  },
+  {
+   "from": "Brockasaurus",
+   "to": "Tradezilla",
+   "amount": 7,
+   "note": "Pepiot"
+  },
+  {
+   "from": "Cliff Lee",
+   "to": "Tradezilla",
+   "amount": 5,
+   "note": "Kurtz"
+  },
+  {
+   "from": "DAWSYN",
+   "to": "Tradezilla",
+   "amount": 8,
+   "note": "Duran"
+  },
+  {
+   "from": "Dumpster Fire",
+   "to": "Tradezilla",
+   "amount": 7,
+   "note": "Jung"
+  },
+  {
+   "from": "Dumpster Fire",
+   "to": "Tradezilla",
+   "amount": 5,
+   "note": "Fedde"
+  },
+  {
+   "from": "Metro",
+   "to": "Tradezilla",
+   "amount": 5,
+   "note": "JD Martinez"
+  },
+  {
+   "from": "Metro",
+   "to": "Tradezilla",
+   "amount": 9,
+   "note": "Toglia"
+  },
+  {
+   "from": "Minor Legalities",
+   "to": "Tradezilla",
+   "amount": 10,
+   "note": "?"
+  },
+  {
+   "from": "Minor Legalities",
+   "to": "Tradezilla",
+   "amount": 3,
+   "note": "Williams"
+  },
+  {
+   "from": "Sabermutrics",
+   "to": "Tradezilla",
+   "amount": 6,
+   "note": "Morel/Degrom"
+  },
+  {
+   "from": "Sabermutrics",
+   "to": "Tradezilla",
+   "amount": 14,
+   "note": "Witt"
+  },
+  {
+   "from": "Shag Dawgs",
+   "to": "Tradezilla",
+   "amount": 5,
+   "note": "Happ"
+  },
+  {
+   "from": "Stat Sandwich",
+   "to": "Tradezilla",
+   "amount": 4,
+   "note": "Ben Joyce"
+  },
+  {
+   "from": "DAWSYN",
+   "to": "Winning DeLautery",
+   "amount": 10,
+   "note": "Pena"
+  },
+  {
+   "from": "Tradezilla",
+   "to": "Winning DeLautery",
+   "amount": 6,
+   "note": "Helsley"
+  },
+  {
+   "from": "Nygaardians",
+   "to": "Minor Legalities",
+   "amount": 6,
+   "note": "Lawler"
+  },
+  {
+   "from": "Shag Dawgs",
+   "to": "minor Legalities",
+   "amount": 5,
+   "note": "Cam Smith/Gelof"
+  },
+  {
+   "from": "JMoney",
+   "to": "Stat Sandwich",
+   "amount": 5,
+   "note": "Noelvi Marte"
+  },
+  {
+   "from": "Cliff Lee",
+   "to": "Stat Sandwich",
+   "amount": 9,
+   "note": "Chapman"
+  },
+  {
+   "from": "Minor Legalities",
+   "to": "Tradezilla",
+   "amount": 6,
+   "note": "Justin Steele"
+  }
+ ],
+ "cash_totals": {
+  "AC": -12,
+  "AW": -52,
+  "BL": 3,
+  "CN": -3,
+  "CS": -20,
+  "DC": 7,
+  "DM": -9,
+  "EP": 16,
+  "JJ": -16,
+  "JM": 15,
+  "MB": 5,
+  "MH": -15,
+  "MT": 64,
+  "SM": 17
+ },
+ "dropped_contracts": [
+  {
+   "player": "Jurickson Profar",
+   "expires": 2026,
+   "team": "Becker"
+  },
+  {
+   "player": "Tyler O'Neil",
+   "expires": 2025,
+   "team": "Becker"
+  },
+  {
+   "player": "Gavin Williams",
+   "expires": 2026,
+   "team": "DAWSYN"
+  },
+  {
+   "player": "Luis Castillo",
+   "expires": 2025,
+   "team": "DAWSYN"
+  },
+  {
+   "player": "Alec Bohm",
+   "expires": 2025,
+   "team": "DAWSYN"
+  },
+  {
+   "player": "Nolan Jones",
+   "expires": 2026,
+   "team": "Dumpster Fire"
+  },
+  {
+   "player": "Dustin May",
+   "expires": 2025,
+   "team": "Dumpster Fire"
+  },
+  {
+   "player": "Evan Carter",
+   "expires": 2027,
+   "team": "Sabermutrics"
+  },
+  {
+   "player": "Christian Encarnacion Strand",
+   "expires": 2028,
+   "team": "Sabermutrics"
+  },
+  {
+   "player": "Ryan Walker",
+   "expires": 2026,
+   "team": "Shag Dawgs"
+  },
+  {
+   "player": "Tanner Bibee",
+   "expires": 2025,
+   "team": "Shag Dawgs"
+  },
+  {
+   "player": "Luiz Arraez",
+   "expires": 2025,
+   "team": "Stat Sandwich"
+  },
+  {
+   "player": "Bo Naylor",
+   "expires": 2026,
+   "team": "Tradezilla"
+  },
+  {
+   "player": "Bobby Miller",
+   "expires": 2027,
+   "team": "Tradezilla"
+  },
+  {
+   "player": "Michael Toglia",
+   "expires": 2027,
+   "team": "Tradezilla"
+  }
+ ],
+ "farm_draft": {
+  "tab": "Farm Draft 2025",
+  "picks": [
+   {
+    "place": 7,
+    "standings_team": "Sabermutrics",
+    "owner": "Sabermutrics",
+    "order": 1,
+    "pick": null
+   },
+   {
+    "place": 9,
+    "standings_team": "JMoney",
+    "owner": "JMoney",
+    "order": 2,
+    "pick": null
+   },
+   {
+    "place": 11,
+    "standings_team": "Nygaardians",
+    "owner": "JMoney",
+    "order": 3,
+    "pick": null
+   },
+   {
+    "place": 8,
+    "standings_team": "Brockasaurus",
+    "owner": "Minor Legalities",
+    "order": 4,
+    "pick": null
+   },
+   {
+    "place": 10,
+    "standings_team": "Cliff Lee Was Here",
+    "owner": "Cliff Lee Was Here",
+    "order": 5,
+    "pick": null
+   },
+   {
+    "place": 12,
+    "standings_team": "Winning DeLautery",
+    "owner": "Winning DeLautery",
+    "order": 6,
+    "pick": null
+   },
+   {
+    "place": 13,
+    "standings_team": "Becker's Wreckers",
+    "owner": "Becker's Wreckers",
+    "order": 7,
+    "pick": null
+   },
+   {
+    "place": 5,
+    "standings_team": "Tradezilla",
+    "owner": "Cliff Lee Was Here",
+    "order": 8,
+    "pick": null
+   },
+   {
+    "place": 4,
+    "standings_team": "DAWSYN",
+    "owner": "Minor Legalities",
+    "order": 9,
+    "pick": null
+   },
+   {
+    "place": 6,
+    "standings_team": "Dumpster Fire",
+    "owner": "Dumpster Fire",
+    "order": 10,
+    "pick": null
+   },
+   {
+    "place": 14,
+    "standings_team": "Minor Legalities",
+    "owner": "Minor Legalities",
+    "order": 11,
+    "pick": null
+   },
+   {
+    "place": 3,
+    "standings_team": "Metropolitans",
+    "owner": "DAWSYN",
+    "order": 12,
+    "pick": null
+   },
+   {
+    "place": 2,
+    "standings_team": "Shag Dawgs",
+    "owner": "DAWSYN",
+    "order": 13,
+    "pick": null
+   },
+   {
+    "place": 1,
+    "standings_team": "Stat Sandwich",
+    "owner": "JMoney",
+    "order": 14,
+    "pick": null
+   },
+   {
+    "place": 7,
+    "standings_team": "Sabermutrics",
+    "owner": "Brockasaurus",
+    "order": 15,
+    "pick": null
+   },
+   {
+    "place": 9,
+    "standings_team": "JMoney",
+    "owner": "Tradezilla",
+    "order": 16,
+    "pick": null
+   },
+   {
+    "place": 11,
+    "standings_team": "Nygaardians",
+    "owner": "Nygaardians",
+    "order": 17,
+    "pick": null
+   },
+   {
+    "place": 8,
+    "standings_team": "Brockasaurus",
+    "owner": "Nygaardians",
+    "order": 18,
+    "pick": null
+   },
+   {
+    "place": 10,
+    "standings_team": "Cliff Lee Was Here",
+    "owner": "Cliff Lee Was Here",
+    "order": 19,
+    "pick": null
+   },
+   {
+    "place": 12,
+    "standings_team": "Winning DeLautery",
+    "owner": "Winning DeLautery",
+    "order": 20,
+    "pick": null
+   },
+   {
+    "place": 13,
+    "standings_team": "Becker's Wreckers",
+    "owner": "Becker's Wreckers",
+    "order": 21,
+    "pick": null
+   },
+   {
+    "place": 5,
+    "standings_team": "Tradezilla",
+    "owner": "Winning DeLautery",
+    "order": 22,
+    "pick": null
+   },
+   {
+    "place": 4,
+    "standings_team": "DAWSYN",
+    "owner": "Minor Legalities",
+    "order": 23,
+    "pick": null
+   },
+   {
+    "place": 6,
+    "standings_team": "Dumpster Fire",
+    "owner": "Minor Legalities",
+    "order": 24,
+    "pick": null
+   },
+   {
+    "place": 14,
+    "standings_team": "Minor Legalities",
+    "owner": "Minor Legalities",
+    "order": 25,
+    "pick": null
+   },
+   {
+    "place": 3,
+    "standings_team": "Metropolitans",
+    "owner": "Minor Legalities",
+    "order": 26,
+    "pick": null
+   },
+   {
+    "place": 2,
+    "standings_team": "Shag Dawgs",
+    "owner": "Minor Legalities",
+    "order": 27,
+    "pick": null
+   },
+   {
+    "place": 1,
+    "standings_team": "Stat Sandwich",
+    "owner": "Minor Legalities",
+    "order": 28,
+    "pick": null
+   }
+  ]
  }
 }

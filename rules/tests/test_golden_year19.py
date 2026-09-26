@@ -14,7 +14,7 @@ from rules.budget import compute_budget
 from rules.buyouts import buyout_schedule
 from rules.contracts import Contract
 
-FIXTURE = json.loads((Path(__file__).parent / "fixtures" / "year19_post_signing.json").read_text())
+FIXTURE = json.loads((Path(__file__).parents[2] / "data" / "league" / "year19_post_signing.json").read_text())
 TEAMS = FIXTURE["teams"]
 
 # (team, budget component) -> (engine minus sheet, explanation)

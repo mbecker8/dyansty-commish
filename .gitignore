@@ -16,3 +16,6 @@ staticfiles/
 db.sqlite3
 
 .DS_Store
+
+# Claude Code worktrees (separate checkouts)
+.claude/worktrees/

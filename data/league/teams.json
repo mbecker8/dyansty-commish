@@ -1,0 +1,19 @@
+{
+ "_comment": "Franchises. code = team-tab code in the contract sheet. aliases = every other name the sheet or Fantrax comments use (old names, nicknames, old codes, manager first names). Mapping to Fantrax verified by roster overlap on 2026-09-26.",
+ "teams": [
+  {"code": "AC", "fantrax_id": "ca14h0lmmgdm4611", "name": "Dumpster Fire", "aliases": ["Dumpster Fires", "Alan"]},
+  {"code": "AG", "fantrax_id": "zh1qriiemgdm4614", "name": "Big Beautiful Baseball Team", "aliases": ["EP", "Winning DeLautery", "Winning De", "Andy", "Evan"]},
+  {"code": "AW", "fantrax_id": "s872idxcmgdm4617", "name": "Minor Legalities", "aliases": ["Minor", "Fish"]},
+  {"code": "BL", "fantrax_id": "lqwmepsrmgdm4616", "name": "Brockasauras", "aliases": ["Brockasaurus", "Brock"]},
+  {"code": "CN", "fantrax_id": "o519bpjumgdm4615", "name": "nygaardians", "aliases": ["Nygaardians", "Chris N"]},
+  {"code": "CS", "fantrax_id": "gvud812qmgdm460w", "name": "Shag Dawgs", "aliases": ["Chris S"]},
+  {"code": "DC", "fantrax_id": "lu612taqmgdm4612", "name": "Cliff Lee Was Here.", "aliases": ["Cliff Lee Was Here", "Cliff Lee", "Devin"]},
+  {"code": "JJ", "fantrax_id": "ukiajd5dmgdm460u", "name": "Metropolitans", "aliases": ["metropolitans", "Metro", "Jon"]},
+  {"code": "JM", "fantrax_id": "ebimnmrmmgdm4610", "name": "JMoney", "aliases": ["John"]},
+  {"code": "KJ", "fantrax_id": "ofa8r5comgdm460x", "name": "Stat Sandwich", "aliases": ["DM", "Kevin"]},
+  {"code": "MB", "fantrax_id": "6wjoojsemgdm460y", "name": "beKCer's trainwreKCers", "aliases": ["Becker's Wreckers", "Beckers Wreckers", "Becker", "Matt"]},
+  {"code": "MH", "fantrax_id": "mfo4w3xsmgdm4618", "name": "Sabermutrics", "aliases": ["sabermutrics", "Mu"]},
+  {"code": "MT", "fantrax_id": "aqg1e3nlmgdm4615", "name": "Tradezilla", "aliases": ["Mo"]},
+  {"code": "SM", "fantrax_id": "m84gn4f4mgdm460z", "name": "Dr Andrews Will See You Now", "aliases": ["DAWSYN", "Dawsyn", "Steve"]}
+ ]
+}

@@ -2,7 +2,8 @@
 
 Usage: uv run python scripts/extract_workbook_fixture.py <workbook.xlsx> <out.json>
 
-Reads only the team tabs (never Contact Info). Blocks are located by their
+Reads the team tabs and the Draft budget calc, Dropped Contracts and Farm
+Draft tabs. Never reads Contact Info. Blocks are located by their
 labels, not fixed cells, because the tabs have drifted apart. Values are the
 sheet's cached results, so the export must come straight from Google Sheets.
 """
@@ -86,6 +87,50 @@ def team(ws) -> dict:
     return out
 
 
+def rows_below(ws, header: str, col: int = 1):
+    """Yield row numbers after the row whose column `col` equals `header`, until a blank row."""
+    start = next((r for r in range(1, ws.max_row + 1) if text(ws.cell(r, col).value) == header), None)
+    if start is None:
+        raise ValueError(f"{ws.title}: no '{header}' header")
+    r = start + 1
+    while text(ws.cell(r, col).value) not in (None, ""):
+        yield r
+        r += 1
+
+
+def side_tabs(wb) -> dict:
+    cell = lambda ws, r, c: text(ws.cell(r, c).value)  # noqa: E731
+    ws = wb["Draft budget calc"]
+    cash_trades = [
+        {"from": cell(ws, r, 1), "to": cell(ws, r, 2), "amount": cell(ws, r, 3), "note": cell(ws, r, 4)}
+        for r in rows_below(ws, "Team losing money")
+    ]
+    cash_totals = {cell(ws, r, 1): cell(ws, r, 3) for r in rows_below(ws, "Initials")}
+    ws = wb["Dropped Contracts"]
+    dropped = [
+        {"player": cell(ws, r, 2), "expires": cell(ws, r, 3), "team": cell(ws, r, 4)}
+        for r in rows_below(ws, "Player", col=2)
+    ]
+    farm_tab = next(n for n in wb.sheetnames if n.startswith("Farm Draft"))
+    ws = wb[farm_tab]
+    farm_draft = [
+        {
+            "place": cell(ws, r, 1),
+            "standings_team": cell(ws, r, 2),
+            "owner": cell(ws, r, 3),
+            "order": cell(ws, r, 4),
+            "pick": cell(ws, r, 6),
+        }
+        for r in rows_below(ws, "Place")
+    ]
+    return {
+        "cash_trades": cash_trades,
+        "cash_totals": cash_totals,
+        "dropped_contracts": dropped,
+        "farm_draft": {"tab": farm_tab, "picks": farm_draft},
+    }
+
+
 def main(src: str, dest: str) -> None:
     wb = openpyxl.load_workbook(src, data_only=True)
     teams = {}
@@ -93,7 +138,7 @@ def main(src: str, dest: str) -> None:
         if m := TEAM_TAB.match(name):
             teams[m.group(1)] = team(wb[name])
     with open(dest, "w") as f:
-        json.dump({"source": src.rsplit("/", 1)[-1], "teams": teams}, f, indent=1, default=str)
+        json.dump({"source": src.rsplit("/", 1)[-1], "teams": teams, **side_tabs(wb)}, f, indent=1, default=str)
     for code, t in teams.items():
         print(code, len(t["contracts"]), "contracts", len(t["buyouts"]), "buyouts", len(t["farm"]), "farm", t["budget"])
 
