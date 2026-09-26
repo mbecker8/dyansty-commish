@@ -1,0 +1,18 @@
+# Secrets (Fantrax cookie, env files) — never commit
+secrets/
+.env
+*.cookie
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# Django
+staticfiles/
+db.sqlite3
+
+.DS_Store
