@@ -64,3 +64,13 @@ def test_rerun_replaces_pending_items(reconciled):
     n = ReconciliationItem.objects.count()
     call_command("reconcile", verbosity=0)
     assert ReconciliationItem.objects.count() == n
+
+
+def test_trade_comments_about_cash_are_listed_for_manual_entry(reconciled):
+    comments = ReconciliationItem.objects.filter(kind=Kind.CASH_COMMENT)
+    texts = sorted(i.detail for i in comments)
+    assert len(texts) == 3
+    assert any("$5 2027 budget to Devin" in t for t in texts)
+    assert all("DC" in t or "MT" in t or "AW" in t for t in texts)
+    with pytest.raises(ValueError):
+        comments.first().accept()

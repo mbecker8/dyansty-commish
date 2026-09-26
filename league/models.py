@@ -159,6 +159,7 @@ class ReconciliationItem(models.Model):
         FARM_RELEASED = "farm_released", "Farm: released"
         FARM_INCONSISTENT = "farm_inconsistent", "Farm: needs a look"
         FARM_UNKNOWN = "farm_unknown", "Farm: in Fantrax minors but not on the sheet"
+        CASH_COMMENT = "cash_comment", "Trade comment mentioning cash (enter a CashTrade by hand)"
 
     class Status(models.TextChoices):
         PENDING = "pending"
@@ -188,7 +189,7 @@ class ReconciliationItem(models.Model):
         ordering = ["kind", "contract__team__code"]
 
     def __str__(self):
-        return f"{self.get_kind_display()}: {self.contract or self.farm_player or self.player}"
+        return f"{self.get_kind_display()}: {self.contract or self.farm_player or self.player or self.detail}"
 
     def accept(self, note: str = ""):
         """Apply the proposed change."""
@@ -203,7 +204,12 @@ class ReconciliationItem(models.Model):
         elif self.kind == self.Kind.TRADED:
             self.contract.team = self.team
             self.contract.save(update_fields=["team"])
-        elif self.kind in (self.Kind.INCONSISTENT, self.Kind.FARM_INCONSISTENT, self.Kind.FARM_UNKNOWN):
+        elif self.kind in (
+            self.Kind.INCONSISTENT,
+            self.Kind.FARM_INCONSISTENT,
+            self.Kind.FARM_UNKNOWN,
+            self.Kind.CASH_COMMENT,
+        ):
             raise ValueError("This item must be fixed by hand, then rejected with a note")
         elif self.farm_player_id:
             farm = self.farm_player

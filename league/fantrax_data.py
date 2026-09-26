@@ -100,6 +100,20 @@ class Snapshot:
                         out[row["scorer"]["scorerId"]] = (team_id, status, int(float(games)))
         return out
 
+    def trade_comments(self) -> list[tuple[str, datetime, set[str], str]]:
+        """(trade id, date, team ids involved, comment) for trades with a commissioner comment."""
+        teams, dates, comments = defaultdict(set), {}, {}
+        for row in self.trades["table"]["rows"]:
+            cells = {c["key"]: c for c in row["cells"]}
+            tx = row["txSetId"]
+            teams[tx] |= {cells[k]["teamId"] for k in ("from", "to") if k in cells}
+            if "date" in cells:
+                dates[tx] = parse_fantrax_date(cells["date"]["content"])
+            if row["result"].get("props", {}).get("comment"):
+                text = re.sub(r"<[^>]+>", " ", row["result"]["content"])
+                comments[tx] = re.sub(r"\s+", " ", text.replace("Executed", "", 1)).strip()
+        return [(tx, dates[tx], teams[tx], text) for tx, text in comments.items()]
+
     def rostered(self) -> dict[str, tuple[str, dict]]:
         """Fantrax player id -> (team id, roster row) at snapshot time."""
         return {row["scorer"]["scorerId"]: (team_id, row) for team_id, row in self.roster_rows()}
