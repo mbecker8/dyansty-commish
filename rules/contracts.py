@@ -25,7 +25,7 @@ def annual_price(original_price: int, length: int, year_signed: int) -> int:
 
 @dataclass(frozen=True)
 class Contract:
-    player: str
+    player_id: str  # opaque key (Fantrax player ID); names aren't unique
     original_price: int
     year_signed: int
     length: int

@@ -25,8 +25,8 @@ def validate_signing(
     next_season = after_season + 1
     for c in new:
         if c.year_signed != after_season:
-            errors.append(f"{c.player}: new contracts must be signed in {after_season}, not {c.year_signed}")
-    for player, n in Counter(c.player for c in new).items():
+            errors.append(f"{c.player_id}: new contracts must be signed in {after_season}, not {c.year_signed}")
+    for player, n in Counter(c.player_id for c in new).items():
         if n > 1:
             errors.append(f"{player} is signed {n} times")
     active = [c for c in [*existing, *new] if c.covers(next_season)]

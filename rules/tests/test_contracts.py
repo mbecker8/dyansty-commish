@@ -35,7 +35,7 @@ class TestAnnualPrice:
 
 class TestContractTerm:
     # Royce Lewis: signed after the 2024 season for 3 years -> plays 2025-2027.
-    lewis = Contract(player="Royce Lewis", original_price=9, year_signed=2024, length=3)
+    lewis = Contract(player_id="Royce Lewis", original_price=9, year_signed=2024, length=3)
 
     def test_final_year_is_inclusive(self):
         assert self.lewis.final_year == 2027

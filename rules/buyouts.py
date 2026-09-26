@@ -20,7 +20,7 @@ def buyout_schedule(contract: Contract, dropped_in_season: int) -> dict[int, int
     """Penalty owed per season, keyed by the season whose budget it's charged to."""
     if not contract.year_signed <= dropped_in_season <= contract.final_year:
         raise ValueError(
-            f"{contract.player}: drop season {dropped_in_season} is outside the contract "
+            f"{contract.player_id}: drop season {dropped_in_season} is outside the contract "
             f"({contract.year_signed} signing, final year {contract.final_year})"
         )
     schedule = {}

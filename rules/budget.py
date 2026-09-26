@@ -37,18 +37,18 @@ def compute_budget(
     """Budget for the auction before `season`.
 
     buyouts: (contract, season it was dropped in) pairs.
-    farm_salaries: retained farm players and their salary for `season`.
+    farm_salaries: retained farm players (by player ID) and their salary for `season`.
     cash_net: offseason cash received minus cash sent.
     """
     lines = []
     for c in contracts:
         if cost := c.cost_for_season(season):
-            lines.append(("contract", c.player, cost))
+            lines.append(("contract", c.player_id, cost))
     for c, dropped_in in buyouts:
         if penalty := buyout_schedule(c, dropped_in).get(season, 0):
-            lines.append(("buyout", c.player, penalty))
-    for name, salary in (farm_salaries or {}).items():
-        lines.append(("farm", name, salary))
+            lines.append(("buyout", c.player_id, penalty))
+    for player_id, salary in (farm_salaries or {}).items():
+        lines.append(("farm", player_id, salary))
     missed_ip = list(missed_ip_penalties)
 
     def total(kind):
