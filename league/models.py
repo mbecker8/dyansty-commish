@@ -49,6 +49,16 @@ class Manager(models.Model):
     def __str__(self):
         return f"{self.name} ({self.team.code})"
 
+    def save(self, *args, **kwargs):
+        # A new Discord ID is a new person: drop the old sign-in account's link to this team.
+        if self.pk and self.user_id:
+            old = Manager.objects.filter(pk=self.pk).values_list("discord_id", flat=True).first()
+            if old != self.discord_id:
+                self.user = None
+                if kwargs.get("update_fields") is not None:
+                    kwargs["update_fields"] = {*kwargs["update_fields"], "user"}
+        super().save(*args, **kwargs)
+
 
 class Player(models.Model):
     name = models.CharField(max_length=100)

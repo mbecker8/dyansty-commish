@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h1>You're not linked to a team</h1>
+  <p>Your account isn't linked to a team in the league (any more). Ask the commissioner to link your Discord account.</p>
+  <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button type="submit">Sign out</button></form>
+</div>
+{% endblock %}

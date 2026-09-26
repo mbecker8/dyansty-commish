@@ -28,9 +28,13 @@ def fetch_identity(code: str, redirect_uri: str) -> dict:
         )
         if token.status_code != 200:
             raise DiscordError(f"token exchange failed ({token.status_code})")
-        me = requests.get(ME_URL, headers={"Authorization": f"Bearer {token.json()['access_token']}"}, timeout=TIMEOUT)
+        access_token = token.json()["access_token"]
+        me = requests.get(ME_URL, headers={"Authorization": f"Bearer {access_token}"}, timeout=TIMEOUT)
         if me.status_code != 200:
             raise DiscordError(f"identity lookup failed ({me.status_code})")
-    except requests.RequestException as e:
-        raise DiscordError(str(e)) from e
-    return me.json()
+        identity = me.json()
+        if not str(identity.get("id", "")).isdigit():
+            raise DiscordError("identity has no user id")
+    except (requests.RequestException, ValueError, KeyError, TypeError, AttributeError) as e:
+        raise DiscordError(f"unexpected response: {e!r}") from e
+    return identity

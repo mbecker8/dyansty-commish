@@ -25,8 +25,8 @@ def league():
 
 @pytest.fixture
 def manager_client(league, client):
-    user = User.objects.create_user("matt")
-    Manager.objects.create(team=Team.objects.get(code="MB"), name="Matt", user=user)
+    user = User.objects.create_user("discord-123")
+    Manager.objects.create(team=Team.objects.get(code="MB"), name="Matt", discord_id="123", user=user)
     client.force_login(user)
     return client
 

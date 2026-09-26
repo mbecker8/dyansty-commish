@@ -3,9 +3,9 @@
 from collections import defaultdict
 
 from django.conf import settings
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
+from league.access import is_league_member, member_required
 from league.budget import team_budget
 from league.models import Buyout, CashTrade, Contract, FarmPick, FarmPlayer, Team
 from rules.buyouts import buyout_schedule
@@ -20,7 +20,7 @@ def home(request):
     if not request.user.is_authenticated:
         return redirect("login")
     manager = getattr(request.user, "manager", None)
-    if manager is not None:
+    if manager is not None and is_league_member(request.user):
         return redirect("team", code=manager.team.code)
     return redirect("teams")
 
@@ -58,13 +58,13 @@ def farm_rows(farm):
     return [{"farm": f, "keep": retained_salary(f.salary, f.has_mlb_appearance)} for f in farm]
 
 
-@login_required
+@member_required
 def teams(request):
     rows = [{"team": t, "budget": team_budget(t, next_season())} for t in Team.objects.prefetch_related("managers")]
     return render(request, "league/teams.html", {"teams": rows})
 
 
-@login_required
+@member_required
 def team(request, code):
     team = get_object_or_404(Team, code=code.upper())
     season = next_season()
@@ -91,26 +91,26 @@ def team(request, code):
     )
 
 
-@login_required
+@member_required
 def contracts(request):
     season = next_season()
     live = Contract.live.select_related("player", "team").order_by("team__code", "player__name")
     return render(request, "league/contracts.html", {"rows": contract_rows(c for c in live if c.final_year >= season)})
 
 
-@login_required
+@member_required
 def buyouts(request):
     all_buyouts = Buyout.objects.select_related("contract__player", "team").order_by("team__code")
     return render(request, "league/buyouts.html", {"rows": buyout_rows(all_buyouts)})
 
 
-@login_required
+@member_required
 def farm(request):
     active = FarmPlayer.objects.filter(status=FarmPlayer.Status.ACTIVE).select_related("player", "team")
     return render(request, "league/farm.html", {"rows": farm_rows(active.order_by("team__code", "player__name"))})
 
 
-@login_required
+@member_required
 def picks(request):
     by_year = defaultdict(list)
     for p in FarmPick.objects.select_related("original_team", "owner").order_by("year", "round", "original_team__code"):
@@ -119,7 +119,7 @@ def picks(request):
     return render(request, "league/picks.html", {"rows": rows})
 
 
-@login_required
+@member_required
 def cash(request):
     trades = CashTrade.objects.select_related("from_team", "to_team").order_by("-budget_season", "from_team__code")
     return render(request, "league/cash.html", {"trades": trades})

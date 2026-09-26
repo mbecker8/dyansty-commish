@@ -136,3 +136,61 @@ def test_discord_outage_shows_an_error_not_a_crash(client, team):
     with mock.patch("accounts.discord.fetch_identity", side_effect=DiscordError("down")):
         response = client.get("/auth/discord/callback", {"code": "abc", "state": state})
     assert response.status_code == 502 and "_auth_user_id" not in client.session
+
+
+def sign_in(client, user_id=DISCORD_ID):
+    state = start_login(client)["state"][0]
+    with discord_says(user_id=user_id):
+        return client.get("/auth/discord/callback", {"code": "abc", "state": state})
+
+
+def test_changing_a_managers_discord_id_does_not_hand_over_the_old_account(client, team):
+    manager = Manager.objects.create(team=team, discord_id=DISCORD_ID, name="Matt")
+    sign_in(client)
+    old = Manager.objects.get(pk=manager.pk).user
+    old.is_staff = True
+    old.save()
+    client.post("/auth/logout")
+    manager.refresh_from_db()
+    manager.discord_id = "555"
+    manager.save()
+    sign_in(client, user_id="555")
+    new_user = Manager.objects.get(pk=manager.pk).user
+    assert new_user.pk != old.pk and not new_user.is_staff
+    assert client.get("/admin/").status_code == 302
+
+
+def test_unlinked_manager_loses_access_on_the_next_page(client, team):
+    manager = Manager.objects.create(team=team, discord_id=DISCORD_ID, name="Matt")
+    sign_in(client)
+    assert client.get("/contracts/").status_code == 200
+    manager.discord_id = None
+    manager.save()
+    assert client.get("/contracts/").status_code == 403
+
+
+def test_deleted_manager_loses_access(client, team):
+    manager = Manager.objects.create(team=team, discord_id=DISCORD_ID, name="Matt")
+    sign_in(client)
+    manager.delete()
+    assert client.get("/contracts/").status_code == 403
+
+
+def test_relinking_a_deleted_manager_signs_in_again(client, team):
+    Manager.objects.create(team=team, discord_id=DISCORD_ID, name="Matt")
+    sign_in(client)
+    client.post("/auth/logout")
+    Manager.objects.get(discord_id=DISCORD_ID).delete()
+    Manager.objects.create(team=team, discord_id=DISCORD_ID, name="Matt")
+    assert sign_in(client).status_code == 302  # was a 500 on the leftover discord-<id> username
+    assert client.get("/contracts/").status_code == 200
+
+
+def test_staff_without_a_team_can_see_league_pages(client, team):
+    client.force_login(User.objects.create_user("commish", is_staff=True))
+    assert client.get("/contracts/").status_code == 200
+
+
+def test_signed_in_user_without_a_manager_is_refused(client, team):
+    client.force_login(User.objects.create_user("stranger"))
+    assert client.get("/contracts/").status_code == 403

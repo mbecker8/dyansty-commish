@@ -10,6 +10,7 @@ from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_GET, require_POST
 
 from accounts import discord
+from league.access import discord_username
 from league.models import Manager
 
 SESSION_STATE = "discord_oauth_state"
@@ -75,9 +76,17 @@ def discord_callback(request):
             {"discord_id": identity["id"], "discord_username": identity.get("username", "")},
             status=403,
         )
-    if manager.user is None:
-        manager.user = User.objects.create_user(username=f"discord-{identity['id']}", first_name=manager.name)
-    manager.discord_username = identity.get("username", "")
+    # The account belongs to the Discord ID, not the team: handing a team to someone else
+    # gives them their own account, never the previous manager's (or its admin rights).
+    user, created = User.objects.get_or_create(
+        username=discord_username(identity["id"]), defaults={"first_name": manager.name}
+    )
+    if created:
+        user.set_unusable_password()
+        user.save(update_fields=["password"])
+    Manager.objects.filter(user=user).exclude(pk=manager.pk).update(user=None)
+    manager.user = user
+    manager.discord_username = str(identity.get("username", ""))[:100]
     manager.save(update_fields=["user", "discord_username"])
     login(request, manager.user, backend=f"{ModelBackend.__module__}.{ModelBackend.__name__}")
     return redirect(_safe_next(request, next_url))
