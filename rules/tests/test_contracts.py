@@ -60,3 +60,10 @@ class TestContractTerm:
 
     def test_cost_for_uncovered_season_is_zero(self):
         assert self.lewis.cost_for_season(2028) == 0
+
+
+class TestContractIsValidatedOnConstruction:
+    @pytest.mark.parametrize(("price", "length"), [(5, 0), (-1, 2)])
+    def test_bad_contract_rejected(self, price, length):
+        with pytest.raises(ValueError):
+            Contract("X", original_price=price, year_signed=2025, length=length)

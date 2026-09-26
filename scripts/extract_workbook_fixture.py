@@ -46,6 +46,8 @@ def team(ws) -> dict:
     for r in range(1, ws.max_row + 1):
         m = cell(r, M)
         if isinstance(m, str) and m.endswith("player contract -->>") and cell(r, O):
+            if None in (cell(r, Q), cell(r, S), cell(r, U)):
+                raise ValueError(f"{ws.title}: contract for {cell(r, O)} at row {r} is missing price/year/length")
             out["contracts"].append(
                 {
                     "player": cell(r, O),
@@ -56,7 +58,9 @@ def team(ws) -> dict:
                 }
             )
         if isinstance(m, str) and m.endswith("dropped contract") and cell(r, O):
-            drop_row = next(rr for rr in range(r + 1, r + 5) if cell(rr, M) == "Year Dropped")
+            drop_row = next((rr for rr in range(r + 1, r + 5) if cell(rr, M) == "Year Dropped"), None)
+            if drop_row is None:
+                raise ValueError(f"{ws.title}: no 'Year Dropped' row under dropped contract at M{r}")
             out["buyouts"].append(
                 {
                     "player": cell(r, O),

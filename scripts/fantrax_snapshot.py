@@ -60,6 +60,8 @@ def main(league_id: str, out: Path) -> None:
                 )
         print(f"{team['name']}: {sum(r['team_id'] == team['id'] for r in rows)} players")
 
+    if not rows:
+        raise SystemExit("No rostered players found; Fantrax response shape may have changed.")
     with (out / "rosters.csv").open("w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0]))
         w.writeheader()

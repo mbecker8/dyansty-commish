@@ -29,6 +29,10 @@ def validate_signing(
     for player, n in Counter(c.player_id for c in new).items():
         if n > 1:
             errors.append(f"{player} is signed {n} times")
+    under_contract = {c.player_id for c in existing if c.covers(next_season)}
+    for c in new:
+        if c.player_id in under_contract:
+            errors.append(f"{c.player_id} already has a contract covering {next_season}")
     active = [c for c in [*existing, *new] if c.covers(next_season)]
     if len(active) > limit + extra_allowed:
         errors.append(f"{len(active)} contracts for {next_season}; the limit is {limit + extra_allowed}")

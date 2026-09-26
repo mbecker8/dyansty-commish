@@ -1,7 +1,7 @@
 """Auction budget: base budget minus everything already committed, plus cash traded in."""
 
 from collections.abc import Iterable, Mapping
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 from rules.buyouts import buyout_schedule
 from rules.contracts import Contract
@@ -13,12 +13,24 @@ BASE_BUDGET = 400
 class Budget:
     season: int
     base: int
-    contracts: int
-    buyouts: int
-    farm: int
     missed_ip: int
     cash_net: int
-    lines: list[tuple[str, str, int]] = field(default_factory=list)
+    lines: tuple[tuple[str, str, int], ...] = ()  # (kind, player_id, amount)
+
+    def _total(self, kind: str) -> int:
+        return sum(amount for k, _, amount in self.lines if k == kind)
+
+    @property
+    def contracts(self) -> int:
+        return self._total("contract")
+
+    @property
+    def buyouts(self) -> int:
+        return self._total("buyout")
+
+    @property
+    def farm(self) -> int:
+        return self._total("farm")
 
     @property
     def remaining(self) -> int:
@@ -42,25 +54,18 @@ def compute_budget(
     """
     lines = []
     for c in contracts:
-        if cost := c.cost_for_season(season):
-            lines.append(("contract", c.player_id, cost))
+        if c.covers(season):
+            lines.append(("contract", c.player_id, c.annual_price))
     for c, dropped_in in buyouts:
-        if penalty := buyout_schedule(c, dropped_in).get(season, 0):
-            lines.append(("buyout", c.player_id, penalty))
+        schedule = buyout_schedule(c, dropped_in)
+        if season in schedule:
+            lines.append(("buyout", c.player_id, schedule[season]))
     for player_id, salary in (farm_salaries or {}).items():
         lines.append(("farm", player_id, salary))
-    missed_ip = list(missed_ip_penalties)
-
-    def total(kind):
-        return sum(amount for k, _, amount in lines if k == kind)
-
     return Budget(
         season=season,
         base=base,
-        contracts=total("contract"),
-        buyouts=total("buyout"),
-        farm=total("farm"),
-        missed_ip=sum(missed_ip),
+        missed_ip=sum(missed_ip_penalties),
         cash_net=cash_net,
-        lines=lines,
+        lines=tuple(lines),
     )

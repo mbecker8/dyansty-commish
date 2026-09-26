@@ -44,3 +44,21 @@ def test_every_charge_is_itemized():
 
 def test_cash_out_reduces_budget():
     assert compute_budget(season=2026, cash_net=-75).remaining == 325
+
+
+def test_zero_dollar_contract_is_still_itemized():
+    free = Contract("Free", 0, 2025, 1)  # $0, 2026 only
+    b = compute_budget(season=2026, contracts=[free])
+    assert ("contract", "Free", 0) in b.lines
+
+
+def test_zero_percent_buyout_year_is_still_itemized():
+    c = Contract("Ten", 0, 2025, 10)  # $40/yr; dropped 2026 -> 2035 charged at 0%
+    b = compute_budget(season=2035, buyouts=[(c, 2026)])
+    assert ("buyout", "Ten", 0) in b.lines
+
+
+def test_budget_totals_are_derived_from_lines():
+    b = compute_budget(season=2026, contracts=[LEWIS], farm_salaries={"X": 2})
+    assert b.contracts == sum(a for k, _, a in b.lines if k == "contract")
+    hash(b)  # frozen and hashable

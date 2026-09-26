@@ -11,7 +11,8 @@ import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-DEBUG = os.environ.get("DJANGO_DEBUG", "1") == "1"
+# Fail safe: on Render (which sets RENDER=true) DEBUG is off unless explicitly enabled.
+DEBUG = os.environ.get("DJANGO_DEBUG", "0" if os.environ.get("RENDER") else "1") == "1"
 
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "")
 if not SECRET_KEY:
@@ -25,7 +26,11 @@ if render_host := os.environ.get("RENDER_EXTERNAL_HOSTNAME"):
 if DEBUG:
     ALLOWED_HOSTS += ["localhost", "127.0.0.1", "[::1]"]
 
-CSRF_TRUSTED_ORIGINS = [f"https://{h}" for h in ALLOWED_HOSTS if h not in ("localhost", "127.0.0.1", "[::1]")]
+CSRF_TRUSTED_ORIGINS = [
+    f"https://*{h}" if h.startswith(".") else f"https://{h}"
+    for h in ALLOWED_HOSTS
+    if h not in ("localhost", "127.0.0.1", "[::1]")
+]
 
 INSTALLED_APPS = [
     "django.contrib.admin",

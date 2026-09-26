@@ -55,6 +55,14 @@ def test_fixture_covers_all_14_teams():
 
 
 @pytest.mark.parametrize("code", sorted(TEAMS))
+def test_player_names_unique_within_team(code):
+    # The fixture has no player IDs, so names stand in for them; they must not collide.
+    t = TEAMS[code]
+    names = [r["player"] for r in t["contracts"] + real_buyouts(t) + t["farm"]]
+    assert len(names) == len(set(names))
+
+
+@pytest.mark.parametrize("code", sorted(TEAMS))
 def test_each_contract_price_matches_sheet(code):
     season = TEAMS[code]["after_season"] + 1
     for row in TEAMS[code]["contracts"]:

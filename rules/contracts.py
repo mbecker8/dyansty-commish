@@ -30,6 +30,9 @@ class Contract:
     year_signed: int
     length: int
 
+    def __post_init__(self):
+        annual_price(self.original_price, self.length, self.year_signed)  # raises on bad terms
+
     @property
     def annual_price(self) -> int:
         return annual_price(self.original_price, self.length, self.year_signed)
