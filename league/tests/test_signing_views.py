@@ -237,3 +237,15 @@ def test_export_needs_sign_in(ready, client):
 
 def test_unknown_export_is_404(ready, mb):
     assert mb.get("/export/secrets.csv").status_code == 404
+
+
+def test_team_pages_say_auction_budget_once_locked(opened, mb):
+    assert b"Left before signings" in mb.get("/teams/MB/").content
+    for t in Team.objects.all():
+        sub = Submission.objects.create(period=SigningPeriod.objects.get(season=SEASON), team=t)
+        signing.save_plan(sub, signing.Plan(farm={f.pk: True for f in signing.farm_candidates(t, SEASON)}))
+    signing.lock_period(SEASON, None)
+    for url in ("/teams/MB/", "/teams/"):
+        html = mb.get(url).content
+        assert b"Left before signings" not in html and b"Auction budget" in html
+    assert b"Signing is locked" in mb.get("/signing/MB/").content

@@ -2,9 +2,9 @@
 {% block title %}Teams · Dynasty Commish{% endblock %}
 {% block content %}
 <h1>Teams — {{ next_season }} auction budgets</h1>
-<p class="muted">Committed money for {{ next_season }} before signings and farm keeps: $400 base, minus contracts, buyouts, farm and missed-IP penalties, plus or minus cash trades.</p>
+<p class="muted">Committed money for {{ next_season }}{% if signing_status != "locked" %} before signings and farm keeps{% endif %}: $400 base, minus contracts, buyouts, farm and missed-IP penalties, plus or minus cash trades.</p>
 <div class="table-wrap"><table>
-  <thead><tr><th>Team</th><th>Managers</th><th class="num">Contracts</th><th class="num">Buyouts</th><th class="num">Farm</th><th class="num">Cash</th><th class="num">Missed IP</th><th class="num">Left before signings</th></tr></thead>
+  <thead><tr><th>Team</th><th>Managers</th><th class="num">Contracts</th><th class="num">Buyouts</th><th class="num">Farm</th><th class="num">Cash</th><th class="num">Missed IP</th><th class="num">{% if signing_status == "locked" %}Auction budget{% else %}Left before signings{% endif %}</th></tr></thead>
   <tbody>
   {% for row in teams %}
     <tr>

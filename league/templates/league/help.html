@@ -34,6 +34,26 @@ done by hand outside Fantrax: contracts, buyouts, the farm system, and the aucti
 <p>A yellow banner at the top means the commissioner is still reviewing moves from the {{ league_season }} season
   (trades, drops, promotions). Until that's done, rosters and budgets may still change.</p>
 
+<h2>Signing ({{ next_season }})</h2>
+<p>When the commissioner opens signing, a <strong>Signing</strong> link appears at the top. Your page has three parts, and the
+  budget box on the right updates as you change anything.</p>
+<ul>
+  <li><strong>Sign players</strong>: every player on your roster who can get a new contract, with the price per year for each
+    length. The price comes from his end-of-{{ league_season }} Fantrax salary. Players under contract, whose contract just
+    ended, or who need the commissioner's attention are listed at the bottom with the reason.</li>
+  <li><strong>Buy out a contract</strong>: tick a contract to drop it. You'll see every penalty it leaves, season by season.
+    Buying out frees a contract spot.</li>
+  <li><strong>Farm</strong>: choose <em>Keep</em> or <em>Release</em> for every farm player. Keeping one costs $1 more than
+    his salary, or $2 more once he's appeared in MLB.</li>
+</ul>
+<p><strong>Save draft</strong> keeps your choices without sending them. <strong>Submit</strong> sends them to the commissioner.
+  It only works once there are no problems listed (e.g. more than 10 contracts, or a budget below $0) and every farm player is
+  decided. To change something after submitting, click <strong>Withdraw submission</strong>, edit, and submit again.
+  Nothing is final until the commissioner locks signing.</p>
+<p>Your choices are private to your team and the commissioners until signing locks. After that, every team's new
+  contracts and auction budget appear on the league pages.</p>
+<p><strong>Export</strong> downloads the league (budgets, contracts, buyouts, farms, picks, cash) as CSV files for a spreadsheet.</p>
+
 <h2>The rules in brief</h2>
 <ul>
   <li><strong>Contract price per year</strong> (P = end-of-season salary): 1 year P; 2 years P+$5; 3 years P+$10;
@@ -46,7 +66,7 @@ done by hand outside Fantrax: contracts, buyouts, the farm system, and the aucti
     MLB (1 plate appearance or 0.1 innings pitched). Once called up, a farm player can't go back down.</li>
   <li><strong>Limit</strong>: up to 10 contracts going into the auction, plus sign-and-trades. Kept farm players don't count.</li>
 </ul>
-<p class="muted">The full rulebook is the league's Google Doc. Contract signing moves onto this site for February {{ next_season }}.</p>
+<p class="muted">The full rulebook is the league's Google Doc.</p>
 
 {% if is_commissioner %}
 <h2 id="commissioner">Commissioner guide</h2>
@@ -84,12 +104,37 @@ done by hand outside Fantrax: contracts, buyouts, the farm system, and the aucti
   <em>dropped in final year</em> voids the contract; <em>farm</em> items apply a trade, promotion, release or MLB debut;
   <em>not on the sheet</em> adds a $1 farm pick.</p>
 
+<h3>Run the signing period</h3>
+<p>Everything here is on the <a href="{% url 'console' %}">commissioner console</a> (<strong>Commish</strong> in the menu).</p>
+<ol>
+  <li><strong>Take the blackout snapshot</strong> once offseason trades stop, and re-run reconciliation on it (see the
+    command line below). Decide every item. The console won't open signing while any are pending.</li>
+  <li><strong>Load the rosters</strong>: <code>manage.py sync_rosters --fantrax data/fantrax/&lt;blackout&gt;</code>. Prices
+    always come from the end-of-season snapshot (<code>--salaries</code>, 2026-final by default). The command lists any
+    contract whose player isn't on his team's roster. That's a drop or trade reconciliation missed. Rosters can be
+    re-loaded until signing opens, and not after.</li>
+  <li><strong>Open signing</strong> on the console. Optionally set a deadline in Admin → Signing periods. It's shown to
+    managers, but nothing locks automatically.</li>
+  <li><strong>Watch the teams table</strong>: status, new contracts, buyouts, contract count, budget left and any problems.
+    <em>Review / edit</em> opens a team's page. Changing another team's decisions needs a note, which goes in the audit log.
+    You can edit a team even after it has submitted.</li>
+  <li><strong>Lock signing</strong> when every team is ready. Locking applies every team's saved decisions in one go:
+    new contracts (signed {{ league_season }}), buyouts (dropped in {{ league_season }}), farm keeps (salary bumped for
+    {{ next_season }}) and releases. It's refused if any team has a problem or an undecided farm player. A team that
+    hasn't submitted gets its saved draft applied. Locking can't be undone from the console.</li>
+</ol>
+<p>The <a href="{% url 'audit' %}">audit log</a> records every save, submit, withdraw, open and lock, every reconciliation
+  decision, and every add, change or delete in the admin.</p>
+
 <h3>Enter things by hand</h3>
 <ul>
   <li><strong>Cash trades</strong>: Admin → Cash trades. The budget season is the auction the money applies to.</li>
   <li><strong>Missed-IP penalties</strong>: Admin → Budget adjustments, kind “Missed IP penalty”, the season it's charged to, and a note (e.g. the week).</li>
   <li><strong>Farm pick trades</strong>: Admin → Farm picks, then change the owner.</li>
-  <li><strong>Buyouts</strong> are normally created by accepting a <em>dropped</em> item. The drop season must be before the contract's final year.</li>
+  <li><strong>Buyouts</strong> are normally created by accepting a <em>dropped</em> item or at signing. The drop season must be before the contract's final year.</li>
+  <li><strong>Sign-and-trade</strong>: tick <em>Sign and trade</em> on the contract (Admin → Contracts). Each ticked contract
+    running next season allows that team one contract over the limit.</li>
+  <li><strong>Missing salary</strong>: a roster player with no end-of-season salary can't be signed. Set it in Admin → Roster entries.</li>
 </ul>
 
 <h3>Command line (on the machine that runs the site)</h3>
@@ -100,6 +145,8 @@ done by hand outside Fantrax: contracts, buyouts, the farm system, and the aucti
     (needs the Fantrax cookie in <code>secrets/fantrax_cookie.txt</code>).</li>
   <li><code>uv run python manage.py reconcile --fantrax data/fantrax/&lt;name&gt; --preview</code>: propose changes from that
     snapshot and print next season's budgets as if you accepted everything.</li>
+  <li><code>uv run python manage.py sync_rosters --fantrax data/fantrax/&lt;name&gt;</code>: load the signing pool from the
+    blackout snapshot, before signing opens.</li>
   <li><code>uv run python manage.py import_league</code>: first-time load of the Year 19 sheet and the 2026 Fantrax snapshot.
     It refuses to overwrite data once you've made decisions or admin edits.</li>
 </ul>

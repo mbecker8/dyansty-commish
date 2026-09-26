@@ -68,6 +68,30 @@ the rulebook, including decisions the rulebook doesn't spell out.
   penalties ± cash trades.
 - **Validation:** ≤10 contracts (retained farm excluded; sign-and-trade
   exception, recorded per contract), only signable players, etc.
+- **Signing period** (built in M4). Decisions marked *provisional* are the
+  app's defaults until the commissioner confirms them:
+  - A new contract's original price is the player's **end-of-season Fantrax
+    salary**, taken from the season-end snapshot even when rosters come from a
+    later blackout snapshot. A roster player with no season-end salary can't be
+    signed until the commissioner sets one.
+  - Signable = on the team's blackout roster, not under a running contract
+    with that team, not expiring, not on a farm, and not in a Fantrax minors
+    slot. A player under contract to another team, or on another team's farm,
+    is flagged for the commissioner instead.
+  - Contracts signed now have year signed = the season just ended; buyouts
+    decided now are dropped in that season (80% charged at the next auction).
+  - Each sign-and-trade contract still running next season allows its team
+    one contract over the limit.
+  - *Provisional:* contract length is 1–10 years. The rulebook sets no
+    maximum; the longest in the Year 19 sheet is 8.
+  - *Provisional:* the auction budget left after signing can't be below $0.
+    There's no minimum for filling the auction roster.
+  - *Provisional:* every farm player needs an explicit keep or release before
+    a team can submit, and before the commissioner can lock.
+  - *Provisional:* a team's draft decisions are visible only to that team and
+    the commissioners until signing locks. The audit log is commissioner-only.
+  - Locking applies every team's saved decisions at once, submitted or not,
+    and is refused while any team has a problem.
 
 Rule constants are **per-season configuration**, since the rulebook changes a
 few times a year.
