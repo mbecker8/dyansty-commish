@@ -1,0 +1,6345 @@
+{
+ "settings": {
+  "logoUploaded": false,
+  "logoUrl": "/assets/images/badges/mlb/gameIcon_MLB_COMMISSIONER.svg"
+ },
+ "scoringCategoryTypes": [
+  {
+   "value": "Tracked",
+   "key": "5"
+  },
+  {
+   "value": "Standard",
+   "key": "1"
+  },
+  {
+   "value": "Sabermetric",
+   "key": "3"
+  }
+ ],
+ "teamHeadingInfo": {
+  "h2hRecord": {
+   "name": "Record",
+   "shortName": "Rec",
+   "value": "157-138-25"
+  },
+  "rank": {
+   "name": "Rank",
+   "shortName": "Rk",
+   "value": "5th"
+  },
+  "owners": {
+   "owners": "Owner(s)",
+   "shortName": "Own",
+   "value": "Alan"
+  }
+ },
+ "periodOppnentTeamIds": [
+  "ebimnmrmmgdm4610",
+  "ukiajd5dmgdm460u"
+ ],
+ "tabs": [
+  {
+   "viewType": "1",
+   "text": "Stats",
+   "code": "STATS"
+  },
+  {
+   "viewType": "7",
+   "text": "Min/Max",
+   "code": "GAMES_PER_POS"
+  },
+  {
+   "viewType": "2",
+   "text": "Trends",
+   "code": "OVERVIEW"
+  },
+  {
+   "viewType": "5",
+   "text": "Schedule - Week",
+   "code": "SCHEDULE_PERIOD"
+  },
+  {
+   "viewType": "6",
+   "text": "Schedule - Full",
+   "code": "SCHEDULE_FULL"
+  }
+ ],
+ "miscData": {
+  "maxActions": 0,
+  "salaryInfo": {
+   "title": "Salary & Other Info",
+   "info": [
+    {
+     "display": "$373",
+     "name": "Used",
+     "value": 373.0,
+     "key": "salaryUsed"
+    },
+    {
+     "display": "$157",
+     "name": "Remaining",
+     "value": 157.0,
+     "key": "salaryRemaining"
+    },
+    {
+     "tradeName": "Cap Space",
+     "display": "$530",
+     "name": "Cap",
+     "tradeable": false,
+     "value": 530.0,
+     "key": "salaryCap"
+    },
+    {
+     "tradeName": "Claim Budget",
+     "display": "$43",
+     "name": "Claim Budget Remaining",
+     "tradeable": true,
+     "value": "43",
+     "key": "claimBudget"
+    }
+   ]
+  },
+  "tradeDeadlinePassed": true,
+  "autoSubOrderMap": {},
+  "displayedMaxDate": 1790567999000,
+  "statusTotals": [
+   {
+    "total": 23,
+    "max": 23,
+    "name": "Active",
+    "id": "1"
+   },
+   {
+    "total": 7,
+    "max": 30,
+    "name": "Reserve",
+    "id": "2"
+   },
+   {
+    "total": 12,
+    "max": "Unlimited",
+    "name": "Inj Res",
+    "id": "3"
+   },
+   {
+    "total": 2,
+    "max": "Unlimited",
+    "name": "Minors",
+    "id": "9"
+   }
+  ],
+  "showConfirmWindow": true,
+  "periodName": "Period",
+  "transactionSalaryBudgetInfo": [
+   {
+    "tradeName": "Claim Budget",
+    "display": "$43",
+    "name": "Claim Budget Remaining",
+    "tradeable": true,
+    "value": "43",
+    "key": "claimBudget"
+   }
+  ],
+  "activateScheduledScorersDescription": "Swap out players in active slots who are not scheduled to play with those from the bench (or injury slot if not injured) who are.",
+  "opposingStarters": {},
+  "autoSubsOrderingType": "NONE",
+  "starterScorerIds": [],
+  "disableEmptySlots": true,
+  "displayedMinDate": 1774411200000,
+  "alwaysShowPosition": false,
+  "autoSubmitLineupChanges": false,
+  "disableActivateUnscheduleButton": true,
+  "applyToFuturePeriods": true,
+  "tradesAllowed": false,
+  "claimsDropsAllowed": false,
+  "alwaysShowPositionIds": [],
+  "autoSubOrderMax": 30,
+  "showActivateUnscheduleButton": true
+ },
+ "myTeamIds": [
+  "6wjoojsemgdm460y"
+ ],
+ "goBackDays": [
+  1,
+  7,
+  14,
+  30,
+  60
+ ],
+ "rosterDisplayMap": [],
+ "hideRowsLineupChange": false,
+ "tables": [
+  {
+   "scGroup": "10",
+   "statusTotals": [
+    {
+     "total": 14,
+     "name": "Active",
+     "id": "1"
+    },
+    {
+     "total": 6,
+     "name": "Inj Res",
+     "id": "3"
+    },
+    {
+     "total": 2,
+     "name": "Minors",
+     "id": "9"
+    }
+   ],
+   "scGroupScorerHeader": "Hitting",
+   "header": {
+    "cells": [
+     {
+      "sortDirection": 1,
+      "sortKey": "AGE",
+      "sortType": "AGE",
+      "name": "Age",
+      "width": 3.0,
+      "shortName": "Age",
+      "key": "age"
+     },
+     {
+      "eventStr": true,
+      "sortDirection": 1,
+      "name": "Opponent",
+      "dynamicTooltip": true,
+      "shortName": "Opp",
+      "key": "opponent"
+     },
+     {
+      "sortDirection": 1,
+      "name": "Salary",
+      "shortName": "Sal",
+      "key": "salary"
+     },
+     {
+      "sortDirection": 1,
+      "name": "Year Signed",
+      "width": 7.0,
+      "shortName": "Yr1",
+      "key": "customCol"
+     },
+     {
+      "sortDirection": 1,
+      "name": "Contract Expires",
+      "width": 7.0,
+      "shortName": "YrX",
+      "key": "customCol"
+     },
+     {
+      "sortDirection": 1,
+      "sortKey": "SCORING_CATEGORY_10#0010#-1",
+      "scipId": "10#0010#-1",
+      "sortType": "SCORING_CATEGORY",
+      "name": "At Bats",
+      "width": 3.0,
+      "shortName": "AB",
+      "key": "10#0010#-1",
+      "maxWidth": 3.0
+     },
+     {
+      "sortDirection": 1,
+      "sortKey": "SCORING_CATEGORY_10#0330#-1",
+      "scipId": "10#0330#-1",
+      "sortType": "SCORING_CATEGORY",
+      "name": "Runs Scored",
+      "width": 2.0,
+      "shortName": "R",
+      "key": "10#0330#-1",
+      "maxWidth": 2.0
+     },
+     {
+      "sortDirection": 1,
+      "sortKey": "SCORING_CATEGORY_10#0170#-1",
+      "scipId": "10#0170#-1",
+      "sortType": "SCORING_CATEGORY",
+      "name": "Hits",
+      "width": 3.0,
+      "shortName": "H",
+      "key": "10#0170#-1",
+      "maxWidth": 3.0
+     },
+     {
+      "sortDirection": 1,
+      "sortKey": "SCORING_CATEGORY_10#0070#-1",
+      "scipId": "10#0070#-1",
+      "sortType": "SCORING_CATEGORY",
+      "name": "Doubles",
+      "width": 3.0,
+      "shortName": "2B",
+      "key": "10#0070#-1",
+      "maxWidth": 3.0
+     },
+     {
+      "sortDirection": 1,
+      "sortKey": "SCORING_CATEGORY_10#0420#-1",
+      "scipId": "10#0420#-1",
+      "sortType": "SCORING_CATEGORY",
+      "name": "Triples",
+      "width": 3.0,
+      "shortName": "3B",
+      "key": "10#0420#-1",
+      "maxWidth": 3.0
+     },
+     {
+      "sortDirection": 1,
+      "sortKey": "SCORING_CATEGORY_10#0200#-1",
+      "scipId": "10#0200#-1",
+      "sortType": "SCORING_CATEGORY",
+      "name": "Home Runs",
+      "width": 1.8,
+      "shortName": "HR",
+      "key": "10#0200#-1",
+      "maxWidth": 1.8
+     },
+     {
+      "sortDirection": 1,
+      "sortKey": "SCORING_CATEGORY_10#0310#-1",
+      "scipId": "10#0310#-1",
+      "sortType": "SCORING_CATEGORY",
+      "name": "RBI",
+      "width": 3.0,
+      "shortName": "RBI",
+      "key": "10#0310#-1",
+      "maxWidth": 3.0
+     },
+     {
+      "sortDirection": 1,
+      "sortKey": "SCORING_CATEGORY_10#0430#-1",
+      "scipId": "10#0430#-1",
+      "sortType": "SCORING_CATEGORY",
+      "name": "Walks",
+      "width": 3.0,
+      "shortName": "BB",
+      "key": "10#0430#-1",
+      "maxWidth": 3.0
+     },
+     {
+      "sortDirection": 1,
+      "sortKey": "SCORING_CATEGORY_10#0380#-1",
+      "scipId": "10#0380#-1",
+      "sortType": "SCORING_CATEGORY",
+      "name": "Stolen Bases",
+      "width": 3.0,
+      "shortName": "SB",
+      "key": "10#0380#-1",
+      "maxWidth": 3.0
+     },
+     {
+      "sortDirection": 1,
+      "sortKey": "SCORING_CATEGORY_10#0470#-1",
+      "scipId": "10#0470#-1",
+      "sortType": "SCORING_CATEGORY",
+      "name": "Batting Average",
+      "width": 3.0,
+      "shortName": "AVG",
+      "key": "10#0470#-1",
+      "maxWidth": 3.0
+     },
+     {
+      "sortDirection": 1,
+      "sortKey": "SCORING_CATEGORY_10#0100#-1",
+      "scipId": "10#0100#-1",
+      "sortType": "SCORING_CATEGORY",
+      "name": "Games Played",
+      "width": 4.0,
+      "shortName": "GP",
+      "key": "10#0100#-1",
+      "maxWidth": 4.0
+     }
+    ]
+   },
+   "rows": [
+    {
+     "scorer": {
+      "teamName": "Baltimore Orioles",
+      "urlName": "samuel-basallo",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs05rbv_96_2.png",
+      "scorerId": "05rbv",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "001",
+       "002"
+      ],
+      "defaultPosId": "001",
+      "posShortNames": "C,1B",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Injured List - 7-day IL - Concussion",
+        "typeId": "2"
+       },
+       {
+        "tooltip": "Sep 23, 12:19 PM: The Orioles placed Basallo (concussion)...",
+        "typeId": "9"
+       },
+       {
+        "tooltip": "Bats Left",
+        "typeId": "16"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "001",
+       "002",
+       "006",
+       "014"
+      ],
+      "teamId": "10010",
+      "name": "Samuel Basallo",
+      "teamShortName": "BAL",
+      "shortName": "S. Basallo"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "3",
+      "9"
+     ],
+     "posId": "001",
+     "cells": [
+      {
+       "content": "22"
+      },
+      {
+       "content": "MIL 3<br/>@BAL 0 F",
+       "eventId": "06jbq"
+      },
+      {
+       "content": "4"
+      },
+      {
+       "content": "Farm"
+      },
+      {},
+      {
+       "content": "360"
+      },
+      {
+       "content": "40"
+      },
+      {
+       "content": "80"
+      },
+      {
+       "content": "10"
+      },
+      {
+       "content": "1"
+      },
+      {
+       "content": "18"
+      },
+      {
+       "content": "54"
+      },
+      {
+       "content": "32"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": ".222"
+      },
+      {
+       "content": "112"
+      }
+     ],
+     "statusId": "1",
+     "eligiblePosIds": [
+      "001",
+      "002",
+      "014",
+      "006"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "Boston Red Sox",
+      "urlName": "adley-rutschman",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04q2n_96_11.png",
+      "scorerId": "04q2n",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "001"
+      ],
+      "defaultPosId": "001",
+      "posShortNames": "C",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Sep 18, 3:24 PM: Rutschman is not in the lineup for...",
+        "typeId": "8"
+       },
+       {
+        "tooltip": "Switch Hitter",
+        "typeId": "18"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "001",
+       "014"
+      ],
+      "teamId": "10020",
+      "name": "Adley Rutschman",
+      "teamShortName": "BOS",
+      "shortName": "A. Rutschman"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "9"
+     ],
+     "posId": "001",
+     "cells": [
+      {
+       "content": "28"
+      },
+      {
+       "content": "BOS 1<br/>@TB 5 F",
+       "eventId": "06irr"
+      },
+      {
+       "content": "33"
+      },
+      {
+       "content": "Farm"
+      },
+      {
+       "content": "2030"
+      },
+      {
+       "content": "362"
+      },
+      {
+       "content": "43"
+      },
+      {
+       "content": "87"
+      },
+      {
+       "content": "26"
+      },
+      {
+       "content": "1"
+      },
+      {
+       "content": "12"
+      },
+      {
+       "content": "59"
+      },
+      {
+       "content": "38"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": ".240"
+      },
+      {
+       "content": "99"
+      }
+     ],
+     "statusId": "1",
+     "eligiblePosIds": [
+      "001",
+      "014"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "San Diego Padres",
+      "urlName": "ty-france",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs03whq_96_10.png",
+      "scorerId": "03whq",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "002"
+      ],
+      "defaultPosId": "002",
+      "posShortNames": "1B",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Sep 20, 1:21 AM: France went 3-for-5 with a double, one...",
+        "typeId": "9"
+       },
+       {
+        "tooltip": "Bats Right",
+        "typeId": "17"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "002",
+       "006",
+       "014"
+      ],
+      "teamId": "10290",
+      "name": "Ty France",
+      "teamShortName": "SD",
+      "shortName": "T. France"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "9"
+     ],
+     "posId": "002",
+     "cells": [
+      {
+       "content": "32"
+      },
+      {
+       "content": "MIA 3<br/>@SD 7 F",
+       "eventId": "06jgk"
+      },
+      {
+       "content": "1"
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": "432"
+      },
+      {
+       "content": "56"
+      },
+      {
+       "content": "127"
+      },
+      {
+       "content": "24"
+      },
+      {
+       "content": "2"
+      },
+      {
+       "content": "21"
+      },
+      {
+       "content": "70"
+      },
+      {
+       "content": "36"
+      },
+      {
+       "content": "1"
+      },
+      {
+       "content": ".294"
+      },
+      {
+       "content": "131"
+      }
+     ],
+     "statusId": "1",
+     "eligiblePosIds": [
+      "002",
+      "014",
+      "006"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "Boston Red Sox",
+      "urlName": "caleb-durbin",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs05y4b_96_2.png",
+      "scorerId": "05y4b",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "003",
+       "004"
+      ],
+      "defaultPosId": "004",
+      "posShortNames": "2B,3B",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Sep 5, 3:40 PM: Durbin is not in the Red Sox's starting...",
+        "typeId": "8"
+       },
+       {
+        "tooltip": "Bats Right",
+        "typeId": "17"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "003",
+       "004",
+       "006",
+       "007",
+       "014"
+      ],
+      "teamId": "10020",
+      "name": "Caleb Durbin",
+      "teamShortName": "BOS",
+      "shortName": "C. Durbin"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "9"
+     ],
+     "posId": "003",
+     "cells": [
+      {
+       "content": "26"
+      },
+      {
+       "content": "BOS 1<br/>@TB 5 F",
+       "eventId": "06irr"
+      },
+      {
+       "content": "0"
+      },
+      {},
+      {
+       "content": "2027"
+      },
+      {
+       "content": "504"
+      },
+      {
+       "content": "74"
+      },
+      {
+       "content": "125"
+      },
+      {
+       "content": "25"
+      },
+      {
+       "content": "1"
+      },
+      {
+       "content": "13"
+      },
+      {
+       "content": "64"
+      },
+      {
+       "content": "51"
+      },
+      {
+       "content": "20"
+      },
+      {
+       "content": ".248"
+      },
+      {
+       "content": "152"
+      }
+     ],
+     "statusId": "1",
+     "eligiblePosIds": [
+      "003",
+      "014",
+      "004",
+      "006",
+      "007"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "Cleveland Guardians",
+      "urlName": "jose-ramirez",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs01ub6_96_16.png",
+      "scorerId": "01ub6",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "004"
+      ],
+      "defaultPosId": "004",
+      "posShortNames": "3B",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Sep 18, 10:40 PM: Ramirez went 2-for-5 with a home run,...",
+        "typeId": "8"
+       },
+       {
+        "tooltip": "Switch Hitter",
+        "typeId": "18"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "004",
+       "006",
+       "014"
+      ],
+      "teamId": "10070",
+      "name": "Jose Ramirez",
+      "teamShortName": "CLE",
+      "shortName": "J. Ramirez"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "9"
+     ],
+     "posId": "004",
+     "cells": [
+      {
+       "content": "34"
+      },
+      {
+       "content": "ATH 0<br/>@CLE 1 F",
+       "eventId": "06jgd"
+      },
+      {
+       "content": "88"
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": "468"
+      },
+      {
+       "content": "70"
+      },
+      {
+       "content": "111"
+      },
+      {
+       "content": "27"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "12"
+      },
+      {
+       "content": "53"
+      },
+      {
+       "content": "60"
+      },
+      {
+       "content": "37"
+      },
+      {
+       "content": ".237"
+      },
+      {
+       "content": "124"
+      }
+     ],
+     "statusId": "1",
+     "eligiblePosIds": [
+      "014",
+      "004",
+      "006"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "Cincinnati Reds",
+      "urlName": "elly-de-la-cruz",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs05udp_96_4.png",
+      "scorerId": "05udp",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "005"
+      ],
+      "defaultPosId": "005",
+      "posShortNames": "SS",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Sep 25, 10:48 PM: De La Cruz went 1-for-4 with a two-run...",
+        "typeId": "14"
+       },
+       {
+        "tooltip": "Switch Hitter",
+        "typeId": "18"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "005",
+       "007",
+       "014"
+      ],
+      "teamId": "10210",
+      "name": "Elly De La Cruz",
+      "teamShortName": "CIN",
+      "shortName": "E. De La Cruz"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "9"
+     ],
+     "posId": "005",
+     "cells": [
+      {
+       "content": "24"
+      },
+      {
+       "content": "CHC 9<br/>@CIN 1 F",
+       "eventId": "06jo5"
+      },
+      {
+       "content": "32"
+      },
+      {
+       "content": "Farm"
+      },
+      {
+       "content": "2031"
+      },
+      {
+       "content": "551"
+      },
+      {
+       "content": "99"
+      },
+      {
+       "content": "157"
+      },
+      {
+       "content": "30"
+      },
+      {
+       "content": "5"
+      },
+      {
+       "content": "30"
+      },
+      {
+       "content": "79"
+      },
+      {
+       "content": "71"
+      },
+      {
+       "content": "30"
+      },
+      {
+       "content": ".285"
+      },
+      {
+       "content": "141"
+      }
+     ],
+     "statusId": "1",
+     "eligiblePosIds": [
+      "014",
+      "005",
+      "007"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "Texas Rangers",
+      "urlName": "joc-pederson",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs026qc_96_16.png",
+      "scorerId": "026qc",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "002"
+      ],
+      "defaultPosId": "013",
+      "posShortNames": "1B",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Injured List - 10-day IL - Hand",
+        "typeId": "2"
+       },
+       {
+        "tooltip": "Sep 25, 6:02 PM: Pederson (hand) took some swings in the...",
+        "typeId": "14"
+       },
+       {
+        "tooltip": "Bats Left",
+        "typeId": "16"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "002",
+       "006",
+       "014"
+      ],
+      "teamId": "10140",
+      "name": "Joc Pederson",
+      "teamShortName": "TEX",
+      "shortName": "J. Pederson"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "3",
+      "9"
+     ],
+     "posId": "006",
+     "cells": [
+      {
+       "content": "34"
+      },
+      {
+       "content": "TOR 7<br/>@TEX 2 F",
+       "eventId": "06k4q"
+      },
+      {
+       "content": "1"
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": "374"
+      },
+      {
+       "content": "56"
+      },
+      {
+       "content": "88"
+      },
+      {
+       "content": "12"
+      },
+      {
+       "content": "2"
+      },
+      {
+       "content": "26"
+      },
+      {
+       "content": "53"
+      },
+      {
+       "content": "49"
+      },
+      {
+       "content": "2"
+      },
+      {
+       "content": ".235"
+      },
+      {
+       "content": "136"
+      }
+     ],
+     "statusId": "1",
+     "eligiblePosIds": [
+      "002",
+      "014",
+      "006"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "Chicago White Sox",
+      "urlName": "sam-antonacci",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs06plc_96_2.png",
+      "scorerId": "06plc",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "003",
+       "004",
+       "005",
+       "012"
+      ],
+      "defaultPosId": "003",
+      "posShortNames": "2B,3B,SS,OF",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Sep 26, 1:21 AM: Antonacci went 3-for-4 with a run...",
+        "typeId": "14"
+       },
+       {
+        "tooltip": "Bats Left",
+        "typeId": "16"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "003",
+       "004",
+       "005",
+       "006",
+       "007",
+       "012",
+       "014"
+      ],
+      "teamId": "10060",
+      "name": "Sam Antonacci",
+      "teamShortName": "CHW",
+      "shortName": "S. Antonacci"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "9"
+     ],
+     "posId": "007",
+     "cells": [
+      {
+       "content": "23"
+      },
+      {
+       "content": "DET 1<br/>@CHW 8 F",
+       "eventId": "06kcx"
+      },
+      {
+       "content": "1"
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": "473"
+      },
+      {
+       "content": "81"
+      },
+      {
+       "content": "130"
+      },
+      {
+       "content": "24"
+      },
+      {
+       "content": "4"
+      },
+      {
+       "content": "8"
+      },
+      {
+       "content": "48"
+      },
+      {
+       "content": "43"
+      },
+      {
+       "content": "19"
+      },
+      {
+       "content": ".275"
+      },
+      {
+       "content": "138"
+      }
+     ],
+     "statusId": "1",
+     "eligiblePosIds": [
+      "012",
+      "003",
+      "014",
+      "004",
+      "005",
+      "006",
+      "007"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "New York Yankees",
+      "urlName": "cody-bellinger",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs03120_96_15.png",
+      "scorerId": "03120",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "012"
+      ],
+      "defaultPosId": "009",
+      "posShortNames": "OF",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Sep 25, 12:41 PM: Bellinger is absent from the lineup for...",
+        "typeId": "14"
+       },
+       {
+        "tooltip": "Bats Left",
+        "typeId": "16"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "012",
+       "014"
+      ],
+      "teamId": "10030",
+      "name": "Cody Bellinger",
+      "teamShortName": "NYY",
+      "shortName": "C. Bellinger"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "9"
+     ],
+     "posId": "012",
+     "cells": [
+      {
+       "content": "31"
+      },
+      {
+       "content": "NYY 4<br/>@ARI 8 F",
+       "eventId": "06jqi"
+      },
+      {
+       "content": "26"
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": "496"
+      },
+      {
+       "content": "73"
+      },
+      {
+       "content": "131"
+      },
+      {
+       "content": "25"
+      },
+      {
+       "content": "3"
+      },
+      {
+       "content": "17"
+      },
+      {
+       "content": "73"
+      },
+      {
+       "content": "59"
+      },
+      {
+       "content": "12"
+      },
+      {
+       "content": ".264"
+      },
+      {
+       "content": "132"
+      }
+     ],
+     "statusId": "1",
+     "eligiblePosIds": [
+      "012",
+      "014"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "Miami Marlins",
+      "urlName": "griffin-conine",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04mn2_96_2.png",
+      "scorerId": "04mn2",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "002",
+       "012"
+      ],
+      "defaultPosId": "009",
+      "posShortNames": "1B,OF",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Sep 25, 10:09 PM: Conine went 2-for-3 with a solo home...",
+        "typeId": "14"
+       },
+       {
+        "tooltip": "Bats Left",
+        "typeId": "16"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "002",
+       "006",
+       "012",
+       "014"
+      ],
+      "teamId": "10160",
+      "name": "Griffin Conine",
+      "teamShortName": "MIA",
+      "shortName": "G. Conine"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "9"
+     ],
+     "posId": "012",
+     "cells": [
+      {
+       "content": "29"
+      },
+      {
+       "content": "MIA 3<br/>@SD 7 F",
+       "eventId": "06jgk"
+      },
+      {
+       "content": "1"
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": "276"
+      },
+      {
+       "content": "44"
+      },
+      {
+       "content": "72"
+      },
+      {
+       "content": "8"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "18"
+      },
+      {
+       "content": "41"
+      },
+      {
+       "content": "34"
+      },
+      {
+       "content": "4"
+      },
+      {
+       "content": ".261"
+      },
+      {
+       "content": "92"
+      }
+     ],
+     "statusId": "1",
+     "eligiblePosIds": [
+      "012",
+      "002",
+      "014",
+      "006"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "Chicago White Sox",
+      "urlName": "tristan-peters",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs05ydz_96_1.png",
+      "scorerId": "05ydz",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "012"
+      ],
+      "defaultPosId": "009",
+      "posShortNames": "OF",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Sep 23, 4:14 PM: Peters (shoulder) will start in center...",
+        "typeId": "9"
+       },
+       {
+        "tooltip": "Bats Left",
+        "typeId": "16"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "012",
+       "014"
+      ],
+      "teamId": "10060",
+      "name": "Tristan Peters",
+      "teamShortName": "CHW",
+      "shortName": "T. Peters"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "9"
+     ],
+     "posId": "012",
+     "cells": [
+      {
+       "content": "26"
+      },
+      {
+       "content": "DET 1<br/>@CHW 8 F",
+       "eventId": "06kcx"
+      },
+      {
+       "content": "1"
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": "432"
+      },
+      {
+       "content": "62"
+      },
+      {
+       "content": "115"
+      },
+      {
+       "content": "31"
+      },
+      {
+       "content": "4"
+      },
+      {
+       "content": "12"
+      },
+      {
+       "content": "56"
+      },
+      {
+       "content": "37"
+      },
+      {
+       "content": "8"
+      },
+      {
+       "content": ".266"
+      },
+      {
+       "content": "154"
+      }
+     ],
+     "statusId": "1",
+     "eligiblePosIds": [
+      "012",
+      "014"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "Pittsburgh Pirates",
+      "urlName": "bryan-reynolds",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs03e5m_96_12.png",
+      "scorerId": "03e5m",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "012"
+      ],
+      "defaultPosId": "011",
+      "posShortNames": "OF",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Sep 24, 10:01 AM: Reynolds is absent from the lineup for...",
+        "typeId": "9"
+       },
+       {
+        "tooltip": "Switch Hitter",
+        "typeId": "18"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "012",
+       "014"
+      ],
+      "teamId": "10240",
+      "name": "Bryan Reynolds",
+      "teamShortName": "PIT",
+      "shortName": "B. Reynolds"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "9"
+     ],
+     "posId": "012",
+     "cells": [
+      {
+       "content": "31"
+      },
+      {
+       "content": "KC 3<br/>@PIT 4 F",
+       "eventId": "06k9r"
+      },
+      {
+       "content": "15"
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": "590"
+      },
+      {
+       "content": "102"
+      },
+      {
+       "content": "153"
+      },
+      {
+       "content": "40"
+      },
+      {
+       "content": "2"
+      },
+      {
+       "content": "17"
+      },
+      {
+       "content": "71"
+      },
+      {
+       "content": "88"
+      },
+      {
+       "content": "9"
+      },
+      {
+       "content": ".259"
+      },
+      {
+       "content": "160"
+      }
+     ],
+     "statusId": "1",
+     "eligiblePosIds": [
+      "012",
+      "014"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "Washington Nationals",
+      "urlName": "james-wood",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs05rat_96_3.png",
+      "scorerId": "05rat",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "012"
+      ],
+      "defaultPosId": "009",
+      "posShortNames": "OF",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Sep 15, 5:14 PM: Wood is out of the lineup for Tuesday's...",
+        "typeId": "8"
+       },
+       {
+        "tooltip": "Bats Left",
+        "typeId": "16"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "012",
+       "014"
+      ],
+      "teamId": "10190",
+      "name": "James Wood",
+      "teamShortName": "WSH",
+      "shortName": "J. Wood"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "9"
+     ],
+     "posId": "012",
+     "cells": [
+      {
+       "content": "24"
+      },
+      {
+       "content": "WSH 3<br/>@STL 5 F",
+       "eventId": "06ivw"
+      },
+      {
+       "content": "32"
+      },
+      {
+       "content": "Farm"
+      },
+      {
+       "content": "2032"
+      },
+      {
+       "content": "506"
+      },
+      {
+       "content": "105"
+      },
+      {
+       "content": "134"
+      },
+      {
+       "content": "30"
+      },
+      {
+       "content": "1"
+      },
+      {
+       "content": "30"
+      },
+      {
+       "content": "77"
+      },
+      {
+       "content": "101"
+      },
+      {
+       "content": "21"
+      },
+      {
+       "content": ".265"
+      },
+      {
+       "content": "133"
+      }
+     ],
+     "statusId": "1",
+     "eligiblePosIds": [
+      "012",
+      "014"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "Texas Rangers",
+      "urlName": "josh-jung",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04y44_96_6.png",
+      "scorerId": "04y44",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "004"
+      ],
+      "defaultPosId": "004",
+      "posShortNames": "3B",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Hand - Out Indefinitely",
+        "typeId": "30"
+       },
+       {
+        "tooltip": "Sep 25, 11:23 PM: X-rays revealed a fracture in Jung's...",
+        "typeId": "14"
+       },
+       {
+        "tooltip": "Bats Right",
+        "typeId": "17"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "004",
+       "006",
+       "014"
+      ],
+      "teamId": "10140",
+      "name": "Josh Jung",
+      "teamShortName": "TEX",
+      "shortName": "J. Jung"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "9"
+     ],
+     "posId": "014",
+     "cells": [
+      {
+       "content": "28"
+      },
+      {
+       "content": "TOR 7<br/>@TEX 2 F",
+       "eventId": "06k4q"
+      },
+      {
+       "content": "3"
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": "398"
+      },
+      {
+       "content": "54"
+      },
+      {
+       "content": "119"
+      },
+      {
+       "content": "27"
+      },
+      {
+       "content": "1"
+      },
+      {
+       "content": "12"
+      },
+      {
+       "content": "42"
+      },
+      {
+       "content": "35"
+      },
+      {
+       "content": "1"
+      },
+      {
+       "content": ".299"
+      },
+      {
+       "content": "104"
+      }
+     ],
+     "statusId": "1",
+     "eligiblePosIds": [
+      "014",
+      "004",
+      "006"
+     ],
+     "actions": []
+    },
+    {
+     "numSpotsAvailableText": "Reserve spot(s) available",
+     "description": "Reserve spot(s) available Limited by Max Players on Team",
+     "numSpotsAvailableDescription": "Limited by Max Players on Team",
+     "numSpotsAvailableIcon": "LIMITED_BY_MAX",
+     "cells": [
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      }
+     ],
+     "statusId": "2"
+    },
+    {
+     "scorer": {
+      "teamName": "Baltimore Orioles",
+      "urlName": "blaze-alexander",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04pvs_96_4.png",
+      "scorerId": "04pvs",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "003",
+       "004",
+       "005",
+       "012"
+      ],
+      "defaultPosId": "004",
+      "posShortNames": "2B,3B,SS,OF",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Injured List - 10-day IL - Back",
+        "typeId": "2"
+       },
+       {
+        "tooltip": "Sep 25, 3:34 PM: Orioles manager Craig Albernaz...",
+        "typeId": "14"
+       },
+       {
+        "tooltip": "Bats Right",
+        "typeId": "17"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "003",
+       "004",
+       "005",
+       "006",
+       "007",
+       "012",
+       "014"
+      ],
+      "teamId": "10010",
+      "name": "Blaze Alexander",
+      "teamShortName": "BAL",
+      "shortName": "B. Alexander"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "3",
+      "9"
+     ],
+     "posId": "014",
+     "cells": [
+      {
+       "content": "27"
+      },
+      {
+       "content": "MIL 3<br/>@BAL 0 F",
+       "eventId": "06jbq"
+      },
+      {
+       "content": "1"
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": "261"
+      },
+      {
+       "content": "35"
+      },
+      {
+       "content": "79"
+      },
+      {
+       "content": "13"
+      },
+      {
+       "content": "2"
+      },
+      {
+       "content": "4"
+      },
+      {
+       "content": "31"
+      },
+      {
+       "content": "19"
+      },
+      {
+       "content": "10"
+      },
+      {
+       "content": ".303"
+      },
+      {
+       "content": "93"
+      }
+     ],
+     "statusId": "3",
+     "eligiblePosIds": [
+      "012",
+      "003",
+      "014",
+      "004",
+      "005",
+      "006",
+      "007"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "Houston Astros",
+      "urlName": "carlos-correa",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs02i2q_96_14.png",
+      "scorerId": "02i2q",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "004",
+       "005"
+      ],
+      "defaultPosId": "005",
+      "posShortNames": "3B,SS",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Injured List - 60-day IL - Ankle",
+        "typeId": "2"
+       },
+       {
+        "tooltip": "Sep 17, 5:11 PM: Medical imaging on Correa's surgically...",
+        "typeId": "8"
+       },
+       {
+        "tooltip": "Bats Right",
+        "typeId": "17"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "004",
+       "005",
+       "006",
+       "007",
+       "014"
+      ],
+      "teamId": "10105",
+      "name": "Carlos Correa",
+      "teamShortName": "HOU",
+      "shortName": "C. Correa"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "3",
+      "9"
+     ],
+     "posId": "007",
+     "cells": [
+      {
+       "content": "32"
+      },
+      {
+       "content": "ATL 4<br/>@HOU 2 F",
+       "eventId": "06jtk"
+      },
+      {
+       "content": "7"
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": "122"
+      },
+      {
+       "content": "22"
+      },
+      {
+       "content": "34"
+      },
+      {
+       "content": "8"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "3"
+      },
+      {
+       "content": "16"
+      },
+      {
+       "content": "18"
+      },
+      {
+       "content": "1"
+      },
+      {
+       "content": ".279"
+      },
+      {
+       "content": "32"
+      }
+     ],
+     "statusId": "3",
+     "eligiblePosIds": [
+      "014",
+      "004",
+      "005",
+      "006",
+      "007"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "Minnesota Twins",
+      "urlName": "byron-buxton",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs02i2k_96_16.png",
+      "scorerId": "02i2k",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "012"
+      ],
+      "defaultPosId": "010",
+      "posShortNames": "OF",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Injured List - 10-day IL - Hip",
+        "typeId": "2"
+       },
+       {
+        "tooltip": "Sep 11, 4:59 PM: Buxton will undergo season-ending...",
+        "typeId": "8"
+       },
+       {
+        "tooltip": "Bats Right",
+        "typeId": "17"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "012",
+       "014"
+      ],
+      "teamId": "10100",
+      "name": "Byron Buxton",
+      "teamShortName": "MIN",
+      "shortName": "B. Buxton"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "3",
+      "9"
+     ],
+     "posId": "012",
+     "cells": [
+      {
+       "content": "32"
+      },
+      {
+       "content": "MIN 8<br/>@LAA 0 F",
+       "eventId": "06jg1"
+      },
+      {
+       "content": "8"
+      },
+      {},
+      {
+       "content": "2026"
+      },
+      {
+       "content": "370"
+      },
+      {
+       "content": "65"
+      },
+      {
+       "content": "94"
+      },
+      {
+       "content": "18"
+      },
+      {
+       "content": "1"
+      },
+      {
+       "content": "25"
+      },
+      {
+       "content": "46"
+      },
+      {
+       "content": "30"
+      },
+      {
+       "content": "7"
+      },
+      {
+       "content": ".254"
+      },
+      {
+       "content": "93"
+      }
+     ],
+     "statusId": "3",
+     "eligiblePosIds": [
+      "012",
+      "014"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "Toronto Blue Jays",
+      "urlName": "jonatan-clase",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs057zc_96_4.png",
+      "scorerId": "057zc",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "012"
+      ],
+      "defaultPosId": "009",
+      "posShortNames": "OF",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Injured List - 60-day IL - Foot",
+        "typeId": "2"
+       },
+       {
+        "tooltip": "Aug 27, 5:43 PM: The Blue Jays transferred Clase (foot)...",
+        "typeId": "8"
+       },
+       {
+        "tooltip": "Bats Left",
+        "typeId": "16"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "012",
+       "014"
+      ],
+      "teamId": "10050",
+      "name": "Jonatan Clase",
+      "teamShortName": "TOR",
+      "shortName": "J. Clase"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "3",
+      "9"
+     ],
+     "posId": "012",
+     "cells": [
+      {
+       "content": "24"
+      },
+      {
+       "content": "TOR 7<br/>@TEX 2 F",
+       "eventId": "06k4q"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": "22"
+      },
+      {
+       "content": "4"
+      },
+      {
+       "content": "6"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "2"
+      },
+      {
+       "content": "6"
+      },
+      {
+       "content": "3"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": ".273"
+      },
+      {
+       "content": "9"
+      }
+     ],
+     "statusId": "3",
+     "eligiblePosIds": [
+      "012",
+      "014"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "Pittsburgh Pirates",
+      "urlName": "esmerlyn-valdez",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs05rbw_96_1.png",
+      "scorerId": "05rbw",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "012"
+      ],
+      "defaultPosId": "011",
+      "posShortNames": "OF",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Injured List - 10-day IL - Hamstring",
+        "typeId": "2"
+       },
+       {
+        "tooltip": "Sep 12, 1:20 PM: The Pirates placed Valdez on the 10-day...",
+        "typeId": "8"
+       },
+       {
+        "tooltip": "Bats Right",
+        "typeId": "17"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "012",
+       "014"
+      ],
+      "teamId": "10240",
+      "name": "Esmerlyn Valdez",
+      "teamShortName": "PIT",
+      "shortName": "E. Valdez"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "3",
+      "9"
+     ],
+     "posId": "012",
+     "cells": [
+      {
+       "content": "22"
+      },
+      {
+       "content": "KC 3<br/>@PIT 4 F",
+       "eventId": "06k9r"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": "241"
+      },
+      {
+       "content": "40"
+      },
+      {
+       "content": "56"
+      },
+      {
+       "content": "14"
+      },
+      {
+       "content": "1"
+      },
+      {
+       "content": "17"
+      },
+      {
+       "content": "47"
+      },
+      {
+       "content": "42"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": ".232"
+      },
+      {
+       "content": "72"
+      }
+     ],
+     "statusId": "3",
+     "eligiblePosIds": [
+      "012",
+      "014"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "Athletics",
+      "urlName": "brent-rooker",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04e2u_96_10.png",
+      "scorerId": "04e2u",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "012",
+       "014"
+      ],
+      "defaultPosId": "013",
+      "posShortNames": "OF,UT",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Injured List - 60-day IL - Knee",
+        "typeId": "2"
+       },
+       {
+        "tooltip": "Sep 16, 6:36 PM: Rooker (knee) was cleared to begin a...",
+        "typeId": "8"
+       },
+       {
+        "tooltip": "Bats Right",
+        "typeId": "17"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "012",
+       "014"
+      ],
+      "teamId": "10121",
+      "name": "Brent Rooker",
+      "teamShortName": "ATH",
+      "shortName": "B. Rooker"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "3",
+      "9"
+     ],
+     "posId": "012",
+     "cells": [
+      {
+       "content": "31"
+      },
+      {
+       "content": "ATH 0<br/>@CLE 1 F",
+       "eventId": "06jgd"
+      },
+      {
+       "content": "12"
+      },
+      {},
+      {
+       "content": "2027"
+      },
+      {
+       "content": "180"
+      },
+      {
+       "content": "20"
+      },
+      {
+       "content": "36"
+      },
+      {
+       "content": "4"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "10"
+      },
+      {
+       "content": "29"
+      },
+      {
+       "content": "19"
+      },
+      {
+       "content": "2"
+      },
+      {
+       "content": ".200"
+      },
+      {
+       "content": "48"
+      }
+     ],
+     "statusId": "3",
+     "eligiblePosIds": [
+      "012",
+      "014"
+     ],
+     "actions": []
+    },
+    {
+     "numSpotsAvailableText": "Inj Res spot(s) available",
+     "description": "Inj Res spot(s) available Unlimited",
+     "numSpotsAvailableDescription": "Unlimited",
+     "numSpotsAvailableIcon": "UNLIMITED",
+     "cells": [
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      }
+     ],
+     "statusId": "3"
+    },
+    {
+     "scorer": {
+      "teamName": "St. Louis Cardinals",
+      "urlName": "rainiel-rodriguez",
+      "scorerId": "06mnp",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "001"
+      ],
+      "defaultPosId": "001",
+      "posShortNames": "C",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Minor Leagues",
+        "typeId": "4"
+       },
+       {
+        "tooltip": "Bats Right",
+        "typeId": "17"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "001",
+       "014"
+      ],
+      "teamId": "10250",
+      "name": "Rainiel Rodriguez",
+      "teamShortName": "STL",
+      "shortName": "R. Rodriguez"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "9"
+     ],
+     "posId": "001",
+     "cells": [
+      {
+       "content": "19"
+      },
+      {
+       "content": "WSH 3<br/>@STL 5 F",
+       "eventId": "06ivw"
+      },
+      {
+       "content": "1"
+      },
+      {
+       "content": "Farm"
+      },
+      {},
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      }
+     ],
+     "statusId": "9",
+     "eligiblePosIds": [
+      "001",
+      "014"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "Philadelphia Phillies",
+      "urlName": "aidan-miller",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs05u36_96_1.png",
+      "scorerId": "05u36",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "005"
+      ],
+      "defaultPosId": "005",
+      "posShortNames": "SS",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Minor Leagues",
+        "typeId": "4"
+       },
+       {
+        "tooltip": "Sep 8, 3:27 PM: Miller (back) was transferred to...",
+        "typeId": "8"
+       },
+       {
+        "tooltip": "Bats Right",
+        "typeId": "17"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "005",
+       "007",
+       "014"
+      ],
+      "teamId": "10180",
+      "name": "Aidan Miller",
+      "teamShortName": "PHI",
+      "shortName": "A. Miller"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "9"
+     ],
+     "posId": "007",
+     "cells": [
+      {
+       "content": "22"
+      },
+      {
+       "content": "PHI 7<br/>@NYM 2 F",
+       "eventId": "06jpj"
+      },
+      {
+       "content": "2"
+      },
+      {
+       "content": "Farm"
+      },
+      {},
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      }
+     ],
+     "statusId": "9",
+     "eligiblePosIds": [
+      "014",
+      "005",
+      "007"
+     ],
+     "actions": []
+    },
+    {
+     "numSpotsAvailableText": "Minors spot(s) available",
+     "description": "Minors spot(s) available Unlimited",
+     "numSpotsAvailableDescription": "Unlimited",
+     "numSpotsAvailableIcon": "UNLIMITED",
+     "cells": [
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      }
+     ],
+     "statusId": "9"
+    }
+   ]
+  },
+  {
+   "scGroup": "20",
+   "statusTotals": [
+    {
+     "total": 9,
+     "name": "Active",
+     "id": "1"
+    },
+    {
+     "total": 7,
+     "name": "Reserve",
+     "id": "2"
+    },
+    {
+     "total": 6,
+     "name": "Inj Res",
+     "id": "3"
+    }
+   ],
+   "scGroupScorerHeader": "Pitching",
+   "header": {
+    "cells": [
+     {
+      "sortDirection": 1,
+      "sortKey": "AGE",
+      "sortType": "AGE",
+      "name": "Age",
+      "width": 3.0,
+      "shortName": "Age",
+      "key": "age"
+     },
+     {
+      "eventStr": true,
+      "sortDirection": 1,
+      "name": "Opponent",
+      "dynamicTooltip": true,
+      "shortName": "Opp",
+      "key": "opponent"
+     },
+     {
+      "sortDirection": 1,
+      "name": "Salary",
+      "shortName": "Sal",
+      "key": "salary"
+     },
+     {
+      "sortDirection": 1,
+      "name": "Year Signed",
+      "width": 0.0,
+      "shortName": "Yr1",
+      "key": "customCol"
+     },
+     {
+      "sortDirection": 1,
+      "name": "Contract Expires",
+      "width": 7.0,
+      "shortName": "YrX",
+      "key": "customCol"
+     },
+     {
+      "sortDirection": 1,
+      "sortKey": "SCORING_CATEGORY_20#0220#-1",
+      "scipId": "20#0220#-1",
+      "sortType": "SCORING_CATEGORY",
+      "name": "Innings Pitched",
+      "width": 4.0,
+      "shortName": "IP",
+      "key": "20#0220#-1",
+      "maxWidth": 4.0
+     },
+     {
+      "sortDirection": -1,
+      "sortKey": "SCORING_CATEGORY_20#0490#-1",
+      "scipId": "20#0490#-1",
+      "sortType": "SCORING_CATEGORY",
+      "name": "Earned Run Average",
+      "width": 4.5,
+      "shortName": "ERA",
+      "key": "20#0490#-1",
+      "maxWidth": 4.5
+     },
+     {
+      "sortDirection": -1,
+      "sortKey": "SCORING_CATEGORY_20#0580#-1",
+      "scipId": "20#0580#-1",
+      "sortType": "SCORING_CATEGORY",
+      "name": "WHIP Ratio -- (Walks Allowed + Hits Allowed) / Innings Pitched",
+      "width": 5.0,
+      "shortName": "WHIP",
+      "key": "20#0580#-1",
+      "maxWidth": 5.0
+     },
+     {
+      "sortDirection": 1,
+      "sortKey": "SCORING_CATEGORY_20#0410#-1",
+      "scipId": "20#0410#-1",
+      "sortType": "SCORING_CATEGORY",
+      "name": "Strikeouts Pitched",
+      "width": 4.5,
+      "shortName": "K",
+      "key": "20#0410#-1",
+      "maxWidth": 4.5
+     },
+     {
+      "sortDirection": 1,
+      "sortKey": "SCORING_CATEGORY_20#0360#-1",
+      "scipId": "20#0360#-1",
+      "sortType": "SCORING_CATEGORY",
+      "name": "Saves -- When the pitcher enters a game where his team is leading, finishes the game without surrendering the lead, is not the winning pitcher, and either (a) the lead was 3 runs or less when the pitcher entered the game; (b) the potential tying run was on base, at bat, or on deck; or (c) the pitcher pitched three or more innings.",
+      "width": 4.0,
+      "shortName": "SV",
+      "key": "20#0360#-1",
+      "maxWidth": 4.0
+     },
+     {
+      "sortDirection": 1,
+      "sortKey": "SCORING_CATEGORY_20#0190#-1",
+      "scipId": "20#0190#-1",
+      "sortType": "SCORING_CATEGORY",
+      "name": "Holds -- When a pitcher enters a game in a save situation, records at least one out, does not surrender the lead, and does not complete the game.",
+      "width": 3.5,
+      "shortName": "HLD",
+      "key": "20#0190#-1",
+      "maxWidth": 3.5
+     },
+     {
+      "sortDirection": -1,
+      "sortKey": "SCORING_CATEGORY_20#0570#-1",
+      "scipId": "20#0570#-1",
+      "sortType": "SCORING_CATEGORY",
+      "name": "Walks Allowed Per Nine Innings",
+      "width": 4.0,
+      "shortName": "BB/9",
+      "key": "20#0570#-1",
+      "maxWidth": 4.0
+     },
+     {
+      "sortDirection": 1,
+      "sortKey": "SCORING_CATEGORY_20#0540#-1",
+      "scipId": "20#0540#-1",
+      "sortType": "SCORING_CATEGORY",
+      "name": "Strikeouts Pitched Per Nine Innings",
+      "width": 5.0,
+      "shortName": "K/9",
+      "key": "20#0540#-1",
+      "maxWidth": 5.0
+     },
+     {
+      "sortDirection": 1,
+      "sortKey": "SCORING_CATEGORY_20#0593#-1",
+      "scipId": "20#0593#-1",
+      "sortType": "SCORING_CATEGORY",
+      "name": "Wins + Quality Starts",
+      "width": 4.0,
+      "shortName": "W+QS",
+      "key": "20#0593#-1",
+      "maxWidth": 4.0
+     },
+     {
+      "sortDirection": 1,
+      "sortKey": "SCORING_CATEGORY_20#0100#-1",
+      "scipId": "20#0100#-1",
+      "sortType": "SCORING_CATEGORY",
+      "name": "Games Played",
+      "width": 4.0,
+      "shortName": "GP",
+      "key": "20#0100#-1",
+      "maxWidth": 4.0
+     }
+    ]
+   },
+   "rows": [
+    {
+     "scorer": {
+      "teamName": "Arizona Diamondbacks",
+      "urlName": "corbin-burnes",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs041rd_96_14.png",
+      "scorerId": "041rd",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "017"
+      ],
+      "defaultPosId": "015",
+      "posShortNames": "SP",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Injured List - 15-day IL - Shoulder",
+        "typeId": "2"
+       },
+       {
+        "tooltip": "Sep 25, 4:16 PM: The Diamondbacks placed Burnes on the...",
+        "typeId": "14"
+       },
+       {
+        "tooltip": "Right-Handed Pitcher",
+        "typeId": "17"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "017"
+      ],
+      "teamId": "10260",
+      "name": "Corbin Burnes",
+      "teamShortName": "ARI",
+      "shortName": "C. Burnes"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "3",
+      "9"
+     ],
+     "posId": "017",
+     "cells": [
+      {
+       "content": "31"
+      },
+      {
+       "content": "NYY 4<br/>@ARI 8 F",
+       "pitcher": true,
+       "eventId": "06jqi"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": "10.1"
+      },
+      {
+       "content": "7.84"
+      },
+      {
+       "content": "1.548"
+      },
+      {
+       "content": "8"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "3.48"
+      },
+      {
+       "content": "6.97"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "3"
+      }
+     ],
+     "statusId": "1",
+     "eligiblePosIds": [
+      "017"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "Atlanta Braves",
+      "urlName": "didier-fuentes",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs064zm_96_1.png",
+      "scorerId": "064zm",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "017"
+      ],
+      "defaultPosId": "015",
+      "posShortNames": "SP",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Aug 29, 9:03 PM: Fuentes allowed one hit and one walk in...",
+        "typeId": "8"
+       },
+       {
+        "tooltip": "Right-Handed Pitcher",
+        "typeId": "17"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "017"
+      ],
+      "teamId": "10150",
+      "name": "Didier Fuentes",
+      "teamShortName": "ATL",
+      "shortName": "D. Fuentes"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "9"
+     ],
+     "posId": "017",
+     "cells": [
+      {
+       "content": "21"
+      },
+      {
+       "content": "ATL 4<br/>@HOU 2 F",
+       "eventId": "06jtk"
+      },
+      {
+       "content": "1"
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": "73.1"
+      },
+      {
+       "content": "2.45"
+      },
+      {
+       "content": "1.105"
+      },
+      {
+       "content": "92"
+      },
+      {
+       "content": "3"
+      },
+      {
+       "content": "18"
+      },
+      {
+       "content": "2.58"
+      },
+      {
+       "content": "11.29"
+      },
+      {
+       "content": "7"
+      },
+      {
+       "content": "58"
+      }
+     ],
+     "statusId": "1",
+     "eligiblePosIds": [
+      "017"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "Milwaukee Brewers",
+      "urlName": "aaron-ashby",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04ew7_96_7.png",
+      "scorerId": "04ew7",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "017"
+      ],
+      "defaultPosId": "016",
+      "posShortNames": "RP",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Sep 19, 9:41 PM: Ashby struck out one in a perfect ninth...",
+        "typeId": "9"
+       },
+       {
+        "tooltip": "Left-Handed Pitcher",
+        "typeId": "16"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "017"
+      ],
+      "teamId": "10230",
+      "name": "Aaron Ashby",
+      "teamShortName": "MIL",
+      "shortName": "A. Ashby"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "9"
+     ],
+     "posId": "017",
+     "cells": [
+      {
+       "content": "28"
+      },
+      {
+       "content": "MIL 3<br/>@BAL 0 F",
+       "eventId": "06jbq"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": "87.1"
+      },
+      {
+       "content": "3.19"
+      },
+      {
+       "content": "1.340"
+      },
+      {
+       "content": "114"
+      },
+      {
+       "content": "3"
+      },
+      {
+       "content": "15"
+      },
+      {
+       "content": "4.23"
+      },
+      {
+       "content": "11.75"
+      },
+      {
+       "content": "13"
+      },
+      {
+       "content": "74"
+      }
+     ],
+     "statusId": "1",
+     "eligiblePosIds": [
+      "017"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "New York Yankees",
+      "urlName": "david-bednar",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04aqc_96_9.png",
+      "scorerId": "04aqc",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "017"
+      ],
+      "defaultPosId": "016",
+      "posShortNames": "RP",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Sep 23, 1:19 PM: Bednar earned the save in Game 1 of...",
+        "typeId": "9"
+       },
+       {
+        "tooltip": "Right-Handed Pitcher",
+        "typeId": "17"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "017"
+      ],
+      "teamId": "10030",
+      "name": "David Bednar",
+      "teamShortName": "NYY",
+      "shortName": "D. Bednar"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "9"
+     ],
+     "posId": "017",
+     "cells": [
+      {
+       "content": "31"
+      },
+      {
+       "content": "NYY 4<br/>@ARI 8 F",
+       "eventId": "06jqi"
+      },
+      {
+       "content": "17"
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": "69.1"
+      },
+      {
+       "content": "2.47"
+      },
+      {
+       "content": "1.038"
+      },
+      {
+       "content": "76"
+      },
+      {
+       "content": "35"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "2.60"
+      },
+      {
+       "content": "9.87"
+      },
+      {
+       "content": "7"
+      },
+      {
+       "content": "64"
+      }
+     ],
+     "statusId": "1",
+     "eligiblePosIds": [
+      "017"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "Baltimore Orioles",
+      "urlName": "yennier-cano",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs050ok_96_4.png",
+      "scorerId": "050ok",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "017"
+      ],
+      "defaultPosId": "016",
+      "posShortNames": "RP",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Aug 30, 10:31 PM: Cano picked up the save Sunday against...",
+        "typeId": "8"
+       },
+       {
+        "tooltip": "Right-Handed Pitcher",
+        "typeId": "17"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "017"
+      ],
+      "teamId": "10010",
+      "name": "Yennier Cano",
+      "teamShortName": "BAL",
+      "shortName": "Y. Cano"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "9"
+     ],
+     "posId": "017",
+     "cells": [
+      {
+       "content": "32"
+      },
+      {
+       "content": "MIL 3<br/>@BAL 0 F",
+       "eventId": "06jbq"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": "49.2"
+      },
+      {
+       "content": "2.90"
+      },
+      {
+       "content": "1.067"
+      },
+      {
+       "content": "45"
+      },
+      {
+       "content": "3"
+      },
+      {
+       "content": "14"
+      },
+      {
+       "content": "2.36"
+      },
+      {
+       "content": "8.15"
+      },
+      {
+       "content": "4"
+      },
+      {
+       "content": "68"
+      }
+     ],
+     "statusId": "1",
+     "eligiblePosIds": [
+      "017"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "Houston Astros",
+      "urlName": "josh-hader",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs02n96_96_15.png",
+      "scorerId": "02n96",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "017"
+      ],
+      "defaultPosId": "016",
+      "posShortNames": "RP",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Sep 24, 7:15 AM: Hader (4-2) took the loss Wednesday...",
+        "typeId": "9"
+       },
+       {
+        "tooltip": "Left-Handed Pitcher",
+        "typeId": "16"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "017"
+      ],
+      "teamId": "10105",
+      "name": "Josh Hader",
+      "teamShortName": "HOU",
+      "shortName": "J. Hader"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "9"
+     ],
+     "posId": "017",
+     "cells": [
+      {
+       "content": "32"
+      },
+      {
+       "content": "ATL 4<br/>@HOU 2 F",
+       "eventId": "06jtk"
+      },
+      {
+       "content": "21"
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": "44.2"
+      },
+      {
+       "content": "1.01"
+      },
+      {
+       "content": "0.761"
+      },
+      {
+       "content": "55"
+      },
+      {
+       "content": "26"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "3.02"
+      },
+      {
+       "content": "11.08"
+      },
+      {
+       "content": "4"
+      },
+      {
+       "content": "45"
+      }
+     ],
+     "statusId": "1",
+     "eligiblePosIds": [
+      "017"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "Los Angeles Angels",
+      "urlName": "ben-joyce",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs060eu_96_5.png",
+      "scorerId": "060eu",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "017"
+      ],
+      "defaultPosId": "016",
+      "posShortNames": "RP",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Injured List - 15-day IL - Shoulder",
+        "typeId": "2"
+       },
+       {
+        "tooltip": "Sep 24, 6:20 PM: The Angels placed Joyce on the 15-day...",
+        "typeId": "9"
+       },
+       {
+        "tooltip": "Right-Handed Pitcher",
+        "typeId": "17"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "017"
+      ],
+      "teamId": "10110",
+      "name": "Ben Joyce",
+      "teamShortName": "LAA",
+      "shortName": "B. Joyce"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "3",
+      "9"
+     ],
+     "posId": "017",
+     "cells": [
+      {
+       "content": "26"
+      },
+      {
+       "content": "MIN 8<br/>@LAA 0 F",
+       "eventId": "06jg1"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": "15.1"
+      },
+      {
+       "content": "4.11"
+      },
+      {
+       "content": "1.109"
+      },
+      {
+       "content": "18"
+      },
+      {
+       "content": "5"
+      },
+      {
+       "content": "2"
+      },
+      {
+       "content": "5.28"
+      },
+      {
+       "content": "10.57"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "16"
+      }
+     ],
+     "statusId": "1",
+     "eligiblePosIds": [
+      "017"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "Philadelphia Phillies",
+      "urlName": "orion-kerkering",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs06491_96_3.png",
+      "scorerId": "06491",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "017"
+      ],
+      "defaultPosId": "016",
+      "posShortNames": "RP",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Minor Leagues",
+        "typeId": "4"
+       },
+       {
+        "tooltip": "Sep 19, 10:06 PM: The Phillies informed Kerkering...",
+        "typeId": "9"
+       },
+       {
+        "tooltip": "Right-Handed Pitcher",
+        "typeId": "17"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "017"
+      ],
+      "teamId": "10180",
+      "name": "Orion Kerkering",
+      "teamShortName": "PHI",
+      "shortName": "O. Kerkering"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "9"
+     ],
+     "posId": "017",
+     "cells": [
+      {
+       "content": "25"
+      },
+      {
+       "content": "PHI 7<br/>@NYM 2 F",
+       "eventId": "06jpj"
+      },
+      {
+       "content": "5"
+      },
+      {},
+      {
+       "content": "2026"
+      },
+      {
+       "content": "58"
+      },
+      {
+       "content": "4.97"
+      },
+      {
+       "content": "1.448"
+      },
+      {
+       "content": "63"
+      },
+      {
+       "content": "2"
+      },
+      {
+       "content": "17"
+      },
+      {
+       "content": "5.28"
+      },
+      {
+       "content": "9.78"
+      },
+      {
+       "content": "7"
+      },
+      {
+       "content": "63"
+      }
+     ],
+     "statusId": "1",
+     "eligiblePosIds": [
+      "017"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "San Diego Padres",
+      "urlName": "bradgley-rodriguez",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs05y5d_96_2.png",
+      "scorerId": "05y5d",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "017"
+      ],
+      "defaultPosId": "016",
+      "posShortNames": "RP",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Aug 27, 12:47 PM: Rodriguez earned a save against...",
+        "typeId": "8"
+       },
+       {
+        "tooltip": "Right-Handed Pitcher",
+        "typeId": "17"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "017"
+      ],
+      "teamId": "10290",
+      "name": "Bradgley Rodriguez",
+      "teamShortName": "SD",
+      "shortName": "B. Rodriguez"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "9"
+     ],
+     "posId": "017",
+     "cells": [
+      {
+       "content": "22"
+      },
+      {
+       "content": "MIA 3<br/>@SD 7 F",
+       "eventId": "06jgk"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": "72"
+      },
+      {
+       "content": "2.25"
+      },
+      {
+       "content": "1.069"
+      },
+      {
+       "content": "79"
+      },
+      {
+       "content": "2"
+      },
+      {
+       "content": "16"
+      },
+      {
+       "content": "2.38"
+      },
+      {
+       "content": "9.88"
+      },
+      {
+       "content": "4"
+      },
+      {
+       "content": "67"
+      }
+     ],
+     "statusId": "1",
+     "eligiblePosIds": [
+      "017"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "Detroit Tigers",
+      "urlName": "drew-anderson",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs02nb6_96_4.png",
+      "scorerId": "02nb6",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "017"
+      ],
+      "defaultPosId": "015",
+      "posShortNames": "SP",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Sep 22, 9:39 PM: Anderson (5-7) allowed three runs on...",
+        "typeId": "9"
+       },
+       {
+        "tooltip": "Right-Handed Pitcher",
+        "typeId": "17"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "017"
+      ],
+      "teamId": "10080",
+      "name": "Drew Anderson",
+      "teamShortName": "DET",
+      "shortName": "D. Anderson"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "9"
+     ],
+     "posId": "017",
+     "cells": [
+      {
+       "content": "32"
+      },
+      {
+       "content": "DET 1<br/>@CHW 8 F",
+       "eventId": "06kcx"
+      },
+      {
+       "content": "2"
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": "108"
+      },
+      {
+       "content": "3.67"
+      },
+      {
+       "content": "1.269"
+      },
+      {
+       "content": "114"
+      },
+      {
+       "content": "2"
+      },
+      {
+       "content": "6"
+      },
+      {
+       "content": "3.58"
+      },
+      {
+       "content": "9.50"
+      },
+      {
+       "content": "6"
+      },
+      {
+       "content": "49"
+      }
+     ],
+     "statusId": "2",
+     "eligiblePosIds": [
+      "017"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "San Diego Padres",
+      "urlName": "casey-mize",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04mlf_96_10.png",
+      "scorerId": "04mlf",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "017"
+      ],
+      "defaultPosId": "015",
+      "posShortNames": "SP",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Sep 26, 1:40 AM: Mize (6-10) allowed seven runs on seven...",
+        "typeId": "14"
+       },
+       {
+        "tooltip": "Right-Handed Pitcher",
+        "typeId": "17"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "017"
+      ],
+      "teamId": "10290",
+      "name": "Casey Mize",
+      "teamShortName": "SD",
+      "shortName": "C. Mize"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "9"
+     ],
+     "posId": "017",
+     "cells": [
+      {
+       "content": "29"
+      },
+      {
+       "content": "MIA 3<br/>@SD 7 F",
+       "eventId": "06jgk"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": "131.1"
+      },
+      {
+       "content": "4.32"
+      },
+      {
+       "content": "1.226"
+      },
+      {
+       "content": "110"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "2.60"
+      },
+      {
+       "content": "7.54"
+      },
+      {
+       "content": "16"
+      },
+      {
+       "content": "26"
+      }
+     ],
+     "statusId": "2",
+     "eligiblePosIds": [
+      "017"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "Texas Rangers",
+      "urlName": "cal-quantrill",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs03yxh_96_12.png",
+      "scorerId": "03yxh",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "017"
+      ],
+      "defaultPosId": "015",
+      "posShortNames": "SP",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Injured List - 60-day IL - Lat",
+        "typeId": "2"
+       },
+       {
+        "tooltip": "Sep 22, 7:15 PM: The Rangers placed Quantrill (lat) on...",
+        "typeId": "9"
+       },
+       {
+        "tooltip": "Right-Handed Pitcher",
+        "typeId": "17"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "017"
+      ],
+      "teamId": "10140",
+      "name": "Cal Quantrill",
+      "teamShortName": "TEX",
+      "shortName": "C. Quantrill"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "3",
+      "9"
+     ],
+     "posId": "017",
+     "cells": [
+      {
+       "content": "31"
+      },
+      {
+       "content": "TOR 7<br/>@TEX 2 F",
+       "eventId": "06k4q"
+      },
+      {
+       "content": "4"
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": "110"
+      },
+      {
+       "content": "2.86"
+      },
+      {
+       "content": "1.036"
+      },
+      {
+       "content": "81"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "2.05"
+      },
+      {
+       "content": "6.63"
+      },
+      {
+       "content": "17"
+      },
+      {
+       "content": "32"
+      }
+     ],
+     "statusId": "2",
+     "eligiblePosIds": [
+      "017"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "Texas Rangers",
+      "urlName": "kumar-rocker",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04azu_96_2.png",
+      "scorerId": "04azu",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "017"
+      ],
+      "defaultPosId": "015",
+      "posShortNames": "SP",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Sep 24, 6:17 PM: Rocker (6-11) earned the win Thursday...",
+        "typeId": "9"
+       },
+       {
+        "tooltip": "Right-Handed Pitcher",
+        "typeId": "17"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "017"
+      ],
+      "teamId": "10140",
+      "name": "Kumar Rocker",
+      "teamShortName": "TEX",
+      "shortName": "K. Rocker"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "9"
+     ],
+     "posId": "017",
+     "cells": [
+      {
+       "content": "26"
+      },
+      {
+       "content": "TOR 7<br/>@TEX 2 F",
+       "eventId": "06k4q"
+      },
+      {
+       "content": "1"
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": "148"
+      },
+      {
+       "content": "4.38"
+      },
+      {
+       "content": "1.405"
+      },
+      {
+       "content": "138"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "3.71"
+      },
+      {
+       "content": "8.39"
+      },
+      {
+       "content": "12"
+      },
+      {
+       "content": "30"
+      }
+     ],
+     "statusId": "2",
+     "eligiblePosIds": [
+      "017"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "Los Angeles Dodgers",
+      "urlName": "blake-snell",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs02bqr_96_13.png",
+      "scorerId": "02bqr",
+      "upcomingEventStatusId": "1",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "017"
+      ],
+      "defaultPosId": "015",
+      "posShortNames": "SP",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "In starting lineup",
+        "typeId": "12"
+       },
+       {
+        "tooltip": "Groin - Day-to-Day",
+        "typeId": "1"
+       },
+       {
+        "tooltip": "Sep 22, 7:44 PM: Snell (groin) is expected to start...",
+        "typeId": "9"
+       },
+       {
+        "tooltip": "Left-Handed Pitcher",
+        "typeId": "16"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "017"
+      ],
+      "teamId": "10280",
+      "name": "Blake Snell",
+      "teamShortName": "LAD",
+      "shortName": "B. Snell"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "9"
+     ],
+     "posId": "017",
+     "cells": [
+      {
+       "content": "33"
+      },
+      {
+       "content": "SF 1<br/>@LAD 3 F",
+       "eventId": "06jwj"
+      },
+      {
+       "content": "24"
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": "38.2"
+      },
+      {
+       "content": "1.86"
+      },
+      {
+       "content": "1.086"
+      },
+      {
+       "content": "52"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "3.72"
+      },
+      {
+       "content": "12.10"
+      },
+      {
+       "content": "8"
+      },
+      {
+       "content": "8"
+      }
+     ],
+     "statusId": "2",
+     "eligiblePosIds": [
+      "017"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "Arizona Diamondbacks",
+      "urlName": "michael-soroka",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs03pjf_96_12.png",
+      "scorerId": "03pjf",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "017"
+      ],
+      "defaultPosId": "015",
+      "posShortNames": "SP",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Sep 23, 10:54 AM: Soroka (9-5) earned the win after...",
+        "typeId": "9"
+       },
+       {
+        "tooltip": "Right-Handed Pitcher",
+        "typeId": "17"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "017"
+      ],
+      "teamId": "10260",
+      "name": "Michael Soroka",
+      "teamShortName": "ARI",
+      "shortName": "M. Soroka"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "9"
+     ],
+     "posId": "017",
+     "cells": [
+      {
+       "content": "29"
+      },
+      {
+       "content": "NYY 4<br/>@ARI 8 F",
+       "eventId": "06jqi"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": "111.1"
+      },
+      {
+       "content": "3.31"
+      },
+      {
+       "content": "1.087"
+      },
+      {
+       "content": "110"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "2.18"
+      },
+      {
+       "content": "8.89"
+      },
+      {
+       "content": "17"
+      },
+      {
+       "content": "21"
+      }
+     ],
+     "statusId": "2",
+     "eligiblePosIds": [
+      "017"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "Los Angeles Angels",
+      "urlName": "samy-natera-jr",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs066dd_96_3.png",
+      "scorerId": "066dd",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "017"
+      ],
+      "defaultPosId": "016",
+      "posShortNames": "RP",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Injured List - 15-day IL - Forearm",
+        "typeId": "2"
+       },
+       {
+        "tooltip": "Sep 16, 5:33 PM: The Angels placed Natera on the 15-day...",
+        "typeId": "8"
+       },
+       {
+        "tooltip": "Left-Handed Pitcher",
+        "typeId": "16"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "017"
+      ],
+      "teamId": "10110",
+      "name": "Samy Natera Jr.",
+      "teamShortName": "LAA",
+      "shortName": "S. Natera Jr."
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "3",
+      "9"
+     ],
+     "posId": "017",
+     "cells": [
+      {
+       "content": "26"
+      },
+      {
+       "content": "MIN 8<br/>@LAA 0 F",
+       "eventId": "06jg1"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": "31.2"
+      },
+      {
+       "content": "3.13"
+      },
+      {
+       "content": "1.105"
+      },
+      {
+       "content": "48"
+      },
+      {
+       "content": "3"
+      },
+      {
+       "content": "5"
+      },
+      {
+       "content": "3.69"
+      },
+      {
+       "content": "13.64"
+      },
+      {
+       "content": "1"
+      },
+      {
+       "content": "28"
+      }
+     ],
+     "statusId": "2",
+     "eligiblePosIds": [
+      "017"
+     ],
+     "actions": []
+    },
+    {
+     "numSpotsAvailableText": "Reserve spot(s) available",
+     "description": "Reserve spot(s) available Limited by Max Players on Team",
+     "numSpotsAvailableDescription": "Limited by Max Players on Team",
+     "numSpotsAvailableIcon": "LIMITED_BY_MAX",
+     "cells": [
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      }
+     ],
+     "statusId": "2"
+    },
+    {
+     "scorer": {
+      "teamName": "Toronto Blue Jays",
+      "urlName": "shane-bieber",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs041rf_96_11.png",
+      "scorerId": "041rf",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "017"
+      ],
+      "defaultPosId": "015",
+      "posShortNames": "SP",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Injured List - 15-day IL - Shoulder",
+        "typeId": "2"
+       },
+       {
+        "tooltip": "Sep 18, 5:53 PM: Blue Jays manager John Schneider said...",
+        "typeId": "8"
+       },
+       {
+        "tooltip": "Right-Handed Pitcher",
+        "typeId": "17"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "017"
+      ],
+      "teamId": "10050",
+      "name": "Shane Bieber",
+      "teamShortName": "TOR",
+      "shortName": "S. Bieber"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "3",
+      "9"
+     ],
+     "posId": "017",
+     "cells": [
+      {
+       "content": "31"
+      },
+      {
+       "content": "TOR 7<br/>@TEX 2 F",
+       "eventId": "06k4q"
+      },
+      {
+       "content": "0"
+      },
+      {},
+      {
+       "content": "2026"
+      },
+      {
+       "content": "55.2"
+      },
+      {
+       "content": "4.37"
+      },
+      {
+       "content": "1.419"
+      },
+      {
+       "content": "44"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "3.88"
+      },
+      {
+       "content": "7.11"
+      },
+      {
+       "content": "9"
+      },
+      {
+       "content": "11"
+      }
+     ],
+     "statusId": "3",
+     "eligiblePosIds": [
+      "017"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "Cincinnati Reds",
+      "urlName": "hunter-greene",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04aea_96_5.png",
+      "scorerId": "04aea",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "017"
+      ],
+      "defaultPosId": "015",
+      "posShortNames": "SP",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Injured List - 60-day IL - Elbow",
+        "typeId": "2"
+       },
+       {
+        "tooltip": "Right-Handed Pitcher",
+        "typeId": "17"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "017"
+      ],
+      "teamId": "10210",
+      "name": "Hunter Greene",
+      "teamShortName": "CIN",
+      "shortName": "H. Greene"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "3",
+      "9"
+     ],
+     "posId": "017",
+     "cells": [
+      {
+       "content": "27"
+      },
+      {
+       "content": "CHC 9<br/>@CIN 1 F",
+       "eventId": "06jo5"
+      },
+      {
+       "content": "22"
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": "27.2"
+      },
+      {
+       "content": "6.83"
+      },
+      {
+       "content": "1.373"
+      },
+      {
+       "content": "33"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "2.93"
+      },
+      {
+       "content": "10.73"
+      },
+      {
+       "content": "4"
+      },
+      {
+       "content": "5"
+      }
+     ],
+     "statusId": "3",
+     "eligiblePosIds": [
+      "017"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "Miami Marlins",
+      "urlName": "max-meyer",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs05a2d_96_4.png",
+      "scorerId": "05a2d",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "017"
+      ],
+      "defaultPosId": "015",
+      "posShortNames": "SP",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Injured List - 15-day IL - Neck",
+        "typeId": "2"
+       },
+       {
+        "tooltip": "Sep 15, 1:22 PM: Marlins manager Clayton McCullough...",
+        "typeId": "8"
+       },
+       {
+        "tooltip": "Right-Handed Pitcher",
+        "typeId": "17"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "017"
+      ],
+      "teamId": "10160",
+      "name": "Max Meyer",
+      "teamShortName": "MIA",
+      "shortName": "M. Meyer"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "3",
+      "9"
+     ],
+     "posId": "017",
+     "cells": [
+      {
+       "content": "27"
+      },
+      {
+       "content": "MIA 3<br/>@SD 7 F",
+       "eventId": "06jgk"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": "111"
+      },
+      {
+       "content": "2.68"
+      },
+      {
+       "content": "1.135"
+      },
+      {
+       "content": "121"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "3.32"
+      },
+      {
+       "content": "9.81"
+      },
+      {
+       "content": "16"
+      },
+      {
+       "content": "20"
+      }
+     ],
+     "statusId": "3",
+     "eligiblePosIds": [
+      "017"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "Toronto Blue Jays",
+      "urlName": "trey-yesavage",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs06apx_96_2.png",
+      "scorerId": "06apx",
+      "upcomingEventStatusId": "1",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "017"
+      ],
+      "defaultPosId": "015",
+      "posShortNames": "SP",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "In starting lineup",
+        "typeId": "12"
+       },
+       {
+        "tooltip": "Sep 21, 10:50 PM: Yesavage did not factor into the...",
+        "typeId": "9"
+       },
+       {
+        "tooltip": "Right-Handed Pitcher",
+        "typeId": "17"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "017"
+      ],
+      "teamId": "10050",
+      "name": "Trey Yesavage",
+      "teamShortName": "TOR",
+      "shortName": "T. Yesavage"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "3",
+      "9"
+     ],
+     "posId": "017",
+     "cells": [
+      {
+       "content": "23"
+      },
+      {
+       "content": "TOR 7<br/>@TEX 2 F",
+       "eventId": "06k4q"
+      },
+      {
+       "content": "10"
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": "95.2"
+      },
+      {
+       "content": "3.67"
+      },
+      {
+       "content": "1.129"
+      },
+      {
+       "content": "94"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "4.33"
+      },
+      {
+       "content": "8.84"
+      },
+      {
+       "content": "12"
+      },
+      {
+       "content": "19"
+      }
+     ],
+     "statusId": "3",
+     "eligiblePosIds": [
+      "017"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "Arizona Diamondbacks",
+      "urlName": "aj-puk",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs03yso_96_14.png",
+      "scorerId": "03yso",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "017"
+      ],
+      "defaultPosId": "016",
+      "posShortNames": "RP",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "Injured List - 60-day IL - Elbow",
+        "typeId": "2"
+       },
+       {
+        "tooltip": "Left-Handed Pitcher",
+        "typeId": "16"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "017"
+      ],
+      "teamId": "10260",
+      "name": "A.J. Puk",
+      "teamShortName": "ARI",
+      "shortName": "A. Puk"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "3",
+      "9"
+     ],
+     "posId": "017",
+     "cells": [
+      {
+       "content": "31"
+      },
+      {
+       "content": "NYY 4<br/>@ARI 8 F",
+       "eventId": "06jqi"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": "0"
+      }
+     ],
+     "statusId": "3",
+     "eligiblePosIds": [
+      "017"
+     ],
+     "actions": []
+    },
+    {
+     "scorer": {
+      "teamName": "Pittsburgh Pirates",
+      "urlName": "kirby-yates",
+      "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs030vs_96_16.png",
+      "scorerId": "030vs",
+      "upcomingEventStatusId": "1",
+      "disableLineupChange": true,
+      "posIdsNoFlex": [
+       "017"
+      ],
+      "defaultPosId": "016",
+      "posShortNames": "RP",
+      "team": false,
+      "icons": [
+       {
+        "tooltip": "In starting lineup",
+        "typeId": "12"
+       },
+       {
+        "tooltip": "Sep 22, 1:25 PM: The Pirates activated Yates (shoulder)...",
+        "typeId": "9"
+       },
+       {
+        "tooltip": "Right-Handed Pitcher",
+        "typeId": "17"
+       }
+      ],
+      "rookie": false,
+      "minorsEligible": true,
+      "posIds": [
+       "017"
+      ],
+      "teamId": "10240",
+      "name": "Kirby Yates",
+      "teamShortName": "PIT",
+      "shortName": "K. Yates"
+     },
+     "eligibleStatusIds": [
+      "1",
+      "2",
+      "3",
+      "9"
+     ],
+     "posId": "017",
+     "cells": [
+      {
+       "content": "39"
+      },
+      {
+       "content": "KC 3<br/>@PIT 4 F",
+       "eventId": "06k9r"
+      },
+      {
+       "content": "0"
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": "40.2"
+      },
+      {
+       "content": "3.32"
+      },
+      {
+       "content": "1.205"
+      },
+      {
+       "content": "48"
+      },
+      {
+       "content": "3"
+      },
+      {
+       "content": "1"
+      },
+      {
+       "content": "3.76"
+      },
+      {
+       "content": "10.62"
+      },
+      {
+       "content": "2"
+      },
+      {
+       "content": "45"
+      }
+     ],
+     "statusId": "3",
+     "eligiblePosIds": [
+      "017"
+     ],
+     "actions": []
+    },
+    {
+     "numSpotsAvailableText": "Inj Res spot(s) available",
+     "description": "Inj Res spot(s) available Unlimited",
+     "numSpotsAvailableDescription": "Unlimited",
+     "numSpotsAvailableIcon": "UNLIMITED",
+     "cells": [
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      }
+     ],
+     "statusId": "3"
+    },
+    {
+     "numSpotsAvailableText": "Minors spot(s) available",
+     "description": "Minors spot(s) available Unlimited",
+     "numSpotsAvailableDescription": "Unlimited",
+     "numSpotsAvailableIcon": "UNLIMITED",
+     "cells": [
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      },
+      {
+       "content": ""
+      }
+     ],
+     "statusId": "9"
+    }
+   ]
+  }
+ ],
+ "displayedSelections": {
+  "displayedStatsType": "1",
+  "displayedPeriod": 180,
+  "adminMode": false,
+  "displayedView": "STATS",
+  "lineupChangeSystem": "EASY_CLICK",
+  "displayedStartDate": 1774411200000,
+  "displayedScoringCategoryType": "5",
+  "displayedFantasyTeamId": "ca14h0lmmgdm4611",
+  "displayedSeasonOrProjection": {
+   "code": "SEASON_147_YEAR_TO_DATE",
+   "endDate": 1790567999000,
+   "name": "2026 Reg Season - YTD",
+   "showGoBackDays": true,
+   "shortName": "2026 Reg - YTD",
+   "timeframeTypeCode": "YEAR_TO_DATE",
+   "startDate": 1774411200000
+  },
+  "displayedEndDate": 1790395200000
+ },
+ "fantasyTeams": [
+  {
+   "logoUrl256": "https://fantraximg.com/logos/372/tmLogo_3729ujvekq06jfdz_256.jpg",
+   "name": "beKCer's trainwreKCers",
+   "id": "6wjoojsemgdm460y",
+   "logoUrl128": "https://fantraximg.com/logos/372/tmLogo_3729ujvekq06jfdz_128.jpg",
+   "shortName": "MattB",
+   "commissioner": true,
+   "logoId": "3729ujvekq06jfdz"
+  },
+  {
+   "logoUrl256": "https://fantraximg.com/logos/1qy/tmLogo_1qyyunhgjfullpb3_256.jpg",
+   "name": "Big Beautiful Baseball Team",
+   "id": "zh1qriiemgdm4614",
+   "logoUrl128": "https://fantraximg.com/logos/1qy/tmLogo_1qyyunhgjfullpb3_128.jpg",
+   "shortName": "AG",
+   "commissioner": false,
+   "logoId": "1qyyunhgjfullpb3"
+  },
+  {
+   "logoUrl256": "https://fantraximg.com/assets/images/icons/fantasyteams/baseball/jersey/orange_blue_128.webp",
+   "name": "Brockasauras",
+   "id": "lqwmepsrmgdm4616",
+   "logoUrl128": "https://fantraximg.com/assets/images/icons/fantasyteams/baseball/jersey/orange_blue_128.webp",
+   "shortName": "BL",
+   "commissioner": false
+  },
+  {
+   "logoUrl256": "https://fantraximg.com/logos/p7a/tmLogo_p7anopaim8vq6s4r_256.webp",
+   "name": "Cliff Lee Was Here.",
+   "id": "lu612taqmgdm4612",
+   "logoUrl128": "https://fantraximg.com/logos/p7a/tmLogo_p7anopaim8vq6s4r_128.webp",
+   "shortName": "DAC",
+   "commissioner": false,
+   "logoId": "p7anopaim8vq6s4r"
+  },
+  {
+   "logoUrl256": "https://fantraximg.com/logos/ko4/tmLogo_ko4ra1txltn70dqx_256.jpg",
+   "name": "Dr Andrews Will See You Now",
+   "id": "m84gn4f4mgdm460z",
+   "logoUrl128": "https://fantraximg.com/logos/ko4/tmLogo_ko4ra1txltn70dqx_128.jpg",
+   "shortName": "DAWSYN",
+   "commissioner": true,
+   "logoId": "ko4ra1txltn70dqx"
+  },
+  {
+   "logoUrl256": "https://fantraximg.com/assets/images/icons/fantasyteams/baseball/helmet/purple_green_128.webp",
+   "name": "Dumpster Fire",
+   "id": "ca14h0lmmgdm4611",
+   "logoUrl128": "https://fantraximg.com/assets/images/icons/fantasyteams/baseball/helmet/purple_green_128.webp",
+   "shortName": "AC",
+   "commissioner": false
+  },
+  {
+   "logoUrl256": "https://fantraximg.com/assets/images/icons/fantasyteams/baseball/glove/brown_white_128.webp",
+   "name": "JMoney",
+   "id": "ebimnmrmmgdm4610",
+   "logoUrl128": "https://fantraximg.com/assets/images/icons/fantasyteams/baseball/glove/brown_white_128.webp",
+   "shortName": "JMo",
+   "commissioner": false
+  },
+  {
+   "logoUrl256": "https://fantraximg.com/logos/h93/tmLogo_h93icwttlz4dhupm_256.jpg",
+   "name": "Metropolitans",
+   "id": "ukiajd5dmgdm460u",
+   "logoUrl128": "https://fantraximg.com/logos/h93/tmLogo_h93icwttlz4dhupm_128.jpg",
+   "shortName": "METS",
+   "commissioner": false,
+   "logoId": "h93icwttlz4dhupm"
+  },
+  {
+   "logoUrl256": "https://fantraximg.com/logos/dxu/tmLogo_dxu7g7o2m7gfleuf_256.webp",
+   "name": "Minor Legalities",
+   "id": "s872idxcmgdm4617",
+   "logoUrl128": "https://fantraximg.com/logos/dxu/tmLogo_dxu7g7o2m7gfleuf_128.webp",
+   "shortName": "FISH",
+   "commissioner": false,
+   "logoId": "dxu7g7o2m7gfleuf"
+  },
+  {
+   "logoUrl256": "https://fantraximg.com/assets/images/icons/fantasyteams/baseball/helmet/lightpurple_beige_128.webp",
+   "name": "nygaardians",
+   "id": "o519bpjumgdm4615",
+   "logoUrl128": "https://fantraximg.com/assets/images/icons/fantasyteams/baseball/helmet/lightpurple_beige_128.webp",
+   "shortName": "nyga",
+   "commissioner": false
+  },
+  {
+   "logoUrl256": "https://fantraximg.com/assets/images/icons/fantasyteams/baseball/glove/teal_beige_128.webp",
+   "name": "Sabermutrics",
+   "id": "mfo4w3xsmgdm4618",
+   "logoUrl128": "https://fantraximg.com/assets/images/icons/fantasyteams/baseball/glove/teal_beige_128.webp",
+   "shortName": "MH",
+   "commissioner": true
+  },
+  {
+   "logoUrl256": "https://fantraximg.com/assets/images/icons/fantasyteams/baseball/helmet/lightblue_yellow_128.webp",
+   "name": "Shag Dawgs",
+   "id": "gvud812qmgdm460w",
+   "logoUrl128": "https://fantraximg.com/assets/images/icons/fantasyteams/baseball/helmet/lightblue_yellow_128.webp",
+   "shortName": "SD",
+   "commissioner": false
+  },
+  {
+   "logoUrl256": "https://fantraximg.com/logos/qx6/tmLogo_qx6fieabm6zff6o9_256.webp",
+   "name": "Stat Sandwich",
+   "id": "ofa8r5comgdm460x",
+   "logoUrl128": "https://fantraximg.com/logos/qx6/tmLogo_qx6fieabm6zff6o9_128.webp",
+   "shortName": "KJ",
+   "commissioner": false,
+   "logoId": "qx6fieabm6zff6o9"
+  },
+  {
+   "logoUrl256": "https://fantraximg.com/assets/images/icons/fantasyteams/baseball/helmet/yellow_red_128.webp",
+   "name": "Tradezilla",
+   "id": "aqg1e3nlmgdm4615",
+   "logoUrl128": "https://fantraximg.com/assets/images/icons/fantasyteams/baseball/helmet/yellow_red_128.webp",
+   "shortName": "NT 2",
+   "commissioner": false
+  }
+ ],
+ "displayedLists": {
+  "statsTypes": [
+   {
+    "code": "REAL",
+    "name": "MLB",
+    "id": "1"
+   },
+   {
+    "code": "FANTASY",
+    "name": "Fantasy Team",
+    "id": "2"
+   },
+   {
+    "code": "FANTASY_FULL",
+    "name": "Full Fantasy Team",
+    "id": "3"
+   }
+  ],
+  "goBackDays": [
+   1,
+   7,
+   14,
+   30,
+   60
+  ],
+  "scoringCategoryTypes": [
+   {
+    "value": "Tracked",
+    "key": "5"
+   },
+   {
+    "value": "Standard",
+    "key": "1"
+   },
+   {
+    "value": "Sabermetric",
+    "key": "3"
+   }
+  ],
+  "seasonOrProjections": [
+   {
+    "code": "PROJECTION_0_147_EVENT_PROJECTED_WEEKLY",
+    "endDate": 1790567999000,
+    "name": "Projected - Per Game",
+    "shortName": "Proj - Per Game",
+    "timeframeTypeCode": "PROJECTED_WEEKLY",
+    "startDate": 1774411200000
+   },
+   {
+    "code": "PROJECTION_0_147_SEASON",
+    "endDate": 1790567999000,
+    "name": "Projected - Season",
+    "shortName": "Proj - Season",
+    "timeframeTypeCode": "PROJECTED_SEASON",
+    "startDate": 1774411200000
+   },
+   {
+    "code": "SEASON_147_YEAR_TO_DATE",
+    "endDate": 1790567999000,
+    "name": "2026 Reg Season - YTD",
+    "showGoBackDays": true,
+    "shortName": "2026 Reg - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1774411200000
+   },
+   {
+    "code": "SEASON_147_BY_PERIOD",
+    "endDate": 1790567999000,
+    "name": "2026 Reg Season - Period",
+    "showGoBackDays": true,
+    "shortName": "2026 Reg - Period",
+    "timeframeTypeCode": "BY_PERIOD",
+    "startDate": 1774411200000
+   },
+   {
+    "code": "SEASON_147_BY_DATE",
+    "endDate": 1790567999000,
+    "name": "2026 Reg Season - Dates",
+    "showGoBackDays": true,
+    "shortName": "2026 Reg - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1774411200000
+   },
+   {
+    "code": "SEASON_145_YEAR_TO_DATE",
+    "endDate": 1759118399000,
+    "name": "2025 Reg Season - YTD",
+    "shortName": "2025 Reg - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1742270400000
+   },
+   {
+    "code": "SEASON_145_BY_DATE",
+    "endDate": 1759118399000,
+    "name": "2025 Reg Season - Dates",
+    "shortName": "2025 Reg - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1742270400000
+   },
+   {
+    "code": "SEASON_143_YEAR_TO_DATE",
+    "endDate": 1727755199000,
+    "name": "2024 Reg Season - YTD",
+    "shortName": "2024 Reg - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1710907200000
+   },
+   {
+    "code": "SEASON_143_BY_DATE",
+    "endDate": 1727755199000,
+    "name": "2024 Reg Season - Dates",
+    "shortName": "2024 Reg - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1710907200000
+   },
+   {
+    "code": "SEASON_141_YEAR_TO_DATE",
+    "endDate": 1696219199000,
+    "name": "2023 Reg Season - YTD",
+    "shortName": "2023 Reg - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1680148800000
+   },
+   {
+    "code": "SEASON_141_BY_DATE",
+    "endDate": 1696219199000,
+    "name": "2023 Reg Season - Dates",
+    "shortName": "2023 Reg - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1680148800000
+   },
+   {
+    "code": "SEASON_139_YEAR_TO_DATE",
+    "endDate": 1665028799000,
+    "name": "2022 Reg Season - YTD",
+    "shortName": "2022 Reg - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1649304000000
+   },
+   {
+    "code": "SEASON_139_BY_DATE",
+    "endDate": 1665028799000,
+    "name": "2022 Reg Season - Dates",
+    "shortName": "2022 Reg - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1649304000000
+   },
+   {
+    "code": "SEASON_137_YEAR_TO_DATE",
+    "endDate": 1633319999000,
+    "name": "2021 Reg Season - YTD",
+    "shortName": "2021 Reg - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1617249600000
+   },
+   {
+    "code": "SEASON_137_BY_DATE",
+    "endDate": 1633319999000,
+    "name": "2021 Reg Season - Dates",
+    "shortName": "2021 Reg - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1617249600000
+   },
+   {
+    "code": "SEASON_135_YEAR_TO_DATE",
+    "endDate": 1601265599000,
+    "name": "2020 Reg Season - YTD",
+    "shortName": "2020 Reg - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1595476800000
+   },
+   {
+    "code": "SEASON_135_BY_DATE",
+    "endDate": 1601265599000,
+    "name": "2020 Reg Season - Dates",
+    "shortName": "2020 Reg - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1595476800000
+   },
+   {
+    "code": "SEASON_133_YEAR_TO_DATE",
+    "endDate": 1569815999000,
+    "name": "2019 Reg Season - YTD",
+    "shortName": "2019 Reg - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1553054400000
+   },
+   {
+    "code": "SEASON_133_BY_DATE",
+    "endDate": 1569815999000,
+    "name": "2019 Reg Season - Dates",
+    "shortName": "2019 Reg - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1553054400000
+   },
+   {
+    "code": "SEASON_131_YEAR_TO_DATE",
+    "endDate": 1538452799000,
+    "name": "2018 Reg Season - YTD",
+    "shortName": "2018 Reg - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1522296000000
+   },
+   {
+    "code": "SEASON_131_BY_DATE",
+    "endDate": 1538452799000,
+    "name": "2018 Reg Season - Dates",
+    "shortName": "2018 Reg - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1522296000000
+   },
+   {
+    "code": "SEASON_129_YEAR_TO_DATE",
+    "endDate": 1506916799000,
+    "name": "2017 Reg Season - YTD",
+    "shortName": "2017 Reg - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1491105600000
+   },
+   {
+    "code": "SEASON_129_BY_DATE",
+    "endDate": 1506916799000,
+    "name": "2017 Reg Season - Dates",
+    "shortName": "2017 Reg - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1491105600000
+   },
+   {
+    "code": "SEASON_127_YEAR_TO_DATE",
+    "endDate": 1475553599000,
+    "name": "2016 Reg Season - YTD",
+    "shortName": "2016 Reg - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1459656000000
+   },
+   {
+    "code": "SEASON_127_BY_DATE",
+    "endDate": 1475553599000,
+    "name": "2016 Reg Season - Dates",
+    "shortName": "2016 Reg - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1459656000000
+   },
+   {
+    "code": "SEASON_125_YEAR_TO_DATE",
+    "endDate": 1444103999000,
+    "name": "2015 Reg Season - YTD",
+    "shortName": "2015 Reg - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1428206400000
+   },
+   {
+    "code": "SEASON_125_BY_DATE",
+    "endDate": 1444103999000,
+    "name": "2015 Reg Season - Dates",
+    "shortName": "2015 Reg - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1428206400000
+   },
+   {
+    "code": "SEASON_123_YEAR_TO_DATE",
+    "endDate": 1411963199000,
+    "name": "2014 Reg Season - YTD",
+    "shortName": "2014 Reg - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1395460800000
+   },
+   {
+    "code": "SEASON_123_BY_DATE",
+    "endDate": 1411963199000,
+    "name": "2014 Reg Season - Dates",
+    "shortName": "2014 Reg - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1395460800000
+   },
+   {
+    "code": "SEASON_121_YEAR_TO_DATE",
+    "endDate": 1380599999000,
+    "name": "2013 Reg Season - YTD",
+    "shortName": "2013 Reg - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1364702400000
+   },
+   {
+    "code": "SEASON_121_BY_DATE",
+    "endDate": 1380599999000,
+    "name": "2013 Reg Season - Dates",
+    "shortName": "2013 Reg - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1364702400000
+   },
+   {
+    "code": "SEASON_119_YEAR_TO_DATE",
+    "endDate": 1349409599000,
+    "name": "2012 Reg Season - YTD",
+    "shortName": "2012 Reg - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1332907200000
+   },
+   {
+    "code": "SEASON_119_BY_DATE",
+    "endDate": 1349409599000,
+    "name": "2012 Reg Season - Dates",
+    "shortName": "2012 Reg - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1332907200000
+   },
+   {
+    "code": "SEASON_117_YEAR_TO_DATE",
+    "endDate": 1317355199000,
+    "name": "2011 Reg Season - YTD",
+    "shortName": "2011 Reg - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1301544000000
+   },
+   {
+    "code": "SEASON_117_BY_DATE",
+    "endDate": 1317355199000,
+    "name": "2011 Reg Season - Dates",
+    "shortName": "2011 Reg - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1301544000000
+   },
+   {
+    "code": "SEASON_115_YEAR_TO_DATE",
+    "endDate": 1286251199000,
+    "name": "2010 Reg Season - YTD",
+    "shortName": "2010 Reg - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1270353600000
+   },
+   {
+    "code": "SEASON_115_BY_DATE",
+    "endDate": 1286251199000,
+    "name": "2010 Reg Season - Dates",
+    "shortName": "2010 Reg - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1270353600000
+   },
+   {
+    "code": "SEASON_113_YEAR_TO_DATE",
+    "endDate": 1254887999000,
+    "name": "2009 Reg Season - YTD",
+    "shortName": "2009 Reg - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1238904000000
+   },
+   {
+    "code": "SEASON_113_BY_DATE",
+    "endDate": 1254887999000,
+    "name": "2009 Reg Season - Dates",
+    "shortName": "2009 Reg - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1238904000000
+   },
+   {
+    "code": "SEASON_110_YEAR_TO_DATE",
+    "endDate": 1222833599000,
+    "name": "2008 Reg Season - YTD",
+    "shortName": "2008 Reg - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1206417600000
+   },
+   {
+    "code": "SEASON_110_BY_DATE",
+    "endDate": 1222833599000,
+    "name": "2008 Reg Season - Dates",
+    "shortName": "2008 Reg - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1206417600000
+   },
+   {
+    "code": "SEASON_107_YEAR_TO_DATE",
+    "endDate": 1191297599000,
+    "name": "2007 Reg Season - YTD",
+    "shortName": "2007 Reg - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1175400000000
+   },
+   {
+    "code": "SEASON_107_BY_DATE",
+    "endDate": 1191297599000,
+    "name": "2007 Reg Season - Dates",
+    "shortName": "2007 Reg - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1175400000000
+   },
+   {
+    "code": "SEASON_146_YEAR_TO_DATE",
+    "endDate": 1762055999000,
+    "name": "2025 Playoffs - YTD",
+    "shortName": "2025 Plyff - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1759204800000
+   },
+   {
+    "code": "SEASON_146_BY_DATE",
+    "endDate": 1762055999000,
+    "name": "2025 Playoffs - Dates",
+    "shortName": "2025 Plyff - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1759204800000
+   },
+   {
+    "code": "SEASON_144_YEAR_TO_DATE",
+    "endDate": 1730606399000,
+    "name": "2024 Playoffs - YTD",
+    "shortName": "2024 Plyff - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1727755200000
+   },
+   {
+    "code": "SEASON_144_BY_DATE",
+    "endDate": 1730606399000,
+    "name": "2024 Playoffs - Dates",
+    "shortName": "2024 Plyff - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1727755200000
+   },
+   {
+    "code": "SEASON_142_YEAR_TO_DATE",
+    "endDate": 1699156799000,
+    "name": "2023 Playoffs - YTD",
+    "shortName": "2023 Plyff - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1696305600000
+   },
+   {
+    "code": "SEASON_142_BY_DATE",
+    "endDate": 1699156799000,
+    "name": "2023 Playoffs - Dates",
+    "shortName": "2023 Plyff - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1696305600000
+   },
+   {
+    "code": "SEASON_140_YEAR_TO_DATE",
+    "endDate": 1667797199000,
+    "name": "2022 Playoffs - YTD",
+    "shortName": "2022 Plyff - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1665115200000
+   },
+   {
+    "code": "SEASON_140_BY_DATE",
+    "endDate": 1667797199000,
+    "name": "2022 Playoffs - Dates",
+    "shortName": "2022 Plyff - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1665115200000
+   },
+   {
+    "code": "SEASON_138_YEAR_TO_DATE",
+    "endDate": 1635998399000,
+    "name": "2021 Playoffs - YTD",
+    "shortName": "2021 Plyff - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1633406400000
+   },
+   {
+    "code": "SEASON_138_BY_DATE",
+    "endDate": 1635998399000,
+    "name": "2021 Playoffs - Dates",
+    "shortName": "2021 Plyff - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1633406400000
+   },
+   {
+    "code": "SEASON_136_YEAR_TO_DATE",
+    "endDate": 1604203199000,
+    "name": "2020 Playoffs - YTD",
+    "shortName": "2020 Plyff - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1601352000000
+   },
+   {
+    "code": "SEASON_136_BY_DATE",
+    "endDate": 1604203199000,
+    "name": "2020 Playoffs - Dates",
+    "shortName": "2020 Plyff - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1601352000000
+   },
+   {
+    "code": "SEASON_134_YEAR_TO_DATE",
+    "endDate": 1572580799000,
+    "name": "2019 Playoffs - YTD",
+    "shortName": "2019 Plyff - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1569902400000
+   },
+   {
+    "code": "SEASON_134_BY_DATE",
+    "endDate": 1572580799000,
+    "name": "2019 Playoffs - Dates",
+    "shortName": "2019 Plyff - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1569902400000
+   },
+   {
+    "code": "SEASON_132_YEAR_TO_DATE",
+    "endDate": 1541044799000,
+    "name": "2018 Playoffs - YTD",
+    "shortName": "2018 Plyff - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1538452800000
+   },
+   {
+    "code": "SEASON_132_BY_DATE",
+    "endDate": 1541044799000,
+    "name": "2018 Playoffs - Dates",
+    "shortName": "2018 Plyff - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1538452800000
+   },
+   {
+    "code": "SEASON_130_YEAR_TO_DATE",
+    "endDate": 1509595199000,
+    "name": "2017 Playoffs - YTD",
+    "shortName": "2017 Plyff - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1507003200000
+   },
+   {
+    "code": "SEASON_130_BY_DATE",
+    "endDate": 1509595199000,
+    "name": "2017 Playoffs - Dates",
+    "shortName": "2017 Plyff - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1507003200000
+   },
+   {
+    "code": "SEASON_128_YEAR_TO_DATE",
+    "endDate": 1478145599000,
+    "name": "2016 Playoffs - YTD",
+    "shortName": "2016 Plyff - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1475553600000
+   },
+   {
+    "code": "SEASON_128_BY_DATE",
+    "endDate": 1478145599000,
+    "name": "2016 Playoffs - Dates",
+    "shortName": "2016 Plyff - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1475553600000
+   },
+   {
+    "code": "SEASON_126_YEAR_TO_DATE",
+    "endDate": 1446699599000,
+    "name": "2015 Playoffs - YTD",
+    "shortName": "2015 Plyff - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1444104000000
+   },
+   {
+    "code": "SEASON_126_BY_DATE",
+    "endDate": 1446699599000,
+    "name": "2015 Playoffs - Dates",
+    "shortName": "2015 Plyff - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1444104000000
+   },
+   {
+    "code": "SEASON_124_YEAR_TO_DATE",
+    "endDate": 1414814399000,
+    "name": "2014 Playoffs - YTD",
+    "shortName": "2014 Plyff - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1412049600000
+   },
+   {
+    "code": "SEASON_124_BY_DATE",
+    "endDate": 1414814399000,
+    "name": "2014 Playoffs - Dates",
+    "shortName": "2014 Plyff - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1412049600000
+   },
+   {
+    "code": "SEASON_122_YEAR_TO_DATE",
+    "endDate": 1383278399000,
+    "name": "2013 Playoffs - YTD",
+    "shortName": "2013 Plyff - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1380600000000
+   },
+   {
+    "code": "SEASON_122_BY_DATE",
+    "endDate": 1383278399000,
+    "name": "2013 Playoffs - Dates",
+    "shortName": "2013 Plyff - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1380600000000
+   },
+   {
+    "code": "SEASON_120_YEAR_TO_DATE",
+    "endDate": 1351828799000,
+    "name": "2012 Playoffs - YTD",
+    "shortName": "2012 Plyff - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1349409600000
+   },
+   {
+    "code": "SEASON_120_BY_DATE",
+    "endDate": 1351828799000,
+    "name": "2012 Playoffs - Dates",
+    "shortName": "2012 Plyff - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1349409600000
+   },
+   {
+    "code": "SEASON_118_YEAR_TO_DATE",
+    "endDate": 1319860799000,
+    "name": "2011 Playoffs - YTD",
+    "shortName": "2011 Plyff - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1317355200000
+   },
+   {
+    "code": "SEASON_118_BY_DATE",
+    "endDate": 1319860799000,
+    "name": "2011 Playoffs - Dates",
+    "shortName": "2011 Plyff - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1317355200000
+   },
+   {
+    "code": "SEASON_116_YEAR_TO_DATE",
+    "endDate": 1288929599000,
+    "name": "2010 Playoffs - YTD",
+    "shortName": "2010 Plyff - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1286337600000
+   },
+   {
+    "code": "SEASON_116_BY_DATE",
+    "endDate": 1288929599000,
+    "name": "2010 Playoffs - Dates",
+    "shortName": "2010 Plyff - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1286337600000
+   },
+   {
+    "code": "SEASON_114_YEAR_TO_DATE",
+    "endDate": 1257483599000,
+    "name": "2009 Playoffs - YTD",
+    "shortName": "2009 Plyff - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1254888000000
+   },
+   {
+    "code": "SEASON_114_BY_DATE",
+    "endDate": 1257483599000,
+    "name": "2009 Playoffs - Dates",
+    "shortName": "2009 Plyff - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1254888000000
+   },
+   {
+    "code": "SEASON_111_YEAR_TO_DATE",
+    "endDate": 1225425599000,
+    "name": "2008 Playoffs - YTD",
+    "shortName": "2008 Plyff - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1222833600000
+   },
+   {
+    "code": "SEASON_111_BY_DATE",
+    "endDate": 1225425599000,
+    "name": "2008 Playoffs - Dates",
+    "shortName": "2008 Plyff - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1222833600000
+   },
+   {
+    "code": "SEASON_108_YEAR_TO_DATE",
+    "endDate": 1193630399000,
+    "name": "2007 Playoffs - YTD",
+    "shortName": "2007 Plyff - YTD",
+    "timeframeTypeCode": "YEAR_TO_DATE",
+    "startDate": 1191384000000
+   },
+   {
+    "code": "SEASON_108_BY_DATE",
+    "endDate": 1193630399000,
+    "name": "2007 Playoffs - Dates",
+    "shortName": "2007 Plyff - Dates",
+    "timeframeTypeCode": "BY_DATE",
+    "startDate": 1191384000000
+   }
+  ],
+  "periodList": [
+   "1 (Wed Mar 25)",
+   "2 (Thu Mar 26)",
+   "3 (Fri Mar 27)",
+   "4 (Sat Mar 28)",
+   "5 (Sun Mar 29)",
+   "6 (Mon Mar 30)",
+   "7 (Tue Mar 31)",
+   "8 (Wed Apr 1)",
+   "9 (Thu Apr 2)",
+   "10 (Fri Apr 3)",
+   "11 (Sat Apr 4)",
+   "12 (Sun Apr 5)",
+   "13 (Mon Apr 6)",
+   "14 (Tue Apr 7)",
+   "15 (Wed Apr 8)",
+   "16 (Thu Apr 9)",
+   "17 (Fri Apr 10)",
+   "18 (Sat Apr 11)",
+   "19 (Sun Apr 12)",
+   "20 (Mon Apr 13)",
+   "21 (Tue Apr 14)",
+   "22 (Wed Apr 15)",
+   "23 (Thu Apr 16)",
+   "24 (Fri Apr 17)",
+   "25 (Sat Apr 18)",
+   "26 (Sun Apr 19)",
+   "27 (Mon Apr 20)",
+   "28 (Tue Apr 21)",
+   "29 (Wed Apr 22)",
+   "30 (Thu Apr 23)",
+   "31 (Fri Apr 24)",
+   "32 (Sat Apr 25)",
+   "33 (Sun Apr 26)",
+   "34 (Mon Apr 27)",
+   "35 (Tue Apr 28)",
+   "36 (Wed Apr 29)",
+   "37 (Thu Apr 30)",
+   "38 (Fri May 1)",
+   "39 (Sat May 2)",
+   "40 (Sun May 3)",
+   "41 (Mon May 4)",
+   "42 (Tue May 5)",
+   "43 (Wed May 6)",
+   "44 (Thu May 7)",
+   "45 (Fri May 8)",
+   "46 (Sat May 9)",
+   "47 (Sun May 10)",
+   "48 (Mon May 11)",
+   "49 (Tue May 12)",
+   "50 (Wed May 13)",
+   "51 (Thu May 14)",
+   "52 (Fri May 15)",
+   "53 (Sat May 16)",
+   "54 (Sun May 17)",
+   "55 (Mon May 18)",
+   "56 (Tue May 19)",
+   "57 (Wed May 20)",
+   "58 (Thu May 21)",
+   "59 (Fri May 22)",
+   "60 (Sat May 23)",
+   "61 (Sun May 24)",
+   "62 (Mon May 25)",
+   "63 (Tue May 26)",
+   "64 (Wed May 27)",
+   "65 (Thu May 28)",
+   "66 (Fri May 29)",
+   "67 (Sat May 30)",
+   "68 (Sun May 31)",
+   "69 (Mon Jun 1)",
+   "70 (Tue Jun 2)",
+   "71 (Wed Jun 3)",
+   "72 (Thu Jun 4)",
+   "73 (Fri Jun 5)",
+   "74 (Sat Jun 6)",
+   "75 (Sun Jun 7)",
+   "76 (Mon Jun 8)",
+   "77 (Tue Jun 9)",
+   "78 (Wed Jun 10)",
+   "79 (Thu Jun 11)",
+   "80 (Fri Jun 12)",
+   "81 (Sat Jun 13)",
+   "82 (Sun Jun 14)",
+   "83 (Mon Jun 15)",
+   "84 (Tue Jun 16)",
+   "85 (Wed Jun 17)",
+   "86 (Thu Jun 18)",
+   "87 (Fri Jun 19)",
+   "88 (Sat Jun 20)",
+   "89 (Sun Jun 21)",
+   "90 (Mon Jun 22)",
+   "91 (Tue Jun 23)",
+   "92 (Wed Jun 24)",
+   "93 (Thu Jun 25)",
+   "94 (Fri Jun 26)",
+   "95 (Sat Jun 27)",
+   "96 (Sun Jun 28)",
+   "97 (Mon Jun 29)",
+   "98 (Tue Jun 30)",
+   "99 (Wed Jul 1)",
+   "100 (Thu Jul 2)",
+   "101 (Fri Jul 3)",
+   "102 (Sat Jul 4)",
+   "103 (Sun Jul 5)",
+   "104 (Mon Jul 6)",
+   "105 (Tue Jul 7)",
+   "106 (Wed Jul 8)",
+   "107 (Thu Jul 9)",
+   "108 (Fri Jul 10)",
+   "109 (Sat Jul 11)",
+   "110 (Sun Jul 12)",
+   "111 (Mon Jul 13)",
+   "112 (Tue Jul 14)",
+   "113 (Wed Jul 15)",
+   "114 (Thu Jul 16)",
+   "115 (Fri Jul 17)",
+   "116 (Sat Jul 18)",
+   "117 (Sun Jul 19)",
+   "118 (Mon Jul 20)",
+   "119 (Tue Jul 21)",
+   "120 (Wed Jul 22)",
+   "121 (Thu Jul 23)",
+   "122 (Fri Jul 24)",
+   "123 (Sat Jul 25)",
+   "124 (Sun Jul 26)",
+   "125 (Mon Jul 27)",
+   "126 (Tue Jul 28)",
+   "127 (Wed Jul 29)",
+   "128 (Thu Jul 30)",
+   "129 (Fri Jul 31)",
+   "130 (Sat Aug 1)",
+   "131 (Sun Aug 2)",
+   "132 (Mon Aug 3)",
+   "133 (Tue Aug 4)",
+   "134 (Wed Aug 5)",
+   "135 (Thu Aug 6)",
+   "136 (Fri Aug 7)",
+   "137 (Sat Aug 8)",
+   "138 (Sun Aug 9)",
+   "139 (Mon Aug 10)",
+   "140 (Tue Aug 11)",
+   "141 (Wed Aug 12)",
+   "142 (Thu Aug 13)",
+   "143 (Fri Aug 14)",
+   "144 (Sat Aug 15)",
+   "145 (Sun Aug 16)",
+   "146 (Mon Aug 17)",
+   "147 (Tue Aug 18)",
+   "148 (Wed Aug 19)",
+   "149 (Thu Aug 20)",
+   "150 (Fri Aug 21)",
+   "151 (Sat Aug 22)",
+   "152 (Sun Aug 23)",
+   "153 (Mon Aug 24)",
+   "154 (Tue Aug 25)",
+   "155 (Wed Aug 26)",
+   "156 (Thu Aug 27)",
+   "157 (Fri Aug 28)",
+   "158 (Sat Aug 29)",
+   "159 (Sun Aug 30)",
+   "160 (Mon Aug 31)",
+   "161 (Tue Sep 1)",
+   "162 (Wed Sep 2)",
+   "163 (Thu Sep 3)",
+   "164 (Fri Sep 4)",
+   "165 (Sat Sep 5)",
+   "166 (Sun Sep 6)",
+   "167 (Mon Sep 7)",
+   "168 (Tue Sep 8)",
+   "169 (Wed Sep 9)",
+   "170 (Thu Sep 10)",
+   "171 (Fri Sep 11)",
+   "172 (Sat Sep 12)",
+   "173 (Sun Sep 13)",
+   "174 (Mon Sep 14)",
+   "175 (Tue Sep 15)",
+   "176 (Wed Sep 16)",
+   "177 (Thu Sep 17)",
+   "178 (Fri Sep 18)",
+   "179 (Sat Sep 19)",
+   "180 (Sun Sep 20)"
+  ]
+ },
+ "availableActiveViewType": "ALL_ROWS",
+ "commissioner": true,
+ "leagueNotices": [
+  {
+   "importance": "REGULAR",
+   "dismissible": false,
+   "text": "Your season has ended. The league champion will be determined on <b>Sun Sep 27, 10:15 PM EDT</b>, once stats are finalized.",
+   "essential": false
+  }
+ ],
+ "draftPicksData": {
+  "tableData": [
+   [
+    "2027",
+    "1, 2"
+   ],
+   [
+    "2028",
+    "1, 2"
+   ],
+   [
+    "2029",
+    "1, 2"
+   ],
+   [
+    "2030",
+    "1, 2"
+   ]
+  ],
+  "draftPicksPerYear": [
+   {
+    "year": 2027,
+    "draftPickList": [
+     {
+      "round": 1,
+      "origOwnerTeamId": "ca14h0lmmgdm4611"
+     },
+     {
+      "round": 2,
+      "origOwnerTeamId": "ca14h0lmmgdm4611"
+     }
+    ],
+    "actions": [
+     {
+      "typeId": "4"
+     }
+    ]
+   },
+   {
+    "year": 2028,
+    "draftPickList": [
+     {
+      "round": 1,
+      "origOwnerTeamId": "ca14h0lmmgdm4611"
+     },
+     {
+      "round": 2,
+      "origOwnerTeamId": "ca14h0lmmgdm4611"
+     }
+    ],
+    "actions": [
+     {
+      "typeId": "4"
+     }
+    ]
+   },
+   {
+    "year": 2029,
+    "draftPickList": [
+     {
+      "round": 1,
+      "origOwnerTeamId": "ca14h0lmmgdm4611"
+     },
+     {
+      "round": 2,
+      "origOwnerTeamId": "ca14h0lmmgdm4611"
+     }
+    ],
+    "actions": [
+     {
+      "typeId": "4"
+     }
+    ]
+   },
+   {
+    "year": 2030,
+    "draftPickList": [
+     {
+      "round": 1,
+      "origOwnerTeamId": "ca14h0lmmgdm4611"
+     },
+     {
+      "round": 2,
+      "origOwnerTeamId": "ca14h0lmmgdm4611"
+     }
+    ],
+    "actions": [
+     {
+      "typeId": "4"
+     }
+    ]
+   }
+  ],
+  "tableTitle": "Draft Picks",
+  "tableHeader": [
+   "Year",
+   "Draft Picks"
+  ]
+ }
+}

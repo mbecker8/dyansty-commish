@@ -1,0 +1,2188 @@
+{
+ "source": "DynastyYear19 - Master Sheet - Post-signing.xlsx",
+ "teams": {
+  "AC": {
+   "tab": "AC (Dumpster Fires)",
+   "after_season": 2025,
+   "budget": {
+    "base": 400,
+    "starting": 400,
+    "contracts": 129,
+    "buyouts": 10,
+    "farm": 11,
+    "cash_in": -12,
+    "missed_ip": 0,
+    "spent": 162,
+    "remaining": 238
+   },
+   "contracts": [
+    {
+     "player": "Adley Rutschman",
+     "original_price": 5,
+     "year_signed": 2023,
+     "length": 7,
+     "sheet_price": 33
+    },
+    {
+     "player": "Orion Kerkering",
+     "original_price": 0,
+     "year_signed": 2024,
+     "length": 2,
+     "sheet_price": 5
+    },
+    {
+     "player": "Brent Rooker",
+     "original_price": 2,
+     "year_signed": 2024,
+     "length": 3,
+     "sheet_price": 12
+    },
+    {
+     "player": "Elly de la Cruz",
+     "original_price": 4,
+     "year_signed": 2024,
+     "length": 7,
+     "sheet_price": 32
+    },
+    {
+     "player": "James Wood",
+     "original_price": 4,
+     "year_signed": 2025,
+     "length": 7,
+     "sheet_price": 32
+    },
+    {
+     "player": "Byron Buxton",
+     "original_price": 8,
+     "year_signed": 2025,
+     "length": 1,
+     "sheet_price": 8
+    },
+    {
+     "player": "Shane Bieber",
+     "original_price": 0,
+     "year_signed": 2025,
+     "length": 1,
+     "sheet_price": 0
+    },
+    {
+     "player": "Edward Cabrera",
+     "original_price": 0,
+     "year_signed": 2025,
+     "length": 2,
+     "sheet_price": 5
+    },
+    {
+     "player": "Ryan Walker",
+     "original_price": 2,
+     "year_signed": 2025,
+     "length": 1,
+     "sheet_price": 2
+    },
+    {
+     "player": "Jorge Polanco",
+     "original_price": 0,
+     "year_signed": 2025,
+     "length": 1,
+     "sheet_price": 0
+    }
+   ],
+   "buyouts": [
+    {
+     "player": "Nolan Jones",
+     "original_price": 2,
+     "year_signed": 2023,
+     "length": 3,
+     "sheet_orig_sign": 12,
+     "dropped_in": 2025,
+     "sheet_penalty": 10
+    }
+   ],
+   "farm": [
+    {
+     "player": "Aidan Miller",
+     "salary": 2,
+     "drafted": 2025,
+     "mlb": "No",
+     "keep": null
+    },
+    {
+     "player": "Andrew Painter",
+     "salary": 4,
+     "drafted": 2023,
+     "mlb": "No",
+     "keep": null
+    },
+    {
+     "player": "Samuel Basallo",
+     "salary": 4,
+     "drafted": 2024,
+     "mlb": "Yes",
+     "keep": null
+    },
+    {
+     "player": "Rainiel Rodriguez",
+     "salary": 1,
+     "drafted": 2026,
+     "mlb": null,
+     "keep": null
+    }
+   ]
+  },
+  "AG": {
+   "tab": "AG (Big Beautiful Baseball Team",
+   "after_season": 2025,
+   "budget": {
+    "base": 400,
+    "starting": 400,
+    "contracts": 155,
+    "buyouts": 8,
+    "farm": 13,
+    "cash_in": 16,
+    "missed_ip": null,
+    "spent": 160,
+    "remaining": 240
+   },
+   "contracts": [
+    {
+     "player": "Gunnar Henderson",
+     "original_price": 2,
+     "year_signed": 2022,
+     "length": 5,
+     "sheet_price": 22
+    },
+    {
+     "player": "Lawrence Butler",
+     "original_price": 2,
+     "year_signed": 2024,
+     "length": 3,
+     "sheet_price": 12
+    },
+    {
+     "player": "Mason Miller",
+     "original_price": 5,
+     "year_signed": 2024,
+     "length": 2,
+     "sheet_price": 10
+    },
+    {
+     "player": "Jordan Westburg",
+     "original_price": 6,
+     "year_signed": 2024,
+     "length": 3,
+     "sheet_price": 16
+    },
+    {
+     "player": "Josh Lowe",
+     "original_price": 5,
+     "year_signed": 2023,
+     "length": 3,
+     "sheet_price": 15
+    },
+    {
+     "player": "Tarik Skubal",
+     "original_price": 0,
+     "year_signed": 2023,
+     "length": 3,
+     "sheet_price": 10
+    },
+    {
+     "player": "Jackson Holiday",
+     "original_price": 2,
+     "year_signed": 2024,
+     "length": 4,
+     "sheet_price": 17
+    },
+    {
+     "player": "Jared Jones",
+     "original_price": 0,
+     "year_signed": 2024,
+     "length": 2,
+     "sheet_price": 5
+    },
+    {
+     "player": "Christain Walker",
+     "original_price": 43,
+     "year_signed": 2025,
+     "length": 2,
+     "sheet_price": 48
+    }
+   ],
+   "buyouts": [
+    {
+     "player": "James Outman",
+     "original_price": 1,
+     "year_signed": 2023,
+     "length": 3,
+     "sheet_orig_sign": 11,
+     "dropped_in": 2024,
+     "sheet_penalty": 8
+    }
+   ],
+   "farm": [
+    {
+     "player": "Jace Laviolette",
+     "salary": 2,
+     "drafted": 2025,
+     "mlb": "No",
+     "keep": null
+    },
+    {
+     "player": "Chase Burns",
+     "salary": 3,
+     "drafted": 2025,
+     "mlb": "Yes",
+     "keep": null
+    },
+    {
+     "player": "Konnor Griffin",
+     "salary": 2,
+     "drafted": 2025,
+     "mlb": "No",
+     "keep": null
+    },
+    {
+     "player": "JJ Wetherholt",
+     "salary": 3,
+     "drafted": 2024,
+     "mlb": "No",
+     "keep": null
+    },
+    {
+     "player": "Walker Martin",
+     "salary": 1,
+     "drafted": 2026,
+     "mlb": null,
+     "keep": null
+    },
+    {
+     "player": "Slade Caldwell",
+     "salary": 1,
+     "drafted": 2026,
+     "mlb": null,
+     "keep": null
+    },
+    {
+     "player": "Eduardo Beltre",
+     "salary": 1,
+     "drafted": 2026,
+     "mlb": null,
+     "keep": null
+    }
+   ]
+  },
+  "AW": {
+   "tab": "AW (Minor)",
+   "after_season": 2025,
+   "budget": {
+    "base": 400,
+    "starting": 400,
+    "contracts": 139,
+    "buyouts": 4,
+    "farm": 40,
+    "cash_in": -52,
+    "missed_ip": null,
+    "spent": 235,
+    "remaining": 165
+   },
+   "contracts": [
+    {
+     "player": "Colton Cowser",
+     "original_price": 0,
+     "year_signed": 2024,
+     "length": 3,
+     "sheet_price": 10
+    },
+    {
+     "player": "Spencer Torkelson",
+     "original_price": 3,
+     "year_signed": 2022,
+     "length": 5,
+     "sheet_price": 23
+    },
+    {
+     "player": "Kerry Carpenter",
+     "original_price": 0,
+     "year_signed": 2023,
+     "length": 3,
+     "sheet_price": 10
+    },
+    {
+     "player": "George Kirby",
+     "original_price": 6,
+     "year_signed": 2024,
+     "length": 5,
+     "sheet_price": 26
+    },
+    {
+     "player": "Grayson Rodriguez",
+     "original_price": 6,
+     "year_signed": 2024,
+     "length": 5,
+     "sheet_price": 26
+    },
+    {
+     "player": "Austin Wells",
+     "original_price": 3,
+     "year_signed": 2024,
+     "length": 3,
+     "sheet_price": 13
+    },
+    {
+     "player": "Ben Rice",
+     "original_price": 5,
+     "year_signed": 2025,
+     "length": 2,
+     "sheet_price": 10
+    },
+    {
+     "player": "Andy Pages",
+     "original_price": 5,
+     "year_signed": 2025,
+     "length": 2,
+     "sheet_price": 10
+    },
+    {
+     "player": "Justin Steele",
+     "original_price": 1,
+     "year_signed": 2023,
+     "length": 3,
+     "sheet_price": 11
+    }
+   ],
+   "buyouts": [
+    {
+     "player": "Jack Flaherty",
+     "original_price": 0,
+     "year_signed": 2024,
+     "length": 2,
+     "sheet_orig_sign": 5,
+     "dropped_in": 2025,
+     "sheet_penalty": 4
+    },
+    {
+     "player": "MJ Melendez",
+     "original_price": null,
+     "year_signed": null,
+     "length": null,
+     "sheet_orig_sign": false,
+     "dropped_in": 2024,
+     "sheet_penalty": 0
+    }
+   ],
+   "farm": [
+    {
+     "player": "Moises Ballesteros",
+     "salary": 3,
+     "drafted": 2025,
+     "mlb": "Yes",
+     "keep": null
+    },
+    {
+     "player": "Luis Morales",
+     "salary": 5,
+     "drafted": 2023,
+     "mlb": "Yes",
+     "keep": null
+    },
+    {
+     "player": "Chase Dollander",
+     "salary": 5,
+     "drafted": 2023,
+     "mlb": "Yes",
+     "keep": null
+    },
+    {
+     "player": "Paul Skenes",
+     "salary": 5,
+     "drafted": 2024,
+     "mlb": "Yes",
+     "keep": null
+    },
+    {
+     "player": "Ethan Holliday",
+     "salary": 3,
+     "drafted": 2024,
+     "mlb": "No",
+     "keep": null
+    },
+    {
+     "player": "Vance Honeycutt",
+     "salary": 3,
+     "drafted": 2024,
+     "mlb": "No",
+     "keep": null
+    },
+    {
+     "player": "Lazaro Montes",
+     "salary": 3,
+     "drafted": 2024,
+     "mlb": "No",
+     "keep": null
+    },
+    {
+     "player": "Alfredo Duno",
+     "salary": 2,
+     "drafted": 2025,
+     "mlb": "No",
+     "keep": null
+    },
+    {
+     "player": "Hagen Smith",
+     "salary": 2,
+     "drafted": 2025,
+     "mlb": "No",
+     "keep": null
+    },
+    {
+     "player": "Kayson Cunningham",
+     "salary": 2,
+     "drafted": 2025,
+     "mlb": "No",
+     "keep": null
+    },
+    {
+     "player": "Wehiwa Aloy",
+     "salary": 2,
+     "drafted": 2025,
+     "mlb": "No",
+     "keep": null
+    },
+    {
+     "player": "Rintaro Sasaki",
+     "salary": 1,
+     "drafted": 2026,
+     "mlb": null,
+     "keep": null
+    },
+    {
+     "player": "Kazumo Okamoto",
+     "salary": 1,
+     "drafted": 2026,
+     "mlb": null,
+     "keep": null
+    },
+    {
+     "player": "Eli Wilitis",
+     "salary": 1,
+     "drafted": 2026,
+     "mlb": null,
+     "keep": null
+    },
+    {
+     "player": "Joshua Baez",
+     "salary": 1,
+     "drafted": 2026,
+     "mlb": null,
+     "keep": null
+    },
+    {
+     "player": "Edward Florentino",
+     "salary": 1,
+     "drafted": 2026,
+     "mlb": null,
+     "keep": null
+    }
+   ]
+  },
+  "BL": {
+   "tab": "BL (Brockasauras)",
+   "after_season": 2025,
+   "budget": {
+    "base": 400,
+    "starting": 400,
+    "contracts": 236,
+    "buyouts": 28,
+    "farm": 16,
+    "cash_in": 3,
+    "missed_ip": 0,
+    "spent": 277,
+    "remaining": 123
+   },
+   "contracts": [
+    {
+     "player": "Alex Bregman",
+     "original_price": 5,
+     "year_signed": 2018,
+     "length": 8,
+     "sheet_price": 37
+    },
+    {
+     "player": "Max Fried",
+     "original_price": 47,
+     "year_signed": 2025,
+     "length": 2,
+     "sheet_price": 52
+    },
+    {
+     "player": "Isaac Paredes",
+     "original_price": 3,
+     "year_signed": 2023,
+     "length": 3,
+     "sheet_price": 13
+    },
+    {
+     "player": "Jackson Merrill",
+     "original_price": 2,
+     "year_signed": 2024,
+     "length": 5,
+     "sheet_price": 22
+    },
+    {
+     "player": "Riley Greene",
+     "original_price": 6,
+     "year_signed": 2024,
+     "length": 3,
+     "sheet_price": 16
+    },
+    {
+     "player": "Wilson Contreras",
+     "original_price": 10,
+     "year_signed": 2024,
+     "length": 2,
+     "sheet_price": 15
+    },
+    {
+     "player": "Jacob Wilson",
+     "original_price": 0,
+     "year_signed": 2025,
+     "length": 3,
+     "sheet_price": 10
+    },
+    {
+     "player": "Seiya Suzuki",
+     "original_price": 9,
+     "year_signed": 2025,
+     "length": 2,
+     "sheet_price": 14
+    },
+    {
+     "player": "Randy Arozarena",
+     "original_price": 22,
+     "year_signed": 2025,
+     "length": 2,
+     "sheet_price": 27
+    },
+    {
+     "player": "Romany Anthony",
+     "original_price": 2,
+     "year_signed": 2025,
+     "length": 7,
+     "sheet_price": 30
+    }
+   ],
+   "buyouts": [
+    {
+     "player": "Cristian Javier",
+     "original_price": 0,
+     "year_signed": 2022,
+     "length": 4,
+     "sheet_orig_sign": 15,
+     "dropped_in": 2024,
+     "sheet_penalty": 11
+    },
+    {
+     "player": "Ian Happ",
+     "original_price": 16,
+     "year_signed": 2024,
+     "length": 2,
+     "sheet_orig_sign": 21,
+     "dropped_in": 2025,
+     "sheet_penalty": 17
+    }
+   ],
+   "farm": [
+    {
+     "player": "Xavier Isaac",
+     "salary": 3,
+     "drafted": 2025,
+     "mlb": "No",
+     "keep": "Yes"
+    },
+    {
+     "player": "Brock Wilken",
+     "salary": 3,
+     "drafted": 2024,
+     "mlb": "No",
+     "keep": "Yes"
+    },
+    {
+     "player": "Emmanuel Rodriguez",
+     "salary": 4,
+     "drafted": 2023,
+     "mlb": "No",
+     "keep": "Yes"
+    },
+    {
+     "player": "Adael Amador",
+     "salary": 6,
+     "drafted": 2023,
+     "mlb": "Yes",
+     "keep": "Yes"
+    }
+   ]
+  },
+  "CN": {
+   "tab": "CN (Nygaardians)",
+   "after_season": 2025,
+   "budget": {
+    "base": 400,
+    "starting": 400,
+    "contracts": 221,
+    "buyouts": 7,
+    "farm": 21,
+    "cash_in": -3,
+    "missed_ip": 0,
+    "spent": 252,
+    "remaining": 148
+   },
+   "contracts": [
+    {
+     "player": "Junior Caminero",
+     "original_price": 0,
+     "year_signed": 2023,
+     "length": 7,
+     "sheet_price": 28
+    },
+    {
+     "player": "Shohei Ohtani",
+     "original_price": 111,
+     "year_signed": 2024,
+     "length": 2,
+     "sheet_price": 116
+    },
+    {
+     "player": "Yainer Diaz",
+     "original_price": 0,
+     "year_signed": 2023,
+     "length": 3,
+     "sheet_price": 10
+    },
+    {
+     "player": "Xavier Edwards",
+     "original_price": 1,
+     "year_signed": 2024,
+     "length": 2,
+     "sheet_price": 6
+    },
+    {
+     "player": "Wyatt Langford",
+     "original_price": 2,
+     "year_signed": 2024,
+     "length": 8,
+     "sheet_price": 34
+    },
+    {
+     "player": "Drake Baldwin",
+     "original_price": 1,
+     "year_signed": 2025,
+     "length": 3,
+     "sheet_price": 11
+    },
+    {
+     "player": "Cam Schlittler",
+     "original_price": 1,
+     "year_signed": 2025,
+     "length": 1,
+     "sheet_price": 1
+    },
+    {
+     "player": "Sal Stewart",
+     "original_price": 0,
+     "year_signed": 2025,
+     "length": 3,
+     "sheet_price": 10
+    },
+    {
+     "player": "Parker Messick",
+     "original_price": 0,
+     "year_signed": 2025,
+     "length": 1,
+     "sheet_price": 0
+    },
+    {
+     "player": "Emmet Sheehan",
+     "original_price": 0,
+     "year_signed": 2025,
+     "length": 2,
+     "sheet_price": 5
+    }
+   ],
+   "buyouts": [
+    {
+     "player": "Vaughn Grissom",
+     "original_price": 0,
+     "year_signed": 2023,
+     "length": 3,
+     "sheet_orig_sign": 10,
+     "dropped_in": 2024,
+     "sheet_penalty": 7
+    }
+   ],
+   "farm": [
+    {
+     "player": "Jordan Lawlar",
+     "salary": 8,
+     "drafted": 2022,
+     "mlb": "Yes",
+     "keep": null
+    },
+    {
+     "player": "Termarr Johnson",
+     "salary": 5,
+     "drafted": 2022,
+     "mlb": "No",
+     "keep": null
+    },
+    {
+     "player": "Brady House",
+     "salary": 6,
+     "drafted": 2022,
+     "mlb": "Yes",
+     "keep": null
+    },
+    {
+     "player": "Luis Hernandez",
+     "salary": 1,
+     "drafted": 2026,
+     "mlb": null,
+     "keep": null
+    },
+    {
+     "player": "Justin Lebron",
+     "salary": 1,
+     "drafted": 2026,
+     "mlb": null,
+     "keep": null
+    }
+   ]
+  },
+  "CS": {
+   "tab": "CS (Shag Dawgs)",
+   "after_season": 2025,
+   "budget": {
+    "base": 400,
+    "starting": 400,
+    "contracts": 133,
+    "buyouts": 15,
+    "farm": 10,
+    "cash_in": -20,
+    "missed_ip": 0,
+    "spent": 178,
+    "remaining": 222
+   },
+   "contracts": [
+    {
+     "player": "Jazz Chisholm Jr.",
+     "original_price": 8,
+     "year_signed": 2023,
+     "length": 4,
+     "sheet_price": 23
+    },
+    {
+     "player": "Vinnie Pasquantine",
+     "original_price": 0,
+     "year_signed": 2022,
+     "length": 4,
+     "sheet_price": 15
+    },
+    {
+     "player": "Brenton Doyle",
+     "original_price": 1,
+     "year_signed": 2024,
+     "length": 3,
+     "sheet_price": 11
+    },
+    {
+     "player": "Garrett Crochet",
+     "original_price": 0,
+     "year_signed": 2024,
+     "length": 4,
+     "sheet_price": 15
+    },
+    {
+     "player": "Hunter Brown",
+     "original_price": 28,
+     "year_signed": 2025,
+     "length": 1,
+     "sheet_price": 28
+    },
+    {
+     "player": "Nolan McLean",
+     "original_price": 6,
+     "year_signed": 2025,
+     "length": 3,
+     "sheet_price": 16
+    },
+    {
+     "player": "Agustin Ramirez",
+     "original_price": 2,
+     "year_signed": 2025,
+     "length": 2,
+     "sheet_price": 7
+    },
+    {
+     "player": "Michael Busch",
+     "original_price": 3,
+     "year_signed": 2025,
+     "length": 3,
+     "sheet_price": 13
+    },
+    {
+     "player": "George Springer",
+     "original_price": 3,
+     "year_signed": 2025,
+     "length": 1,
+     "sheet_price": 3
+    },
+    {
+     "player": "Daniel Palencia",
+     "original_price": 2,
+     "year_signed": 2025,
+     "length": 1,
+     "sheet_price": 2
+    }
+   ],
+   "buyouts": [
+    {
+     "player": "Ryan Walker",
+     "original_price": 0,
+     "year_signed": 2024,
+     "length": 2,
+     "sheet_orig_sign": 5,
+     "dropped_in": 2025,
+     "sheet_penalty": 4
+    },
+    {
+     "player": "Zack Gelof",
+     "original_price": 4,
+     "year_signed": 2023,
+     "length": 3,
+     "sheet_orig_sign": 14,
+     "dropped_in": 2025,
+     "sheet_penalty": 11
+    }
+   ],
+   "farm": [
+    {
+     "player": "Jack Leiter",
+     "salary": 7,
+     "drafted": 2022,
+     "mlb": "Yes",
+     "keep": "Yes"
+    },
+    {
+     "player": "Cam Smith",
+     "salary": 3,
+     "drafted": 2025,
+     "mlb": "Yes",
+     "keep": "Yes"
+    }
+   ]
+  },
+  "DC": {
+   "tab": "DC (Cliff Lee Was Here)",
+   "after_season": 2025,
+   "budget": {
+    "base": 400,
+    "starting": 400,
+    "contracts": 105,
+    "buyouts": 11,
+    "farm": 46,
+    "cash_in": 7,
+    "missed_ip": 0,
+    "spent": 155,
+    "remaining": 245
+   },
+   "contracts": [
+    {
+     "player": "Trent Grisham",
+     "original_price": 0,
+     "year_signed": 2025,
+     "length": 1,
+     "sheet_price": 0
+    },
+    {
+     "player": "Francisco Alvarez",
+     "original_price": 6,
+     "year_signed": 2024,
+     "length": 2,
+     "sheet_price": 11
+    },
+    {
+     "player": "CJ Abrams",
+     "original_price": 7,
+     "year_signed": 2024,
+     "length": 4,
+     "sheet_price": 22
+    },
+    {
+     "player": "Shota Imanaga",
+     "original_price": 1,
+     "year_signed": 2024,
+     "length": 2,
+     "sheet_price": 6
+    },
+    {
+     "player": "Geraldo Perdomo",
+     "original_price": 0,
+     "year_signed": 2025,
+     "length": 3,
+     "sheet_price": 10
+    },
+    {
+     "player": "Kenley Jansen",
+     "original_price": 6,
+     "year_signed": 2025,
+     "length": 1,
+     "sheet_price": 6
+    },
+    {
+     "player": "Aroldis Chapman",
+     "original_price": 2,
+     "year_signed": 2025,
+     "length": 1,
+     "sheet_price": 2
+    },
+    {
+     "player": "Ranger Suarez",
+     "original_price": 3,
+     "year_signed": 2025,
+     "length": 2,
+     "sheet_price": 8
+    },
+    {
+     "player": "Framber Valdez",
+     "original_price": 38,
+     "year_signed": 2025,
+     "length": 1,
+     "sheet_price": 38
+    },
+    {
+     "player": "Trevor Megill",
+     "original_price": 2,
+     "year_signed": 2025,
+     "length": 1,
+     "sheet_price": 2
+    }
+   ],
+   "buyouts": [
+    {
+     "player": "Triston Casas",
+     "original_price": 4,
+     "year_signed": 2023,
+     "length": 3,
+     "sheet_orig_sign": 14,
+     "dropped_in": 2025,
+     "sheet_penalty": 11
+    }
+   ],
+   "farm": [
+    {
+     "player": "Ethan Salas",
+     "salary": 3,
+     "drafted": 2024,
+     "mlb": "No",
+     "keep": null
+    },
+    {
+     "player": "Carson Williams",
+     "salary": 4,
+     "drafted": 2024,
+     "mlb": "Yes",
+     "keep": null
+    },
+    {
+     "player": "Nick Kurtz",
+     "salary": 4,
+     "drafted": 2024,
+     "mlb": "Yes",
+     "keep": null
+    },
+    {
+     "player": "Coby Mayo",
+     "salary": 7,
+     "drafted": 2022,
+     "mlb": "Yes",
+     "keep": null
+    },
+    {
+     "player": "Jaison Chourio",
+     "salary": 2,
+     "drafted": 2025,
+     "mlb": "No",
+     "keep": null
+    },
+    {
+     "player": "Sebastian Walcott",
+     "salary": 2,
+     "drafted": 2025,
+     "mlb": "No",
+     "keep": null
+    },
+    {
+     "player": "Colson Montgomery",
+     "salary": 5,
+     "drafted": 2023,
+     "mlb": "Yes",
+     "keep": null
+    },
+    {
+     "player": "Kahlil Watson",
+     "salary": 5,
+     "drafted": 2022,
+     "mlb": "No",
+     "keep": null
+    },
+    {
+     "player": "Orelvis Martinez",
+     "salary": 8,
+     "drafted": 2021,
+     "mlb": "Yes",
+     "keep": null
+    },
+    {
+     "player": "Jarlin Susana",
+     "salary": 2,
+     "drafted": 2025,
+     "mlb": "No",
+     "keep": null
+    },
+    {
+     "player": "Roki Sasaki",
+     "salary": 4,
+     "drafted": 2024,
+     "mlb": "Yes",
+     "keep": null
+    },
+    {
+     "player": "Josue Briceno",
+     "salary": 1,
+     "drafted": 2026,
+     "mlb": null,
+     "keep": null
+    },
+    {
+     "player": "Ryan Waldschmidt",
+     "salary": 1,
+     "drafted": 2026,
+     "mlb": null,
+     "keep": null
+    },
+    {
+     "player": "Franklin Arias",
+     "salary": 1,
+     "drafted": 2026,
+     "mlb": null,
+     "keep": null
+    }
+   ]
+  },
+  "JM": {
+   "tab": "JM (JMoney)",
+   "after_season": 2025,
+   "budget": {
+    "base": 400,
+    "starting": 400,
+    "contracts": 186,
+    "buyouts": 72,
+    "farm": 6,
+    "cash_in": 15,
+    "missed_ip": null,
+    "spent": 249,
+    "remaining": 151
+   },
+   "contracts": [
+    {
+     "player": "Robbie Ray",
+     "original_price": 1,
+     "year_signed": 2024,
+     "length": 2,
+     "sheet_price": 6
+    },
+    {
+     "player": "Kodai Senga",
+     "original_price": 5,
+     "year_signed": 2025,
+     "length": 1,
+     "sheet_price": 5
+    },
+    {
+     "player": "Noelvi Marte",
+     "original_price": 8,
+     "year_signed": 2025,
+     "length": 2,
+     "sheet_price": 13
+    },
+    {
+     "player": "Kyle Bradish",
+     "original_price": 0,
+     "year_signed": 2025,
+     "length": 3,
+     "sheet_price": 10
+    },
+    {
+     "player": "Aaron Judge",
+     "original_price": 98,
+     "year_signed": 2024,
+     "length": 2,
+     "sheet_price": 103
+    },
+    {
+     "player": "Wily Adames",
+     "original_price": 15,
+     "year_signed": 2024,
+     "length": 3,
+     "sheet_price": 25
+    },
+    {
+     "player": "Andrew Vaughn",
+     "original_price": 1,
+     "year_signed": 2025,
+     "length": 1,
+     "sheet_price": 1
+    },
+    {
+     "player": "Trevor Rogers",
+     "original_price": 1,
+     "year_signed": 2025,
+     "length": 1,
+     "sheet_price": 1
+    },
+    {
+     "player": "Jacob Misiorowski",
+     "original_price": 1,
+     "year_signed": 2025,
+     "length": 3,
+     "sheet_price": 11
+    },
+    {
+     "player": "Gerrit Cole",
+     "original_price": 1,
+     "year_signed": 2025,
+     "length": 3,
+     "sheet_price": 11
+    }
+   ],
+   "buyouts": [
+    {
+     "player": "Wander Franco",
+     "original_price": 5,
+     "year_signed": 2022,
+     "length": 7,
+     "sheet_orig_sign": 33,
+     "dropped_in": 2023,
+     "sheet_penalty": 20
+    },
+    {
+     "player": "Nolan Gorman",
+     "original_price": 6,
+     "year_signed": 2023,
+     "length": 3,
+     "sheet_orig_sign": 16,
+     "dropped_in": 2024,
+     "sheet_penalty": 11
+    },
+    {
+     "player": "Eloy Jimenez",
+     "original_price": 7,
+     "year_signed": 2021,
+     "length": 6,
+     "sheet_orig_sign": 31,
+     "dropped_in": 2024,
+     "sheet_penalty": 22
+    },
+    {
+     "player": "Cedric Mullins",
+     "original_price": 0,
+     "year_signed": 2021,
+     "length": 6,
+     "sheet_orig_sign": 24,
+     "dropped_in": 2025,
+     "sheet_penalty": 19
+    },
+    {
+     "player": "Spencer Arrighetti",
+     "original_price": 0,
+     "year_signed": 2024,
+     "length": 2,
+     "sheet_orig_sign": 5,
+     "dropped_in": 2025,
+     "sheet_penalty": 4
+    },
+    {
+     "player": "Bowden Francis",
+     "original_price": 3,
+     "year_signed": 2024,
+     "length": 2,
+     "sheet_orig_sign": 8,
+     "dropped_in": 2025,
+     "sheet_penalty": 6
+    }
+   ],
+   "farm": [
+    {
+     "player": "Bryce Eldridge",
+     "salary": 3,
+     "drafted": 2025,
+     "mlb": "Yes",
+     "keep": "Yes"
+    },
+    {
+     "player": "Emil Morales",
+     "salary": 1,
+     "drafted": 2026,
+     "mlb": null,
+     "keep": null
+    },
+    {
+     "player": "Luis Pena",
+     "salary": 1,
+     "drafted": 2026,
+     "mlb": null,
+     "keep": null
+    },
+    {
+     "player": "Carson Benge",
+     "salary": 1,
+     "drafted": 2026,
+     "mlb": null,
+     "keep": null
+    }
+   ]
+  },
+  "JJ": {
+   "tab": "JJ (metropolitans)",
+   "after_season": 2025,
+   "budget": {
+    "base": 400,
+    "starting": 400,
+    "contracts": 200,
+    "buyouts": 0,
+    "farm": 0,
+    "cash_in": -16,
+    "missed_ip": 0,
+    "spent": 216,
+    "remaining": 184
+   },
+   "contracts": [
+    {
+     "player": "Colt Keith",
+     "original_price": 0,
+     "year_signed": 2023,
+     "length": 4,
+     "sheet_price": 15
+    },
+    {
+     "player": "Francisco Lindor",
+     "original_price": 70,
+     "year_signed": 2024,
+     "length": 2,
+     "sheet_price": 75
+    },
+    {
+     "player": "Spencer Strider",
+     "original_price": 0,
+     "year_signed": 2022,
+     "length": 4,
+     "sheet_price": 15
+    },
+    {
+     "player": "Edwin Diaz",
+     "original_price": 27,
+     "year_signed": 2025,
+     "length": 1,
+     "sheet_price": 27
+    },
+    {
+     "player": "Pete Alonso",
+     "original_price": 53,
+     "year_signed": 2025,
+     "length": 1,
+     "sheet_price": 53
+    },
+    {
+     "player": "Wilyer Abreu",
+     "original_price": 1,
+     "year_signed": 2025,
+     "length": 1,
+     "sheet_price": 1
+    },
+    {
+     "player": "Kyle Stowers",
+     "original_price": 0,
+     "year_signed": 2025,
+     "length": 2,
+     "sheet_price": 5
+    },
+    {
+     "player": "Carlos Estevez",
+     "original_price": 1,
+     "year_signed": 2025,
+     "length": 1,
+     "sheet_price": 1
+    },
+    {
+     "player": "Emilio Pagan",
+     "original_price": 0,
+     "year_signed": 2025,
+     "length": 1,
+     "sheet_price": 0
+    },
+    {
+     "player": "Chandler Simpson",
+     "original_price": 8,
+     "year_signed": 2025,
+     "length": 1,
+     "sheet_price": 8
+    }
+   ],
+   "buyouts": [],
+   "farm": []
+  },
+  "KJ": {
+   "tab": "KJ (Stat Sandwich)",
+   "after_season": 2025,
+   "budget": {
+    "base": 400,
+    "starting": 400,
+    "contracts": 146,
+    "buyouts": 0,
+    "farm": 3,
+    "cash_in": -9,
+    "missed_ip": 0,
+    "spent": 158,
+    "remaining": 242
+   },
+   "contracts": [
+    {
+     "player": "Corbin Carroll",
+     "original_price": 5,
+     "year_signed": 2023,
+     "length": 7,
+     "sheet_price": 33
+    },
+    {
+     "player": "Fernando Tatis Jr",
+     "original_price": 4,
+     "year_signed": 2020,
+     "length": 7,
+     "sheet_price": 32
+    },
+    {
+     "player": "Pete Crow-Armstrong",
+     "original_price": 1,
+     "year_signed": 2023,
+     "length": 4,
+     "sheet_price": 16
+    },
+    {
+     "player": "Salvador Perez",
+     "original_price": 9,
+     "year_signed": 2024,
+     "length": 2,
+     "sheet_price": 14
+    },
+    {
+     "player": "Brice Turang",
+     "original_price": 0,
+     "year_signed": 2024,
+     "length": 2,
+     "sheet_price": 5
+    },
+    {
+     "player": "Shea Langeliers",
+     "original_price": 1,
+     "year_signed": 2024,
+     "length": 2,
+     "sheet_price": 6
+    },
+    {
+     "player": "Brandon Woodruff",
+     "original_price": 9,
+     "year_signed": 2024,
+     "length": 2,
+     "sheet_price": 14
+    },
+    {
+     "player": "Bubba Chandler",
+     "original_price": 1,
+     "year_signed": 2025,
+     "length": 4,
+     "sheet_price": 16
+    },
+    {
+     "player": "Cade Smith",
+     "original_price": 1,
+     "year_signed": 2025,
+     "length": 2,
+     "sheet_price": 6
+    },
+    {
+     "player": "Eugenio Suarez",
+     "original_price": 4,
+     "year_signed": 2025,
+     "length": 1,
+     "sheet_price": 4
+    }
+   ],
+   "buyouts": [],
+   "farm": [
+    {
+     "player": "Colt Emerson",
+     "salary": 3,
+     "drafted": 2024,
+     "mlb": "No",
+     "keep": "Yes"
+    }
+   ]
+  },
+  "MB": {
+   "tab": "MB (Beckers Wreckers)",
+   "after_season": 2025,
+   "budget": {
+    "base": 400,
+    "starting": 400,
+    "contracts": 94,
+    "buyouts": 30,
+    "farm": 50,
+    "cash_in": 5,
+    "missed_ip": 0,
+    "spent": 169,
+    "remaining": 231
+   },
+   "contracts": [
+    {
+     "player": "Royce Lewis",
+     "original_price": 9,
+     "year_signed": 2024,
+     "length": 3,
+     "sheet_price": 19
+    },
+    {
+     "player": "Masyn Winn",
+     "original_price": 1,
+     "year_signed": 2024,
+     "length": 3,
+     "sheet_price": 11
+    },
+    {
+     "player": "Mark Vientos",
+     "original_price": 1,
+     "year_signed": 2024,
+     "length": 3,
+     "sheet_price": 11
+    },
+    {
+     "player": "Shane Baz",
+     "original_price": 12,
+     "year_signed": 2025,
+     "length": 1,
+     "sheet_price": 12
+    },
+    {
+     "player": "Jesus Luzardo",
+     "original_price": 1,
+     "year_signed": 2024,
+     "length": 3,
+     "sheet_price": 11
+    },
+    {
+     "player": "Matt McLain",
+     "original_price": 7,
+     "year_signed": 2023,
+     "length": 3,
+     "sheet_price": 17
+    },
+    {
+     "player": "Kris Bubic",
+     "original_price": 0,
+     "year_signed": 2025,
+     "length": 2,
+     "sheet_price": 5
+    },
+    {
+     "player": "Daylen Lile",
+     "original_price": 0,
+     "year_signed": 2025,
+     "length": 1,
+     "sheet_price": 0
+    },
+    {
+     "player": "Jakob Marsee",
+     "original_price": 0,
+     "year_signed": 2025,
+     "length": 2,
+     "sheet_price": 5
+    },
+    {
+     "player": "Jordan Beck",
+     "original_price": 3,
+     "year_signed": 2025,
+     "length": 1,
+     "sheet_price": 3
+    }
+   ],
+   "buyouts": [
+    {
+     "player": "Braxton Garrett",
+     "original_price": 1,
+     "year_signed": 2023,
+     "length": 3,
+     "sheet_orig_sign": 11,
+     "dropped_in": 2024,
+     "sheet_penalty": 8
+    },
+    {
+     "player": "Brayan Bello",
+     "original_price": 0,
+     "year_signed": 2023,
+     "length": 3,
+     "sheet_orig_sign": 10,
+     "dropped_in": 2024,
+     "sheet_penalty": 7
+    },
+    {
+     "player": "Jurickson Profar",
+     "original_price": 1,
+     "year_signed": 2024,
+     "length": 2,
+     "sheet_orig_sign": 6,
+     "dropped_in": 2025,
+     "sheet_penalty": 5
+    },
+    {
+     "player": "Gavin Lux",
+     "original_price": 3,
+     "year_signed": 2023,
+     "length": 3,
+     "sheet_orig_sign": 13,
+     "dropped_in": 2025,
+     "sheet_penalty": 10
+    }
+   ],
+   "farm": [
+    {
+     "player": "Josue De Paula",
+     "salary": 4,
+     "drafted": 2023,
+     "mlb": "No",
+     "keep": "Yes"
+    },
+    {
+     "player": "Walker Jenkins",
+     "salary": 3,
+     "drafted": 2024,
+     "mlb": "No",
+     "keep": "Yes"
+    },
+    {
+     "player": "Luke Keaschall",
+     "salary": 3,
+     "drafted": 2025,
+     "mlb": "Yes",
+     "keep": "Yes"
+    },
+    {
+     "player": "Munetaka Murakami",
+     "salary": 4,
+     "drafted": 2022,
+     "mlb": "No",
+     "keep": "Yes"
+    },
+    {
+     "player": "Ricky Tiedeman",
+     "salary": 4,
+     "drafted": 2023,
+     "mlb": "No",
+     "keep": "Yes"
+    },
+    {
+     "player": "Marcelo Mayer",
+     "salary": 6,
+     "drafted": 2022,
+     "mlb": "Yes",
+     "keep": "Yes"
+    },
+    {
+     "player": "Zac Veen",
+     "salary": 6,
+     "drafted": 2021,
+     "mlb": "No",
+     "keep": "Yes"
+    },
+    {
+     "player": "Brooks Lee",
+     "salary": 5,
+     "drafted": 2024,
+     "mlb": "Yes",
+     "keep": "Yes"
+    },
+    {
+     "player": "Jac Caglianone",
+     "salary": 3,
+     "drafted": 2025,
+     "mlb": "Yes",
+     "keep": "Yes"
+    },
+    {
+     "player": "Charlie Condon",
+     "salary": 3,
+     "drafted": 2024,
+     "mlb": "No",
+     "keep": "Yes"
+    },
+    {
+     "player": "Matt Shaw",
+     "salary": 4,
+     "drafted": 2024,
+     "mlb": "Yes",
+     "keep": "Yes"
+    },
+    {
+     "player": "Christian Moore",
+     "salary": 3,
+     "drafted": 2025,
+     "mlb": "Yes",
+     "keep": "Yes"
+    },
+    {
+     "player": "Grady Emerson",
+     "salary": 1,
+     "drafted": 2026,
+     "mlb": null,
+     "keep": null
+    },
+    {
+     "player": "Johnny Farmelo",
+     "salary": 1,
+     "drafted": 2026,
+     "mlb": null,
+     "keep": null
+    }
+   ]
+  },
+  "MH": {
+   "tab": "MH (sabermutrics)",
+   "after_season": 2025,
+   "budget": {
+    "base": 400,
+    "starting": 400,
+    "contracts": 138,
+    "buyouts": 29,
+    "farm": 23,
+    "cash_in": -15,
+    "missed_ip": null,
+    "spent": 205,
+    "remaining": 195
+   },
+   "contracts": [
+    {
+     "player": "Julio Rodriguez",
+     "original_price": 5,
+     "year_signed": 2023,
+     "length": 6,
+     "sheet_price": 29
+    },
+    {
+     "player": "Yoshinobu Yamamoto",
+     "original_price": 2,
+     "year_signed": 2024,
+     "length": 4,
+     "sheet_price": 17
+    },
+    {
+     "player": "Jackson Chourio",
+     "original_price": 4,
+     "year_signed": 2025,
+     "length": 6,
+     "sheet_price": 28
+    },
+    {
+     "player": "Eury Perez",
+     "original_price": 9,
+     "year_signed": 2025,
+     "length": 3,
+     "sheet_price": 19
+    },
+    {
+     "player": "Jonathan Aranda",
+     "original_price": 0,
+     "year_signed": 2025,
+     "length": 2,
+     "sheet_price": 5
+    },
+    {
+     "player": "Ceddane Rafaela",
+     "original_price": 8,
+     "year_signed": 2025,
+     "length": 2,
+     "sheet_price": 13
+    },
+    {
+     "player": "Caleb Durbin",
+     "original_price": 1,
+     "year_signed": 2025,
+     "length": 2,
+     "sheet_price": 6
+    },
+    {
+     "player": "Alec Bohm",
+     "original_price": 2,
+     "year_signed": 2025,
+     "length": 1,
+     "sheet_price": 2
+    },
+    {
+     "player": "Kyle Manzardo",
+     "original_price": 0,
+     "year_signed": 2025,
+     "length": 2,
+     "sheet_price": 5
+    },
+    {
+     "player": "Tanner Bibee",
+     "original_price": 2,
+     "year_signed": 2025,
+     "length": 1,
+     "sheet_price": 2
+    },
+    {
+     "player": "Bryson Scott",
+     "original_price": 2,
+     "year_signed": 2023,
+     "length": 3,
+     "sheet_price": 12
+    }
+   ],
+   "buyouts": [
+    {
+     "player": "Evan Carter",
+     "original_price": 0,
+     "year_signed": 2023,
+     "length": 4,
+     "sheet_orig_sign": 15,
+     "dropped_in": 2025,
+     "sheet_penalty": 12
+    },
+    {
+     "player": "Christian Encarnacion-Strand",
+     "original_price": 1,
+     "year_signed": 2023,
+     "length": 5,
+     "sheet_orig_sign": 21,
+     "dropped_in": 2025,
+     "sheet_penalty": 17
+    }
+   ],
+   "farm": [
+    {
+     "player": "Dalton Rushing",
+     "salary": 3,
+     "drafted": 2025,
+     "mlb": "Yes",
+     "keep": "Yes"
+    },
+    {
+     "player": "Max Clark",
+     "salary": 3,
+     "drafted": 2024,
+     "mlb": "No",
+     "keep": "Yes"
+    },
+    {
+     "player": "Tyler Black",
+     "salary": 5,
+     "drafted": 2024,
+     "mlb": "Yes",
+     "keep": "Yes"
+    },
+    {
+     "player": "Jackson Jobe",
+     "salary": 5,
+     "drafted": 2024,
+     "mlb": "Yes",
+     "keep": "Yes"
+    },
+    {
+     "player": "Thomas White",
+     "salary": 2,
+     "drafted": 2025,
+     "mlb": "No",
+     "keep": "Yes"
+    },
+    {
+     "player": "Alex Freeland",
+     "salary": 3,
+     "drafted": 2025,
+     "mlb": "Yes",
+     "keep": "Yes"
+    },
+    {
+     "player": "Eduardo Quintero",
+     "salary": 1,
+     "drafted": 2026,
+     "mlb": null,
+     "keep": null
+    },
+    {
+     "player": "Kade Anderson",
+     "salary": 1,
+     "drafted": 2026,
+     "mlb": null,
+     "keep": null
+    }
+   ]
+  },
+  "MT": {
+   "tab": "MT (Tradezilla)",
+   "after_season": 2025,
+   "budget": {
+    "base": 400,
+    "starting": 400,
+    "contracts": 218,
+    "buyouts": 29,
+    "farm": 12,
+    "cash_in": 64,
+    "missed_ip": null,
+    "spent": 195,
+    "remaining": 205
+   },
+   "contracts": [
+    {
+     "player": "Logan Webb",
+     "original_price": 22,
+     "year_signed": 2025,
+     "length": 2,
+     "sheet_price": 27
+    },
+    {
+     "player": "Brandon Lowe",
+     "original_price": 3,
+     "year_signed": 2025,
+     "length": 1,
+     "sheet_price": 3
+    },
+    {
+     "player": "Zach Neto",
+     "original_price": 6,
+     "year_signed": 2024,
+     "length": 2,
+     "sheet_price": 11
+    },
+    {
+     "player": "Juan Soto",
+     "original_price": 3,
+     "year_signed": 2019,
+     "length": 7,
+     "sheet_price": 31
+    },
+    {
+     "player": "Joe Ryan",
+     "original_price": 1,
+     "year_signed": 2023,
+     "length": 3,
+     "sheet_price": 11
+    },
+    {
+     "player": "Yordan Alvarez",
+     "original_price": 7,
+     "year_signed": 2022,
+     "length": 7,
+     "sheet_price": 35
+    },
+    {
+     "player": "Ronald Acuna Jr.",
+     "original_price": 4,
+     "year_signed": 2019,
+     "length": 8,
+     "sheet_price": 36
+    },
+    {
+     "player": "Bobby Witt Jr",
+     "original_price": 3,
+     "year_signed": 2022,
+     "length": 5,
+     "sheet_price": 23
+    },
+    {
+     "player": "Oneil Cruz",
+     "original_price": 8,
+     "year_signed": 2024,
+     "length": 3,
+     "sheet_price": 18
+    },
+    {
+     "player": "Michael Harris",
+     "original_price": 8,
+     "year_signed": 2022,
+     "length": 4,
+     "sheet_price": 23
+    }
+   ],
+   "buyouts": [
+    {
+     "player": "Bo Naylor",
+     "original_price": 0,
+     "year_signed": 2023,
+     "length": 3,
+     "sheet_orig_sign": 10,
+     "dropped_in": 2024,
+     "sheet_penalty": 7
+    },
+    {
+     "player": "Bobby Miller",
+     "original_price": 1,
+     "year_signed": 2023,
+     "length": 4,
+     "sheet_orig_sign": 16,
+     "dropped_in": 2025,
+     "sheet_penalty": 13
+    },
+    {
+     "player": "Michael Toglia",
+     "original_price": 1,
+     "year_signed": 2024,
+     "length": 3,
+     "sheet_orig_sign": 11,
+     "dropped_in": 2025,
+     "sheet_penalty": 9
+    }
+   ],
+   "farm": [
+    {
+     "player": "Travis Bazzana",
+     "salary": 3,
+     "drafted": 2024,
+     "mlb": "No",
+     "keep": null
+    },
+    {
+     "player": "Leodalis De Vries",
+     "salary": 2,
+     "drafted": 2024,
+     "mlb": "No",
+     "keep": null
+    },
+    {
+     "player": "Zyhir Hope",
+     "salary": 2,
+     "drafted": 2025,
+     "mlb": "No",
+     "keep": null
+    },
+    {
+     "player": "Kevin McGonigle",
+     "salary": 2,
+     "drafted": 2025,
+     "mlb": "No",
+     "keep": null
+    },
+    {
+     "player": "Roch CHolowsky",
+     "salary": 1,
+     "drafted": 2026,
+     "mlb": null,
+     "keep": null
+    },
+    {
+     "player": "Josuar Gonzales",
+     "salary": 1,
+     "drafted": 2026,
+     "mlb": null,
+     "keep": null
+    },
+    {
+     "player": "Ryan Sloan",
+     "salary": 1,
+     "drafted": 2026,
+     "mlb": null,
+     "keep": null
+    }
+   ]
+  },
+  "SM": {
+   "tab": "SM (Dawsyn)",
+   "after_season": 2025,
+   "budget": {
+    "base": 400,
+    "starting": 400,
+    "contracts": 173,
+    "buyouts": 37,
+    "farm": 17,
+    "cash_in": 17,
+    "missed_ip": null,
+    "spent": 210,
+    "remaining": 190
+   },
+   "contracts": [
+    {
+     "player": "Tyler Soderstrom",
+     "original_price": 4,
+     "year_signed": 2024,
+     "length": 2,
+     "sheet_price": 9
+    },
+    {
+     "player": "Bo Bichette",
+     "original_price": 10,
+     "year_signed": 2023,
+     "length": 4,
+     "sheet_price": 25
+    },
+    {
+     "player": "Spencer Schwellenbach",
+     "original_price": 2,
+     "year_signed": 2024,
+     "length": 4,
+     "sheet_price": 17
+    },
+    {
+     "player": "Brandon Nimmo",
+     "original_price": 16,
+     "year_signed": 2024,
+     "length": 2,
+     "sheet_price": 21
+    },
+    {
+     "player": "Maikel Garcia",
+     "original_price": 8,
+     "year_signed": 2025,
+     "length": 4,
+     "sheet_price": 23
+    },
+    {
+     "player": "Ivan Herrera",
+     "original_price": 14,
+     "year_signed": 2025,
+     "length": 1,
+     "sheet_price": 14
+    },
+    {
+     "player": "Jo Adell",
+     "original_price": 3,
+     "year_signed": 2025,
+     "length": 3,
+     "sheet_price": 13
+    },
+    {
+     "player": "Bryan Woo",
+     "original_price": 26,
+     "year_signed": 2025,
+     "length": 2,
+     "sheet_price": 31
+    },
+    {
+     "player": "Joe Musgrove",
+     "original_price": 0,
+     "year_signed": 2025,
+     "length": 2,
+     "sheet_price": 5
+    },
+    {
+     "player": "Hunter Goodman",
+     "original_price": 5,
+     "year_signed": 2025,
+     "length": 3,
+     "sheet_price": 15
+    }
+   ],
+   "buyouts": [
+    {
+     "player": "Ceddanne Rafaela",
+     "original_price": 0,
+     "year_signed": 2023,
+     "length": 3,
+     "sheet_orig_sign": 10,
+     "dropped_in": 2024,
+     "sheet_penalty": 7
+    },
+    {
+     "player": "Felix Bautista",
+     "original_price": 4,
+     "year_signed": 2024,
+     "length": 2,
+     "sheet_orig_sign": 9,
+     "dropped_in": 2025,
+     "sheet_penalty": 7
+    },
+    {
+     "player": "Gavin Williams",
+     "original_price": 0,
+     "year_signed": 2023,
+     "length": 3,
+     "sheet_orig_sign": 10,
+     "dropped_in": 2025,
+     "sheet_penalty": 8
+    },
+    {
+     "player": "Josh Jung",
+     "original_price": 4,
+     "year_signed": 2023,
+     "length": 4,
+     "sheet_orig_sign": 19,
+     "dropped_in": 2025,
+     "sheet_penalty": 15
+    }
+   ],
+   "farm": [
+    {
+     "player": "Cam Collier",
+     "salary": 4,
+     "drafted": 2022,
+     "mlb": "No",
+     "keep": "Yes"
+    },
+    {
+     "player": "Noah Schultz",
+     "salary": 2,
+     "drafted": 2025,
+     "mlb": "No",
+     "keep": "Yes"
+    },
+    {
+     "player": "Jett Williams",
+     "salary": 3,
+     "drafted": 2024,
+     "mlb": "No",
+     "keep": "Yes"
+    },
+    {
+     "player": "Jesus Made",
+     "salary": 2,
+     "drafted": 2025,
+     "mlb": "No",
+     "keep": "Yes"
+    },
+    {
+     "player": "Felnin Celesten",
+     "salary": 2,
+     "drafted": 2025,
+     "mlb": "No",
+     "keep": "Yes"
+    },
+    {
+     "player": "Braden Montgomery",
+     "salary": 2,
+     "drafted": 2025,
+     "mlb": "No",
+     "keep": "Yes"
+    },
+    {
+     "player": "Caleb Bonemer",
+     "salary": 1,
+     "drafted": 2026,
+     "mlb": null,
+     "keep": null
+    },
+    {
+     "player": "Bryce Rainer",
+     "salary": 1,
+     "drafted": 2026,
+     "mlb": null,
+     "keep": null
+    }
+   ]
+  }
+ }
+}

@@ -90,7 +90,8 @@ The **signing blackout** is the heart of the MVP:
 
 ## 5. Domain model (first cut)
 
-- **League / Season** — league year (e.g. Year 19 = 2025 season), rule
+- **League / Season** — league year (e.g. Year 19 = the 2026 season; its
+  signing in Feb 2026 records contracts as year signed S=2025), rule
   parameters for that season (base budget, contract limit, formula constants).
 - **Team / Manager** — team names change over time; managers can change.
 - **Player** — Fantrax player ID, name, positions, MLB-debut status.
@@ -153,6 +154,11 @@ Rule constants are **per-season configuration**, since the rulebook changes a
 few times a year.
 
 **Golden tests:** the Year 19 workbook's cached values become test fixtures.
+The fixture (`rules/tests/fixtures/year19_post_signing.json`) is extracted from
+a Google Sheets export by `scripts/extract_workbook_fixture.py`. Every contract
+price and buyout penalty matches. Two budgets differ because of sheet bugs:
+DC's farm total skips Farm 1 (+$3 of budget), and JM's buyout total only sums
+4 of its 6 buyouts (+$10).
 Where the app disagrees with the sheet, each difference is either a
 documented spreadsheet bug or a bug in the app.
 

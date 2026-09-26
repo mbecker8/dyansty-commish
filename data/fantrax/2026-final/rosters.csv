@@ -1,0 +1,576 @@
+team_id,team,player_id,player,mlb_team,positions,status,salary,year_signed,contract_expires,rookie,minors_eligible
+6wjoojsemgdm460y,beKCer's trainwreKCers,03yrz,William Contreras,MIL,C,Active,38,,,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,04pmu,Ryan Jeffers,MIN,C,Active,2,,,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,05u9q,Jac Caglianone,KC,"1B,OF",Active,3,Farm,,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,03fi0,Ozzie Albies,ATL,2B,Active,20,,,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,01svq,Manny Machado,SD,3B,Active,49,,,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,04yig,Brooks Lee,MIN,"2B,3B,SS",Active,5,Farm,,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,05y3u,Munetaka Murakami,CHW,"1B,3B",Active,4,Farm,,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,04aeb,Royce Lewis,MIN,"1B,2B,3B",Active,19,Farm,2027,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,01fh9,Bryce Harper,PHI,"1B,OF",Active,43,,,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,040b5,Randy Arozarena,SEA,OF,Active,27,,2027,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,0512v,Michael Harris II,ATL,OF,Active,23,,2026,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,05t2b,Daylen Lile,WSH,OF,Active,0,,2026,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,04en7,Garrett Mitchell,MIL,OF,Active,1,,,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,01u75,Salvador Perez,KC,"C,1B",Active,14,,2026,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,05gwy,Masyn Winn,STL,SS,Reserve,11,,2027,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,03nmw,Ian Happ,CHC,OF,Reserve,30,,,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,05r9j,Marcelo Mayer,SF,"2B,3B,SS",Inj Res,6,Farm,,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,06alk,Charlie Condon,COL,"1B,OF",Minors,3,Farm,,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,06cq8,Christian Moore,LAA,2B,Minors,3,Farm,,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,063vu,Matt Shaw,CHC,"2B,3B,OF",Minors,4,Farm,,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,066j2,Grady Emerson,TB,SS,Minors,1,Farm,,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,061zv,Josue De Paula,LAD,OF,Minors,4,Farm,,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,066sx,Jonny Farmelo,SEA,OF,Minors,1,Farm,,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,05gbg,Zac Veen,COL,OF,Minors,6,Farm,,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,03btv,Sandy Alcantara,MIA,SP,Active,17,,,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,04pmb,Kris Bubic,LAD,SP,Active,5,,2027,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,03df2,Dylan Cease,TOR,SP,Active,29,,,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,06luc,Jack Dreyer,LAD,RP,Active,0,,,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,04apj,Jhoan Duran,PHI,RP,Active,32,,,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,04pps,Hogan Harris,ATH,RP,Active,1,,,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,0516x,Brent Headrick,NYY,RP,Active,1,,,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,01svz,Kenley Jansen,DET,RP,Active,6,,2026,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,066er,Grant Taylor,CHW,RP,Active,2,,,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,04cwf,Shane Baz,BAL,SP,Reserve,12,,2026,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,02n4s,Matthew Boyd,CHC,SP,Reserve,16,,,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,04eee,Drew Rasmussen,TB,SP,Reserve,18,,,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,0629b,Walbert Urena,LAA,SP,Reserve,2,,,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,041r1,Jesus Luzardo,PHI,SP,Inj Res,11,,2027,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,05y12,Daniel Duarte,NYM,RP,Inj Res,0,,,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,03ql5,Ryan Helsley,BAL,RP,Inj Res,10,,,False,True
+6wjoojsemgdm460y,beKCer's trainwreKCers,05js6,Ricky Tiedemann,TOR,SP,Minors,4,Farm,,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,04q56,Logan O'Hoppe,TEX,C,Active,12,,,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,025i9,J.T. Realmuto,PHI,C,Active,8,,,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,02mw3,Christian Walker,HOU,1B,Active,48,,2027,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,06aw3,JJ Wetherholt,STL,"2B,SS",Active,3,Farm,,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,0310z,J.P. Crawford,SEA,"3B,SS",Active,1,,,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,050w9,Gunnar Henderson,BAL,SS,Active,22,,2027,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,030uc,Rafael Devers,SF,1B,Active,35,,,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,05ybv,Jackson Holliday,BAL,2B,Active,17,Farm,2028,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,04prt,Lawrence Butler,ATH,OF,Active,12,,2027,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,041ah,Josh Lowe,LAA,OF,Active,15,Farm,2026,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,04nky,Trevor Larnach,MIN,"OF,UT",Active,0,,,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,01s8u,Mike Trout,LAA,"OF,UT",Active,13,,,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,025dn,Christian Yelich,MIL,"OF,UT",Active,30,,,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,047l7,Luis Robert Jr.,BAL,OF,Active,21,,,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,031t0,Gleyber Torres,DET,2B,Reserve,9,,,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,04ai4,Nolan Gorman,STL,"2B,3B",Reserve,0,,,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,04pbp,Christopher Morel,NYM,"1B,OF",Reserve,0,,,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,05gsc,Jordan Westburg,BAL,"2B,3B",Inj Res,16,,2027,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,066t4,Walker Martin,SF,"3B,SS",Minors,1,Farm,,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,05u3u,Konnor Griffin,PIT,SS,Minors,2,Farm,,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,06icc,Eduardo Beltre,MIN,OF,Minors,1,Farm,,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,06agr,Slade Caldwell,ARI,OF,Minors,1,Farm,,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,067zb,Jace LaViolette,CLE,OF,Minors,2,Farm,,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,05rb3,Chase Burns,CIN,SP,Active,3,Farm,,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,02hi7,Kevin Gausman,CHC,SP,Active,30,,,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,0260v,Sonny Gray,BOS,SP,Active,14,,,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,05h2u,Jared Jones,PIT,SP,Active,5,,2026,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,04ptt,Tarik Skubal,LAD,SP,Active,10,,2026,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,01sb3,Zack Wheeler,PHI,SP,Active,35,,,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,04tlv,Bryan Abreu,HOU,RP,Active,6,,,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,03aqv,Raisel Iglesias,ATL,RP,Active,13,,,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,05ucd,Mason Miller,SD,RP,Active,10,,2026,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,05ycf,Noah Cameron,KC,SP,Reserve,0,,,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,03d7h,Mitch Keller,PIT,SP,Reserve,0,,,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,031d4,Zack Littell,ARI,SP,Reserve,0,,,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,05lg3,Brandon Pfaadt,ARI,SP,Reserve,0,,,False,True
+zh1qriiemgdm4614,Big Beautiful Baseball Team,05r01,Robert Suarez,ATL,RP,Inj Res,7,,,False,True
+lqwmepsrmgdm4616,Brockasauras,04yuu,Patrick Bailey,CLE,C,Active,1,,,False,True
+lqwmepsrmgdm4616,Brockasauras,048tn,Carlos Narvaez,BAL,C,Active,1,,,False,True
+lqwmepsrmgdm4616,Brockasauras,04071,Isaac Paredes,HOU,"1B,3B",Active,13,,2026,False,True
+lqwmepsrmgdm4616,Brockasauras,04pkr,Nico Hoerner,CHC,"2B,SS",Active,19,,,False,True
+lqwmepsrmgdm4616,Brockasauras,04p10,Bryson Stott,PHI,"2B,3B,SS",Active,11,,2026,False,True
+lqwmepsrmgdm4616,Brockasauras,025gb,Xander Bogaerts,SD,SS,Active,4,,,False,True
+lqwmepsrmgdm4616,Brockasauras,0433b,Ildemaro Vargas,ARI,"1B,2B",Active,0,,,False,True
+lqwmepsrmgdm4616,Brockasauras,05zh9,Luke Keaschall,MIN,"2B,OF",Active,3,Farm,,False,True
+lqwmepsrmgdm4616,Brockasauras,05u9z,Roman Anthony,BOS,OF,Active,30,Farm,2032,False,True
+lqwmepsrmgdm4616,Brockasauras,05m49,Jung Hoo Lee,SF,OF,Active,2,,,False,True
+lqwmepsrmgdm4616,Brockasauras,05ua7,Jackson Merrill,SD,OF,Active,22,Farm,2029,False,True
+lqwmepsrmgdm4616,Brockasauras,03c65,Victor Robles,SEA,OF,Active,0,,,False,True
+lqwmepsrmgdm4616,Brockasauras,04b02,Seiya Suzuki,CHC,"OF,UT",Active,14,,2027,False,True
+lqwmepsrmgdm4616,Brockasauras,03qmr,Nathan Lukes,TOR,OF,Active,0,,,False,True
+lqwmepsrmgdm4616,Brockasauras,066ip,Mike Sirota,LAD,OF,Reserve,4,,,False,True
+lqwmepsrmgdm4616,Brockasauras,05yj1,Nolan Schanuel,LAA,1B,Inj Res,0,,,False,True
+lqwmepsrmgdm4616,Brockasauras,0622t,Jacob Wilson,ATH,SS,Inj Res,10,,2028,False,True
+lqwmepsrmgdm4616,Brockasauras,062pp,Xavier Isaac,TB,UT,Minors,3,Farm,,False,True
+lqwmepsrmgdm4616,Brockasauras,04ysv,Adael Amador,COL,2B,Minors,6,Farm,,False,True
+lqwmepsrmgdm4616,Brockasauras,05ubi,Brock Wilken,MIL,3B,Minors,3,Farm,,False,True
+lqwmepsrmgdm4616,Brockasauras,06eyu,Zyhir Hope,DET,OF,Minors,2,Farm,,False,True
+lqwmepsrmgdm4616,Brockasauras,05u3v,Walker Jenkins,MIN,OF,Minors,3,Farm,,False,True
+lqwmepsrmgdm4616,Brockasauras,054p6,Emmanuel Rodriguez,MIN,OF,Minors,4,Farm,,False,True
+lqwmepsrmgdm4616,Brockasauras,06657,Mason Adams,COL,SP,Active,1,,,False,True
+lqwmepsrmgdm4616,Brockasauras,061bo,Rhett Lowder,CIN,SP,Active,1,,,False,True
+lqwmepsrmgdm4616,Brockasauras,064no,Spencer Miles,TOR,SP,Active,0,,,False,True
+lqwmepsrmgdm4616,Brockasauras,04g1x,David Peterson,CHC,SP,Active,0,,,False,True
+lqwmepsrmgdm4616,Brockasauras,0316j,Nick Pivetta,SD,SP,Active,20,,,False,True
+lqwmepsrmgdm4616,Brockasauras,029si,Eduardo Rodriguez,ARI,SP,Active,1,,,False,True
+lqwmepsrmgdm4616,Brockasauras,03ann,Jeff Hoffman,MIN,RP,Active,9,,,False,True
+lqwmepsrmgdm4616,Brockasauras,04ej3,Riley O'Brien,STL,RP,Active,0,,,False,True
+lqwmepsrmgdm4616,Brockasauras,05y9r,Justin Wrobleski,LAD,RP,Active,3,,,False,True
+lqwmepsrmgdm4616,Brockasauras,05jq2,Andrew Abbott,CIN,SP,Reserve,1,,,False,True
+lqwmepsrmgdm4616,Brockasauras,02i2j,Max Fried,NYY,SP,Reserve,52,,2027,False,True
+lqwmepsrmgdm4616,Brockasauras,03caf,Foster Griffin,CLE,SP,Reserve,2,,,False,True
+lqwmepsrmgdm4616,Brockasauras,05itb,Randy Vasquez,SD,SP,Reserve,0,,,False,True
+lqwmepsrmgdm4616,Brockasauras,06f1r,Connelly Early,WSH,SP,Inj Res,0,,,False,True
+lqwmepsrmgdm4616,Brockasauras,05gww,Cade Horton,CHC,SP,Inj Res,6,,,False,True
+lqwmepsrmgdm4616,Brockasauras,05t9g,Gage Jump,ATH,SP,Inj Res,1,,,False,True
+lqwmepsrmgdm4616,Brockasauras,03qo0,Pete Fairbanks,MIA,RP,Inj Res,10,,,False,True
+lqwmepsrmgdm4616,Brockasauras,066n1,Justin Sterner,ATH,RP,Inj Res,0,,,False,True
+lqwmepsrmgdm4616,Brockasauras,06ier,Ryan Sloan,SEA,SP,Minors,1,Farm,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,01t9q,Gary Sanchez,MIL,C,Active,0,,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,042sz,Will Smith,LAD,C,Active,20,,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,0414g,Luis Garcia Jr.,NYY,"1B,2B",Active,1,,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,024m0,Jose Altuve,HOU,"2B,OF",Active,18,,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,04ru7,Miguel Vargas,CHW,"1B,3B",Active,10,,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,04qk8,CJ Abrams,WSH,"2B,SS",Active,22,Farm,2028,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,05rch,Colson Montgomery,CHW,"3B,SS",Active,5,Farm,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,04pbq,Geraldo Perdomo,ARI,SS,Active,10,,2028,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,03pit,Trent Grisham,NYY,OF,Active,0,,2026,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,02xic,Teoscar Hernandez,LAD,OF,Active,24,,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,04pt2,Lars Nootbaar,ARI,OF,Active,0,,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,04ee8,Heliot Ramos,NYY,OF,Active,15,,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,04efa,Daulton Varsho,HOU,OF,Active,5,,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,06dlz,Ryan Waldschmidt,ARI,OF,Active,1,Farm,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,0311f,Victor Caratini,MIN,"C,1B",Reserve,0,,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,03nru,Jesus Sanchez,ARI,OF,Reserve,0,,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,062k5,Nick Kurtz,ATH,1B,Inj Res,4,Farm,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,0637j,Josue Briceno,DET,"C,1B",Minors,1,Farm,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,05ybr,Ethan Salas,SD,C,Minors,3,Farm,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,05js5,Coby Mayo,BAL,"1B,3B",Minors,7,Farm,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,04mms,Orelvis Martinez,(N/A),2B,Minors,8,Farm,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,06c78,Franklin Arias,BOS,SS,Minors,1,Farm,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,0662o,Sebastian Walcott,TEX,SS,Minors,2,Farm,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,05t9n,Carson Williams,TB,SS,Minors,4,Farm,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,05yix,Jaison Chourio,CLE,OF,Minors,2,Farm,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,05rau,Kahlil Watson,CLE,"SS,OF",Minors,5,Farm,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,05jp9,Bryce Elder,ATL,SP,Active,1,,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,02bx4,Clay Holmes,CHC,SP,Active,0,,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,041wv,Michael King,SD,SP,Active,17,,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,05a1v,Keider Montero,DET,SP,Active,1,,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,03et8,Ranger Suarez,BOS,SP,Active,8,,2027,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,04auj,Framber Valdez,DET,SP,Active,38,,2026,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,03btm,Jose Alvarado,PHI,RP,Active,0,,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,03qjz,Taylor Clarke,ARI,RP,Active,0,,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,02bve,Blake Treinen,LAD,RP,Active,0,,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,03nuc,Luis Castillo,CHW,SP,Reserve,27,,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,06ktn,Tatsuya Imai,HOU,SP,Reserve,6,,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,05yb8,Chad Patrick,MIL,SP,Reserve,1,,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,04b01,Tomoyuki Sugano,COL,SP,Reserve,0,,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,05jrv,Will Klein,LAD,RP,Inj Res,1,,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,05gdz,Roki Sasaki,LAD,SP,Minors,4,Farm,,False,True
+lu612taqmgdm4612,Cliff Lee Was Here.,05y7n,Jarlin Susana,WSH,SP,Minors,2,Farm,,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,05u2v,Hunter Goodman,COL,C,Active,15,,2028,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,04hyc,Ivan Herrera,STL,C,Active,14,,2026,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,02mwm,Matt Olson,ATL,1B,Active,59,,,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,04tjl,Otto Lopez,MIA,"2B,SS",Active,6,,,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,045qo,Jazz Chisholm Jr.,NYY,"2B,3B",Active,23,Farm,2027,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,04ppj,Jeremy Pena,HOU,SS,Active,23,,,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,03m6o,Yandy Diaz,TB,1B,Active,7,,,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,041qb,Bo Bichette,NYM,"3B,SS",Active,25,Farm,2027,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,04aee,Jo Adell,CLE,OF,Active,13,,2028,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,06ek4,Jonah Cox,SF,"2B,OF",Active,4,,,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,041e2,Mickey Moniak,COL,OF,Active,1,,,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,02bq2,Brandon Nimmo,TEX,OF,Active,21,,2026,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,05gbf,Jordan Walker,STL,OF,Active,2,,,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,05g3x,Maikel Garcia,KC,"2B,3B,SS",Active,23,,2029,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,060yn,Luis Lara,MIL,OF,Reserve,2,,,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,04ru5,Andy Pages,LAD,OF,Inj Res,10,,2027,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,05gtn,Tyler Soderstrom,ATH,"1B,OF",Inj Res,9,Farm,2026,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,05u1y,Cam Collier,CIN,"1B,3B",Minors,4,Farm,,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,060la,Jett Williams,MIL,"2B,SS,OF",Minors,3,Farm,,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,05rcg,Braden Montgomery,CHW,OF,Minors,2,Farm,,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,05xod,Sean Burke,CHW,SP,Active,1,,,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,05uy4,Dylan Dodd,ATL,RP,Active,3,,,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,0317q,Griffin Jax,TB,RP,Active,20,,,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,051eh,Kevin Kelly,TB,RP,Active,1,,,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,05ydc,Nate Lavender,NYM,RP,Active,4,,,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,043ia,Adrian Morejon,SD,RP,Active,1,,,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,02c5l,Luke Weaver,PIT,RP,Active,0,,,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,02hjp,Jacob deGrom,TEX,SP,Reserve,33,,,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,02btx,Tyler Glasnow,LAD,SP,Reserve,33,,,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,066cf,Zebby Matthews,MIN,SP,Reserve,4,,,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,02c2r,Carlos Rodon,NYY,SP,Reserve,6,,,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,052c8,Cristopher Sanchez,PHI,SP,Reserve,60,,,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,05wru,Paul Skenes,PIT,SP,Reserve,5,Farm,,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,02iug,Michael Wacha,KC,SP,Reserve,4,,,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,05y62,Bryan Woo,SEA,SP,Reserve,31,,2027,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,02bqy,Joe Musgrove,SD,SP,Inj Res,5,,2027,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,03pj4,Cody Ponce,TOR,SP,Inj Res,3,,,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,05tq1,Spencer Schwellenbach,ATL,SP,Inj Res,17,,2028,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,025it,Jason Adam,SD,RP,Inj Res,0,,,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,0512q,Justin Slaten,BOS,RP,Inj Res,2,,,False,True
+m84gn4f4mgdm460z,Dr Andrews Will See You Now,05uc7,Noah Schultz,CHW,SP,Minors,2,Farm,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,05rbv,Samuel Basallo,BAL,"C,1B",Active,4,Farm,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,04q2n,Adley Rutschman,BOS,C,Active,33,Farm,2030,False,True
+ca14h0lmmgdm4611,Dumpster Fire,03whq,Ty France,SD,1B,Active,1,,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,05y4b,Caleb Durbin,BOS,"2B,3B",Active,0,,2027,False,True
+ca14h0lmmgdm4611,Dumpster Fire,01ub6,Jose Ramirez,CLE,3B,Active,88,,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,05udp,Elly De La Cruz,CIN,SS,Active,32,Farm,2031,False,True
+ca14h0lmmgdm4611,Dumpster Fire,026qc,Joc Pederson,TEX,1B,Active,1,,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,06plc,Sam Antonacci,CHW,"2B,3B,SS,OF",Active,1,,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,03120,Cody Bellinger,NYY,OF,Active,26,,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,04mn2,Griffin Conine,MIA,"1B,OF",Active,1,,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,05ydz,Tristan Peters,CHW,OF,Active,1,,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,03e5m,Bryan Reynolds,PIT,OF,Active,15,,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,05rat,James Wood,WSH,OF,Active,32,Farm,2032,False,True
+ca14h0lmmgdm4611,Dumpster Fire,04y44,Josh Jung,TEX,3B,Active,3,,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,04pvs,Blaze Alexander,BAL,"2B,3B,SS,OF",Inj Res,1,,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,02i2q,Carlos Correa,HOU,"3B,SS",Inj Res,7,,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,02i2k,Byron Buxton,MIN,OF,Inj Res,8,,2026,False,True
+ca14h0lmmgdm4611,Dumpster Fire,057zc,Jonatan Clase,TOR,OF,Inj Res,0,,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,05rbw,Esmerlyn Valdez,PIT,OF,Inj Res,0,,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,04e2u,Brent Rooker,ATH,"OF,UT",Inj Res,12,,2027,False,True
+ca14h0lmmgdm4611,Dumpster Fire,06mnp,Rainiel Rodriguez,STL,C,Minors,1,Farm,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,05u36,Aidan Miller,PHI,SS,Minors,2,Farm,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,041rd,Corbin Burnes,ARI,SP,Active,0,,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,064zm,Didier Fuentes,ATL,SP,Active,1,,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,04ew7,Aaron Ashby,MIL,RP,Active,0,,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,04aqc,David Bednar,NYY,RP,Active,17,,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,050ok,Yennier Cano,BAL,RP,Active,0,,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,02n96,Josh Hader,HOU,RP,Active,21,,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,060eu,Ben Joyce,LAA,RP,Active,0,,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,06491,Orion Kerkering,PHI,RP,Active,5,,2026,False,True
+ca14h0lmmgdm4611,Dumpster Fire,05y5d,Bradgley Rodriguez,SD,RP,Active,0,,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,02nb6,Drew Anderson,DET,SP,Reserve,2,,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,04mlf,Casey Mize,SD,SP,Reserve,0,,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,03yxh,Cal Quantrill,TEX,SP,Reserve,4,,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,04azu,Kumar Rocker,TEX,SP,Reserve,1,,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,02bqr,Blake Snell,LAD,SP,Reserve,24,,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,03pjf,Michael Soroka,ARI,SP,Reserve,0,,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,066dd,Samy Natera Jr.,LAA,RP,Reserve,0,,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,041rf,Shane Bieber,TOR,SP,Inj Res,0,,2026,False,True
+ca14h0lmmgdm4611,Dumpster Fire,04aea,Hunter Greene,CIN,SP,Inj Res,22,,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,05a2d,Max Meyer,MIA,SP,Inj Res,0,,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,06apx,Trey Yesavage,TOR,SP,Inj Res,10,,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,03yso,A.J. Puk,ARI,RP,Inj Res,0,,,False,True
+ca14h0lmmgdm4611,Dumpster Fire,030vs,Kirby Yates,PIT,RP,Inj Res,0,,,False,True
+ebimnmrmmgdm4610,JMoney,0524l,Yainer Diaz,HOU,C,Active,0,,2026,False,True
+ebimnmrmmgdm4610,JMoney,06f0k,Rafael Flores,PIT,"C,1B",Active,1,,,False,True
+ebimnmrmmgdm4610,JMoney,05y4m,Tim Tawa,ARI,"1B,2B,3B,OF",Active,0,,,False,True
+ebimnmrmmgdm4610,JMoney,0326s,Ketel Marte,ARI,2B,Active,62,,,False,True
+ebimnmrmmgdm4610,JMoney,041sq,Tommy Edman,LAD,"2B,3B,OF",Active,0,,,False,True
+ebimnmrmmgdm4610,JMoney,04nqx,Ezequiel Duran,TEX,"1B,2B,3B,SS,OF",Active,0,,,False,True
+ebimnmrmmgdm4610,JMoney,05yb0,T.J. Rumfield,COL,1B,Active,0,,,False,True
+ebimnmrmmgdm4610,JMoney,06am0,Mickey Gasper,BOS,"C,1B,2B",Active,0,,,False,True
+ebimnmrmmgdm4610,JMoney,04y95,JJ Bleday,CIN,OF,Active,1,,,False,True
+ebimnmrmmgdm4610,JMoney,04yi8,Spencer Jones,NYY,OF,Active,1,,,False,True
+ebimnmrmmgdm4610,JMoney,05135,Jake Mangum,PIT,OF,Active,0,,,False,True
+ebimnmrmmgdm4610,JMoney,04ydd,Angel Martinez,CLE,"2B,OF",Active,1,,,False,True
+ebimnmrmmgdm4610,JMoney,05xse,Hector Rodriguez,CIN,OF,Active,0,,,False,True
+ebimnmrmmgdm4610,JMoney,05xor,Christian Encarnacion-Strand,BAL,"1B,3B",Active,1,,,False,True
+ebimnmrmmgdm4610,JMoney,04si2,Andrew Vaughn,MIL,"1B,3B",Reserve,1,,2026,False,True
+ebimnmrmmgdm4610,JMoney,03pom,Austin Riley,ATL,3B,Reserve,54,,,False,True
+ebimnmrmmgdm4610,JMoney,0529l,Endy Rodriguez,PIT,"C,1B",Inj Res,1,,,False,True
+ebimnmrmmgdm4610,JMoney,04eoj,Jared Young,NYM,"1B,OF",Inj Res,0,,,False,True
+ebimnmrmmgdm4610,JMoney,03d6s,Matt Chapman,SF,3B,Inj Res,20,,,False,True
+ebimnmrmmgdm4610,JMoney,03atq,Willy Adames,SF,SS,Inj Res,25,,2027,False,True
+ebimnmrmmgdm4610,JMoney,06nue,Joshua Kuroda-Grauer,ATH,"3B,SS",Inj Res,0,,,False,True
+ebimnmrmmgdm4610,JMoney,01cdf,Giancarlo Stanton,NYY,"OF,UT",Inj Res,1,,,False,True
+ebimnmrmmgdm4610,JMoney,05u96,Bryce Eldridge,SF,1B,Minors,3,Farm,,False,True
+ebimnmrmmgdm4610,JMoney,060ub,Colt Emerson,SEA,"3B,SS",Minors,3,Farm,,False,True
+ebimnmrmmgdm4610,JMoney,06ibo,Emil Morales,LAD,SS,Minors,1,Farm,,False,True
+ebimnmrmmgdm4610,JMoney,06j3f,Luis Pena,MIL,"2B,SS",Minors,1,Farm,,False,True
+ebimnmrmmgdm4610,JMoney,06aly,Carson Benge,NYM,OF,Minors,1,Farm,,False,True
+ebimnmrmmgdm4610,JMoney,061yu,Jacob Misiorowski,MIL,SP,Active,11,,2028,False,True
+ebimnmrmmgdm4610,JMoney,04a2t,Kodai Senga,NYM,SP,Active,0,Farm,2026,False,True
+ebimnmrmmgdm4610,JMoney,02mwd,Paul Blackburn,NYY,RP,Active,0,,,False,True
+ebimnmrmmgdm4610,JMoney,03mjl,Cam Booser,TB,RP,Active,0,,,False,True
+ebimnmrmmgdm4610,JMoney,05acp,Justin Martinez,ARI,RP,Active,1,,,False,True
+ebimnmrmmgdm4610,JMoney,03di6,Jordan Romano,COL,RP,Active,1,,,False,True
+ebimnmrmmgdm4610,JMoney,03deu,Brock Stewart,LAD,RP,Active,0,,,False,True
+ebimnmrmmgdm4610,JMoney,04y76,Jacob Webb,CHC,RP,Active,0,,,False,True
+ebimnmrmmgdm4610,JMoney,01spo,Gerrit Cole,NYY,SP,Reserve,11,,2028,False,True
+ebimnmrmmgdm4610,JMoney,05uo2,Logan Henderson,MIL,SP,Reserve,0,,,False,True
+ebimnmrmmgdm4610,JMoney,04mlx,Matthew Liberatore,STL,SP,Reserve,0,,,False,True
+ebimnmrmmgdm4610,JMoney,0312g,Tyler Mahle,ATL,SP,Reserve,1,,,False,True
+ebimnmrmmgdm4610,JMoney,02x0f,Sean Manaea,NYM,SP,Reserve,0,,,False,True
+ebimnmrmmgdm4610,JMoney,04pq4,Kyle Bradish,BAL,SP,Inj Res,10,,2028,False,True
+ebimnmrmmgdm4610,JMoney,0510l,Emerson Hancock,SEA,SP,Inj Res,1,,,False,True
+ebimnmrmmgdm4610,JMoney,04pmq,Braxton Ashcraft,PIT,RP,Inj Res,0,,,False,True
+ukiajd5dmgdm460u,Metropolitans,05gx4,Dillon Dingler,DET,C,Active,4,,,False,True
+ukiajd5dmgdm460u,Metropolitans,05vy5,Carter Jensen,KC,C,Active,7,,,False,True
+ukiajd5dmgdm460u,Metropolitans,041pz,Pete Alonso,BAL,1B,Active,53,,2026,False,True
+ukiajd5dmgdm460u,Metropolitans,03aqw,Mauricio Dubon,ATL,"2B,3B,SS,OF",Active,0,,,False,True
+ukiajd5dmgdm460u,Metropolitans,02w7p,Alex Bregman,CHC,3B,Active,37,Farm,2026,False,True
+ukiajd5dmgdm460u,Metropolitans,02611,Francisco Lindor,NYM,SS,Active,75,,2026,False,True
+ukiajd5dmgdm460u,Metropolitans,05jrh,Colt Keith,DET,"1B,2B,3B",Active,15,,2027,False,True
+ukiajd5dmgdm460u,Metropolitans,03btu,Willi Castro,COL,"1B,2B,3B,SS,OF",Active,0,,,False,True
+ukiajd5dmgdm460u,Metropolitans,060x1,Wilyer Abreu,BOS,OF,Active,1,,2026,False,True
+ukiajd5dmgdm460u,Metropolitans,0622w,Chandler Simpson,TB,OF,Active,8,,2026,False,True
+ukiajd5dmgdm460u,Metropolitans,04y97,Kyle Stowers,MIA,"1B,OF",Active,5,,2027,False,True
+ukiajd5dmgdm460u,Metropolitans,03pje,Taylor Ward,SEA,OF,Active,28,,,False,True
+ukiajd5dmgdm460u,Metropolitans,03cag,Kyle Schwarber,PHI,"OF,UT",Active,69,,,False,True
+ukiajd5dmgdm460u,Metropolitans,03pjd,Josh Naylor,SEA,1B,Active,39,,,False,True
+ukiajd5dmgdm460u,Metropolitans,01sy3,Nolan Arenado,ARI,3B,Reserve,0,,,False,True
+ukiajd5dmgdm460u,Metropolitans,061rf,Jesus Baez,STL,"3B,SS",Reserve,0,,,False,True
+ukiajd5dmgdm460u,Metropolitans,0512e,Spencer Steer,CIN,"1B,2B,OF",Inj Res,6,,,False,True
+ukiajd5dmgdm460u,Metropolitans,04n8z,Xavier Edwards,MIA,"2B,SS",Inj Res,6,,2026,False,True
+ukiajd5dmgdm460u,Metropolitans,04n0m,Logan Gilbert,SEA,SP,Active,56,,,False,True
+ukiajd5dmgdm460u,Metropolitans,06ekq,Zac Thornton,NYM,SP,Active,0,,,False,True
+ukiajd5dmgdm460u,Metropolitans,05yaz,Will Warren,NYY,SP,Active,0,,,False,True
+ukiajd5dmgdm460u,Metropolitans,0473n,Tyler Wells,TB,SP,Active,0,,,False,True
+ukiajd5dmgdm460u,Metropolitans,04mjn,Eduard Bazardo,SEA,RP,Active,0,,,False,True
+ukiajd5dmgdm460u,Metropolitans,01gya,Aroldis Chapman,BOS,RP,Active,2,,2026,False,True
+ukiajd5dmgdm460u,Metropolitans,03dau,Trevor Megill,MIL,RP,Active,2,,2026,False,True
+ukiajd5dmgdm460u,Metropolitans,031cy,Emilio Pagan,CIN,RP,Active,0,,2026,False,True
+ukiajd5dmgdm460u,Metropolitans,01vxp,Brooks Raley,PHI,RP,Active,0,,,False,True
+ukiajd5dmgdm460u,Metropolitans,04pkt,J.T. Ginn,ATH,SP,Reserve,1,,,False,True
+ukiajd5dmgdm460u,Metropolitans,05sr2,Michael McGreevy,STL,SP,Reserve,0,,,False,True
+ukiajd5dmgdm460u,Metropolitans,0658b,Jonah Tong,NYM,SP,Reserve,0,,,False,True
+ukiajd5dmgdm460u,Metropolitans,05jp7,Gavin Williams,CLE,SP,Reserve,7,,,False,True
+ukiajd5dmgdm460u,Metropolitans,0374m,Tyler Rogers,TOR,RP,Reserve,2,,,False,True
+ukiajd5dmgdm460u,Metropolitans,067xm,George Klassen,LAA,SP,Inj Res,16,,,False,True
+ukiajd5dmgdm460u,Metropolitans,05mre,Spencer Strider,ATL,SP,Inj Res,15,,2026,False,True
+ukiajd5dmgdm460u,Metropolitans,02my5,Edwin Diaz,LAD,RP,Inj Res,27,,2026,False,True
+ukiajd5dmgdm460u,Metropolitans,03mnq,Carlos Estevez,KC,RP,Inj Res,1,,2026,False,True
+s872idxcmgdm4617,Minor Legalities,02mxf,Carson Kelly,CHC,C,Active,0,,,False,True
+s872idxcmgdm4617,Minor Legalities,05ahg,Austin Wells,NYY,C,Active,13,,2027,False,True
+s872idxcmgdm4617,Minor Legalities,026lz,Josh Bell,MIN,1B,Active,1,,,False,True
+s872idxcmgdm4617,Minor Legalities,04ppi,Kody Clemens,MIN,"1B,2B,OF",Active,0,,,False,True
+s872idxcmgdm4617,Minor Legalities,06fzu,Kazuma Okamoto,TOR,"1B,3B",Active,1,Farm,,False,True
+s872idxcmgdm4617,Minor Legalities,03qmh,Jake Cronenworth,SD,"1B,2B,SS",Active,0,,,False,True
+s872idxcmgdm4617,Minor Legalities,02jh6,Eugenio Suarez,CIN,3B,Active,4,,2026,False,True
+s872idxcmgdm4617,Minor Legalities,0648n,Chase Meidroth,CHW,"2B,SS",Active,1,,,False,True
+s872idxcmgdm4617,Minor Legalities,041vt,Samad Taylor,SD,"2B,OF",Active,1,,,False,True
+s872idxcmgdm4617,Minor Legalities,0516n,Isaac Collins,KC,OF,Active,0,,,False,True
+s872idxcmgdm4617,Minor Legalities,05y30,Justin Crawford,PHI,OF,Active,0,,,False,True
+s872idxcmgdm4617,Minor Legalities,05uei,Chase DeLauter,CLE,OF,Active,11,,,False,True
+s872idxcmgdm4617,Minor Legalities,04pst,Jarren Duran,BOS,OF,Active,44,,,False,True
+s872idxcmgdm4617,Minor Legalities,067xj,Cooper Pratt,MIL,SS,Active,0,,,False,True
+s872idxcmgdm4617,Minor Legalities,04si3,Brayan Rocchio,CLE,"2B,SS",Reserve,0,,,False,True
+s872idxcmgdm4617,Minor Legalities,06626,Alfredo Duno,CIN,C,Minors,2,Farm,,False,True
+s872idxcmgdm4617,Minor Legalities,06mea,Rintaro Sasaki,MIA,1B,Minors,1,Farm,,False,True
+s872idxcmgdm4617,Minor Legalities,068nx,Brendan Lawson,(N/A),3B,Minors,0,,,False,True
+s872idxcmgdm4617,Minor Legalities,06c7b,Wehiwa Aloy,BAL,SS,Minors,2,Farm,,False,True
+s872idxcmgdm4617,Minor Legalities,067z9,Kayson Cunningham,ARI,SS,Minors,2,Farm,,False,True
+s872idxcmgdm4617,Minor Legalities,062cx,Ethan Holliday,COL,SS,Minors,3,Farm,,False,True
+s872idxcmgdm4617,Minor Legalities,06ibv,Jesus Made,MIL,SS,Minors,2,Farm,,False,True
+s872idxcmgdm4617,Minor Legalities,05yai,Bryce Rainer,DET,SS,Minors,1,Farm,,False,True
+s872idxcmgdm4617,Minor Legalities,06n8y,Eli Willits,WSH,SS,Minors,1,Farm,,False,True
+s872idxcmgdm4617,Minor Legalities,05rcf,Joshua Baez,STL,OF,Minors,1,Farm,,False,True
+s872idxcmgdm4617,Minor Legalities,06mh4,Edward Florentino,PIT,OF,Minors,1,Farm,,False,True
+s872idxcmgdm4617,Minor Legalities,062e5,Vance Honeycutt,BAL,OF,Minors,3,Farm,,False,True
+s872idxcmgdm4617,Minor Legalities,05rfc,Lazaro Montes,SEA,OF,Minors,3,Farm,,False,True
+s872idxcmgdm4617,Minor Legalities,04pxf,Davis Martin,CHW,SP,Active,2,,,False,True
+s872idxcmgdm4617,Minor Legalities,05r3a,Brandon Young,BAL,SP,Active,0,,,False,True
+s872idxcmgdm4617,Minor Legalities,041x9,Graham Ashcraft,CIN,RP,Active,0,,,False,True
+s872idxcmgdm4617,Minor Legalities,04rzp,Rico Garcia,BAL,RP,Active,0,,,False,True
+s872idxcmgdm4617,Minor Legalities,04xne,Yoendrys Gomez,MIN,RP,Active,3,,,False,True
+s872idxcmgdm4617,Minor Legalities,04naz,Tyler Holton,DET,RP,Active,0,,,False,True
+s872idxcmgdm4617,Minor Legalities,04q08,Kyle Leahy,STL,RP,Active,0,,,False,True
+s872idxcmgdm4617,Minor Legalities,032lk,Sean Newcomb,CHW,RP,Active,1,,,False,True
+s872idxcmgdm4617,Minor Legalities,05xz4,Michael Petersen,MIA,RP,Active,0,,,False,True
+s872idxcmgdm4617,Minor Legalities,04t40,Brayan Bello,BOS,SP,Reserve,0,,,False,True
+s872idxcmgdm4617,Minor Legalities,04pr8,Taj Bradley,MIN,SP,Reserve,0,,,False,True
+s872idxcmgdm4617,Minor Legalities,04eud,Shane Drohan,MIL,SP,Reserve,0,,,False,True
+s872idxcmgdm4617,Minor Legalities,04yie,George Kirby,SEA,SP,Reserve,26,Farm,2029,False,True
+s872idxcmgdm4617,Minor Legalities,03poo,Peter Lambert,HOU,SP,Reserve,1,,,False,True
+s872idxcmgdm4617,Minor Legalities,05133,Andre Pallante,STL,SP,Reserve,1,,,False,True
+s872idxcmgdm4617,Minor Legalities,026t9,Tyron Guerrero,BOS,RP,Inj Res,0,,,False,True
+s872idxcmgdm4617,Minor Legalities,0662m,Luis Morales,ATH,SP,Minors,5,Farm,,False,True
+s872idxcmgdm4617,Minor Legalities,05zd4,Hagen Smith,CHW,SP,Minors,2,Farm,,False,True
+s872idxcmgdm4617,Minor Legalities,06bdc,Shunpeita Yamashita,(N/A),SP,Minors,0,,,False,True
+o519bpjumgdm4615,nygaardians,0630d,Drake Baldwin,ATL,C,Active,11,,2028,False,True
+o519bpjumgdm4615,nygaardians,06rkk,Eduardo Valencia,DET,"C,1B",Active,1,,,False,True
+o519bpjumgdm4615,nygaardians,04azv,Jake Burger,TEX,1B,Active,9,,,False,True
+o519bpjumgdm4615,nygaardians,05vy9,Pedro Ramirez,CHC,"2B,3B,SS",Active,0,,,False,True
+o519bpjumgdm4615,nygaardians,05xch,Junior Caminero,TB,3B,Active,28,,2030,False,True
+o519bpjumgdm4615,nygaardians,05r1m,Jordan Lawlar,ARI,"3B,SS,OF",Active,8,Farm,,False,True
+o519bpjumgdm4615,nygaardians,05u9o,Sal Stewart,CIN,"1B,3B",Active,10,,2028,False,True
+o519bpjumgdm4615,nygaardians,02mw6,Corey Seager,TEX,SS,Active,40,,,False,True
+o519bpjumgdm4615,nygaardians,06fpn,Brett Bateman,TOR,OF,Active,0,,,False,True
+o519bpjumgdm4615,nygaardians,04up9,Heriberto Hernandez,MIA,OF,Active,9,,,False,True
+o519bpjumgdm4615,nygaardians,060pm,Wyatt Langford,TEX,OF,Active,34,Farm,2032,False,True
+o519bpjumgdm4615,nygaardians,03qyv,Jake McCarthy,COL,OF,Active,0,,,False,True
+o519bpjumgdm4615,nygaardians,0406v,Esteury Ruiz,MIA,OF,Active,1,,,False,True
+o519bpjumgdm4615,nygaardians,03ojr,Vladimir Guerrero Jr.,TOR,1B,Active,66,,,False,True
+o519bpjumgdm4615,nygaardians,067yp,Ralphy Velazquez,CLE,1B,Reserve,0,,,False,True
+o519bpjumgdm4615,nygaardians,04ppk,Richie Palacios,TB,"2B,OF",Reserve,0,,,False,True
+o519bpjumgdm4615,nygaardians,02w16,Anthony Santander,TOR,"OF,UT",Reserve,0,,,False,True
+o519bpjumgdm4615,nygaardians,04qii,Addison Barger,TOR,"3B,OF",Inj Res,9,,,False,True
+o519bpjumgdm4615,nygaardians,05jsg,Owen Caissie,MIA,OF,Inj Res,1,,,False,True
+o519bpjumgdm4615,nygaardians,05rc5,Termarr Johnson,PIT,2B,Minors,5,Farm,,False,True
+o519bpjumgdm4615,nygaardians,059bx,Brady House,WSH,3B,Minors,6,Farm,,False,True
+o519bpjumgdm4615,nygaardians,05yeg,Roch Cholowsky,CHW,SS,Minors,1,Farm,,False,True
+o519bpjumgdm4615,nygaardians,06ps2,Josuar Gonzalez,SF,SS,Minors,1,Farm,,False,True
+o519bpjumgdm4615,nygaardians,071w9,Luis Hernandez,SF,SS,Minors,1,Farm,,False,True
+o519bpjumgdm4615,nygaardians,06l57,Justin Lebron,CIN,SS,Minors,1,Farm,,False,True
+o519bpjumgdm4615,nygaardians,03aac,Walker Buehler,SD,SP,Active,0,,,False,True
+o519bpjumgdm4615,nygaardians,04ya2,Daniel Espino,CLE,SP,Active,0,,,False,True
+o519bpjumgdm4615,nygaardians,045kb,Cristian Javier,HOU,SP,Active,0,,,False,True
+o519bpjumgdm4615,nygaardians,04ml0,Yusei Kikuchi,LAA,SP,Active,0,,,False,True
+o519bpjumgdm4615,nygaardians,041yb,Dean Kremer,MIN,SP,Active,1,,,False,True
+o519bpjumgdm4615,nygaardians,060gd,Quinn Mathews,STL,SP,Active,0,,,False,True
+o519bpjumgdm4615,nygaardians,03dc4,Freddy Peralta,TB,SP,Active,43,,,False,True
+o519bpjumgdm4615,nygaardians,05joq,Connor Prielipp,MIN,SP,Active,0,,,False,True
+o519bpjumgdm4615,nygaardians,03qpi,Patrick Sandoval,BOS,SP,Active,1,,,False,True
+o519bpjumgdm4615,nygaardians,02c2h,Chris Bassitt,BAL,SP,Reserve,0,,,False,True
+o519bpjumgdm4615,nygaardians,04y9o,Jack Leiter,TEX,SP,Reserve,0,Farm,,False,True
+o519bpjumgdm4615,nygaardians,03i81,Reynaldo Lopez,ATL,SP,Reserve,0,,,False,True
+o519bpjumgdm4615,nygaardians,041ma,Cole Ragans,KC,SP,Reserve,1,,,False,True
+o519bpjumgdm4615,nygaardians,05y6w,Hunter Dobbins,STL,SP,Inj Res,0,,,False,True
+o519bpjumgdm4615,nygaardians,03d6w,Jack Flaherty,DET,SP,Inj Res,0,,,False,True
+o519bpjumgdm4615,nygaardians,04mnw,Ryan Weathers,NYY,SP,Inj Res,8,,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,04my4,Cal Raleigh,SEA,C,Active,54,,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,03rmz,Keibert Ruiz,WSH,C,Active,0,,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,05t9v,Jonathan Aranda,TB,1B,Active,5,,2027,False,True
+mfo4w3xsmgdm4618,Sabermutrics,05ub0,Zack Gelof,ATH,"2B,3B,OF",Active,2,,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,0597k,Nick Gonzales,PIT,"2B,3B,SS",Active,0,,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,02btf,Mookie Betts,LAD,SS,Active,53,,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,0513c,Joey Ortiz,MIL,"3B,SS",Active,1,,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,04y9p,Anthony Volpe,NYY,"2B,SS",Active,1,,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,05xty,Dylan Beavers,BAL,OF,Active,1,,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,06dn7,A.J. Ewing,NYM,OF,Active,9,,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,04pr1,Steven Kwan,CLE,OF,Active,0,,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,04y79,Victor Mesa Jr.,TB,OF,Active,3,,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,04fhb,Julio Rodriguez,SEA,OF,Active,29,Farm,2029,False,True
+mfo4w3xsmgdm4618,Sabermutrics,05m1e,Jackson Chourio,MIL,OF,Active,28,Farm,2031,False,True
+mfo4w3xsmgdm4618,Sabermutrics,06hx4,Kaelen Culpepper,MIN,SS,Reserve,0,,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,05gsi,Ceddanne Rafaela,BOS,"2B,OF",Inj Res,13,,2027,False,True
+mfo4w3xsmgdm4618,Sabermutrics,041ai,Gavin Lux,TB,"2B,OF",Inj Res,0,,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,05xtz,Dalton Rushing,LAD,C,Minors,3,Farm,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,05zde,Travis Bazzana,CLE,2B,Minors,3,Farm,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,05u2u,Tyler Black,MIL,3B,Minors,3,Farm,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,067yc,Leo De Vries,ATH,SS,Minors,3,Farm,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,05xu1,Alex Freeland,LAD,"2B,3B,SS",Minors,3,Farm,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,05u9y,Max Clark,DET,OF,Minors,3,Farm,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,06c79,Eduardo Quintero,LAD,OF,Minors,1,Farm,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,05y23,Tanner Bibee,CLE,SP,Active,0,,2026,False,True
+mfo4w3xsmgdm4618,Sabermutrics,051ui,Jacob Lopez,ATH,SP,Active,0,,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,05vy6,Bryce Miller,SEA,SP,Active,3,,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,05aoc,Eury Perez,MIA,SP,Active,19,,2028,False,True
+mfo4w3xsmgdm4618,Sabermutrics,01fhm,Martin Perez,ATL,SP,Active,2,,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,04c0o,Jose Soriano,TOR,SP,Active,0,,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,04eos,Joey Cantillo,CLE,RP,Active,3,,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,031fj,Gabe Speier,SEA,RP,Active,1,,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,02hhj,Ryne Stanek,STL,RP,Active,0,,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,04cd5,MacKenzie Gore,TEX,SP,Reserve,4,,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,05js3,Kyle Harrison,MIL,SP,Reserve,0,,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,067yn,Seth Hernandez,PIT,SP,Reserve,0,,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,02i3o,Aaron Nola,PHI,SP,Reserve,0,,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,0425t,Bailey Ober,MIN,SP,Reserve,2,,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,05ynx,River Ryan,DET,SP,Reserve,0,,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,0512m,Ryan Pepiot,TB,SP,Inj Res,21,,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,02n2v,Anthony Banda,MIN,RP,Inj Res,2,,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,05w9g,Randy Rodriguez,SF,RP,Inj Res,1,,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,05ydp,Kade Anderson,SEA,SP,Minors,1,Farm,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,05rb0,Jackson Jobe,DET,SP,Minors,5,Farm,,False,True
+mfo4w3xsmgdm4618,Sabermutrics,05tp6,Thomas White,MIA,SP,Minors,2,Farm,,False,True
+gvud812qmgdm460w,Shag Dawgs,05rcw,Leo Bernal,STL,C,Active,0,,,False,True
+gvud812qmgdm460w,Shag Dawgs,03pix,Tyler Stephenson,CIN,C,Active,1,,,False,True
+gvud812qmgdm460w,Shag Dawgs,04t9b,Michael Busch,CHC,1B,Active,13,,2028,False,True
+gvud812qmgdm460w,Shag Dawgs,05r5e,Angel Genao,CLE,"2B,3B,SS",Active,3,,,False,True
+gvud812qmgdm460w,Shag Dawgs,04mn5,Alec Bohm,PHI,"1B,3B",Active,7,,2026,False,True
+gvud812qmgdm460w,Shag Dawgs,02bqh,Trevor Story,BOS,SS,Active,11,,,False,True
+gvud812qmgdm460w,Shag Dawgs,03dgq,Ryan O'Hearn,PIT,"1B,OF",Active,2,,,False,True
+gvud812qmgdm460w,Shag Dawgs,05y7x,Cole Young,SEA,2B,Active,2,,,False,True
+gvud812qmgdm460w,Shag Dawgs,0316v,Jake Bauers,MIL,"1B,OF",Active,3,,,False,True
+gvud812qmgdm460w,Shag Dawgs,05y7t,Henry Bolte,ATH,OF,Active,1,,,False,True
+gvud812qmgdm460w,Shag Dawgs,066eo,Cole Carrigg,COL,"SS,OF",Active,4,,,False,True
+gvud812qmgdm460w,Shag Dawgs,0596e,Dylan Crews,WSH,OF,Active,20,,,False,True
+gvud812qmgdm460w,Shag Dawgs,025he,George Springer,TOR,OF,Active,3,,2026,False,True
+gvud812qmgdm460w,Shag Dawgs,06b72,George Lombard Jr.,NYY,SS,Active,1,,,False,True
+gvud812qmgdm460w,Shag Dawgs,05184,Vinnie Pasquantino,KC,1B,Reserve,15,,2026,False,True
+gvud812qmgdm460w,Shag Dawgs,03pir,Kyle Tucker,LAD,OF,Reserve,79,,,False,True
+gvud812qmgdm460w,Shag Dawgs,05ahe,Curtis Mead,BOS,"1B,2B,3B",Inj Res,2,,,False,True
+gvud812qmgdm460w,Shag Dawgs,06hea,Caleb Bonemer,CHW,"3B,SS",Minors,1,Farm,,False,True
+gvud812qmgdm460w,Shag Dawgs,05mx9,Felnin Celesten,SEA,SS,Minors,2,Farm,,False,True
+gvud812qmgdm460w,Shag Dawgs,060jo,Cam Smith,HOU,OF,Minors,3,Farm,,False,True
+gvud812qmgdm460w,Shag Dawgs,05144,Hunter Brown,HOU,SP,Active,28,,2026,False,True
+gvud812qmgdm460w,Shag Dawgs,05r3i,Andrew Painter,PHI,SP,Active,1,Farm,,False,True
+gvud812qmgdm460w,Shag Dawgs,066b2,Drew Sommers,DET,SP,Active,0,,,False,True
+gvud812qmgdm460w,Shag Dawgs,06guh,Brandyn Garcia,ARI,RP,Active,0,,,False,True
+gvud812qmgdm460w,Shag Dawgs,05uc4,Troy Melton,DET,RP,Active,4,,,False,True
+gvud812qmgdm460w,Shag Dawgs,04y8z,Erik Miller,BOS,RP,Active,0,,,False,True
+gvud812qmgdm460w,Shag Dawgs,05y2k,Mason Montgomery,PIT,RP,Active,0,,,False,True
+gvud812qmgdm460w,Shag Dawgs,05u4l,Daniel Palencia,CHC,RP,Active,2,,2026,False,True
+gvud812qmgdm460w,Shag Dawgs,06gwk,Payton Tolle,BOS,RP,Active,0,,,False,True
+gvud812qmgdm460w,Shag Dawgs,060i2,Jake Bennett,BOS,SP,Reserve,3,,,False,True
+gvud812qmgdm460w,Shag Dawgs,041ps,Nick Lodolo,CIN,SP,Reserve,19,,,False,True
+gvud812qmgdm460w,Shag Dawgs,041r5,Dustin May,MIL,SP,Reserve,1,,,False,True
+gvud812qmgdm460w,Shag Dawgs,05y7s,Nolan McLean,NYM,SP,Reserve,16,,2028,False,True
+gvud812qmgdm460w,Shag Dawgs,05jpd,Ian Seymour,TB,RP,Reserve,0,,,False,True
+gvud812qmgdm460w,Shag Dawgs,05g4k,Mick Abel,MIN,SP,Inj Res,0,,,False,True
+gvud812qmgdm460w,Shag Dawgs,05ajh,Garrett Crochet,BOS,SP,Inj Res,15,,2028,False,True
+gvud812qmgdm460w,Shag Dawgs,0423e,Anthony Bender,MIA,RP,Inj Res,2,,,False,True
+gvud812qmgdm460w,Shag Dawgs,05138,Matt Brash,SEA,RP,Inj Res,0,,,False,True
+gvud812qmgdm460w,Shag Dawgs,05w7z,Edgardo Henriquez,LAD,RP,Inj Res,0,,,False,True
+ofa8r5comgdm460x,Stat Sandwich,04o4s,Shea Langeliers,ATH,C,Active,6,,2026,False,True
+ofa8r5comgdm460x,Stat Sandwich,04s1g,Gabriel Moreno,ARI,C,Active,12,,,False,True
+ofa8r5comgdm460x,Stat Sandwich,01cgo,Freddie Freeman,LAD,1B,Active,54,,,False,True
+ofa8r5comgdm460x,Stat Sandwich,04b00,Brice Turang,MIL,2B,Active,5,,2026,False,True
+ofa8r5comgdm460x,Stat Sandwich,05tce,Connor Norby,COL,"1B,2B,3B",Active,0,,,False,True
+ofa8r5comgdm460x,Stat Sandwich,02c68,Trea Turner,PHI,SS,Active,53,,,False,True
+ofa8r5comgdm460x,Stat Sandwich,06dsa,Kyle Karros,COL,3B,Active,3,,,False,True
+ofa8r5comgdm460x,Stat Sandwich,05mru,Thomas Saggese,STL,"2B,3B,SS,OF",Active,1,,,False,True
+ofa8r5comgdm460x,Stat Sandwich,062ho,Javier Sanoja,MIA,"2B,3B,SS,OF,P",Active,1,,,False,True
+ofa8r5comgdm460x,Stat Sandwich,04y4e,Corbin Carroll,ARI,OF,Active,33,Farm,2030,False,True
+ofa8r5comgdm460x,Stat Sandwich,051wv,Pete Crow-Armstrong,CHC,OF,Active,16,,2027,False,True
+ofa8r5comgdm460x,Stat Sandwich,065ji,Jakob Marsee,MIA,OF,Active,5,,2027,False,True
+ofa8r5comgdm460x,Stat Sandwich,03zbh,Fernando Tatis Jr.,SD,"2B,OF",Active,32,Farm,2027,False,True
+ofa8r5comgdm460x,Stat Sandwich,05yo5,Ben Rice,NYY,"C,1B",Active,10,,2027,False,True
+ofa8r5comgdm460x,Stat Sandwich,05ynb,Liam Hicks,TB,"C,1B",Reserve,1,,,False,True
+ofa8r5comgdm460x,Stat Sandwich,03ae8,Dansby Swanson,CHC,SS,Reserve,15,,,False,True
+ofa8r5comgdm460x,Stat Sandwich,04pse,Brendan Donovan,SEA,"2B,3B,OF",Inj Res,1,,,False,True
+ofa8r5comgdm460x,Stat Sandwich,05jp4,Casey Schmitt,SF,"1B,2B,3B,OF",Inj Res,2,,,False,True
+ofa8r5comgdm460x,Stat Sandwich,02z0s,Aaron Judge,NYY,OF,Inj Res,103,,2026,False,True
+ofa8r5comgdm460x,Stat Sandwich,05rbs,Moises Ballesteros,LAA,"C,1B",Minors,2,Farm,,False,True
+ofa8r5comgdm460x,Stat Sandwich,05ge9,Shota Imanaga,CHC,SP,Active,6,Farm,2026,False,True
+ofa8r5comgdm460x,Stat Sandwich,05xpq,Christian Scott,NYM,SP,Active,0,,,False,True
+ofa8r5comgdm460x,Stat Sandwich,03dpg,Kevin Ginkel,ARI,RP,Active,0,,,False,True
+ofa8r5comgdm460x,Stat Sandwich,04ggi,Andrew Kittredge,BAL,RP,Active,0,,,False,True
+ofa8r5comgdm460x,Stat Sandwich,05ydo,Juan Morillo,ARI,RP,Active,0,,,False,True
+ofa8r5comgdm460x,Stat Sandwich,04pxo,Erik Sabrowski,CLE,RP,Active,0,,,False,True
+ofa8r5comgdm460x,Stat Sandwich,04eor,Cade Smith,CLE,RP,Active,6,,2027,False,True
+ofa8r5comgdm460x,Stat Sandwich,05nso,Abner Uribe,MIL,RP,Active,7,,,False,True
+ofa8r5comgdm460x,Stat Sandwich,04eqa,Garrett Whitlock,BOS,RP,Active,3,,,False,True
+ofa8r5comgdm460x,Stat Sandwich,060u3,Andrew Alvarez,WSH,SP,Reserve,0,,,False,True
+ofa8r5comgdm460x,Stat Sandwich,05rik,Bubba Chandler,PIT,SP,Reserve,16,Farm,2029,False,True
+ofa8r5comgdm460x,Stat Sandwich,01ut7,Nathan Eovaldi,TEX,SP,Reserve,18,,,False,True
+ofa8r5comgdm460x,Stat Sandwich,04ak5,Trevor Rogers,BAL,SP,Reserve,1,,2026,False,True
+ofa8r5comgdm460x,Stat Sandwich,0596g,Reid Detmers,LAA,RP,Reserve,6,,,False,True
+ofa8r5comgdm460x,Stat Sandwich,03ab0,Luis Severino,ATH,SP,Inj Res,1,,,False,True
+ofa8r5comgdm460x,Stat Sandwich,02bu3,Brandon Woodruff,MIL,SP,Inj Res,14,,2026,False,True
+ofa8r5comgdm460x,Stat Sandwich,0312l,Brad Keller,PHI,RP,Inj Res,0,,,False,True
+ofa8r5comgdm460x,Stat Sandwich,02bq7,Robert Stephenson,LAA,RP,Inj Res,0,,,False,True
+ofa8r5comgdm460x,Stat Sandwich,04tji,Edwin Uceta,TB,RP,Inj Res,0,,,False,True
+ofa8r5comgdm460x,Stat Sandwich,04em6,Will Vest,DET,RP,Inj Res,2,,,False,True
+ofa8r5comgdm460x,Stat Sandwich,0311c,Devin Williams,NYM,RP,Inj Res,19,,,False,True
+aqg1e3nlmgdm4615,Tradezilla,04qnc,Francisco Alvarez,NYM,C,Active,11,Farm,2026,False,True
+aqg1e3nlmgdm4615,Tradezilla,04t3y,Alejandro Kirk,TOR,C,Active,8,,,False,True
+aqg1e3nlmgdm4615,Tradezilla,05jr0,Alec Burleson,STL,"1B,OF",Active,15,,,False,True
+aqg1e3nlmgdm4615,Tradezilla,03qjy,Brandon Lowe,PIT,2B,Active,3,,2026,False,True
+aqg1e3nlmgdm4615,Tradezilla,02mzg,Max Muncy,LAD,3B,Active,4,,,False,True
+aqg1e3nlmgdm4615,Tradezilla,05xu5,Zach Neto,LAA,SS,Active,11,,2026,False,True
+aqg1e3nlmgdm4615,Tradezilla,03oh0,Willson Contreras,BOS,1B,Active,15,,2026,False,True
+aqg1e3nlmgdm4615,Tradezilla,04lgp,Bobby Witt Jr.,KC,SS,Active,23,Farm,2027,False,True
+aqg1e3nlmgdm4615,Tradezilla,03wha,Ronald Acuna Jr.,ATL,OF,Active,36,Farm,2027,False,True
+aqg1e3nlmgdm4615,Tradezilla,04355,Yordan Alvarez,HOU,OF,Active,35,Farm,2029,False,True
+aqg1e3nlmgdm4615,Tradezilla,03zlh,Oneil Cruz,PIT,OF,Active,18,Farm,2027,False,True
+aqg1e3nlmgdm4615,Tradezilla,04nb2,Riley Greene,DET,OF,Active,16,Farm,2027,False,True
+aqg1e3nlmgdm4615,Tradezilla,03ynj,Juan Soto,NYM,OF,Active,31,Farm,2026,False,True
+aqg1e3nlmgdm4615,Tradezilla,05161,Dominic Canzone,SEA,OF,Active,0,,,False,True
+aqg1e3nlmgdm4615,Tradezilla,05u2m,Theo Gillen,TB,OF,Reserve,3,,,False,True
+aqg1e3nlmgdm4615,Tradezilla,02yc4,Shohei Ohtani,LAD,"UT,P",Inj Res,116,,2026,False,True
+aqg1e3nlmgdm4615,Tradezilla,05yby,Kevin McGonigle,DET,"3B,SS",Minors,2,Farm,,False,True
+aqg1e3nlmgdm4615,Tradezilla,04ps7,Joe Ryan,MIN,SP,Active,11,,2026,False,True
+aqg1e3nlmgdm4615,Tradezilla,01uca,Chris Sale,ATL,SP,Active,46,,,False,True
+aqg1e3nlmgdm4615,Tradezilla,05u6q,Cam Schlittler,NYY,SP,Active,1,,2026,False,True
+aqg1e3nlmgdm4615,Tradezilla,05r8n,Yoshinobu Yamamoto,LAD,SP,Active,17,Farm,2028,False,True
+aqg1e3nlmgdm4615,Tradezilla,041w4,Bryan Baker,TB,RP,Active,0,,,False,True
+aqg1e3nlmgdm4615,Tradezilla,03div,Jake Latz,TEX,RP,Active,2,,,False,True
+aqg1e3nlmgdm4615,Tradezilla,0403o,Andres Munoz,SEA,RP,Active,32,,,False,True
+aqg1e3nlmgdm4615,Tradezilla,03dfa,Tanner Scott,LAD,RP,Active,0,,,False,True
+aqg1e3nlmgdm4615,Tradezilla,051bm,Louis Varland,TOR,RP,Active,0,,,False,True
+aqg1e3nlmgdm4615,Tradezilla,05gef,Cade Cavalli,WSH,SP,Reserve,1,,,False,True
+aqg1e3nlmgdm4615,Tradezilla,02c4q,Nick Martinez,TB,SP,Reserve,0,,,False,True
+aqg1e3nlmgdm4615,Tradezilla,05tzn,Parker Messick,CLE,SP,Reserve,0,,2026,False,True
+aqg1e3nlmgdm4615,Tradezilla,025j1,Robbie Ray,SD,SP,Reserve,3,,2026,False,True
+aqg1e3nlmgdm4615,Tradezilla,06ag9,Kaima Taira,(N/A),SP,Reserve,0,,,False,True
+aqg1e3nlmgdm4615,Tradezilla,04o2w,Ben Brown,CHC,SP,Inj Res,0,,,False,True
+aqg1e3nlmgdm4615,Tradezilla,043f9,Pablo Lopez,MIN,SP,Inj Res,0,,,False,True
+aqg1e3nlmgdm4615,Tradezilla,04mlt,Shane McClanahan,TB,SP,Inj Res,11,,,False,True
+aqg1e3nlmgdm4615,Tradezilla,03dbm,Logan Webb,SF,SP,Inj Res,27,,2027,False,True
+aqg1e3nlmgdm4615,Tradezilla,05t64,Felix Bautista,BAL,RP,Inj Res,0,,,False,True
