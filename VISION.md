@@ -154,8 +154,11 @@ Rule constants are **per-season configuration**, since the rulebook changes a
 few times a year.
 
 **Golden tests:** the Year 19 workbook's cached values become test fixtures.
-(The committed xlsx snapshot has no cached values, because they were lost when
-the Contact Info tab was stripped. The fixtures need a fresh Google Sheets export.)
+The fixture (`rules/tests/fixtures/year19_post_signing.json`) is extracted from
+a Google Sheets export by `scripts/extract_workbook_fixture.py`. Every contract
+price and buyout penalty matches. Two budgets differ because of sheet bugs:
+DC's farm total skips Farm 1 (+$3 of budget), and JM's buyout total only sums
+4 of its 6 buyouts (+$10).
 Where the app disagrees with the sheet, each difference is either a
 documented spreadsheet bug or a bug in the app.
 
