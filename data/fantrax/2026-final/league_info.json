@@ -1,0 +1,499 @@
+{
+ "fantasySettings": {
+  "hidePlayerHeadshotsMobile": false,
+  "teamName": "beKCer's trainwreKCers",
+  "aab": true,
+  "draftStatus": "In Progress",
+  "noClaimsDrops": true,
+  "enableSportColors": true,
+  "isMember": true,
+  "chatEnabled": true,
+  "hideLeagueLogo": false,
+  "salaryNumDecimals": 0,
+  "leagueName": "Dynasty Yr 19",
+  "noTrades": true,
+  "hidePlayerHeadshotsDesktop": false,
+  "generalSportId": "001",
+  "salaryDisplayThousands": false,
+  "headToHead": true,
+  "season": {
+   "seasonType": {
+    "code": "REGULAR"
+   },
+   "displayNameShort": "2026 Reg",
+   "endDate": 1790567999000,
+   "displayName": "2026 Reg Season",
+   "id": "147",
+   "startDate": 1774411200000,
+   "displayYear": "2026"
+  },
+  "leagueHistoryId": "kdzjwtpgi5dzcz2s",
+  "screenDefaults": {
+   "LIVE_SCORING": {
+    "local": {
+     "mobileMatchupView": true
+    }
+   },
+   "MATCHUP_PREVIEW": {
+    "local": {
+     "mobileMatchupView": true
+    }
+   }
+  },
+  "leagueHomeStandingsPosition": "1",
+  "contentScaleTypeId": "1",
+  "multiColumnLeftWidthHome": 50,
+  "commissioner": true,
+  "teamLogo": "https://fantraximg.com/logos/372/tmLogo_3729ujvekq06jfdz_128.jpg",
+  "enablePositionColors": true,
+  "salaryUseCommas": true,
+  "myDefaultTeamId": "6wjoojsemgdm460y",
+  "football": false,
+  "myTeamIds": [
+   "6wjoojsemgdm460y"
+  ],
+  "sportId": "001",
+  "subtitle": "2026 MLB",
+  "generalSport": "BASEBALL",
+  "sport": "MLB",
+  "treasurerUsed": false
+ },
+ "positionMap": {
+  "030": {
+   "id": "030",
+   "name": "Utility 2 (Any Hitter)",
+   "shortName": "UT2",
+   "sortOrder": 1070,
+   "colorKey": "--color-primary--softest"
+  },
+  "031": {
+   "id": "031",
+   "name": "Corner Outfield",
+   "shortName": "CO",
+   "sortOrder": 105,
+   "colorKey": "--color-primary--soft"
+  },
+  "032": {
+   "id": "032",
+   "name": "Corner Infield / Designated Hitter",
+   "shortName": "CI-DH",
+   "sortOrder": 69,
+   "colorKey": "--color-green--soft",
+   "labelParts": "CI=006|DH=013"
+  },
+  "033": {
+   "id": "033",
+   "name": "Catcher / Designated Hitter",
+   "shortName": "CDH",
+   "sortOrder": 55,
+   "colorKey": "--color-teal--soft",
+   "labelParts": "C=001|DH=013"
+  },
+  "034": {
+   "id": "034",
+   "name": "1st Base 2",
+   "shortName": "1B2",
+   "sortOrder": 1010,
+   "colorKey": "--color-orange--softest"
+  },
+  "035": {
+   "id": "035",
+   "name": "2nd Base 2",
+   "shortName": "2B2",
+   "sortOrder": 1020,
+   "colorKey": "--color-orange--soft"
+  },
+  "036": {
+   "id": "036",
+   "name": "3rd Base 2",
+   "shortName": "3B2",
+   "sortOrder": 1030,
+   "colorKey": "--color-red--softest"
+  },
+  "037": {
+   "id": "037",
+   "name": "Shortstop 2",
+   "shortName": "SS2",
+   "sortOrder": 1040,
+   "colorKey": "--color-purple--soft"
+  },
+  "038": {
+   "id": "038",
+   "name": "Outfield 2",
+   "shortName": "OF2",
+   "sortOrder": 1050,
+   "colorKey": "--color-primary--soft"
+  },
+  "039": {
+   "id": "039",
+   "name": "Outfield 3",
+   "shortName": "OF3",
+   "sortOrder": 1060,
+   "colorKey": "--color-primary--soft"
+  },
+  "040": {
+   "id": "040",
+   "name": "Starting Pitcher 2",
+   "shortName": "SP2",
+   "sortOrder": 1080,
+   "colorKey": "--color-amber"
+  },
+  "041": {
+   "id": "041",
+   "name": "Starting Pitcher 3",
+   "shortName": "SP3",
+   "sortOrder": 1090,
+   "colorKey": "--color-amber"
+  },
+  "042": {
+   "id": "042",
+   "name": "Starting Pitcher 4",
+   "shortName": "SP4",
+   "sortOrder": 1100,
+   "colorKey": "--color-amber"
+  },
+  "043": {
+   "id": "043",
+   "name": "Relief Pitcher 2",
+   "shortName": "RP2",
+   "sortOrder": 162,
+   "colorKey": "--color-amber--softer"
+  },
+  "044": {
+   "id": "044",
+   "name": "Relief Pitcher 3",
+   "shortName": "RP3",
+   "sortOrder": 163,
+   "colorKey": "--color-amber--softer"
+  },
+  "001": {
+   "id": "001",
+   "name": "Catcher",
+   "shortName": "C",
+   "sortOrder": 10,
+   "colorKey": "--color-teal--soft"
+  },
+  "045": {
+   "id": "045",
+   "name": "Catcher / Middle Infield",
+   "shortName": "CMI",
+   "sortOrder": 54,
+   "colorKey": "--color-teal--soft",
+   "labelParts": "C=001|MI=007"
+  },
+  "002": {
+   "id": "002",
+   "name": "1st Base",
+   "shortName": "1B",
+   "sortOrder": 20,
+   "colorKey": "--color-orange--softest"
+  },
+  "046": {
+   "id": "046",
+   "name": "Starting Pitcher / Relief Pitcher",
+   "shortName": "SP/RP",
+   "sortOrder": 165,
+   "colorKey": "--color-amber--soft",
+   "labelParts": "SP=015|RP=016"
+  },
+  "003": {
+   "id": "003",
+   "name": "2nd Base",
+   "shortName": "2B",
+   "sortOrder": 30,
+   "colorKey": "--color-orange--soft"
+  },
+  "047": {
+   "id": "047",
+   "name": "Starting Pitcher 5",
+   "shortName": "SP5",
+   "sortOrder": 1101,
+   "colorKey": "--color-amber"
+  },
+  "004": {
+   "id": "004",
+   "name": "3rd Base",
+   "shortName": "3B",
+   "sortOrder": 40,
+   "colorKey": "--color-red--softest"
+  },
+  "048": {
+   "id": "048",
+   "name": "Starting Pitcher 6",
+   "shortName": "SP6",
+   "sortOrder": 1102,
+   "colorKey": "--color-amber"
+  },
+  "005": {
+   "id": "005",
+   "name": "Shortstop",
+   "shortName": "SS",
+   "sortOrder": 50,
+   "colorKey": "--color-purple--soft"
+  },
+  "049": {
+   "id": "049",
+   "name": "Catcher / Infield",
+   "shortName": "CIN",
+   "sortOrder": 54,
+   "colorKey": "--color-teal--soft"
+  },
+  "006": {
+   "id": "006",
+   "name": "Corner Infield",
+   "shortName": "CI",
+   "sortOrder": 60,
+   "colorKey": "--color-green--soft"
+  },
+  "007": {
+   "id": "007",
+   "name": "Middle Infield",
+   "shortName": "MI",
+   "sortOrder": 65,
+   "colorKey": "--color-green--soft"
+  },
+  "008": {
+   "id": "008",
+   "name": "Infield",
+   "shortName": "INF",
+   "sortOrder": 70,
+   "colorKey": "--color-green--soft"
+  },
+  "009": {
+   "id": "009",
+   "name": "Left Field",
+   "shortName": "LF",
+   "sortOrder": 80,
+   "colorKey": "--color-primary--soft"
+  },
+  "050": {
+   "id": "050",
+   "name": "Pitcher 2",
+   "shortName": "P2",
+   "sortOrder": 165,
+   "colorKey": "--color-primary--softer"
+  },
+  "051": {
+   "id": "051",
+   "name": "Right Infield",
+   "shortName": "RI",
+   "sortOrder": 60,
+   "colorKey": "--color-primary--softer"
+  },
+  "052": {
+   "id": "052",
+   "name": "Left Infield",
+   "shortName": "LI",
+   "sortOrder": 60,
+   "colorKey": "--color-primary--softer"
+  },
+  "053": {
+   "id": "053",
+   "name": "Catcher / Corner Infield",
+   "shortName": "CCI",
+   "sortOrder": 54,
+   "colorKey": "PRIMARY",
+   "labelParts": "C=001|CI=006"
+  },
+  "010": {
+   "id": "010",
+   "name": "Center Field",
+   "shortName": "CF",
+   "sortOrder": 90,
+   "colorKey": "--color-primary--soft"
+  },
+  "054": {
+   "id": "054",
+   "name": "Outfield 4",
+   "shortName": "OF4",
+   "sortOrder": 1061,
+   "colorKey": "PRIMARY"
+  },
+  "011": {
+   "id": "011",
+   "name": "Right Field",
+   "shortName": "RF",
+   "sortOrder": 100,
+   "colorKey": "--color-primary--soft"
+  },
+  "055": {
+   "id": "055",
+   "name": "Relief Pitcher 4",
+   "shortName": "RP4",
+   "sortOrder": 164,
+   "colorKey": "PRIMARY"
+  },
+  "012": {
+   "id": "012",
+   "name": "Outfield",
+   "shortName": "OF",
+   "sortOrder": 110,
+   "colorKey": "--color-primary--soft"
+  },
+  "056": {
+   "id": "056",
+   "name": "Utility 3 (Any Hitter)",
+   "shortName": "UT3",
+   "sortOrder": 1071,
+   "colorKey": "PRIMARY"
+  },
+  "013": {
+   "id": "013",
+   "name": "Designated Hitter (DH Only)",
+   "shortName": "DH",
+   "sortOrder": 120,
+   "colorKey": "--color-red--soft"
+  },
+  "057": {
+   "id": "057",
+   "name": "Utility 4 (Any Hitter)",
+   "shortName": "UT4",
+   "sortOrder": 1072,
+   "colorKey": "PRIMARY"
+  },
+  "014": {
+   "id": "014",
+   "name": "Utility (Any Hitter)",
+   "shortName": "UT",
+   "sortOrder": 130,
+   "colorKey": "--color-primary--softest"
+  },
+  "058": {
+   "id": "058",
+   "name": "Pitcher 3",
+   "shortName": "P3",
+   "sortOrder": 165,
+   "colorKey": "PRIMARY"
+  },
+  "015": {
+   "id": "015",
+   "name": "Starting Pitcher",
+   "shortName": "SP",
+   "sortOrder": 150,
+   "colorKey": "--color-amber"
+  },
+  "059": {
+   "id": "059",
+   "name": "Catcher / Middle Infield / 3rd Base",
+   "shortName": "CM3",
+   "sortOrder": 54,
+   "colorKey": "PRIMARY"
+  },
+  "016": {
+   "id": "016",
+   "name": "Relief Pitcher",
+   "shortName": "RP",
+   "sortOrder": 160,
+   "colorKey": "--color-amber--softer"
+  },
+  "017": {
+   "id": "017",
+   "name": "Pitcher",
+   "shortName": "P",
+   "sortOrder": 165,
+   "colorKey": "--color-amber--soft"
+  },
+  "018": {
+   "id": "018",
+   "name": "MLB Team - Hitting",
+   "shortName": "TmH",
+   "sortOrder": 210,
+   "colorKey": "--color-green--softest"
+  },
+  "019": {
+   "id": "019",
+   "name": "MLB Team / Pitching",
+   "shortName": "TmP",
+   "sortOrder": 220,
+   "colorKey": "--color-amber--soft"
+  },
+  "060": {
+   "id": "060",
+   "name": "Catcher / 1st Base / Designated Hitter",
+   "shortName": "C1D",
+   "sortOrder": 56,
+   "colorKey": "PRIMARY"
+  },
+  "061": {
+   "id": "061",
+   "name": "2nd Base / Shortstop / 3rd Base",
+   "shortName": "2S3",
+   "sortOrder": 56,
+   "colorKey": "PRIMARY"
+  },
+  "020": {
+   "id": "020",
+   "name": "MLB Team",
+   "shortName": "Tm",
+   "sortOrder": 230,
+   "colorKey": "--color-green--softest"
+  },
+  "021": {
+   "id": "021",
+   "name": "Pinch Hitter",
+   "shortName": "PH",
+   "sortOrder": 190,
+   "colorKey": "--color-primary--softest"
+  },
+  "022": {
+   "id": "022",
+   "name": "Pinch Runner",
+   "shortName": "PR",
+   "sortOrder": 200,
+   "colorKey": "--color-primary--softest"
+  },
+  "023": {
+   "id": "023",
+   "name": "Closer",
+   "shortName": "CL",
+   "sortOrder": 170,
+   "colorKey": "--color-amber--softest"
+  },
+  "024": {
+   "id": "024",
+   "name": "Middle Reliever",
+   "shortName": "MR",
+   "sortOrder": 180,
+   "colorKey": "--color-amber--softest"
+  },
+  "025": {
+   "id": "025",
+   "name": "1st Base / Designated Hitter",
+   "shortName": "1BD",
+   "sortOrder": 57,
+   "colorKey": "--color-orange--softest",
+   "labelParts": "1B=002|D=013"
+  },
+  "026": {
+   "id": "026",
+   "name": "1st Base / Catcher",
+   "shortName": "1BC",
+   "sortOrder": 53,
+   "colorKey": "--color-orange--softest",
+   "labelParts": "1B=002|C=001"
+  },
+  "027": {
+   "id": "027",
+   "name": "Infield / Designated Hitter",
+   "shortName": "IND",
+   "sortOrder": 72,
+   "colorKey": "--color-green--soft"
+  },
+  "028": {
+   "id": "028",
+   "name": "Outfield / Designated Hitter",
+   "shortName": "OFD",
+   "sortOrder": 74,
+   "colorKey": "--color-primary--soft",
+   "labelParts": "OF=012|D=013"
+  },
+  "029": {
+   "id": "029",
+   "name": "Catcher 2",
+   "shortName": "C2",
+   "sortOrder": 1000,
+   "colorKey": "--color-teal--soft"
+  }
+ },
+ "commissioner": true
+}
