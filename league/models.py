@@ -3,6 +3,8 @@
 Budget math lives in the pure `rules` package; models convert to rules objects.
 """
 
+from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator
 from django.db import models, transaction
 
 import rules.contracts
@@ -30,6 +32,42 @@ class TeamAlias(models.Model):
 
     def __str__(self):
         return self.alias
+
+
+class Manager(models.Model):
+    """A person who runs a team. The commissioner creates these and links them to Discord accounts."""
+
+    team = models.ForeignKey(Team, on_delete=models.PROTECT, related_name="managers")
+    name = models.CharField(max_length=100)
+    discord_id = models.CharField(
+        max_length=32,
+        unique=True,
+        null=True,
+        blank=True,
+        validators=[RegexValidator(r"^\d+$", "A Discord user ID is all digits (not the username).")],
+        help_text="Discord user ID (numeric), not the username",
+    )
+    discord_username = models.CharField(max_length=100, blank=True, help_text="Last seen at sign-in")
+    is_commissioner = models.BooleanField(
+        default=False, help_text="Full access to the admin, on top of the manager pages"
+    )
+    user = models.OneToOneField("auth.User", on_delete=models.SET_NULL, null=True, blank=True, related_name="manager")
+
+    class Meta:
+        ordering = ["team", "name"]
+
+    def __str__(self):
+        return f"{self.name} ({self.team.code})"
+
+    def save(self, *args, **kwargs):
+        # A new Discord ID is a new person: drop the old sign-in account's link to this team.
+        if self.pk and self.user_id:
+            old = Manager.objects.filter(pk=self.pk).values_list("discord_id", flat=True).first()
+            if old != self.discord_id:
+                self.user = None
+                if kwargs.get("update_fields") is not None:
+                    kwargs["update_fields"] = {*kwargs["update_fields"], "user"}
+        super().save(*args, **kwargs)
 
 
 class Player(models.Model):
@@ -97,6 +135,20 @@ class Buyout(models.Model):
 
     def __str__(self):
         return f"Buyout of {self.contract.player} ({self.team.code}, dropped {self.dropped_in_season})"
+
+    def clean(self):
+        # Dropped in the final year is free (the contract is just voided), so a buyout's drop
+        # season runs from the signing offseason up to the year before the final year.
+        if not self.contract_id:
+            return
+        c = self.contract
+        if not c.year_signed <= self.dropped_in_season < c.final_year:
+            raise ValidationError(
+                {
+                    "dropped_in_season": f"Must be {c.year_signed}–{c.final_year - 1} for a contract signed in "
+                    f"{c.year_signed} ending {c.final_year}; a final-year drop has no buyout."
+                }
+            )
 
 
 class FarmPlayer(models.Model):

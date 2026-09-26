@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}{{ team.code }} · Dynasty Commish{% endblock %}
+{% block content %}
+<h1>{{ team.name }} <span class="muted">({{ team.code }})</span></h1>
+{% if managers %}<p class="muted">Managed by {% for m in managers %}{{ m.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>{% endif %}
+
+<div class="summary">
+  <div>Base<strong>${{ budget.base }}</strong></div>
+  <div>Contracts<strong>−${{ budget.contracts }}</strong></div>
+  <div>Buyouts<strong>−${{ budget.buyouts }}</strong></div>
+  <div>Farm<strong>−${{ budget.farm }}</strong></div>
+  <div>Cash<strong>{% if budget.cash_net >= 0 %}+{% else %}−{% endif %}${{ budget.cash_net|stringformat:"d"|cut:"-" }}</strong></div>
+  {% if budget.missed_ip %}<div>Missed IP<strong>−${{ budget.missed_ip }}</strong></div>{% endif %}
+  <div>Left before signings<strong>${{ budget.remaining }}</strong></div>
+</div>
+<p class="muted">{{ next_season }} auction budget from what's already committed. Signings and farm keeps come out of this in February.</p>
+
+<details>
+  <summary>How it adds up</summary>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Charge</th><th>Player / note</th><th class="num">Amount</th></tr></thead>
+    <tbody>
+      <tr><td>Base budget</td><td></td><td class="num">${{ budget.base }}</td></tr>
+      {% for line in ledger %}<tr><td>{{ line.kind }}</td><td>{{ line.player.name|default:"?" }}</td><td class="num">−${{ line.amount }}</td></tr>{% endfor %}
+      {% for a in adjustments %}<tr><td>{{ a.get_kind_display }}</td><td>{{ a.note }}</td><td class="num">−${{ a.amount }}</td></tr>{% endfor %}
+      {% if budget.cash_net %}<tr><td>Cash trades (net)</td><td></td><td class="num">{% if budget.cash_net > 0 %}+{% else %}−{% endif %}${{ budget.cash_net|stringformat:"d"|cut:"-" }}</td></tr>{% endif %}
+    </tbody>
+    <tfoot><tr><td>Left before signings</td><td></td><td class="num">${{ budget.remaining }}</td></tr></tfoot>
+  </table></div>
+</details>
+
+<h2>Under contract for {{ next_season }}</h2>
+{% include "league/_contracts_table.html" with rows=contracts %}
+
+{% if expired %}
+<h2>Contracts that ended with the {{ league_season }} season</h2>
+<p class="muted">{% for c in expired %}{{ c.player.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+{% endif %}
+
+<h2>Buyouts owed</h2>
+{% include "league/_buyouts_table.html" with rows=buyouts %}
+
+<h2>Farm</h2>
+{% include "league/_farm_table.html" with rows=farm %}
+
+<h2>Farm picks owned</h2>
+{% if picks %}<ul>{% for p in picks %}<li>{{ p.year }} round {{ p.round }}{% if p.original_team_id != team.pk %} (from {{ p.original_team.code }}){% endif %}</li>{% endfor %}</ul>
+{% else %}<p class="muted">None.</p>{% endif %}
+
+<h2>Cash trades</h2>
+{% if cash %}<ul>{% for t in cash %}<li>{{ t.budget_season }}: ${{ t.amount }} {% if t.to_team_id == team.pk %}from {{ t.from_team.code }}{% else %}to {{ t.to_team.code }}{% endif %}{% if t.note %} <span class="muted">— {{ t.note }}</span>{% endif %}</li>{% endfor %}</ul>
+{% else %}<p class="muted">None.</p>{% endif %}
+{% endblock %}

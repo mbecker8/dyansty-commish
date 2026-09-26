@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Farm · Dynasty Commish{% endblock %}
+{% block content %}
+<h1>Farm systems</h1>
+<p class="muted">Keeping a farm player adds $1 to his salary, or $2 once he's appeared in MLB (1 PA or 0.1 IP).</p>
+{% include "league/_farm_table.html" with show_team=True %}
+{% endblock %}

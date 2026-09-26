@@ -1,0 +1,26 @@
+:root { --fg:#1d232a; --muted:#5f6b76; --line:#dde2e7; --bg:#fbfbfa; --accent:#1f5f99; --warn:#fff4d6; }
+* { box-sizing: border-box; }
+body { margin:0; font:15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; color:var(--fg); background:var(--bg); }
+header.site { display:flex; flex-wrap:wrap; gap:.5rem 1.5rem; align-items:center; padding:.75rem 1rem; border-bottom:1px solid var(--line); background:#fff; }
+.brand { font-weight:700; color:var(--fg); text-decoration:none; }
+nav { display:flex; flex-wrap:wrap; gap:1rem; }
+nav a, a { color:var(--accent); }
+.logout { margin-left:auto; display:flex; gap:.5rem; align-items:center; color:var(--muted); }
+.banner { margin:0; padding:.6rem 1rem; background:var(--warn); border-bottom:1px solid #eedc9a; }
+main { padding:1rem; max-width:72rem; margin:0 auto; }
+h1 { font-size:1.5rem; margin:.5rem 0 1rem; } h2 { font-size:1.15rem; margin:1.75rem 0 .5rem; }
+.muted { color:var(--muted); }
+.table-wrap { overflow-x:auto; }
+table { border-collapse:collapse; width:100%; background:#fff; }
+th, td { text-align:left; padding:.4rem .6rem; border-bottom:1px solid var(--line); white-space:nowrap; }
+th { font-weight:600; font-size:.85rem; color:var(--muted); }
+td.num, th.num { text-align:right; font-variant-numeric:tabular-nums; }
+tfoot td { font-weight:600; }
+.summary { display:flex; flex-wrap:wrap; gap:.75rem; margin-bottom:1rem; }
+.summary div { background:#fff; border:1px solid var(--line); padding:.5rem .75rem; min-width:8rem; }
+.summary strong { display:block; font-size:1.25rem; }
+.tag { font-size:.75rem; padding:0 .35rem; border:1px solid var(--line); border-radius:3px; color:var(--muted); }
+.card { max-width:28rem; margin:3rem auto; background:#fff; border:1px solid var(--line); padding:1.5rem; }
+.button { display:inline-block; background:#5865f2; color:#fff; padding:.6rem 1rem; text-decoration:none; border-radius:4px; }
+details { margin:.5rem 0 1rem; } details summary { cursor:pointer; color:var(--accent); }
+.doc { max-width:48rem; } .doc li { margin:.25rem 0; } code { background:#eef1f4; padding:0 .25rem; border-radius:3px; font-size:.9em; }

@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Contracts · Dynasty Commish{% endblock %}
+{% block content %}
+<h1>Contracts running through {{ next_season }} or later</h1>
+{% include "league/_contracts_table.html" with show_team=True %}
+{% endblock %}

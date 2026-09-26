@@ -1,6 +1,6 @@
 # Dynasty Commish — Architecture
 
-> Status: reflects the code as of **M1 (Foundations)**, merged 2026-09-26.
+> Status: reflects the code as of **M3 (Read side)**, merged 2026-09-26.
 > Sections marked **(planned)** describe where M2+ is headed. They're design
 > intent, not code yet. For goals, scope and the rules themselves, see
 > [VISION.md](VISION.md) and [the rulebook](docs/reference/rulebook-year19.md).
@@ -43,7 +43,9 @@ through scripts or import commands, never from inside a request.
 | Path | What lives there |
 |---|---|
 | `config/` | Django project: settings, root URLs, WSGI/ASGI. |
-| `core/` | Site shell: home page and `/healthz`. Currently the only Django app. |
+| `core/` | Site shell: base template, CSS, `/healthz`. |
+| `league/` | Domain models, import and reconcile commands, budget adapter, league pages. |
+| `accounts/` | Sign in with Discord (OAuth2, `identify` scope). |
 | `rules/` | League rules engine plus its tests (`rules/tests/`), including golden tests. |
 | `scripts/` | Standalone tools run by hand: the Fantrax snapshot and the workbook fixture extractor. |
 | `data/fantrax/<snapshot>/` | Raw Fantrax JSON saved to disk (e.g. `2026-final`, the end-of-season snapshot). Committed. |
@@ -122,8 +124,13 @@ where the numbers come from.
   - With DEBUG off: HTTPS redirect (except `/healthz`), secure cookies,
     proxy SSL header.
 - Static files are served by WhiteNoise (compressed, manifest-hashed).
-- Email uses the console backend (placeholder until magic-link auth).
-- Routes: `/` (home), `/healthz` (Render health check), `/admin/`.
+- Routes:
+  - `/` sends you to your team, or to sign-in.
+  - `/teams/`, `/teams/<code>/`, `/contracts/`, `/buyouts/`, `/farm/`, `/picks/` and `/cash/` are league pages that need sign-in.
+  - `/auth/…` is Discord sign-in, `/healthz` is the Render health check, and `/admin/` is the Django admin.
+- League pages show the *next* auction's committed money (`LEAGUE_SEASON` + 1), using
+  `league.budget.team_budget`. While reconciliation items are pending, a banner says the numbers
+  may still change.
 
 ### (planned) Domain app and screens
 
@@ -139,8 +146,19 @@ where the numbers come from.
 - **Commissioner console:** custom views for the common workflows, with
   Django admin as the escape hatch. Every write that changes league state
   writes an audit entry (who, what, when, note).
-- **Auth:** email magic link (or Discord OAuth, still open, see VISION §14).
-  Manager ↔ team linking is done by the commissioner. Permissions: managers
+- **Auth (built in M3):** Sign in with Discord.
+  - `accounts/views.py` stores a single-use `state` in the session and compares it in constant time.
+  - It exchanges the code on the server and reads `/users/@me`. The token isn't kept.
+  - Only a Discord ID that the commissioner has put on a `Manager` (in the admin) gets in. A User is
+    created on that manager's first sign-in. Anyone else sees their Discord ID and is asked to send it
+    to the commissioner.
+  - The account is keyed by Discord ID (`discord-<id>`), so handing a team to someone else never
+    hands over the old account.
+  - `accounts.middleware.DiscordAccountMiddleware` re-checks the link on every request. It turns
+    admin rights (staff + superuser) on exactly while the Manager is marked **Is commissioner**, so
+    unlinking or removing the flag applies immediately, the admin included.
+  - League pages use `league.access.member_required`: a linked Discord manager, or the commissioner's
+    password account. Permissions: managers
   edit only their own team while signing is open. The commissioner can edit
   everything.
 
@@ -195,7 +213,7 @@ GitHub Actions (`.github/workflows/ci.yml`) runs on every PR and on pushes to
 1. `ruff check .` (rules E, F, I, UP, B; line length 120)
 2. `ruff format --check .`
 3. `makemigrations --check --dry-run`, so model changes must ship with migrations
-4. `pytest -q` over `core/` and `rules/`
+4. `pytest -q` over `core/`, `rules/`, `league/` and `accounts/`
 
 ## 8. Secrets and sensitive data
 

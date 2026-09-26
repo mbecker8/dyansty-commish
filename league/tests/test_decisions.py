@@ -83,11 +83,7 @@ def test_reconcile_rejects_a_bad_since_date(reconciled):
 
 
 @pytest.fixture
-def admin_client(reconciled, settings):
-    # Tests run with DEBUG off and no collectstatic, so skip the hashed-manifest lookup.
-    settings.STORAGES = settings.STORAGES | {
-        "staticfiles": {"BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"}
-    }
+def admin_client(reconciled):
     User.objects.create_superuser("c", "c@example.com", "pw")
     client = Client()
     client.login(username="c", password="pw")

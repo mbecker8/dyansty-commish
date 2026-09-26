@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "core",
     "league",
+    "accounts",
 ]
 
 MIDDLEWARE = [
@@ -50,6 +51,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "accounts.middleware.DiscordAccountMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -66,6 +68,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "league.context_processors.league",
             ],
         },
     },
@@ -99,6 +102,18 @@ STORAGES = {
     "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
     "staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"},
 }
+
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "/"
+
+# Sign in with Discord (VISION §3). Create an app at discord.com/developers; its OAuth2
+# redirect must be <site>/auth/discord/callback. Locally these come from secrets/discord.env.
+DISCORD_CLIENT_ID = os.environ.get("DISCORD_CLIENT_ID", "")
+DISCORD_CLIENT_SECRET = os.environ.get("DISCORD_CLIENT_SECRET", "")
+
+# The last completed season; league pages show commitments for the one after it.
+# Replaced by a Season model once season rollover exists.
+LEAGUE_SEASON = int(os.environ.get("LEAGUE_SEASON", "2026"))
 
 MAILERS = {
     "default": {

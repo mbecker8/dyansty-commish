@@ -1,0 +1,16 @@
+<div class="table-wrap"><table>
+  <thead><tr>{% if show_team %}<th>Owed by</th>{% endif %}<th>Player</th><th class="num">Was per year</th><th class="num">Dropped in</th><th>Penalties still to come</th><th class="num">{{ next_season }}</th><th class="num">Total left</th></tr></thead>
+  <tbody>
+  {% for row in rows %}{% with b=row.buyout %}
+    <tr>
+      {% if show_team %}<td><a href="{% url 'team' b.team.code %}">{{ b.team.code }}</a></td>{% endif %}
+      <td>{{ b.contract.player.name }}</td>
+      <td class="num">${{ row.annual }}</td>
+      <td class="num">{{ b.dropped_in_season }}</td>
+      <td>{% for season, amount in row.remaining.items %}{{ season }}: ${{ amount }}{% if not forloop.last %} · {% endif %}{% endfor %}</td>
+      <td class="num">${{ row.next }}</td>
+      <td class="num">${{ row.total }}</td>
+    </tr>
+  {% endwith %}{% empty %}<tr><td colspan="7" class="muted">None.</td></tr>{% endfor %}
+  </tbody>
+</table></div>

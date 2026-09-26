@@ -19,6 +19,12 @@ services:
         fromDatabase:
           name: dynasty-commish-db
           property: connectionString
+      # Sign in with Discord: set in the dashboard (never committed). The Discord app's
+      # OAuth2 redirect must include https://<render host>/auth/discord/callback.
+      - key: DISCORD_CLIENT_ID
+        sync: false
+      - key: DISCORD_CLIENT_SECRET
+        sync: false
 
 databases:
   - name: dynasty-commish-db

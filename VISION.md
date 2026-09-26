@@ -59,11 +59,10 @@ signing period**.
 | Role | Who | Can |
 |---|---|---|
 | **Manager** | One (or more) per team, ~14 teams | View whole league; edit *their own team's* signing decisions while the signing window is open; submit. |
-| **Commissioner** | League commish (possibly a co-commish) | Everything managers can, plus: open/lock periods, edit any team, run Fantrax sync, enter trades/penalties/farm picks, season rollover. |
+| **Commissioner** | Any manager marked *Is commissioner* (the commish and co-commissioners; decided 2026-09-26) | Everything managers can, plus: open/lock periods, edit any team, run Fantrax sync, enter trades/penalties/farm picks, season rollover. |
 
-Sign-in: **email magic link** (no passwords). Managers are invited by the
-commissioner and linked to a team. (Alternative under consideration: **Sign in
-with Discord**, since the league already lives there — see open questions.)
+Sign-in: **Sign in with Discord** (no passwords, no email). The commissioner
+links each manager's Discord account to a team; anyone not linked is turned away.
 
 League communication happens on **Discord**, not email.
 
@@ -150,7 +149,7 @@ by golden tests against the Year 19 workbook.
 ## 8. MVP scope — February 2027 signing
 
 **In:**
-- Magic-link auth; manager↔team linking; commissioner role.
+- Discord sign-in; manager↔team linking; commissioner role.
 - One-time **import of the Year 19 workbook** (contracts, buyouts, farm,
   dropped contracts, cash trades, farm-pick ownership), plus a commissioner
   reconciliation screen for the known spreadsheet errors.
@@ -209,7 +208,7 @@ All of these are admin work done by hand outside Fantrax today:
 - **Django + Postgres**, server-rendered pages with **HTMX** for the live
   signing screen; Django admin as the commissioner's escape hatch.
 - Hosted on **Render** (web service + managed Postgres with daily backups).
-- **Transactional email** provider (Postmark / Resend / SES) for magic links.
+- **Discord OAuth** for sign-in (no email provider).
 - `FantraxAPI` as a dependency; the commissioner's Fantrax cookie is stored as
   a secret.
 - Rules engine as an isolated package with its own test suite.
@@ -234,7 +233,7 @@ testing with the league.
 |---|---|---|
 | **Week of Sep 28** | **Foundations.** Fantrax spike against the just-ended league (before it rolls over), with end-of-season rosters + salaries saved to disk. Django project skeleton, CI, deployed to Render. Rules engine + golden tests from the Year 19 workbook. | Salary snapshot saved; rules tests pass; "hello" page live on Render |
 | **Week of Oct 5** | **Data in.** Domain models, workbook importer, Fantrax import, reconciliation report against the spreadsheet. | Year 19 state fully loaded; every difference from the sheet explained |
-| **Week of Oct 12** | **Read side.** Magic-link auth, manager↔team linking, league-wide views (contracts, budgets, buyouts, farms, pick ownership). | Every manager can log in and see their team |
+| **Week of Oct 12** | **Read side.** Discord sign-in, manager↔team linking, league-wide views (contracts, budgets, buyouts, farms, pick ownership). | Every manager can log in and see their team |
 | **Week of Oct 19** | **Signing flow.** Manager signing screen with live budget + validation; commissioner console (status, override, open/lock, manual adjustments); audit log; export. | Full signing period runs start-to-finish on test data |
 | **Late Oct – Nov** | **Dry run + league beta.** Commissioner replays the Year 19→20 signing; then invite managers to click around and report issues. | League has seen it; no open correctness bugs |
 | **Dec – Jan** | **Buffer + first extras.** Fix beta feedback; optionally start Discord notifications or the farm draft. Final data refresh plan for February. | MVP frozen by Jan 31 |
@@ -245,21 +244,17 @@ testing with the league.
 1. **Fantrax data:** does the API expose end-of-season salaries per player?
    Does each season get a new Fantrax league ID?
 2. ~~Signability rules~~ — **resolved** (see RULES.md).
-3. **Buyout timing:** precise definition of "first unpaid year" relative to
-   the season a player is dropped, including in-season drops. (The sheet
-   charges 80% in the first signing after the drop, then 70%, 60%, …)
+3. ~~Buyout timing~~ — **resolved**: dropped in season X → 80% in X+1, then 70%, 60%, …; pre-auction drops belong to the prior season (see RULES.md).
 4. ~~Contract years~~ — **resolved**: final year = S+L, inclusive (see RULES.md).
 5. **Special Waivers:** the rulebook refers to a section that wasn't in the exported doc (another tab?) —
    write it, or drop it?
-6. **Sign-and-trade:** how does the >10-contract exception get recorded?
+6. ~~Sign-and-trade~~ — **resolved**: a per-contract `sign_and_trade` flag set by the commissioner; each flag allows one contract over the limit.
 7. **Legacy contracts:** are any pre-2014 contracts still active, or can the
    old formula be retired?
 8. **Missed-IP penalties:** commissioner-entered for MVP, or pulled from
    Fantrax?
-9. **Co-commissioners and the banker:** do they need special roles?
-10. **Sign-in:** email magic link, or Sign in with Discord? Discord OAuth needs
-    no email provider and matches where the league already talks, but every
-    manager needs a Discord account linked to their team.
+9. **The banker:** does the banker need a special role? (Co-commissioners are resolved: any manager can be marked commissioner and gets full admin.)
+10. ~~Sign-in~~ — **resolved**: Sign in with Discord (decided 2026-09-26). No email provider needed.
 11. **Farm draft channel:** the farm draft now happens on Discord, not email.
     Confirm, and decide whether the MVP should import picks from a channel or
     stick with manual entry.
