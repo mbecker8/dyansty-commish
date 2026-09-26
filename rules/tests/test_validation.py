@@ -48,3 +48,19 @@ def test_expiring_contract_does_not_collide_with_new_signings():
     # signability (not validation) keeps the team from re-signing him.
     expiring = Contract("Winn", 1, 2022, 3)
     assert validate_signing(existing=[expiring], new=[Contract("Other", 1, 2025, 1)], after_season=2025) == []
+
+
+def test_length_above_the_maximum_is_an_error():
+    errors = validate_signing(existing=[], new=[Contract("Long", 1, 2025, 11)], after_season=2025)
+    assert any("11 years" in e for e in errors)
+    assert validate_signing(existing=[], new=[Contract("Long", 1, 2025, 10)], after_season=2025) == []
+
+
+def test_messages_use_player_names():
+    errors = validate_signing(
+        existing=[],
+        new=[Contract("42", 1, 2025, 1), Contract("42", 1, 2025, 2)],
+        after_season=2025,
+        names={"42": "Royce Lewis"},
+    )
+    assert errors == ["Royce Lewis is signed 2 times"]
