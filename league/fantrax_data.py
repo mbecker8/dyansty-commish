@@ -23,6 +23,18 @@ def parse_fantrax_date(text: str) -> datetime:
     return datetime.strptime(text, "%a %b %d, %Y, %I:%M%p").replace(tzinfo=EASTERN)
 
 
+def _count(text: str | None) -> int:
+    return int(float(text)) if text else 0
+
+
+def _outs(innings: str | None) -> int:
+    """Baseball innings notation: '32.1' is 32 1/3 innings = 97 outs."""
+    if not innings:
+        return 0
+    whole, _, thirds = innings.partition(".")
+    return int(whole) * 3 + int(thirds or 0)
+
+
 @dataclass(frozen=True)
 class FantraxPlayer:
     fantrax_id: str
@@ -40,6 +52,21 @@ class Move:
     from_team: str | None  # Fantrax team id
     to_team: str | None
     tx_id: str
+
+
+@dataclass(frozen=True)
+class EndState:
+    team: str
+    status: str  # Fantrax roster status: Active, Reserve, IR, Minors
+    games_played: int
+    # MLB debut = 1 plate appearance or 0.1 innings pitched. Fantrax gives AB and BB but not
+    # HBP or sacrifices, so plate_appearances is a lower bound.
+    plate_appearances: int = 0
+    outs: int = 0
+
+    @property
+    def debuted(self) -> bool:
+        return self.plate_appearances > 0 or self.outs > 0
 
 
 class Snapshot:
@@ -86,18 +113,23 @@ class Snapshot:
 
     STATUS = {"1": "Active", "2": "Reserve", "3": "IR", "9": "Minors"}
 
-    def end_states(self) -> dict[str, tuple[str, str, int]]:
-        """Fantrax player id -> (team id, roster status, MLB games played this season)."""
+    def end_states(self) -> dict[str, EndState]:
+        """Fantrax player id -> where he ended the season and his MLB playing time."""
         out = {}
         for team_id, roster in self.rosters.items():
             for table in roster["tables"]:
                 headers = [c.get("name") for c in table["header"]["cells"]]
-                gp = headers.index("Games Played")
                 for row in table["rows"]:
-                    if "scorer" in row:
-                        games = row["cells"][gp].get("content") or "0"
-                        status = self.STATUS.get(row.get("statusId"), row.get("statusId"))
-                        out[row["scorer"]["scorerId"]] = (team_id, status, int(float(games)))
+                    if "scorer" not in row:
+                        continue
+                    stats = {h: row["cells"][i].get("content") for i, h in enumerate(headers)}
+                    out[row["scorer"]["scorerId"]] = EndState(
+                        team=team_id,
+                        status=self.STATUS.get(row.get("statusId"), row.get("statusId")),
+                        games_played=_count(stats.get("Games Played")),
+                        plate_appearances=_count(stats.get("At Bats")) + _count(stats.get("Walks")),
+                        outs=_outs(stats.get("Innings Pitched")),
+                    )
         return out
 
     def trade_comments(self) -> list[tuple[str, datetime, set[str], str]]:

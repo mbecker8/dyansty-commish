@@ -46,7 +46,12 @@ the rulebook, including decisions the rulebook doesn't spell out.
   $33 is $17 (decided 2026-09-26). The sheet builds the percentage in floating
   point, so on exact halves it may round down; the app doesn't copy that.
 - **Farm:** $1 per pick; retention adds $1 (no MLB appearance) or $2 (has
-  appeared); promoted players can't return to the farm.
+  appeared); promoted players can't return to the farm. An MLB appearance
+  means at least 1 plate appearance or 0.1 innings pitched (confirmed
+  2026-09-26); a game played as a pinch runner or defensive sub doesn't
+  count. Reconciliation reads AB + BB and IP from Fantrax. Fantrax doesn't
+  show HBP or sacrifices, so a player with games but no AB, BB or out is
+  flagged for a manual check rather than decided.
 - **Budget:** base $400 − contracts − buyout penalties − farm − missed-IP
   penalties ± cash trades.
 - **Validation:** ≤10 contracts (retained farm excluded; sign-and-trade

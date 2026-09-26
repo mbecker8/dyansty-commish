@@ -7,7 +7,7 @@ from collections.abc import Sequence
 from dataclasses import dataclass, field
 from enum import Enum
 
-from league.fantrax_data import Move
+from league.fantrax_data import EndState, Move
 
 
 class Outcome(Enum):
@@ -88,13 +88,6 @@ class FarmOutcome(Enum):
     INCONSISTENT = "inconsistent"
 
 
-@dataclass(frozen=True)
-class EndState:
-    team: str
-    status: str  # Fantrax roster status: Active, Reserve, IR, Minors
-    games_played: int
-
-
 @dataclass
 class FarmReplay:
     outcome: FarmOutcome
@@ -110,8 +103,12 @@ def replay_farm(start_team: str, moves: Sequence[Move], end: EndState | None, ha
         return FarmReplay(FarmOutcome.INCONSISTENT, r.holder, detail=r.detail)
     if r.outcome is Outcome.DROPPED:
         return FarmReplay(FarmOutcome.RELEASED, None, detail=r.detail)
-    debut = not had_mlb and end is not None and end.games_played > 0
+    debut = not had_mlb and end.debuted
+    detail = r.detail
+    if not had_mlb and not end.debuted and end.games_played > 0:
+        note = f"{end.games_played} MLB games but no plate appearance or out recorded (HBP/sacrifice?) - check"
+        detail = "; ".join(filter(None, [note, detail]))
     if end.status != "Minors":
-        return FarmReplay(FarmOutcome.PROMOTED, r.holder, debut, r.detail)
+        return FarmReplay(FarmOutcome.PROMOTED, r.holder, debut, detail)
     outcome = FarmOutcome.TRADED if r.outcome is Outcome.TRADED else FarmOutcome.CONTINUES
-    return FarmReplay(outcome, r.holder, debut, r.detail)
+    return FarmReplay(outcome, r.holder, debut, detail)

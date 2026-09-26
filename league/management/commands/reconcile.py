@@ -14,7 +14,7 @@ from django.db import transaction
 from league.budget import team_budget
 from league.fantrax_data import EASTERN, Snapshot
 from league.models import CashTrade, Contract, FarmPlayer, Player, ReconciliationItem, Team
-from league.reconcile import EndState, Outcome, replay, replay_farm
+from league.reconcile import Outcome, replay, replay_farm
 
 # The post-signing sheet reflects every move up to the auction, so replay from there.
 DEFAULT_SINCE = "2026-02-25"
@@ -112,13 +112,14 @@ class Command(BaseCommand):
         for f in farm:
             fid = f.player.fantrax_id
             on_farm.add(fid)
-            end = EndState(*ends[fid]) if fid in ends else None
+            end = ends.get(fid)
             r = replay_farm(f.team.fantrax_id, moves_by_player.get(fid, []), end, f.has_mlb_appearance)
             detail = r.detail
             for team_id, name in names.items():
                 detail = detail.replace(team_id, name)
             if r.mlb_debut:
-                detail = "; ".join(filter(None, [f"MLB debut ({end.games_played} games)", detail]))
+                debut = f"MLB debut ({end.games_played} G, {end.plate_appearances}+ PA, {end.outs} outs)"
+                detail = "; ".join(filter(None, [debut, detail]))
             items.append(
                 ReconciliationItem(
                     season=season,
@@ -131,7 +132,8 @@ class Command(BaseCommand):
                 )
             )
         players = {p.fantrax_id: p for p in Player.objects.filter(fantrax_id__in=ends)}
-        for fid, (team_id, status, _) in ends.items():
+        for fid, end in ends.items():
+            team_id, status = end.team, end.status
             if (
                 status == "Minors"
                 and fid not in on_farm
