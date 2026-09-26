@@ -34,3 +34,22 @@ class FarmPlayerAdmin(admin.ModelAdmin):
 
 
 admin.site.register([models.TeamAlias, models.FarmPick, models.CashTrade, models.BudgetAdjustment])
+
+
+@admin.register(models.ReconciliationItem)
+class ReconciliationItemAdmin(admin.ModelAdmin):
+    list_display = ["contract", "kind", "team", "status", "detail"]
+    list_filter = ["season", "kind", "status"]
+    search_fields = ["contract__player__name"]
+    actions = ["accept_selected"]
+
+    @admin.action(description="Accept selected (apply the change)")
+    def accept_selected(self, request, queryset):
+        done = 0
+        for item in queryset.filter(status=models.ReconciliationItem.Status.PENDING):
+            try:
+                item.accept(note=f"Accepted by {request.user}")
+                done += 1
+            except ValueError as e:
+                self.message_user(request, f"{item}: {e}", level="error")
+        self.message_user(request, f"Accepted {done} item(s).")

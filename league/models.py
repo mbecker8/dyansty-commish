@@ -141,3 +141,68 @@ class BudgetAdjustment(models.Model):
     kind = models.CharField(max_length=20, choices=Kind.choices)
     amount = models.PositiveIntegerField()
     note = models.CharField(max_length=200, blank=True)
+
+
+class ReconciliationItem(models.Model):
+    """Something the season's Fantrax moves imply for a contract, awaiting the commissioner."""
+
+    class Kind(models.TextChoices):
+        CONTINUES = "continues"
+        EXPIRING = "expiring"
+        TRADED = "traded", "Traded (contract moves)"
+        DROPPED = "dropped", "Dropped (buyout owed)"
+        DROPPED_FREE = "dropped_free", "Dropped in final year (no penalty)"
+        INCONSISTENT = "inconsistent", "Needs a look"
+
+    class Status(models.TextChoices):
+        PENDING = "pending"
+        ACCEPTED = "accepted"
+        REJECTED = "rejected"
+
+    season = models.PositiveIntegerField()
+    kind = models.CharField(max_length=20, choices=Kind.choices)
+    contract = models.ForeignKey(Contract, on_delete=models.CASCADE, null=True, blank=True, related_name="+")
+    team = models.ForeignKey(
+        Team,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        related_name="+",
+        help_text="New holder (trade) or team owing the buyout (drop)",
+    )
+    detail = models.TextField(blank=True)
+    fantrax_tx_ids = models.CharField(max_length=500, blank=True)
+    status = models.CharField(max_length=10, choices=Status.choices, default=Status.PENDING)
+    decided_note = models.TextField(blank=True)
+
+    class Meta:
+        ordering = ["kind", "contract__team__code"]
+
+    def __str__(self):
+        return f"{self.get_kind_display()}: {self.contract}"
+
+    def accept(self, note: str = ""):
+        """Apply the proposed change."""
+        if self.status != self.Status.PENDING:
+            raise ValueError(f"Item {self.pk} is already {self.status}")
+        if self.kind == self.Kind.DROPPED:
+            self.contract.team = self.team  # the team holding him when he was dropped
+            self.contract.save(update_fields=["team"])
+            Buyout.objects.create(
+                contract=self.contract, team=self.team, dropped_in_season=self.season, note=self.detail
+            )
+        elif self.kind == self.Kind.TRADED:
+            self.contract.team = self.team
+            self.contract.save(update_fields=["team"])
+        elif self.kind == self.Kind.INCONSISTENT:
+            raise ValueError("Inconsistent items must be fixed by hand, then rejected with a note")
+        self.status = self.Status.ACCEPTED
+        self.decided_note = note
+        self.save(update_fields=["status", "decided_note"])
+
+    def reject(self, note: str):
+        if self.status != self.Status.PENDING:
+            raise ValueError(f"Item {self.pk} is already {self.status}")
+        self.status = self.Status.REJECTED
+        self.decided_note = note
+        self.save(update_fields=["status", "decided_note"])
