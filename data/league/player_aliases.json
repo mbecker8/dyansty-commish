@@ -1,0 +1,29 @@
+{
+ "_comment": "Sheet spellings that don't exactly match a Fantrax name. Value = Fantrax player ID (with the Fantrax name alongside), or null for players absent from the 2026 Fantrax data (old buyouts). Reviewed by hand 2026-09-26; never auto-generate.",
+ "aliases": {
+  "Bryson Scott": {"fantrax_id": "04p10", "fantrax_name": "Bryson Stott"},
+  "Ceddane Rafaela": {"fantrax_id": "05gsi", "fantrax_name": "Ceddanne Rafaela"},
+  "Christain Walker": {"fantrax_id": "02mw3", "fantrax_name": "Christian Walker"},
+  "Eli Wilitis": {"fantrax_id": "06n8y", "fantrax_name": "Eli Willits"},
+  "Jackson Holiday": {"fantrax_id": "05ybv", "fantrax_name": "Jackson Holliday"},
+  "Johnny Farmelo": {"fantrax_id": "066sx", "fantrax_name": "Jonny Farmelo"},
+  "Josuar Gonzales": {"fantrax_id": "06ps2", "fantrax_name": "Josuar Gonzalez"},
+  "Kazumo Okamoto": {"fantrax_id": "06fzu", "fantrax_name": "Kazuma Okamoto"},
+  "Leodalis De Vries": {"fantrax_id": "067yc", "fantrax_name": "Leo De Vries"},
+  "Michael Harris": {"fantrax_id": "0512v", "fantrax_name": "Michael Harris II"},
+  "Ricky Tiedeman": {"fantrax_id": "05js6", "fantrax_name": "Ricky Tiedemann"},
+  "Romany Anthony": {"fantrax_id": "05u9z", "fantrax_name": "Roman Anthony"},
+  "Vinnie Pasquantine": {"fantrax_id": "05184", "fantrax_name": "Vinnie Pasquantino"},
+  "Wilson Contreras": {"fantrax_id": "03oh0", "fantrax_name": "Willson Contreras"},
+  "Wily Adames": {"fantrax_id": "03atq", "fantrax_name": "Willy Adames"},
+  "Bobby Miller": {"fantrax_id": null, "fantrax_name": null},
+  "Eloy Jimenez": {"fantrax_id": null, "fantrax_name": null},
+  "James Outman": {"fantrax_id": null, "fantrax_name": null},
+  "Michael Toglia": {"fantrax_id": null, "fantrax_name": null},
+  "Nolan Jones": {"fantrax_id": null, "fantrax_name": null},
+  "Wander Franco": {"fantrax_id": null, "fantrax_name": null}
+ },
+ "sign_and_trade": [
+  {"team": "MH", "player": "Bryson Scott", "note": "11th contract; confirmed sign-and-trade by commissioner 2026-09-26"}
+ ]
+}
