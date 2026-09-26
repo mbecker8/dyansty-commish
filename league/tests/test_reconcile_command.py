@@ -1,7 +1,8 @@
 import pytest
 from django.core.management import call_command
 
-from league.models import Buyout, Contract, ReconciliationItem
+from league.budget import team_budget
+from league.models import Buyout, Contract, ReconciliationItem, Team
 
 pytestmark = pytest.mark.django_db
 
@@ -74,3 +75,21 @@ def test_trade_comments_about_cash_are_listed_for_manual_entry(reconciled):
     assert all("DC" in t or "MT" in t or "AW" in t for t in texts)
     with pytest.raises(ValueError):
         comments.first().accept()
+
+
+def test_preview_shows_2027_commitments_without_changing_anything(reconciled, capsys):
+    before = (Buyout.objects.count(), ReconciliationItem.objects.filter(status="pending").count())
+    call_command("reconcile", preview=True)
+    out = capsys.readouterr().out
+    assert "2027 commitments if every proposal is accepted" in out
+    assert (Buyout.objects.count(), ReconciliationItem.objects.filter(status="pending").count()) == before
+    # The preview must match what accepting every acceptable proposal actually produces.
+    for item in ReconciliationItem.objects.filter(status="pending"):
+        try:
+            item.accept()
+        except ValueError:
+            pass  # manual-only items
+    for team in Team.objects.all():
+        b = team_budget(team, 2027)
+        line = next(line for line in out.splitlines() if line.startswith(f"{team.code} "))
+        assert f"contracts ${b.contracts} " in line and f"buyouts ${b.buyouts} " in line, line

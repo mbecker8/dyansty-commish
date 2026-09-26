@@ -130,13 +130,16 @@ exhaustively by tests. It implements the rulebook (`docs/reference/rulebook-year
   - *Dropped contract:* dropping a contracted player **voids the contract**.
     The dropping team owes a buyout unless it was the final year, and the
     player's signability resets, so a team that picks him up may sign him.
+  - The buyout is owed by the team holding him when he's dropped (so a
+    contract traded and then dropped is the new team's buyout), and it stands
+    even if the same team re-claims him (decided 2026-09-26).
   - Today this is an honor system: drops are announced on Discord and the
-    commissioner spot-checks. The app should *detect* the cases below and let
-    the commissioner confirm them:
-    - A contracted player is missing from his team's roster at the blackout
-      sync. It could be a drop or a trade; Fantrax transaction history tells
-      them apart.
-    - A player shows up on a new team.
+    commissioner spot-checks. The app *detects* these by replaying the
+    season's Fantrax trades, drops and claims from the auction onward
+    (`manage.py reconcile`), and the commissioner accepts or rejects each
+    proposal. Moves into the team that already has a player (pre-auction
+    sign-and-trades, farm draft picks entered as claims) are already in the
+    sheet and are skipped.
 - **Contract price per year:** 1 yr = P; 2 yr = P+5; 3 yr = P+10;
   4 yr = P+15; 5+ yr = P + 4×years. (Legacy pre-2014 formula retained only for
   historical contracts.)
@@ -148,13 +151,13 @@ exhaustively by tests. It implements the rulebook (`docs/reference/rulebook-year
 - **Budget:** base $400 − contracts − buyout penalties − farm − missed-IP
   penalties ± cash trades.
 - **Validation:** ≤10 contracts (retained farm excluded; sign-and-trade
-  exception), only signable players, etc.
+  exception, recorded per contract), only signable players, etc.
 
 Rule constants are **per-season configuration**, since the rulebook changes a
 few times a year.
 
 **Golden tests:** the Year 19 workbook's cached values become test fixtures.
-The fixture (`rules/tests/fixtures/year19_post_signing.json`) is extracted from
+The fixture (`data/league/year19_post_signing.json`) is extracted from
 a Google Sheets export by `scripts/extract_workbook_fixture.py`. Every contract
 price and buyout penalty matches. Two budgets differ because of sheet bugs:
 DC's farm total skips Farm 1 (+$3 of budget), and JM's buyout total only sums
@@ -173,6 +176,18 @@ documented spreadsheet bug or a bug in the app.
   farm) — seeded once from the Year 19 workbook.
 - The sync is **on demand** (a commissioner button or management command), not
   scheduled.
+- What Fantrax does and doesn't record (from the 2026 snapshot):
+  - Rosters, salaries, claims, drops and trades, with player IDs. Salary
+    equals the contract's annual price for contracted players.
+  - Farm-pick ownership for future years (`draftPicksData`), which the app
+    imports as the source of truth.
+  - Cash in trades appears only as a free-text commissioner comment. The app
+    lists these comments, and the commissioner enters the cash trade.
+  - Its "Year Signed" and "Contract Expires" columns are hand-kept and
+    unreliable; the app ignores them.
+- Franchises are keyed by code and Fantrax ID, with every name the sheet uses
+  kept as an alias (`data/league/teams.json`). AG (Big Beautiful Baseball
+  Team) is the same franchise as EP (Winning DeLautery).
 - **Long-term direction:** a live, largely automatic link to the Fantrax
   league. Transactions, trades, roster moves and weekly stats would flow in on
   a schedule, so contract status, buyouts, penalties and cap checks update

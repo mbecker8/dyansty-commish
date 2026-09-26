@@ -11,6 +11,7 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db import transaction
 
+from league.budget import team_budget
 from league.fantrax_data import EASTERN, Snapshot
 from league.models import Contract, FarmPlayer, Player, ReconciliationItem, Team
 from league.reconcile import EndState, Outcome, replay, replay_farm
@@ -26,6 +27,9 @@ class Command(BaseCommand):
         parser.add_argument("--season", type=int, default=2026)
         parser.add_argument("--since", default=DEFAULT_SINCE, help="Ignore moves before this date (YYYY-MM-DD)")
         parser.add_argument("--fantrax", default=str(Path(settings.BASE_DIR) / "data" / "fantrax" / "2026-final"))
+        parser.add_argument(
+            "--preview", action="store_true", help="Also show next season's commitments if every proposal is accepted"
+        )
 
     @transaction.atomic
     def handle(self, *args, season, since, fantrax, **options):
@@ -84,6 +88,8 @@ class Command(BaseCommand):
         ReconciliationItem.objects.bulk_create(created)
         if options["verbosity"]:
             self.report(season)
+        if options["preview"]:
+            self.preview(season)
 
     def farm_items(self, season, snapshot, moves_by_player, teams, names, decided_farm):
         Kind = ReconciliationItem.Kind
@@ -163,6 +169,28 @@ class Command(BaseCommand):
                 )
             )
         return items
+
+    def preview(self, season):
+        """Apply every acceptable pending item inside a savepoint, print budgets, then roll back."""
+        next_season = season + 1
+        sid = transaction.savepoint_create()
+        try:
+            for item in ReconciliationItem.objects.filter(season=season, status=ReconciliationItem.Status.PENDING):
+                try:
+                    item.accept()
+                except ValueError:
+                    pass  # needs the commissioner
+            self.stdout.write(
+                f"\n{next_season} commitments if every proposal is accepted (before signings and farm keeps)"
+            )
+            for team in Team.objects.all():
+                b = team_budget(team, next_season)
+                self.stdout.write(
+                    f"{team.code:3} contracts ${b.contracts} ({sum(1 for k, *_ in b.lines if k == 'contract')}) "
+                    f"buyouts ${b.buyouts} cash ${b.cash_net:+d} -> ${b.remaining} left before signings"
+                )
+        finally:
+            transaction.savepoint_rollback(sid)
 
     def report(self, season):
         items = ReconciliationItem.objects.filter(season=season).select_related(
