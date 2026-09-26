@@ -12,8 +12,8 @@ from django.core.management.base import BaseCommand
 from django.db import transaction
 
 from league.fantrax_data import EASTERN, Snapshot
-from league.models import Contract, ReconciliationItem, Team
-from league.reconcile import Outcome, replay
+from league.models import Contract, FarmPlayer, Player, ReconciliationItem, Team
+from league.reconcile import EndState, Outcome, replay, replay_farm
 
 # The post-signing sheet reflects every move up to the auction, so replay from there.
 DEFAULT_SINCE = "2026-02-25"
@@ -72,9 +72,74 @@ class Command(BaseCommand):
                     fantrax_tx_ids=",".join(r.tx_ids),
                 )
             )
+        created += self.farm_items(
+            season,
+            snapshot,
+            moves_by_player,
+            teams,
+            names,
+            decided_farm=set(ReconciliationItem.objects.filter(season=season).values_list("farm_player_id", flat=True)),
+        )
         ReconciliationItem.objects.bulk_create(created)
         if options["verbosity"]:
             self.report(season)
+
+    def farm_items(self, season, snapshot, moves_by_player, teams, names, decided_farm):
+        Kind = ReconciliationItem.Kind
+        kinds = {
+            "continues": Kind.FARM_CONTINUES,
+            "traded": Kind.FARM_TRADED,
+            "promoted": Kind.FARM_PROMOTED,
+            "released": Kind.FARM_RELEASED,
+            "inconsistent": Kind.FARM_INCONSISTENT,
+        }
+        ends = snapshot.end_states()
+        items = []
+        farm = (
+            FarmPlayer.objects.filter(salary_season=season, status=FarmPlayer.Status.ACTIVE)
+            .filter(player__fantrax_id__isnull=False)
+            .exclude(pk__in=decided_farm)
+            .select_related("team", "player")
+        )
+        on_farm = set()
+        for f in farm:
+            fid = f.player.fantrax_id
+            on_farm.add(fid)
+            end = EndState(*ends[fid]) if fid in ends else None
+            r = replay_farm(f.team.fantrax_id, moves_by_player.get(fid, []), end, f.has_mlb_appearance)
+            detail = r.detail
+            for team_id, name in names.items():
+                detail = detail.replace(team_id, name)
+            if r.mlb_debut:
+                detail = "; ".join(filter(None, [f"MLB debut ({end.games_played} games)", detail]))
+            items.append(
+                ReconciliationItem(
+                    season=season,
+                    kind=kinds[r.outcome.value],
+                    farm_player=f,
+                    player=f.player,
+                    team=teams.get(r.team),
+                    mlb_debut=r.mlb_debut,
+                    detail=detail,
+                )
+            )
+        players = {p.fantrax_id: p for p in Player.objects.filter(fantrax_id__in=ends)}
+        for fid, (team_id, status, _) in ends.items():
+            if (
+                status == "Minors"
+                and fid not in on_farm
+                and not FarmPlayer.objects.filter(player__fantrax_id=fid).exists()
+            ):
+                items.append(
+                    ReconciliationItem(
+                        season=season,
+                        kind=Kind.FARM_UNKNOWN,
+                        player=players[fid],
+                        team=teams[team_id],
+                        detail="In a Fantrax minors slot but on no sheet farm (farm adds are draft or trade only)",
+                    )
+                )
+        return items
 
     def report(self, season):
         items = ReconciliationItem.objects.filter(season=season).select_related(
@@ -85,12 +150,16 @@ class Command(BaseCommand):
             if not group:
                 continue
             self.stdout.write(f"\n{kind.label} ({len(group)})")
-            if kind in (ReconciliationItem.Kind.CONTINUES, ReconciliationItem.Kind.EXPIRING):
-                continue
             for i in group:
-                c = i.contract
+                if kind in (ReconciliationItem.Kind.CONTINUES, ReconciliationItem.Kind.EXPIRING):
+                    break
+                if kind == ReconciliationItem.Kind.FARM_CONTINUES and not i.mlb_debut:
+                    continue
                 target = f" -> {i.team.code}" if i.team else ""
-                self.stdout.write(
-                    f"  [{i.status}] {c.team.code} {c.player.name}: ${c.as_rules().annual_price}/yr "
-                    f"through {c.final_year}{target}  {i.detail}"
-                )
+                if c := i.contract:
+                    what = f"{c.team.code} {c.player.name}: ${c.as_rules().annual_price}/yr through {c.final_year}"
+                elif f := i.farm_player:
+                    what = f"{f.team.code} {f.player.name} (farm, ${f.salary})"
+                else:
+                    what = i.player.name
+                self.stdout.write(f"  [{i.status}] {what}{target}  {i.detail}")

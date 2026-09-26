@@ -144,7 +144,7 @@ class BudgetAdjustment(models.Model):
 
 
 class ReconciliationItem(models.Model):
-    """Something the season's Fantrax moves imply for a contract, awaiting the commissioner."""
+    """Something the season's Fantrax moves imply for a contract or farm player, awaiting the commissioner."""
 
     class Kind(models.TextChoices):
         CONTINUES = "continues"
@@ -153,6 +153,12 @@ class ReconciliationItem(models.Model):
         DROPPED = "dropped", "Dropped (buyout owed)"
         DROPPED_FREE = "dropped_free", "Dropped in final year (no penalty)"
         INCONSISTENT = "inconsistent", "Needs a look"
+        FARM_CONTINUES = "farm_continues", "Farm: still on the farm"
+        FARM_TRADED = "farm_traded", "Farm: traded"
+        FARM_PROMOTED = "farm_promoted", "Farm: promoted (can't return)"
+        FARM_RELEASED = "farm_released", "Farm: released"
+        FARM_INCONSISTENT = "farm_inconsistent", "Farm: needs a look"
+        FARM_UNKNOWN = "farm_unknown", "Farm: in Fantrax minors but not on the sheet"
 
     class Status(models.TextChoices):
         PENDING = "pending"
@@ -162,13 +168,16 @@ class ReconciliationItem(models.Model):
     season = models.PositiveIntegerField()
     kind = models.CharField(max_length=20, choices=Kind.choices)
     contract = models.ForeignKey(Contract, on_delete=models.CASCADE, null=True, blank=True, related_name="+")
+    farm_player = models.ForeignKey(FarmPlayer, on_delete=models.CASCADE, null=True, blank=True, related_name="+")
+    player = models.ForeignKey(Player, on_delete=models.CASCADE, null=True, blank=True, related_name="+")
+    mlb_debut = models.BooleanField(default=False, help_text="Farm player appeared in MLB this season")
     team = models.ForeignKey(
         Team,
         on_delete=models.PROTECT,
         null=True,
         blank=True,
         related_name="+",
-        help_text="New holder (trade) or team owing the buyout (drop)",
+        help_text="New holder (trade/promotion) or team owing the buyout (drop)",
     )
     detail = models.TextField(blank=True)
     fantrax_tx_ids = models.CharField(max_length=500, blank=True)
@@ -179,7 +188,7 @@ class ReconciliationItem(models.Model):
         ordering = ["kind", "contract__team__code"]
 
     def __str__(self):
-        return f"{self.get_kind_display()}: {self.contract}"
+        return f"{self.get_kind_display()}: {self.contract or self.farm_player or self.player}"
 
     def accept(self, note: str = ""):
         """Apply the proposed change."""
@@ -194,8 +203,19 @@ class ReconciliationItem(models.Model):
         elif self.kind == self.Kind.TRADED:
             self.contract.team = self.team
             self.contract.save(update_fields=["team"])
-        elif self.kind == self.Kind.INCONSISTENT:
-            raise ValueError("Inconsistent items must be fixed by hand, then rejected with a note")
+        elif self.kind in (self.Kind.INCONSISTENT, self.Kind.FARM_INCONSISTENT, self.Kind.FARM_UNKNOWN):
+            raise ValueError("This item must be fixed by hand, then rejected with a note")
+        elif self.farm_player_id:
+            farm = self.farm_player
+            if self.mlb_debut:
+                farm.has_mlb_appearance = True
+            if self.kind in (self.Kind.FARM_TRADED, self.Kind.FARM_PROMOTED):
+                farm.team = self.team
+            if self.kind == self.Kind.FARM_PROMOTED:
+                farm.status = FarmPlayer.Status.PROMOTED
+            elif self.kind == self.Kind.FARM_RELEASED:
+                farm.status = FarmPlayer.Status.RELEASED
+            farm.save()
         self.status = self.Status.ACCEPTED
         self.decided_note = note
         self.save(update_fields=["status", "decided_note"])

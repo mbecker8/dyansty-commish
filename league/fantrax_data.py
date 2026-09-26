@@ -84,6 +84,22 @@ class Snapshot:
             index[normalize_name(p.name)].add(p.fantrax_id)
         return index
 
+    STATUS = {"1": "Active", "2": "Reserve", "3": "IR", "9": "Minors"}
+
+    def end_states(self) -> dict[str, tuple[str, str, int]]:
+        """Fantrax player id -> (team id, roster status, MLB games played this season)."""
+        out = {}
+        for team_id, roster in self.rosters.items():
+            for table in roster["tables"]:
+                headers = [c.get("name") for c in table["header"]["cells"]]
+                gp = headers.index("Games Played")
+                for row in table["rows"]:
+                    if "scorer" in row:
+                        games = row["cells"][gp].get("content") or "0"
+                        status = self.STATUS.get(row.get("statusId"), row.get("statusId"))
+                        out[row["scorer"]["scorerId"]] = (team_id, status, int(float(games)))
+        return out
+
     def rostered(self) -> dict[str, tuple[str, dict]]:
         """Fantrax player id -> (team id, roster row) at snapshot time."""
         return {row["scorer"]["scorerId"]: (team_id, row) for team_id, row in self.roster_rows()}

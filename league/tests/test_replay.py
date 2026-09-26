@@ -69,3 +69,9 @@ def test_trade_into_current_holder_is_already_reflected():
     r = replay(A, 2028, [mv(1, "TRADE", B, A, tx="late")], 2026)
     assert r.outcome is Outcome.CONTINUES and r.holder == A
     assert "late" in r.detail
+
+
+def test_claim_by_current_holder_is_already_reflected():
+    # Farm draft picks are entered in Fantrax as claims; the sheet already lists them.
+    r = replay(A, 2028, [mv(1, "CLAIM", to=A, tx="draft")], 2026)
+    assert r.outcome is Outcome.CONTINUES and "draft" in r.detail

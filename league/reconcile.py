@@ -45,9 +45,10 @@ def replay(start_team: str, final_year: int, moves: Sequence[Move], season: int,
         return Replay(Outcome.INCONSISTENT, holder, dropped_at=dropped_at, tx_ids=tx_ids, detail=msg)
 
     for m in moves:
-        if m.kind == "TRADE" and m.to_team == on_roster and m.from_team != on_roster:
-            # A trade into the team that already has him: the sheet was updated ahead of Fantrax.
-            notes.append(f"trade {m.tx_id} ({m.when:%Y-%m-%d}) already reflected")
+        if m.kind in ("TRADE", "CLAIM") and m.to_team == on_roster and m.from_team != on_roster:
+            # A move into the team that already has him (a pre-auction trade, or a farm draft pick
+            # entered as a claim): the sheet was updated ahead of Fantrax.
+            notes.append(f"{m.kind.lower()} {m.tx_id} ({m.when:%Y-%m-%d}) already reflected")
             continue
         tx_ids.append(m.tx_id)
         if m.kind in ("TRADE", "DROP") and m.from_team != on_roster:
@@ -77,3 +78,40 @@ def replay(start_team: str, final_year: int, moves: Sequence[Move], season: int,
         return Replay(Outcome.TRADED, holder, tx_ids=tx_ids, detail=detail)
     outcome = Outcome.EXPIRING if final_year == season else Outcome.CONTINUES
     return Replay(outcome, holder, tx_ids=tx_ids, detail=detail)
+
+
+class FarmOutcome(Enum):
+    CONTINUES = "continues"  # still in his team's minors
+    TRADED = "traded"  # moved to another team's farm by trade
+    PROMOTED = "promoted"  # on an active roster now; can never return to the farm
+    RELEASED = "released"  # dropped from the farm
+    INCONSISTENT = "inconsistent"
+
+
+@dataclass(frozen=True)
+class EndState:
+    team: str
+    status: str  # Fantrax roster status: Active, Reserve, IR, Minors
+    games_played: int
+
+
+@dataclass
+class FarmReplay:
+    outcome: FarmOutcome
+    team: str | None
+    mlb_debut: bool = False
+    detail: str = ""
+
+
+def replay_farm(start_team: str, moves: Sequence[Move], end: EndState | None, had_mlb: bool) -> FarmReplay:
+    """Classify one farm player's season from his moves and where he ended up."""
+    r = replay(start_team, final_year=10**6, moves=moves, season=0, end_team=end.team if end else None)
+    if r.outcome is Outcome.INCONSISTENT:
+        return FarmReplay(FarmOutcome.INCONSISTENT, r.holder, detail=r.detail)
+    if r.outcome is Outcome.DROPPED:
+        return FarmReplay(FarmOutcome.RELEASED, None, detail=r.detail)
+    debut = not had_mlb and end is not None and end.games_played > 0
+    if end.status != "Minors":
+        return FarmReplay(FarmOutcome.PROMOTED, r.holder, debut, r.detail)
+    outcome = FarmOutcome.TRADED if r.outcome is Outcome.TRADED else FarmOutcome.CONTINUES
+    return FarmReplay(outcome, r.holder, debut, r.detail)
