@@ -112,55 +112,10 @@ The **signing blackout** is the heart of the MVP:
 
 ## 6. Rules engine
 
-A pure-Python module with no web or database dependencies, covered
-exhaustively by tests. It implements the rulebook (`docs/reference/rulebook-year19.md`):
-
-- **Contract term:** "year signed" (S) is the league season that had just ended
-  when the contract was signed. A contract of length L covers seasons
-  S+1 … S+L; **final year = S+L, inclusive** (the player finishes that season
-  on the team at the contract price). Example: Royce Lewis, S=2024, L=3 →
-  plays 2025–2027 at $19/yr; after the 2025 season he has 2 years left.
-- **Signability** (for a team at a signing period ending season Y):
-  - *Under contract* (final year > Y): the contract simply continues; nothing
-    to sign.
-  - *Expiring* (final year = Y): **not signable** by that team; he returns to
-    the auction pool.
-  - *Otherwise on the roster* (acquired at auction/draft, FAAB, or free
-    agency without a live contract): **signable**.
-  - *Dropped contract:* dropping a contracted player **voids the contract**.
-    The dropping team owes a buyout unless it was the final year, and the
-    player's signability resets, so a team that picks him up may sign him.
-  - Today this is an honor system: drops are announced on Discord and the
-    commissioner spot-checks. The app should *detect* the cases below and let
-    the commissioner confirm them:
-    - A contracted player is missing from his team's roster at the blackout
-      sync. It could be a drop or a trade; Fantrax transaction history tells
-      them apart.
-    - A player shows up on a new team.
-- **Contract price per year:** 1 yr = P; 2 yr = P+5; 3 yr = P+10;
-  4 yr = P+15; 5+ yr = P + 4×years. (Legacy pre-2014 formula retained only for
-  historical contracts.)
-- **Buyouts:** 80% of annual price for the first unpaid year, then 70%, 60%,
-  50%, … for each remaining year (never truncated). Final-year contracts drop
-  free.
-- **Farm:** $1 per pick; retention adds $1 (no MLB appearance) or $2 (has
-  appeared); promoted players can't return to the farm.
-- **Budget:** base $400 − contracts − buyout penalties − farm − missed-IP
-  penalties ± cash trades.
-- **Validation:** ≤10 contracts (retained farm excluded; sign-and-trade
-  exception), only signable players, etc.
-
-Rule constants are **per-season configuration**, since the rulebook changes a
-few times a year.
-
-**Golden tests:** the Year 19 workbook's cached values become test fixtures.
-The fixture (`rules/tests/fixtures/year19_post_signing.json`) is extracted from
-a Google Sheets export by `scripts/extract_workbook_fixture.py`. Every contract
-price and buyout penalty matches. Two budgets differ because of sheet bugs:
-DC's farm total skips Farm 1 (+$3 of budget), and JM's buyout total only sums
-4 of its 6 buyouts (+$10).
-Where the app disagrees with the sheet, each difference is either a
-documented spreadsheet bug or a bug in the app.
+The league rules as the app implements them, including decisions the
+rulebook doesn't spell out, live in **[RULES.md](RULES.md)**. The engine is a
+pure-Python package (`rules/`) with no web or database dependencies, checked
+by golden tests against the Year 19 workbook.
 
 ## 7. Fantrax integration
 
@@ -173,6 +128,18 @@ documented spreadsheet bug or a bug in the app.
   farm) — seeded once from the Year 19 workbook.
 - The sync is **on demand** (a commissioner button or management command), not
   scheduled.
+- What Fantrax does and doesn't record (from the 2026 snapshot):
+  - Rosters, salaries, claims, drops and trades, with player IDs. Salary
+    equals the contract's annual price for contracted players.
+  - Farm-pick ownership for future years (`draftPicksData`), which the app
+    imports as the source of truth.
+  - Cash in trades appears only as a free-text commissioner comment. The app
+    lists these comments, and the commissioner enters the cash trade.
+  - Its "Year Signed" and "Contract Expires" columns are hand-kept and
+    unreliable; the app ignores them.
+- Franchises are keyed by code and Fantrax ID, with every name the sheet uses
+  kept as an alias (`data/league/teams.json`). AG (Big Beautiful Baseball
+  Team) is the same franchise as EP (Winning DeLautery).
 - **Long-term direction:** a live, largely automatic link to the Fantrax
   league. Transactions, trades, roster moves and weekly stats would flow in on
   a schedule, so contract status, buyouts, penalties and cap checks update
@@ -277,11 +244,11 @@ testing with the league.
 
 1. **Fantrax data:** does the API expose end-of-season salaries per player?
    Does each season get a new Fantrax league ID?
-2. ~~Signability rules~~ — **resolved** (see §6).
+2. ~~Signability rules~~ — **resolved** (see RULES.md).
 3. **Buyout timing:** precise definition of "first unpaid year" relative to
    the season a player is dropped, including in-season drops. (The sheet
    charges 80% in the first signing after the drop, then 70%, 60%, …)
-4. ~~Contract years~~ — **resolved**: final year = S+L, inclusive (see §6).
+4. ~~Contract years~~ — **resolved**: final year = S+L, inclusive (see RULES.md).
 5. **Special Waivers:** the rulebook refers to a section that wasn't in the exported doc (another tab?) —
    write it, or drop it?
 6. **Sign-and-trade:** how does the >10-contract exception get recorded?

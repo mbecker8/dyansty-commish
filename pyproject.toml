@@ -21,7 +21,7 @@ dev = [
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "config.settings"
-testpaths = ["core", "rules"]
+testpaths = ["core", "rules", "league"]
 python_files = ["test_*.py"]
 filterwarnings = ["ignore:No directory at:UserWarning"]
 

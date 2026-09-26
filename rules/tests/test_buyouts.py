@@ -51,3 +51,9 @@ class TestBuyoutSchedule:
         c = Contract("X", original_price=1, year_signed=2025, length=2)
         with pytest.raises(ValueError):
             buyout_schedule(c, dropped_in_season=season)
+
+
+def test_exact_half_dollar_rounds_up():
+    # Wander Franco: $5, 7 yrs from 2022 ($33/yr), dropped 2023 -> 2027 is the 4th unpaid year at 50% = $16.50.
+    franco = Contract("Wander Franco", original_price=5, year_signed=2022, length=7)
+    assert buyout_schedule(franco, dropped_in_season=2023)[2027] == 17

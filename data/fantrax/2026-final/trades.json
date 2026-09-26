@@ -1,0 +1,8066 @@
+{
+ "paginatedResultSet": {
+  "totalNumPages": 1,
+  "pageNumber": 1,
+  "maxResultsPerPage": 500,
+  "totalNumResults": 37
+ },
+ "filterSettings": {
+  "positionOrGroup": "ALL",
+  "view": "TRADE",
+  "adminMode": false,
+  "includeDeleted": false,
+  "team": "ALL",
+  "executedOnly": true
+ },
+ "displayedSelections": {
+  "positionOrGroup": "ALL",
+  "view": "TRADE",
+  "adminMode": false,
+  "includeDeleted": false,
+  "team": "ALL",
+  "executedOnly": true
+ },
+ "miscData": {
+  "deleteTransactionExecutedDialog": {
+   "alwaysShowOpener": false,
+   "options": [
+    {
+     "id": "option0",
+     "label": "Yes"
+    },
+    {
+     "id": "option1",
+     "label": "No"
+    }
+   ],
+   "text": "This will only delete the transaction record - <b style=\"color:#8B0000\">it will not undo it - it will not move any players</b>. Are you sure you want to permanently delete this?"
+  },
+  "deleteTransactionNotExecutedDialog": {
+   "alwaysShowOpener": false,
+   "options": [
+    {
+     "id": "option0",
+     "label": "Yes"
+    },
+    {
+     "id": "option1",
+     "label": "No"
+    }
+   ],
+   "text": "Are you sure you want to permanently delete this?"
+  },
+  "heading": "2026 Dynasty Yr 19",
+  "undoTransactionDialog": {
+   "alwaysShowOpener": false,
+   "options": [
+    {
+     "id": "option0",
+     "label": "Yes"
+    },
+    {
+     "id": "option1",
+     "label": "No"
+    }
+   ],
+   "text": "Are you sure you want to undo this transaction?"
+  },
+  "undoTooltip": "Undo transaction",
+  "executeTooltip": "Execute transaction if team was not updated with players",
+  "deleteTooltip": "Delete transaction from view",
+  "editTransactionDialog": {
+   "alwaysShowOpener": false,
+   "options": [
+    {
+     "id": "option0",
+     "label": "OK"
+    },
+    {
+     "id": "option1",
+     "label": "Cancel"
+    }
+   ],
+   "text": "# of periods to move transaction forward:"
+  },
+  "editTooltip": "Edit Transaction",
+  "editTransactionSuccessDialog": {
+   "alwaysShowOpener": false,
+   "options": [
+    {
+     "id": "option0",
+     "label": "OK"
+    }
+   ],
+   "text": "Transaction successfully edited and re-executed."
+  },
+  "executeTransactionSuccessDialog": {
+   "alwaysShowOpener": false,
+   "options": [
+    {
+     "id": "option0",
+     "label": "OK"
+    }
+   ],
+   "text": "Transaction successfully executed."
+  },
+  "executeTransactionDialog": {
+   "alwaysShowOpener": false,
+   "options": [
+    {
+     "id": "option0",
+     "label": "???word.Ok: en_US???"
+    },
+    {
+     "id": "option1",
+     "label": "Cancel"
+    }
+   ],
+   "text": "Please confirm that you want to executed the highlighted transaction since the system has detected that it was not executed."
+  },
+  "editTransactionMaximumForward": 200
+ },
+ "displayedLists": {
+  "teams": [
+   {
+    "name": "All Teams",
+    "id": "ALL"
+   },
+   {
+    "name": "beKCer's trainwreKCers",
+    "id": "6wjoojsemgdm460y"
+   },
+   {
+    "name": "Big Beautiful Baseball Team",
+    "id": "zh1qriiemgdm4614"
+   },
+   {
+    "name": "Brockasauras",
+    "id": "lqwmepsrmgdm4616"
+   },
+   {
+    "name": "Cliff Lee Was Here.",
+    "id": "lu612taqmgdm4612"
+   },
+   {
+    "name": "Dr Andrews Will See You Now",
+    "id": "m84gn4f4mgdm460z"
+   },
+   {
+    "name": "Dumpster Fire",
+    "id": "ca14h0lmmgdm4611"
+   },
+   {
+    "name": "JMoney",
+    "id": "ebimnmrmmgdm4610"
+   },
+   {
+    "name": "Metropolitans",
+    "id": "ukiajd5dmgdm460u"
+   },
+   {
+    "name": "Minor Legalities",
+    "id": "s872idxcmgdm4617"
+   },
+   {
+    "name": "nygaardians",
+    "id": "o519bpjumgdm4615"
+   },
+   {
+    "name": "Sabermutrics",
+    "id": "mfo4w3xsmgdm4618"
+   },
+   {
+    "name": "Shag Dawgs",
+    "id": "gvud812qmgdm460w"
+   },
+   {
+    "name": "Stat Sandwich",
+    "id": "ofa8r5comgdm460x"
+   },
+   {
+    "name": "Tradezilla",
+    "id": "aqg1e3nlmgdm4615"
+   }
+  ],
+  "tabs": [
+   {
+    "name": "Claim/Drop",
+    "id": "CLAIM_DROP"
+   },
+   {
+    "name": "Trade",
+    "id": "TRADE"
+   },
+   {
+    "name": "Lineup",
+    "id": "LINEUP_CHANGE"
+   }
+  ],
+  "positions": [
+   {
+    "name": "All",
+    "id": "ALL"
+   },
+   {
+    "name": "Hitters",
+    "id": "BASEBALL_HITTING"
+   },
+   {
+    "name": "Pitchers",
+    "id": "BASEBALL_PITCHING"
+   },
+   {
+    "name": "Catcher",
+    "id": "POS_001"
+   },
+   {
+    "name": "1st Base",
+    "id": "POS_002"
+   },
+   {
+    "name": "2nd Base",
+    "id": "POS_003"
+   },
+   {
+    "name": "3rd Base",
+    "id": "POS_004"
+   },
+   {
+    "name": "Shortstop",
+    "id": "POS_005"
+   },
+   {
+    "name": "Corner Infield",
+    "id": "POS_006"
+   },
+   {
+    "name": "Middle Infield",
+    "id": "POS_007"
+   },
+   {
+    "name": "Outfield",
+    "id": "POS_012"
+   },
+   {
+    "name": "Starting Pitcher",
+    "id": "POS_015"
+   },
+   {
+    "name": "Relief Pitcher",
+    "id": "POS_016"
+   }
+  ]
+ },
+ "commissioner": true,
+ "table": {
+  "caption": "Trades",
+  "header": {
+   "cells": [
+    {
+     "align": "LEFT",
+     "sortDirection": 1,
+     "name": "From",
+     "shortName": "From",
+     "key": "from"
+    },
+    {
+     "align": "LEFT",
+     "sortDirection": 1,
+     "name": "To",
+     "shortName": "To",
+     "key": "to"
+    },
+    {
+     "sortDirection": 1,
+     "name": "# Obj",
+     "shortName": "# Obj",
+     "key": "obj"
+    },
+    {
+     "align": "LEFT",
+     "sortDirection": 1,
+     "name": "Date Processed (EDT)",
+     "shortName": "Date (EDT)",
+     "key": "date"
+    },
+    {
+     "sortDirection": 1,
+     "name": "{0} on which this transaction takes effect",
+     "shortName": "Period",
+     "key": "week"
+    }
+   ]
+  },
+  "rows": [
+   {
+    "scorer": {
+     "teamName": "Baltimore Orioles",
+     "urlName": "trevor-rogers",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04ak5_96_9.png",
+     "scorerId": "04ak5",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "015",
+     "posShortNames": "SP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 25, 8:36 PM: Rogers did not factor into the decision...",
+       "typeId": "14"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10010",
+     "name": "Trevor Rogers",
+     "teamShortName": "BAL",
+     "shortName": "T. Rogers"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "numInGroup": 8,
+    "txSetId": "1lzi6291msbx26u9",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "JMoney",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "ebimnmrmmgdm4610"
+     },
+     {
+      "align": "LEFT",
+      "content": "Stat Sandwich",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "ofa8r5comgdm460x"
+     },
+     {
+      "content": "0",
+      "rowspan": 8,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tue Aug 4, 2026, 3:00AM",
+      "rowspan": 8,
+      "key": "date"
+     },
+     {
+      "content": "133",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Tampa Bay Rays",
+     "urlName": "liam-hicks",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs05ynb_96_2.png",
+     "scorerId": "05ynb",
+     "posIdsNoFlex": [
+      "001",
+      "002"
+     ],
+     "defaultPosId": "001",
+     "posShortNames": "C,1B",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 25, 6:09 PM: Hicks is not in the starting lineup for...",
+       "typeId": "14"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "001",
+      "002",
+      "006",
+      "014"
+     ],
+     "teamId": "10040",
+     "name": "Liam Hicks",
+     "teamShortName": "TB",
+     "shortName": "L. Hicks"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "1lzi6291msbx26u9",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "JMoney",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "ebimnmrmmgdm4610"
+     },
+     {
+      "align": "LEFT",
+      "content": "Stat Sandwich",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "ofa8r5comgdm460x"
+     },
+     {
+      "content": "133",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "San Diego Padres",
+     "urlName": "robbie-ray",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs025j1_96_16.png",
+     "scorerId": "025j1",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "015",
+     "posShortNames": "SP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 24, 2:16 AM: Ray allowed one run on seven hits and a...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10290",
+     "name": "Robbie Ray",
+     "teamShortName": "SD",
+     "shortName": "R. Ray"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "1lzi6291msbx26u9",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "JMoney",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "ebimnmrmmgdm4610"
+     },
+     {
+      "align": "LEFT",
+      "content": "Stat Sandwich",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "ofa8r5comgdm460x"
+     },
+     {
+      "content": "133",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Arizona Diamondbacks",
+     "urlName": "juan-morillo",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs05ydo_96_2.png",
+     "scorerId": "05ydo",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "016",
+     "posShortNames": "RP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 20, 10:30 AM: Morillo (5-4) earned the win after...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10260",
+     "name": "Juan Morillo",
+     "teamShortName": "ARI",
+     "shortName": "J. Morillo"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "1lzi6291msbx26u9",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "JMoney",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "ebimnmrmmgdm4610"
+     },
+     {
+      "align": "LEFT",
+      "content": "Stat Sandwich",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "ofa8r5comgdm460x"
+     },
+     {
+      "content": "133",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "New York Mets",
+     "urlName": "sean-manaea",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs02x0f_96_16.png",
+     "scorerId": "02x0f",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "015",
+     "posShortNames": "SP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 23, 10:40 AM: Manaea (6-7) earned the win Tuesday...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10170",
+     "name": "Sean Manaea",
+     "teamShortName": "NYM",
+     "shortName": "S. Manaea"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "1lzi6291msbx26u9",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Stat Sandwich",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "ofa8r5comgdm460x"
+     },
+     {
+      "align": "LEFT",
+      "content": "JMoney",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "ebimnmrmmgdm4610"
+     },
+     {
+      "content": "133",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Cleveland Guardians",
+     "urlName": "angel-martinez",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04ydd_96_3.png",
+     "scorerId": "04ydd",
+     "posIdsNoFlex": [
+      "003",
+      "012"
+     ],
+     "defaultPosId": "010",
+     "posShortNames": "2B,OF",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 26, 1:57 AM: Martinez went 2-for-5 with a two-run...",
+       "typeId": "14"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "003",
+      "007",
+      "012",
+      "014"
+     ],
+     "teamId": "10070",
+     "name": "Angel Martinez",
+     "teamShortName": "CLE",
+     "shortName": "A. Martinez"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "1lzi6291msbx26u9",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Stat Sandwich",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "ofa8r5comgdm460x"
+     },
+     {
+      "align": "LEFT",
+      "content": "JMoney",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "ebimnmrmmgdm4610"
+     },
+     {
+      "content": "133",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Seattle Mariners",
+     "urlName": "colt-emerson",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs060ub_96_1.png",
+     "scorerId": "060ub",
+     "posIdsNoFlex": [
+      "004",
+      "005"
+     ],
+     "defaultPosId": "005",
+     "posShortNames": "3B,SS",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Injured List - 60-day IL - Wrist",
+       "typeId": "2"
+      },
+      {
+       "tooltip": "Aug 31, 4:15 PM: The Mariners transferred Emerson...",
+       "typeId": "8"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "004",
+      "005",
+      "006",
+      "007",
+      "014"
+     ],
+     "teamId": "10130",
+     "name": "Colt Emerson",
+     "teamShortName": "SEA",
+     "shortName": "C. Emerson"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "1lzi6291msbx26u9",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Stat Sandwich",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "ofa8r5comgdm460x"
+     },
+     {
+      "align": "LEFT",
+      "content": "JMoney",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "ebimnmrmmgdm4610"
+     },
+     {
+      "content": "133",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Cincinnati Reds",
+     "urlName": "brock-burke",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs03dap_96_10.png",
+     "scorerId": "03dap",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "016",
+     "posShortNames": "RP",
+     "team": false,
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10210",
+     "name": "Brock Burke",
+     "teamShortName": "CIN",
+     "shortName": "B. Burke"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "1lzi6291msbx26u9",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Stat Sandwich",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "ofa8r5comgdm460x"
+     },
+     {
+      "align": "LEFT",
+      "content": "JMoney",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "ebimnmrmmgdm4610"
+     },
+     {
+      "content": "133",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Washington Nationals",
+     "urlName": "jacob-young",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs05yaf_96_2.png",
+     "scorerId": "05yaf",
+     "posIdsNoFlex": [
+      "012"
+     ],
+     "defaultPosId": "010",
+     "posShortNames": "OF",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 22, 3:15 PM: Young is not in the lineup for...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "012",
+      "014"
+     ],
+     "teamId": "10190",
+     "name": "Jacob Young",
+     "teamShortName": "WSH",
+     "shortName": "J. Young"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "numInGroup": 2,
+    "txSetId": "yabw6mi4mscnz7sq",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Metropolitans",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "ukiajd5dmgdm460u"
+     },
+     {
+      "align": "LEFT",
+      "content": "Sabermutrics",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "mfo4w3xsmgdm4618"
+     },
+     {
+      "content": "0",
+      "rowspan": 2,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tue Aug 4, 2026, 3:00AM",
+      "rowspan": 2,
+      "key": "date"
+     },
+     {
+      "content": "133",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Seattle Mariners",
+     "urlName": "taylor-ward",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs03pje_96_16.png",
+     "scorerId": "03pje",
+     "posIdsNoFlex": [
+      "012"
+     ],
+     "defaultPosId": "009",
+     "posShortNames": "OF",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 6, 4:09 PM: Ward is out of the lineup for Sunday's...",
+       "typeId": "8"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "012",
+      "014"
+     ],
+     "teamId": "10130",
+     "name": "Taylor Ward",
+     "teamShortName": "SEA",
+     "shortName": "T. Ward"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "yabw6mi4mscnz7sq",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Sabermutrics",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "mfo4w3xsmgdm4618"
+     },
+     {
+      "align": "LEFT",
+      "content": "Metropolitans",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "ukiajd5dmgdm460u"
+     },
+     {
+      "content": "133",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Chicago Cubs",
+     "urlName": "alex-bregman",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs02w7p_96_15.png",
+     "scorerId": "02w7p",
+     "posIdsNoFlex": [
+      "004"
+     ],
+     "defaultPosId": "004",
+     "posShortNames": "3B",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 25, 4:24 PM: Bregman is absent from the lineup for...",
+       "typeId": "14"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "004",
+      "006",
+      "014"
+     ],
+     "teamId": "10200",
+     "name": "Alex Bregman",
+     "teamShortName": "CHC",
+     "shortName": "A. Bregman"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "numInGroup": 1,
+    "txSetId": "cf4o0hdgmsckngvg",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Brockasauras",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "lqwmepsrmgdm4616"
+     },
+     {
+      "align": "LEFT",
+      "content": "Metropolitans",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "ukiajd5dmgdm460u"
+     },
+     {
+      "content": "0",
+      "rowspan": 1,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tue Aug 4, 2026, 3:00AM",
+      "rowspan": 1,
+      "key": "date"
+     },
+     {
+      "content": "133",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Texas Rangers",
+     "urlName": "jake-latz",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs03div_96_4.png",
+     "scorerId": "03div",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "016",
+     "posShortNames": "RP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 24, 9:53 AM: Latz (3-4) took the loss after allowing...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10140",
+     "name": "Jake Latz",
+     "teamShortName": "TEX",
+     "shortName": "J. Latz"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "numInGroup": 2,
+    "txSetId": "a21j09y1mscnev52",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Sabermutrics",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "mfo4w3xsmgdm4618"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "content": "0",
+      "rowspan": 2,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tue Aug 4, 2026, 3:00AM",
+      "rowspan": 2,
+      "key": "date"
+     },
+     {
+      "content": "133",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Cleveland Guardians",
+     "urlName": "hunter-gaddis",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs05143_96_4.png",
+     "scorerId": "05143",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "016",
+     "posShortNames": "RP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 26, 1:38 AM: Gaddis (6-3) earned the win after...",
+       "typeId": "14"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10070",
+     "name": "Hunter Gaddis",
+     "teamShortName": "CLE",
+     "shortName": "H. Gaddis"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "a21j09y1mscnev52",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "align": "LEFT",
+      "content": "Sabermutrics",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "mfo4w3xsmgdm4618"
+     },
+     {
+      "content": "133",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Miami Marlins",
+     "urlName": "xavier-edwards",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04n8z_96_6.png",
+     "scorerId": "04n8z",
+     "posIdsNoFlex": [
+      "003",
+      "005"
+     ],
+     "defaultPosId": "003",
+     "posShortNames": "2B,SS",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Thumb - Day-to-Day",
+       "typeId": "1"
+      },
+      {
+       "tooltip": "Sep 25, 4:58 PM: Edwards (thumb) remains out of the...",
+       "typeId": "14"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "003",
+      "005",
+      "007",
+      "014"
+     ],
+     "teamId": "10160",
+     "name": "Xavier Edwards",
+     "teamShortName": "MIA",
+     "shortName": "X. Edwards"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "numInGroup": 1,
+    "txSetId": "97bhjr3mmsad58xo",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "nygaardians",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "o519bpjumgdm4615"
+     },
+     {
+      "align": "LEFT",
+      "content": "Metropolitans",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "ukiajd5dmgdm460u"
+     },
+     {
+      "content": "0",
+      "rowspan": 1,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Mon Aug 3, 2026, 3:00AM",
+      "rowspan": 1,
+      "key": "date"
+     },
+     {
+      "content": "132",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "New York Mets",
+     "urlName": "francisco-alvarez",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04qnc_96_5.png",
+     "scorerId": "04qnc",
+     "posIdsNoFlex": [
+      "001"
+     ],
+     "defaultPosId": "001",
+     "posShortNames": "C",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 24, 12:35 PM: Alvarez is not in the lineup for...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "001",
+      "014"
+     ],
+     "teamId": "10170",
+     "name": "Francisco Alvarez",
+     "teamShortName": "NYM",
+     "shortName": "F. Alvarez"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "numInGroup": 1,
+    "txSetId": "5bgpz2y4ms68hhbd",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Cliff Lee Was Here.",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "lu612taqmgdm4612"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "content": "0",
+      "rowspan": 1,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Fri Jul 31, 2026, 3:00AM",
+      "rowspan": 1,
+      "key": "date"
+     },
+     {
+      "content": "129",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Seattle Mariners",
+     "urlName": "felnin-celesten",
+     "scorerId": "05mx9",
+     "posIdsNoFlex": [
+      "005"
+     ],
+     "defaultPosId": "005",
+     "posShortNames": "SS",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Minor Leagues",
+       "typeId": "4"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "005",
+      "007",
+      "014"
+     ],
+     "teamId": "10130",
+     "name": "Felnin Celesten",
+     "teamShortName": "SEA",
+     "shortName": "F. Celesten"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "numInGroup": 4,
+    "txSetId": "nzlkqi64ms6th1b5",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Dr Andrews Will See You Now",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "m84gn4f4mgdm460z"
+     },
+     {
+      "align": "LEFT",
+      "content": "Shag Dawgs",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "gvud812qmgdm460w"
+     },
+     {
+      "content": "0",
+      "rowspan": 4,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Fri Jul 31, 2026, 3:00AM",
+      "rowspan": 4,
+      "key": "date"
+     },
+     {
+      "content": "129",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Chicago White Sox",
+     "urlName": "caleb-bonemer",
+     "scorerId": "06hea",
+     "posIdsNoFlex": [
+      "004",
+      "005"
+     ],
+     "defaultPosId": "005",
+     "posShortNames": "3B,SS",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Minor Leagues",
+       "typeId": "4"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "004",
+      "005",
+      "006",
+      "007",
+      "014"
+     ],
+     "teamId": "10060",
+     "name": "Caleb Bonemer",
+     "teamShortName": "CHW",
+     "shortName": "C. Bonemer"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "nzlkqi64ms6th1b5",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Dr Andrews Will See You Now",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "m84gn4f4mgdm460z"
+     },
+     {
+      "align": "LEFT",
+      "content": "Shag Dawgs",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "gvud812qmgdm460w"
+     },
+     {
+      "content": "129",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Houston Astros",
+     "urlName": "jeremy-pena",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04ppj_96_9.png",
+     "scorerId": "04ppj",
+     "posIdsNoFlex": [
+      "005"
+     ],
+     "defaultPosId": "005",
+     "posShortNames": "SS",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 25, 2:23 AM: Pena went 1-for-5 with a stolen base in...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "005",
+      "007",
+      "014"
+     ],
+     "teamId": "10105",
+     "name": "Jeremy Pena",
+     "teamShortName": "HOU",
+     "shortName": "J. Pena"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "nzlkqi64ms6th1b5",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Shag Dawgs",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "gvud812qmgdm460w"
+     },
+     {
+      "align": "LEFT",
+      "content": "Dr Andrews Will See You Now",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "m84gn4f4mgdm460z"
+     },
+     {
+      "content": "129",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "New York Yankees",
+     "urlName": "jazz-chisholm-jr",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs045qo_96_10.png",
+     "scorerId": "045qo",
+     "posIdsNoFlex": [
+      "003",
+      "004"
+     ],
+     "defaultPosId": "003",
+     "posShortNames": "2B,3B",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 25, 12:44 PM: Chisholm is not in the lineup for the...",
+       "typeId": "14"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "003",
+      "004",
+      "006",
+      "007",
+      "014"
+     ],
+     "teamId": "10030",
+     "name": "Jazz Chisholm Jr.",
+     "teamShortName": "NYY",
+     "shortName": "J. Chisholm Jr."
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "nzlkqi64ms6th1b5",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Shag Dawgs",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "gvud812qmgdm460w"
+     },
+     {
+      "align": "LEFT",
+      "content": "Dr Andrews Will See You Now",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "m84gn4f4mgdm460z"
+     },
+     {
+      "content": "129",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Detroit Tigers",
+     "urlName": "kenley-jansen",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs01svz_96_16.png",
+     "scorerId": "01svz",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "016",
+     "posShortNames": "RP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 19, 6:52 AM: Jansen earned the save in Friday's 11-8...",
+       "typeId": "8"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10080",
+     "name": "Kenley Jansen",
+     "teamShortName": "DET",
+     "shortName": "K. Jansen"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "<b>Executed</b><br/>$5 2027 budget to Devin",
+     "props": {
+      "comment": true
+     }
+    },
+    "disabled": true,
+    "numInGroup": 3,
+    "txSetId": "8vcw4amzms6u7gbe",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Cliff Lee Was Here.",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "lu612taqmgdm4612"
+     },
+     {
+      "align": "LEFT",
+      "content": "beKCer's trainwreKCers",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "6wjoojsemgdm460y"
+     },
+     {
+      "content": "0",
+      "rowspan": 3,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Fri Jul 31, 2026, 3:00AM",
+      "rowspan": 3,
+      "key": "date"
+     },
+     {
+      "content": "129",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "San Diego Padres",
+     "urlName": "manny-machado",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs01svq_96_16.png",
+     "scorerId": "01svq",
+     "posIdsNoFlex": [
+      "004"
+     ],
+     "defaultPosId": "004",
+     "posShortNames": "3B",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 24, 2:19 AM: Machado went 1-for-4 with a two-run...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "004",
+      "006",
+      "014"
+     ],
+     "teamId": "10290",
+     "name": "Manny Machado",
+     "teamShortName": "SD",
+     "shortName": "M. Machado"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "<b>Executed</b><br/>$5 2027 budget to Devin",
+     "props": {
+      "comment": true
+     }
+    },
+    "disabled": true,
+    "txSetId": "8vcw4amzms6u7gbe",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Cliff Lee Was Here.",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "lu612taqmgdm4612"
+     },
+     {
+      "align": "LEFT",
+      "content": "beKCer's trainwreKCers",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "6wjoojsemgdm460y"
+     },
+     {
+      "content": "129",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "team": false,
+     "rookie": false,
+     "minorsEligible": false
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "draftPickDisplayParts": {
+     "roundInfo": "Round <b>2</b> (beKCer's trainwreKCers)",
+     "year": "<b>2027</b> Draft Pick"
+    },
+    "result": {
+     "content": "<b>Executed</b><br/>$5 2027 budget to Devin",
+     "props": {
+      "comment": true
+     }
+    },
+    "disabled": true,
+    "txSetId": "8vcw4amzms6u7gbe",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "beKCer's trainwreKCers",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "6wjoojsemgdm460y"
+     },
+     {
+      "align": "LEFT",
+      "content": "Cliff Lee Was Here.",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "lu612taqmgdm4612"
+     },
+     {
+      "content": "129",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Atlanta Braves",
+     "urlName": "ozzie-albies",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs03fi0_96_14.png",
+     "scorerId": "03fi0",
+     "posIdsNoFlex": [
+      "003"
+     ],
+     "defaultPosId": "003",
+     "posShortNames": "2B",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 10, 9:35 AM: Albies is not in the lineup for...",
+       "typeId": "8"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "003",
+      "007",
+      "014"
+     ],
+     "teamId": "10150",
+     "name": "Ozzie Albies",
+     "teamShortName": "ATL",
+     "shortName": "O. Albies"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "numInGroup": 3,
+    "txSetId": "1io8q1ofms5e8uqp",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Shag Dawgs",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "gvud812qmgdm460w"
+     },
+     {
+      "align": "LEFT",
+      "content": "beKCer's trainwreKCers",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "6wjoojsemgdm460y"
+     },
+     {
+      "content": "0",
+      "rowspan": 3,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Thu Jul 30, 2026, 3:00AM",
+      "rowspan": 3,
+      "key": "date"
+     },
+     {
+      "content": "128",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Philadelphia Phillies",
+     "urlName": "jhoan-duran",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04apj_96_10.png",
+     "scorerId": "04apj",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "016",
+     "posShortNames": "RP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 23, 10:25 AM: Duran earned the save in Tuesday's 6-4...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10180",
+     "name": "Jhoan Duran",
+     "teamShortName": "PHI",
+     "shortName": "J. Duran"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "1io8q1ofms5e8uqp",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Shag Dawgs",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "gvud812qmgdm460w"
+     },
+     {
+      "align": "LEFT",
+      "content": "beKCer's trainwreKCers",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "6wjoojsemgdm460y"
+     },
+     {
+      "content": "128",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "team": false,
+     "rookie": false,
+     "minorsEligible": false
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "draftPickDisplayParts": {
+     "roundInfo": "Round <b>1</b> (beKCer's trainwreKCers)",
+     "year": "<b>2027</b> Draft Pick"
+    },
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "1io8q1ofms5e8uqp",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "beKCer's trainwreKCers",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "6wjoojsemgdm460y"
+     },
+     {
+      "align": "LEFT",
+      "content": "Shag Dawgs",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "gvud812qmgdm460w"
+     },
+     {
+      "content": "128",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Chicago Cubs",
+     "urlName": "shota-imanaga",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs05ge9_96_3.png",
+     "scorerId": "05ge9",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "015",
+     "posShortNames": "SP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 22, 11:54 PM: Imanaga allowed just one run on four...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10200",
+     "name": "Shota Imanaga",
+     "teamShortName": "CHC",
+     "shortName": "S. Imanaga"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "numInGroup": 2,
+    "txSetId": "qlamxyhdms4prapu",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Cliff Lee Was Here.",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "lu612taqmgdm4612"
+     },
+     {
+      "align": "LEFT",
+      "content": "Stat Sandwich",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "ofa8r5comgdm460x"
+     },
+     {
+      "content": "0",
+      "rowspan": 2,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Thu Jul 30, 2026, 3:00AM",
+      "rowspan": 2,
+      "key": "date"
+     },
+     {
+      "content": "128",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "team": false,
+     "rookie": false,
+     "minorsEligible": false
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "draftPickDisplayParts": {
+     "roundInfo": "Round <b>2</b> (Stat Sandwich)",
+     "year": "<b>2029</b> Draft Pick"
+    },
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "qlamxyhdms4prapu",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Stat Sandwich",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "ofa8r5comgdm460x"
+     },
+     {
+      "align": "LEFT",
+      "content": "Cliff Lee Was Here.",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "lu612taqmgdm4612"
+     },
+     {
+      "content": "128",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Seattle Mariners",
+     "urlName": "logan-gilbert",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04n0m_96_9.png",
+     "scorerId": "04n0m",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "015",
+     "posShortNames": "SP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 23, 1:38 AM: Gilbert (12-11) allowed four runs on 10...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10130",
+     "name": "Logan Gilbert",
+     "teamShortName": "SEA",
+     "shortName": "L. Gilbert"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "numInGroup": 4,
+    "txSetId": "tcurnafpms1wxpwc",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Cliff Lee Was Here.",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "lu612taqmgdm4612"
+     },
+     {
+      "align": "LEFT",
+      "content": "Metropolitans",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "ukiajd5dmgdm460u"
+     },
+     {
+      "content": "0",
+      "rowspan": 4,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tue Jul 28, 2026, 3:00AM",
+      "rowspan": 4,
+      "key": "date"
+     },
+     {
+      "content": "126",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Milwaukee Brewers",
+     "urlName": "trevor-megill",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs03dau_96_7.png",
+     "scorerId": "03dau",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "016",
+     "posShortNames": "RP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 23, 10:24 PM: Megill earned the save in Wednesday's...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10230",
+     "name": "Trevor Megill",
+     "teamShortName": "MIL",
+     "shortName": "T. Megill"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "tcurnafpms1wxpwc",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Cliff Lee Was Here.",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "lu612taqmgdm4612"
+     },
+     {
+      "align": "LEFT",
+      "content": "Metropolitans",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "ukiajd5dmgdm460u"
+     },
+     {
+      "content": "126",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Boston Red Sox",
+     "urlName": "aroldis-chapman",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs01gya_96_16.png",
+     "scorerId": "01gya",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "016",
+     "posShortNames": "RP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 23, 10:07 PM: Chapman (lat) struck out the side in...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10020",
+     "name": "Aroldis Chapman",
+     "teamShortName": "BOS",
+     "shortName": "A. Chapman"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "tcurnafpms1wxpwc",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Cliff Lee Was Here.",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "lu612taqmgdm4612"
+     },
+     {
+      "align": "LEFT",
+      "content": "Metropolitans",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "ukiajd5dmgdm460u"
+     },
+     {
+      "content": "126",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "team": false,
+     "rookie": false,
+     "minorsEligible": false
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "draftPickDisplayParts": {
+     "roundInfo": "Round <b>1</b> (Metropolitans)",
+     "year": "<b>2027</b> Draft Pick"
+    },
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "tcurnafpms1wxpwc",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Metropolitans",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "ukiajd5dmgdm460u"
+     },
+     {
+      "align": "LEFT",
+      "content": "Cliff Lee Was Here.",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "lu612taqmgdm4612"
+     },
+     {
+      "content": "126",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Philadelphia Phillies",
+     "urlName": "brandon-marsh",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs041q8_96_10.png",
+     "scorerId": "041q8",
+     "posIdsNoFlex": [
+      "012"
+     ],
+     "defaultPosId": "010",
+     "posShortNames": "OF",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 12, 4:31 PM: Marsh (foot) will start in left field...",
+       "typeId": "8"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "012",
+      "014"
+     ],
+     "teamId": "10180",
+     "name": "Brandon Marsh",
+     "teamShortName": "PHI",
+     "shortName": "B. Marsh"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "numInGroup": 1,
+    "txSetId": "rhk9nk6xms0u1srk",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Minor Legalities",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "s872idxcmgdm4617"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "content": "0",
+      "rowspan": 1,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Mon Jul 27, 2026, 3:00AM",
+      "rowspan": 1,
+      "key": "date"
+     },
+     {
+      "content": "125",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Seattle Mariners",
+     "urlName": "randy-arozarena",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs040b5_96_10.png",
+     "scorerId": "040b5",
+     "posIdsNoFlex": [
+      "012"
+     ],
+     "defaultPosId": "009",
+     "posShortNames": "OF",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 24, 2:55 AM: Arozarena went 1-for-3 with two walks,...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "012",
+      "014"
+     ],
+     "teamId": "10130",
+     "name": "Randy Arozarena",
+     "teamShortName": "SEA",
+     "shortName": "R. Arozarena"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "numInGroup": 5,
+    "txSetId": "kfjkwm0emrrzlyvm",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Brockasauras",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "lqwmepsrmgdm4616"
+     },
+     {
+      "align": "LEFT",
+      "content": "beKCer's trainwreKCers",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "6wjoojsemgdm460y"
+     },
+     {
+      "content": "0",
+      "rowspan": 5,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Fri Jul 24, 2026, 3:00AM",
+      "rowspan": 5,
+      "key": "date"
+     },
+     {
+      "content": "122",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Toronto Blue Jays",
+     "urlName": "dylan-cease",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs03df2_96_10.png",
+     "scorerId": "03df2",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "015",
+     "posShortNames": "SP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Injured List - 15-day IL - Shoulder",
+       "typeId": "2"
+      },
+      {
+       "tooltip": "Sep 25, 5:03 PM: Cease (shoulder) said Friday that he...",
+       "typeId": "14"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10050",
+     "name": "Dylan Cease",
+     "teamShortName": "TOR",
+     "shortName": "D. Cease"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "kfjkwm0emrrzlyvm",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Brockasauras",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "lqwmepsrmgdm4616"
+     },
+     {
+      "align": "LEFT",
+      "content": "beKCer's trainwreKCers",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "6wjoojsemgdm460y"
+     },
+     {
+      "content": "122",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Minnesota Twins",
+     "urlName": "walker-jenkins",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs05u3v_96_4.png",
+     "scorerId": "05u3v",
+     "posIdsNoFlex": [
+      "012"
+     ],
+     "defaultPosId": "010",
+     "posShortNames": "OF",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 23, 1:00 PM: Jenkins is absent from the lineup for...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "012",
+      "014"
+     ],
+     "teamId": "10100",
+     "name": "Walker Jenkins",
+     "teamShortName": "MIN",
+     "shortName": "W. Jenkins"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "kfjkwm0emrrzlyvm",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "beKCer's trainwreKCers",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "6wjoojsemgdm460y"
+     },
+     {
+      "align": "LEFT",
+      "content": "Brockasauras",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "lqwmepsrmgdm4616"
+     },
+     {
+      "content": "122",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Minnesota Twins",
+     "urlName": "luke-keaschall",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs05zh9_96_3.png",
+     "scorerId": "05zh9",
+     "posIdsNoFlex": [
+      "003",
+      "012"
+     ],
+     "defaultPosId": "003",
+     "posShortNames": "2B,OF",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 20, 2:00 AM: Keaschall went 1-for-5 with a double, a...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "003",
+      "007",
+      "012",
+      "014"
+     ],
+     "teamId": "10100",
+     "name": "Luke Keaschall",
+     "teamShortName": "MIN",
+     "shortName": "L. Keaschall"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "kfjkwm0emrrzlyvm",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "beKCer's trainwreKCers",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "6wjoojsemgdm460y"
+     },
+     {
+      "align": "LEFT",
+      "content": "Brockasauras",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "lqwmepsrmgdm4616"
+     },
+     {
+      "content": "122",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "team": false,
+     "rookie": false,
+     "minorsEligible": false
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "draftPickDisplayParts": {
+     "roundInfo": "Round <b>2</b> (Stat Sandwich)",
+     "year": "<b>2027</b> Draft Pick"
+    },
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "kfjkwm0emrrzlyvm",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "beKCer's trainwreKCers",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "6wjoojsemgdm460y"
+     },
+     {
+      "align": "LEFT",
+      "content": "Brockasauras",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "lqwmepsrmgdm4616"
+     },
+     {
+      "content": "122",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Detroit Tigers",
+     "urlName": "riley-greene",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04nb2_96_8.png",
+     "scorerId": "04nb2",
+     "posIdsNoFlex": [
+      "012"
+     ],
+     "defaultPosId": "009",
+     "posShortNames": "OF",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 19, 9:28 AM: Greene went 1-for-4 with a walk and a...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "012",
+      "014"
+     ],
+     "teamId": "10080",
+     "name": "Riley Greene",
+     "teamShortName": "DET",
+     "shortName": "R. Greene"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "numInGroup": 8,
+    "txSetId": "ctd1kh5amriqs9p8",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Brockasauras",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "lqwmepsrmgdm4616"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "content": "0",
+      "rowspan": 8,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Sun Jul 19, 2026, 3:00AM",
+      "rowspan": 8,
+      "key": "date"
+     },
+     {
+      "content": "117",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Toronto Blue Jays",
+     "urlName": "ernie-clement",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04alp_96_10.png",
+     "scorerId": "04alp",
+     "posIdsNoFlex": [
+      "002",
+      "003",
+      "004",
+      "005"
+     ],
+     "defaultPosId": "004",
+     "posShortNames": "1B,2B,3B,SS",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 19, 3:42 PM: Clement isn't in the lineup for...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "002",
+      "003",
+      "004",
+      "005",
+      "006",
+      "007",
+      "014"
+     ],
+     "teamId": "10050",
+     "name": "Ernie Clement",
+     "teamShortName": "TOR",
+     "shortName": "E. Clement"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "ctd1kh5amriqs9p8",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Brockasauras",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "lqwmepsrmgdm4616"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "content": "117",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Boston Red Sox",
+     "urlName": "willson-contreras",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs03oh0_96_14.png",
+     "scorerId": "03oh0",
+     "posIdsNoFlex": [
+      "002"
+     ],
+     "defaultPosId": "002",
+     "posShortNames": "1B",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Hand - Day-to-Day",
+       "typeId": "1"
+      },
+      {
+       "tooltip": "Sep 24, 11:57 PM: Contreras (hand) expressed concern...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "002",
+      "006",
+      "014"
+     ],
+     "teamId": "10020",
+     "name": "Willson Contreras",
+     "teamShortName": "BOS",
+     "shortName": "W. Contreras"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "ctd1kh5amriqs9p8",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Brockasauras",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "lqwmepsrmgdm4616"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "content": "117",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "team": false,
+     "rookie": false,
+     "minorsEligible": false
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "draftPickDisplayParts": {
+     "roundInfo": "Round <b>2</b> (Brockasauras)",
+     "year": "<b>2028</b> Draft Pick"
+    },
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "ctd1kh5amriqs9p8",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Brockasauras",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "lqwmepsrmgdm4616"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "content": "117",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Detroit Tigers",
+     "urlName": "zyhir-hope",
+     "scorerId": "06eyu",
+     "posIdsNoFlex": [
+      "012"
+     ],
+     "defaultPosId": "011",
+     "posShortNames": "OF",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Minor Leagues",
+       "typeId": "4"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "012",
+      "014"
+     ],
+     "teamId": "10080",
+     "name": "Zyhir Hope",
+     "teamShortName": "DET",
+     "shortName": "Z. Hope"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "ctd1kh5amriqs9p8",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "align": "LEFT",
+      "content": "Brockasauras",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "lqwmepsrmgdm4616"
+     },
+     {
+      "content": "117",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Seattle Mariners",
+     "urlName": "ryan-sloan",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs06ier_96_2.png",
+     "scorerId": "06ier",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "015",
+     "posShortNames": "SP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Minor Leagues",
+       "typeId": "4"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10130",
+     "name": "Ryan Sloan",
+     "teamShortName": "SEA",
+     "shortName": "R. Sloan"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "ctd1kh5amriqs9p8",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "align": "LEFT",
+      "content": "Brockasauras",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "lqwmepsrmgdm4616"
+     },
+     {
+      "content": "117",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Philadelphia Phillies",
+     "urlName": "bryson-stott",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04p10_96_8.png",
+     "scorerId": "04p10",
+     "posIdsNoFlex": [
+      "003",
+      "004",
+      "005"
+     ],
+     "defaultPosId": "003",
+     "posShortNames": "2B,3B,SS",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 5, 3:01 PM: Stott (personal) will start at third...",
+       "typeId": "8"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "003",
+      "004",
+      "005",
+      "006",
+      "007",
+      "014"
+     ],
+     "teamId": "10180",
+     "name": "Bryson Stott",
+     "teamShortName": "PHI",
+     "shortName": "B. Stott"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "ctd1kh5amriqs9p8",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "align": "LEFT",
+      "content": "Brockasauras",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "lqwmepsrmgdm4616"
+     },
+     {
+      "content": "117",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Toronto Blue Jays",
+     "urlName": "nathan-lukes",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs03qmr_96_5.png",
+     "scorerId": "03qmr",
+     "posIdsNoFlex": [
+      "012"
+     ],
+     "defaultPosId": "011",
+     "posShortNames": "OF",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 9, 12:55 PM: Lukes is not in the starting lineup for...",
+       "typeId": "8"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "012",
+      "014"
+     ],
+     "teamId": "10050",
+     "name": "Nathan Lukes",
+     "teamShortName": "TOR",
+     "shortName": "N. Lukes"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "ctd1kh5amriqs9p8",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "align": "LEFT",
+      "content": "Brockasauras",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "lqwmepsrmgdm4616"
+     },
+     {
+      "content": "117",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "New York Yankees",
+     "urlName": "aaron-judge",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs02z0s_96_16.png",
+     "scorerId": "02z0s",
+     "posIdsNoFlex": [
+      "012"
+     ],
+     "defaultPosId": "011",
+     "posShortNames": "OF",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Injured List - 10-day IL - Calf",
+       "typeId": "2"
+      },
+      {
+       "tooltip": "Sep 23, 7:16 PM: Judge (calf) said Wednesday that he...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "012",
+      "014"
+     ],
+     "teamId": "10030",
+     "name": "Aaron Judge",
+     "teamShortName": "NYY",
+     "shortName": "A. Judge"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "numInGroup": 4,
+    "txSetId": "09v3n5zqmrp1fuyv",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "JMoney",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "ebimnmrmmgdm4610"
+     },
+     {
+      "align": "LEFT",
+      "content": "Stat Sandwich",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "ofa8r5comgdm460x"
+     },
+     {
+      "content": "0",
+      "rowspan": 4,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Sun Jul 19, 2026, 3:00AM",
+      "rowspan": 4,
+      "key": "date"
+     },
+     {
+      "content": "117",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Cincinnati Reds",
+     "urlName": "jj-bleday",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04y95_96_9.png",
+     "scorerId": "04y95",
+     "posIdsNoFlex": [
+      "012"
+     ],
+     "defaultPosId": "010",
+     "posShortNames": "OF",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 17, 9:49 AM: Bleday is not in the lineup for...",
+       "typeId": "8"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "012",
+      "014"
+     ],
+     "teamId": "10210",
+     "name": "JJ Bleday",
+     "teamShortName": "CIN",
+     "shortName": "J. Bleday"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "09v3n5zqmrp1fuyv",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Stat Sandwich",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "ofa8r5comgdm460x"
+     },
+     {
+      "align": "LEFT",
+      "content": "JMoney",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "ebimnmrmmgdm4610"
+     },
+     {
+      "content": "117",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "team": false,
+     "rookie": false,
+     "minorsEligible": false
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "draftPickDisplayParts": {
+     "roundInfo": "Round <b>1</b> (Minor Legalities)",
+     "year": "<b>2028</b> Draft Pick"
+    },
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "09v3n5zqmrp1fuyv",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Stat Sandwich",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "ofa8r5comgdm460x"
+     },
+     {
+      "align": "LEFT",
+      "content": "JMoney",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "ebimnmrmmgdm4610"
+     },
+     {
+      "content": "117",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "team": false,
+     "rookie": false,
+     "minorsEligible": false
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "draftPickDisplayParts": {
+     "roundInfo": "Round <b>2</b> (Stat Sandwich)",
+     "year": "<b>2030</b> Draft Pick"
+    },
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "09v3n5zqmrp1fuyv",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Stat Sandwich",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "ofa8r5comgdm460x"
+     },
+     {
+      "align": "LEFT",
+      "content": "JMoney",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "ebimnmrmmgdm4610"
+     },
+     {
+      "content": "117",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Pittsburgh Pirates",
+     "urlName": "gregory-soto",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04aok_96_11.png",
+     "scorerId": "04aok",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "016",
+     "posShortNames": "RP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 22, 9:44 PM: Soto struck out two in a clean ninth...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10240",
+     "name": "Gregory Soto",
+     "teamShortName": "PIT",
+     "shortName": "G. Soto"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "numInGroup": 9,
+    "txSetId": "5a5u5mp6mrowrjt2",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Minor Legalities",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "s872idxcmgdm4617"
+     },
+     {
+      "align": "LEFT",
+      "content": "Stat Sandwich",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "ofa8r5comgdm460x"
+     },
+     {
+      "content": "0",
+      "rowspan": 9,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Sun Jul 19, 2026, 3:00AM",
+      "rowspan": 9,
+      "key": "date"
+     },
+     {
+      "content": "117",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "New York Yankees",
+     "urlName": "ben-rice",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs05yo5_96_2.png",
+     "scorerId": "05yo5",
+     "posIdsNoFlex": [
+      "001",
+      "002"
+     ],
+     "defaultPosId": "002",
+     "posShortNames": "C,1B",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 23, 10:43 PM: Rice went 3-for-4 with a pair of solo...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "001",
+      "002",
+      "006",
+      "014"
+     ],
+     "teamId": "10030",
+     "name": "Ben Rice",
+     "teamShortName": "NYY",
+     "shortName": "B. Rice"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "5a5u5mp6mrowrjt2",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Minor Legalities",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "s872idxcmgdm4617"
+     },
+     {
+      "align": "LEFT",
+      "content": "Stat Sandwich",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "ofa8r5comgdm460x"
+     },
+     {
+      "content": "117",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Los Angeles Angels",
+     "urlName": "grayson-rodriguez",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04pko_96_4.png",
+     "scorerId": "04pko",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "015",
+     "posShortNames": "SP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 25, 2:41 AM: Rodriguez (5-8) allowed four runs on...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10110",
+     "name": "Grayson Rodriguez",
+     "teamShortName": "LAA",
+     "shortName": "G. Rodriguez"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "5a5u5mp6mrowrjt2",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Minor Legalities",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "s872idxcmgdm4617"
+     },
+     {
+      "align": "LEFT",
+      "content": "Stat Sandwich",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "ofa8r5comgdm460x"
+     },
+     {
+      "content": "117",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Los Angeles Angels",
+     "urlName": "moises-ballesteros",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs05rbs_96_2.png",
+     "scorerId": "05rbs",
+     "posIdsNoFlex": [
+      "001",
+      "002"
+     ],
+     "defaultPosId": "013",
+     "posShortNames": "C,1B",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 14, 1:18 PM: Ballesteros went 1-for-2 with a home...",
+       "typeId": "8"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "001",
+      "002",
+      "006",
+      "014"
+     ],
+     "teamId": "10110",
+     "name": "Moises Ballesteros",
+     "teamShortName": "LAA",
+     "shortName": "M. Ballesteros"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "5a5u5mp6mrowrjt2",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Minor Legalities",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "s872idxcmgdm4617"
+     },
+     {
+      "align": "LEFT",
+      "content": "Stat Sandwich",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "ofa8r5comgdm460x"
+     },
+     {
+      "content": "117",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Philadelphia Phillies",
+     "urlName": "alec-bohm",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04mn5_96_9.png",
+     "scorerId": "04mn5",
+     "posIdsNoFlex": [
+      "002",
+      "004"
+     ],
+     "defaultPosId": "004",
+     "posShortNames": "1B,3B",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 9, 3:07 PM: Bohm is not in the lineup for...",
+       "typeId": "8"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "002",
+      "004",
+      "006",
+      "014"
+     ],
+     "teamId": "10180",
+     "name": "Alec Bohm",
+     "teamShortName": "PHI",
+     "shortName": "A. Bohm"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "5a5u5mp6mrowrjt2",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Minor Legalities",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "s872idxcmgdm4617"
+     },
+     {
+      "align": "LEFT",
+      "content": "Stat Sandwich",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "ofa8r5comgdm460x"
+     },
+     {
+      "content": "117",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Cincinnati Reds",
+     "urlName": "eugenio-suarez",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs02jh6_96_15.png",
+     "scorerId": "02jh6",
+     "posIdsNoFlex": [
+      "004"
+     ],
+     "defaultPosId": "004",
+     "posShortNames": "3B",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 17, 9:46 AM: Suarez is absent from the lineup for...",
+       "typeId": "8"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "004",
+      "006",
+      "014"
+     ],
+     "teamId": "10210",
+     "name": "Eugenio Suarez",
+     "teamShortName": "CIN",
+     "shortName": "E. Suarez"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "5a5u5mp6mrowrjt2",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Stat Sandwich",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "ofa8r5comgdm460x"
+     },
+     {
+      "align": "LEFT",
+      "content": "Minor Legalities",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "s872idxcmgdm4617"
+     },
+     {
+      "content": "117",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Athletics",
+     "urlName": "henry-bolte",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs05y7t_96_2.png",
+     "scorerId": "05y7t",
+     "posIdsNoFlex": [
+      "012"
+     ],
+     "defaultPosId": "011",
+     "posShortNames": "OF",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 24, 1:58 AM: Bolte went 4-for-5 with two doubles,...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "012",
+      "014"
+     ],
+     "teamId": "10121",
+     "name": "Henry Bolte",
+     "teamShortName": "ATH",
+     "shortName": "H. Bolte"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "5a5u5mp6mrowrjt2",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Stat Sandwich",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "ofa8r5comgdm460x"
+     },
+     {
+      "align": "LEFT",
+      "content": "Minor Legalities",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "s872idxcmgdm4617"
+     },
+     {
+      "content": "117",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "team": false,
+     "rookie": false,
+     "minorsEligible": false
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "draftPickDisplayParts": {
+     "roundInfo": "Round <b>1</b> (Stat Sandwich)",
+     "year": "<b>2029</b> Draft Pick"
+    },
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "5a5u5mp6mrowrjt2",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Stat Sandwich",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "ofa8r5comgdm460x"
+     },
+     {
+      "align": "LEFT",
+      "content": "Minor Legalities",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "s872idxcmgdm4617"
+     },
+     {
+      "content": "117",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "team": false,
+     "rookie": false,
+     "minorsEligible": false
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "draftPickDisplayParts": {
+     "roundInfo": "Round <b>1</b> (Stat Sandwich)",
+     "year": "<b>2030</b> Draft Pick"
+    },
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "5a5u5mp6mrowrjt2",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Stat Sandwich",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "ofa8r5comgdm460x"
+     },
+     {
+      "align": "LEFT",
+      "content": "Minor Legalities",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "s872idxcmgdm4617"
+     },
+     {
+      "content": "117",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Cleveland Guardians",
+     "urlName": "chase-delauter",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs05uei_96_4.png",
+     "scorerId": "05uei",
+     "posIdsNoFlex": [
+      "012"
+     ],
+     "defaultPosId": "010",
+     "posShortNames": "OF",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 20, 7:21 AM: DeLauter went 2-for-5 with a three-run...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "012",
+      "014"
+     ],
+     "teamId": "10070",
+     "name": "Chase DeLauter",
+     "teamShortName": "CLE",
+     "shortName": "C. DeLauter"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "numInGroup": 8,
+    "txSetId": "0haimbvsmr6tawb1",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Dr Andrews Will See You Now",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "m84gn4f4mgdm460z"
+     },
+     {
+      "align": "LEFT",
+      "content": "Minor Legalities",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "s872idxcmgdm4617"
+     },
+     {
+      "content": "0",
+      "rowspan": 8,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Mon Jul 6, 2026, 3:00AM",
+      "rowspan": 8,
+      "key": "date"
+     },
+     {
+      "content": "104",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Milwaukee Brewers",
+     "urlName": "jesus-made",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs06ibv_96_2.png",
+     "scorerId": "06ibv",
+     "posIdsNoFlex": [
+      "005"
+     ],
+     "defaultPosId": "005",
+     "posShortNames": "SS",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Minor Leagues",
+       "typeId": "4"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "005",
+      "007",
+      "014"
+     ],
+     "teamId": "10230",
+     "name": "Jesus Made",
+     "teamShortName": "MIL",
+     "shortName": "J. Made"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "0haimbvsmr6tawb1",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Dr Andrews Will See You Now",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "m84gn4f4mgdm460z"
+     },
+     {
+      "align": "LEFT",
+      "content": "Minor Legalities",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "s872idxcmgdm4617"
+     },
+     {
+      "content": "104",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Detroit Tigers",
+     "urlName": "bryce-rainer",
+     "scorerId": "05yai",
+     "posIdsNoFlex": [
+      "005"
+     ],
+     "defaultPosId": "005",
+     "posShortNames": "SS",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Minor Leagues",
+       "typeId": "4"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "005",
+      "007",
+      "014"
+     ],
+     "teamId": "10080",
+     "name": "Bryce Rainer",
+     "teamShortName": "DET",
+     "shortName": "B. Rainer"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "0haimbvsmr6tawb1",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Dr Andrews Will See You Now",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "m84gn4f4mgdm460z"
+     },
+     {
+      "align": "LEFT",
+      "content": "Minor Legalities",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "s872idxcmgdm4617"
+     },
+     {
+      "content": "104",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "team": false,
+     "rookie": false,
+     "minorsEligible": false
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "draftPickDisplayParts": {
+     "roundInfo": "Round <b>1</b> (Dr Andrews Will See You Now)",
+     "year": "<b>2027</b> Draft Pick"
+    },
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "0haimbvsmr6tawb1",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Dr Andrews Will See You Now",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "m84gn4f4mgdm460z"
+     },
+     {
+      "align": "LEFT",
+      "content": "Minor Legalities",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "s872idxcmgdm4617"
+     },
+     {
+      "content": "104",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Detroit Tigers",
+     "urlName": "spencer-torkelson",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04yk2_96_5.png",
+     "scorerId": "04yk2",
+     "posIdsNoFlex": [
+      "002"
+     ],
+     "defaultPosId": "002",
+     "posShortNames": "1B",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 21, 9:38 PM: Torkelson went 1-for-4 with a two-run...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "002",
+      "006",
+      "014"
+     ],
+     "teamId": "10080",
+     "name": "Spencer Torkelson",
+     "teamShortName": "DET",
+     "shortName": "S. Torkelson"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "0haimbvsmr6tawb1",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Minor Legalities",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "s872idxcmgdm4617"
+     },
+     {
+      "align": "LEFT",
+      "content": "Dr Andrews Will See You Now",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "m84gn4f4mgdm460z"
+     },
+     {
+      "content": "104",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Los Angeles Dodgers",
+     "urlName": "andy-pages",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04ru5_96_8.png",
+     "scorerId": "04ru5",
+     "posIdsNoFlex": [
+      "012"
+     ],
+     "defaultPosId": "010",
+     "posShortNames": "OF",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 26, 1:32 AM: Pages went 2-for-3 with a solo home run...",
+       "typeId": "14"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "012",
+      "014"
+     ],
+     "teamId": "10280",
+     "name": "Andy Pages",
+     "teamShortName": "LAD",
+     "shortName": "A. Pages"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "0haimbvsmr6tawb1",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Minor Legalities",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "s872idxcmgdm4617"
+     },
+     {
+      "align": "LEFT",
+      "content": "Dr Andrews Will See You Now",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "m84gn4f4mgdm460z"
+     },
+     {
+      "content": "104",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Philadelphia Phillies",
+     "urlName": "cristopher-sanchez",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs052c8_96_8.png",
+     "scorerId": "052c8",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "015",
+     "posShortNames": "SP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 25, 10:20 PM: Sanchez (18-7) took the loss against...",
+       "typeId": "14"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10180",
+     "name": "Cristopher Sanchez",
+     "teamShortName": "PHI",
+     "shortName": "C. Sanchez"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "0haimbvsmr6tawb1",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Minor Legalities",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "s872idxcmgdm4617"
+     },
+     {
+      "align": "LEFT",
+      "content": "Dr Andrews Will See You Now",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "m84gn4f4mgdm460z"
+     },
+     {
+      "content": "104",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Pittsburgh Pirates",
+     "urlName": "paul-skenes",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs05wru_96_3.png",
+     "scorerId": "05wru",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "015",
+     "posShortNames": "SP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 24, 5:51 PM: Skenes did not factor into the decision...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10240",
+     "name": "Paul Skenes",
+     "teamShortName": "PIT",
+     "shortName": "P. Skenes"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "0haimbvsmr6tawb1",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Minor Legalities",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "s872idxcmgdm4617"
+     },
+     {
+      "align": "LEFT",
+      "content": "Dr Andrews Will See You Now",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "m84gn4f4mgdm460z"
+     },
+     {
+      "content": "104",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "New York Yankees",
+     "urlName": "ryan-weathers",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04mnw_96_8.png",
+     "scorerId": "04mnw",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "015",
+     "posShortNames": "SP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Injured List - 15-day IL - Forearm",
+       "typeId": "2"
+      },
+      {
+       "tooltip": "Sep 25, 12:59 PM: Weathers (forearm) will throw a live...",
+       "typeId": "14"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10030",
+     "name": "Ryan Weathers",
+     "teamShortName": "NYY",
+     "shortName": "R. Weathers"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "numInGroup": 8,
+    "txSetId": "m1nx9cnwmr1hc6p4",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "align": "LEFT",
+      "content": "nygaardians",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "o519bpjumgdm4615"
+     },
+     {
+      "content": "0",
+      "rowspan": 8,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Thu Jul 2, 2026, 3:00AM",
+      "rowspan": 8,
+      "key": "date"
+     },
+     {
+      "content": "100",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Toronto Blue Jays",
+     "urlName": "vladimir-guerrero-jr",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs03ojr_96_10.png",
+     "scorerId": "03ojr",
+     "posIdsNoFlex": [
+      "002"
+     ],
+     "defaultPosId": "002",
+     "posShortNames": "1B",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 23, 5:39 PM: Guerrero is not in the starting lineup...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "002",
+      "006",
+      "014"
+     ],
+     "teamId": "10050",
+     "name": "Vladimir Guerrero Jr.",
+     "teamShortName": "TOR",
+     "shortName": "V. Guerrero Jr."
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "m1nx9cnwmr1hc6p4",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "align": "LEFT",
+      "content": "nygaardians",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "o519bpjumgdm4615"
+     },
+     {
+      "content": "100",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Chicago White Sox",
+     "urlName": "roch-cholowsky",
+     "scorerId": "05yeg",
+     "posIdsNoFlex": [
+      "005"
+     ],
+     "defaultPosId": "005",
+     "posShortNames": "SS",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Minor Leagues",
+       "typeId": "4"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "005",
+      "007",
+      "014"
+     ],
+     "teamId": "10060",
+     "name": "Roch Cholowsky",
+     "teamShortName": "CHW",
+     "shortName": "R. Cholowsky"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "m1nx9cnwmr1hc6p4",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "align": "LEFT",
+      "content": "nygaardians",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "o519bpjumgdm4615"
+     },
+     {
+      "content": "100",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "San Francisco Giants",
+     "urlName": "josuar-gonzalez",
+     "scorerId": "06ps2",
+     "posIdsNoFlex": [
+      "005"
+     ],
+     "defaultPosId": "005",
+     "posShortNames": "SS",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Minor Leagues",
+       "typeId": "4"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "005",
+      "007",
+      "014"
+     ],
+     "teamId": "10300",
+     "name": "Josuar Gonzalez",
+     "teamShortName": "SF",
+     "shortName": "J. Gonzalez"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "m1nx9cnwmr1hc6p4",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "align": "LEFT",
+      "content": "nygaardians",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "o519bpjumgdm4615"
+     },
+     {
+      "content": "100",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Cleveland Guardians",
+     "urlName": "parker-messick",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs05tzn_96_2.png",
+     "scorerId": "05tzn",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "015",
+     "posShortNames": "SP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 23, 10:13 AM: Messick did not factor into the...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10070",
+     "name": "Parker Messick",
+     "teamShortName": "CLE",
+     "shortName": "P. Messick"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "m1nx9cnwmr1hc6p4",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "nygaardians",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "o519bpjumgdm4615"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "content": "100",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "New York Yankees",
+     "urlName": "cam-schlittler",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs05u6q_96_2.png",
+     "scorerId": "05u6q",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "015",
+     "posShortNames": "SP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 24, 10:23 PM: Schlittler took a no-decision Thursday...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10030",
+     "name": "Cam Schlittler",
+     "teamShortName": "NYY",
+     "shortName": "C. Schlittler"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "m1nx9cnwmr1hc6p4",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "nygaardians",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "o519bpjumgdm4615"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "content": "100",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Los Angeles Dodgers",
+     "urlName": "shohei-ohtani",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs02yc4_96_13.png",
+     "scorerId": "02yc4",
+     "posIdsNoFlex": [
+      "014",
+      "017"
+     ],
+     "defaultPosId": "013",
+     "posShortNames": "UT,P",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 23, 6:05 PM: The Dodgers reinstated Ohtani...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "014",
+      "017"
+     ],
+     "teamId": "10280",
+     "name": "Shohei Ohtani",
+     "teamShortName": "LAD",
+     "shortName": "S. Ohtani"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "m1nx9cnwmr1hc6p4",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "nygaardians",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "o519bpjumgdm4615"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "content": "100",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "team": false,
+     "rookie": false,
+     "minorsEligible": false
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "draftPickDisplayParts": {
+     "roundInfo": "Round <b>2</b> (nygaardians)",
+     "year": "<b>2027</b> Draft Pick"
+    },
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "m1nx9cnwmr1hc6p4",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "nygaardians",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "o519bpjumgdm4615"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "content": "100",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Atlanta Braves",
+     "urlName": "dylan-lee",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs041vm_96_6.png",
+     "scorerId": "041vm",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "016",
+     "posShortNames": "RP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 1, 9:45 AM: Lee gave up one run on two hits while...",
+       "typeId": "8"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10150",
+     "name": "Dylan Lee",
+     "teamShortName": "ATL",
+     "shortName": "D. Lee"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "numInGroup": 2,
+    "txSetId": "uhg3gpyzmqg6d56u",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Cliff Lee Was Here.",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "lu612taqmgdm4612"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "content": "0",
+      "rowspan": 2,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Mon Jun 22, 2026, 3:00AM",
+      "rowspan": 2,
+      "key": "date"
+     },
+     {
+      "content": "90",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Houston Astros",
+     "urlName": "tatsuya-imai",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs06ktn_96_1.png",
+     "scorerId": "06ktn",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "015",
+     "posShortNames": "SP",
+     "team": false,
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10105",
+     "name": "Tatsuya Imai",
+     "teamShortName": "HOU",
+     "shortName": "T. Imai"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "uhg3gpyzmqg6d56u",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "align": "LEFT",
+      "content": "Cliff Lee Was Here.",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "lu612taqmgdm4612"
+     },
+     {
+      "content": "90",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Kansas City Royals",
+     "urlName": "salvador-perez",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs01u75_96_16.png",
+     "scorerId": "01u75",
+     "posIdsNoFlex": [
+      "001",
+      "002"
+     ],
+     "defaultPosId": "001",
+     "posShortNames": "C,1B",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 26, 2:23 AM: Perez went 1-for-4 with a two-run homer...",
+       "typeId": "14"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "001",
+      "002",
+      "006",
+      "014"
+     ],
+     "teamId": "10090",
+     "name": "Salvador Perez",
+     "teamShortName": "KC",
+     "shortName": "S. Perez"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "numInGroup": 3,
+    "txSetId": "514adqtgmpdfvqyh",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Stat Sandwich",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "ofa8r5comgdm460x"
+     },
+     {
+      "align": "LEFT",
+      "content": "beKCer's trainwreKCers",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "6wjoojsemgdm460y"
+     },
+     {
+      "content": "0",
+      "rowspan": 3,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Fri May 22, 2026, 3:00AM",
+      "rowspan": 3,
+      "key": "date"
+     },
+     {
+      "content": "59",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Tampa Bay Rays",
+     "urlName": "drew-rasmussen",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04eee_96_9.png",
+     "scorerId": "04eee",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "015",
+     "posShortNames": "SP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 23, 9:54 AM: Rasmussen (16-5) picked up the win in...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10040",
+     "name": "Drew Rasmussen",
+     "teamShortName": "TB",
+     "shortName": "D. Rasmussen"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "514adqtgmpdfvqyh",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Stat Sandwich",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "ofa8r5comgdm460x"
+     },
+     {
+      "align": "LEFT",
+      "content": "beKCer's trainwreKCers",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "6wjoojsemgdm460y"
+     },
+     {
+      "content": "59",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Miami Marlins",
+     "urlName": "jakob-marsee",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs065ji_96_2.png",
+     "scorerId": "065ji",
+     "posIdsNoFlex": [
+      "012"
+     ],
+     "defaultPosId": "010",
+     "posShortNames": "OF",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 20, 1:42 AM: Marsee went 3-for-4 with a walk and two...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "012",
+      "014"
+     ],
+     "teamId": "10160",
+     "name": "Jakob Marsee",
+     "teamShortName": "MIA",
+     "shortName": "J. Marsee"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "514adqtgmpdfvqyh",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "beKCer's trainwreKCers",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "6wjoojsemgdm460y"
+     },
+     {
+      "align": "LEFT",
+      "content": "Stat Sandwich",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "ofa8r5comgdm460x"
+     },
+     {
+      "content": "59",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Philadelphia Phillies",
+     "urlName": "alec-bohm",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04mn5_96_9.png",
+     "scorerId": "04mn5",
+     "posIdsNoFlex": [
+      "002",
+      "004"
+     ],
+     "defaultPosId": "004",
+     "posShortNames": "1B,3B",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 9, 3:07 PM: Bohm is not in the lineup for...",
+       "typeId": "8"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "002",
+      "004",
+      "006",
+      "014"
+     ],
+     "teamId": "10180",
+     "name": "Alec Bohm",
+     "teamShortName": "PHI",
+     "shortName": "A. Bohm"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "numInGroup": 1,
+    "txSetId": "weqzh0nrmpbzl404",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Sabermutrics",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "mfo4w3xsmgdm4618"
+     },
+     {
+      "align": "LEFT",
+      "content": "Minor Legalities",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "s872idxcmgdm4617"
+     },
+     {
+      "content": "0",
+      "rowspan": 1,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Wed May 20, 2026, 3:00AM",
+      "rowspan": 1,
+      "key": "date"
+     },
+     {
+      "content": "57",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Los Angeles Dodgers",
+     "urlName": "tanner-scott",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs03dfa_96_12.png",
+     "scorerId": "03dfa",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "016",
+     "posShortNames": "RP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 26, 1:30 AM: Scott struck out two in a perfect...",
+       "typeId": "14"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10280",
+     "name": "Tanner Scott",
+     "teamShortName": "LAD",
+     "shortName": "T. Scott"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "numInGroup": 11,
+    "txSetId": "ad8w56e6moekve33",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Sabermutrics",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "mfo4w3xsmgdm4618"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "content": "0",
+      "rowspan": 11,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Mon Apr 27, 2026, 3:00AM",
+      "rowspan": 11,
+      "key": "date"
+     },
+     {
+      "content": "34",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Toronto Blue Jays",
+     "urlName": "louis-varland",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs051bm_96_3.png",
+     "scorerId": "051bm",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "016",
+     "posShortNames": "RP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 25, 10:28 PM: Varland earned the save in Friday's 6-5...",
+       "typeId": "14"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10050",
+     "name": "Louis Varland",
+     "teamShortName": "TOR",
+     "shortName": "L. Varland"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "ad8w56e6moekve33",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Sabermutrics",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "mfo4w3xsmgdm4618"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "content": "34",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Chicago White Sox",
+     "urlName": "kyle-teel",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs05wxy_96_2.png",
+     "scorerId": "05wxy",
+     "posIdsNoFlex": [
+      "001"
+     ],
+     "defaultPosId": "001",
+     "posShortNames": "C",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 24, 7:08 PM: Teel went 2-for-2 with a solo home run,...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "001",
+      "014"
+     ],
+     "teamId": "10060",
+     "name": "Kyle Teel",
+     "teamShortName": "CHW",
+     "shortName": "K. Teel"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "ad8w56e6moekve33",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Sabermutrics",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "mfo4w3xsmgdm4618"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "content": "34",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Tampa Bay Rays",
+     "urlName": "bryan-baker",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs041w4_96_6.png",
+     "scorerId": "041w4",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "016",
+     "posShortNames": "RP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 25, 10:09 PM: Baker collected the save in Friday's...",
+       "typeId": "14"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10040",
+     "name": "Bryan Baker",
+     "teamShortName": "TB",
+     "shortName": "B. Baker"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "ad8w56e6moekve33",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Sabermutrics",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "mfo4w3xsmgdm4618"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "content": "34",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Los Angeles Dodgers",
+     "urlName": "yoshinobu-yamamoto",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs05r8n_96_3.png",
+     "scorerId": "05r8n",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "015",
+     "posShortNames": "SP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 24, 2:28 AM: Yamamoto (14-9) allowed four runs (two...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10280",
+     "name": "Yoshinobu Yamamoto",
+     "teamShortName": "LAD",
+     "shortName": "Y. Yamamoto"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "ad8w56e6moekve33",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Sabermutrics",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "mfo4w3xsmgdm4618"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "content": "34",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Detroit Tigers",
+     "urlName": "kyle-finnegan",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs031bl_96_10.png",
+     "scorerId": "031bl",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "016",
+     "posShortNames": "RP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Injured List - 15-day IL - Groin",
+       "typeId": "2"
+      },
+      {
+       "tooltip": "Sep 17, 7:04 PM: The Tigers placed Finnegan on the...",
+       "typeId": "8"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10080",
+     "name": "Kyle Finnegan",
+     "teamShortName": "DET",
+     "shortName": "K. Finnegan"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "ad8w56e6moekve33",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "align": "LEFT",
+      "content": "Sabermutrics",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "mfo4w3xsmgdm4618"
+     },
+     {
+      "content": "34",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Not on a team",
+     "urlName": "drew-pomeranz",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs01ucb_96_15.png",
+     "scorerId": "01ucb",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "016",
+     "posShortNames": "RP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Free Agent",
+       "typeId": "3"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "name": "Drew Pomeranz",
+     "teamShortName": "(N/A)",
+     "shortName": "D. Pomeranz"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "ad8w56e6moekve33",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "align": "LEFT",
+      "content": "Sabermutrics",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "mfo4w3xsmgdm4618"
+     },
+     {
+      "content": "34",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "San Francisco Giants",
+     "urlName": "harrison-bader",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs03qjv_96_13.png",
+     "scorerId": "03qjv",
+     "posIdsNoFlex": [
+      "012"
+     ],
+     "defaultPosId": "010",
+     "posShortNames": "OF",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Injured List - 60-day IL - Foot",
+       "typeId": "2"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "012",
+      "014"
+     ],
+     "teamId": "10300",
+     "name": "Harrison Bader",
+     "teamShortName": "SF",
+     "shortName": "H. Bader"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "ad8w56e6moekve33",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "align": "LEFT",
+      "content": "Sabermutrics",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "mfo4w3xsmgdm4618"
+     },
+     {
+      "content": "34",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Toronto Blue Jays",
+     "urlName": "spencer-arrighetti",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs05y0j_96_3.png",
+     "scorerId": "05y0j",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "015",
+     "posShortNames": "SP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Minor Leagues",
+       "typeId": "4"
+      },
+      {
+       "tooltip": "Sep 21, 3:05 PM: The Blue Jays optioned Arrighetti to...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10050",
+     "name": "Spencer Arrighetti",
+     "teamShortName": "TOR",
+     "shortName": "S. Arrighetti"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "ad8w56e6moekve33",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "align": "LEFT",
+      "content": "Sabermutrics",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "mfo4w3xsmgdm4618"
+     },
+     {
+      "content": "34",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Cleveland Guardians",
+     "urlName": "travis-bazzana",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs05zde_96_4.png",
+     "scorerId": "05zde",
+     "posIdsNoFlex": [
+      "003"
+     ],
+     "defaultPosId": "003",
+     "posShortNames": "2B",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 19, 9:26 AM: Bazzana went 1-for-3 with a walk and a...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "003",
+      "007",
+      "014"
+     ],
+     "teamId": "10070",
+     "name": "Travis Bazzana",
+     "teamShortName": "CLE",
+     "shortName": "T. Bazzana"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "ad8w56e6moekve33",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "align": "LEFT",
+      "content": "Sabermutrics",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "mfo4w3xsmgdm4618"
+     },
+     {
+      "content": "34",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Athletics",
+     "urlName": "leo-de-vries",
+     "scorerId": "067yc",
+     "posIdsNoFlex": [
+      "005"
+     ],
+     "defaultPosId": "005",
+     "posShortNames": "SS",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Minor Leagues",
+       "typeId": "4"
+      },
+      {
+       "tooltip": "Sep 8, 10:39 PM: De Vries will undergo surgery to repair...",
+       "typeId": "8"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "005",
+      "007",
+      "014"
+     ],
+     "teamId": "10121",
+     "name": "Leo De Vries",
+     "teamShortName": "ATH",
+     "shortName": "L. De Vries"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "ad8w56e6moekve33",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "align": "LEFT",
+      "content": "Sabermutrics",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "mfo4w3xsmgdm4618"
+     },
+     {
+      "content": "34",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Atlanta Braves",
+     "urlName": "michael-harris-ii",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs0512v_96_8.png",
+     "scorerId": "0512v",
+     "posIdsNoFlex": [
+      "012"
+     ],
+     "defaultPosId": "010",
+     "posShortNames": "OF",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 22, 10:12 PM: Harris went 2-for-4 with a stolen base...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "012",
+      "014"
+     ],
+     "teamId": "10150",
+     "name": "Michael Harris II",
+     "teamShortName": "ATL",
+     "shortName": "M. Harris II"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "<b>Executed</b><br/>$6 in 2027 cash to Tradezilla ",
+     "props": {
+      "comment": true
+     }
+    },
+    "numInGroup": 3,
+    "txSetId": "u64siqlbmmqe805c",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "align": "LEFT",
+      "content": "beKCer's trainwreKCers",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "6wjoojsemgdm460y"
+     },
+     {
+      "content": "0",
+      "rowspan": 3,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Wed Mar 18, 2026, 3:00AM",
+      "rowspan": 3,
+      "key": "date"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "team": false,
+     "rookie": false,
+     "minorsEligible": false
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "draftPickDisplayParts": {
+     "roundInfo": "Round <b>2</b> (Stat Sandwich)",
+     "year": "<b>2028</b> Draft Pick"
+    },
+    "result": {
+     "content": "<b>Executed</b><br/>$6 in 2027 cash to Tradezilla ",
+     "props": {
+      "comment": true
+     }
+    },
+    "txSetId": "u64siqlbmmqe805c",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "align": "LEFT",
+      "content": "beKCer's trainwreKCers",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "6wjoojsemgdm460y"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Atlanta Braves",
+     "urlName": "chris-sale",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs01uca_96_17.png",
+     "scorerId": "01uca",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "015",
+     "posShortNames": "SP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 23, 10:22 PM: Sale took a no-decision Wednesday...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10150",
+     "name": "Chris Sale",
+     "teamShortName": "ATL",
+     "shortName": "C. Sale"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "<b>Executed</b><br/>$6 in 2027 cash to Tradezilla ",
+     "props": {
+      "comment": true
+     }
+    },
+    "txSetId": "u64siqlbmmqe805c",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "beKCer's trainwreKCers",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "6wjoojsemgdm460y"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Philadelphia Phillies",
+     "urlName": "bryson-stott",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04p10_96_8.png",
+     "scorerId": "04p10",
+     "posIdsNoFlex": [
+      "003",
+      "004",
+      "005"
+     ],
+     "defaultPosId": "003",
+     "posShortNames": "2B,3B,SS",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 5, 3:01 PM: Stott (personal) will start at third...",
+       "typeId": "8"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "003",
+      "004",
+      "005",
+      "006",
+      "007",
+      "014"
+     ],
+     "teamId": "10180",
+     "name": "Bryson Stott",
+     "teamShortName": "PHI",
+     "shortName": "B. Stott"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "<b>Executed</b><br/>For $10 2028 draft budget",
+     "props": {
+      "comment": true
+     }
+    },
+    "disabled": true,
+    "numInGroup": 1,
+    "txSetId": "7o4nrf9dmme7yit3",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Minor Legalities",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "s872idxcmgdm4617"
+     },
+     {
+      "align": "LEFT",
+      "content": "Sabermutrics",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "mfo4w3xsmgdm4618"
+     },
+     {
+      "content": "0",
+      "rowspan": 1,
+      "key": "obj"
+     },
+     {
+      "icon": "COMMISSIONER",
+      "align": "LEFT",
+      "content": "Sat Mar 7, 2026, 12:08PM",
+      "iconToolTip": "Executed by Commissioner on Thu Mar 5, 2026, 8:31PM",
+      "rowspan": 1,
+      "key": "date",
+      "toolTip": "<b>Processed</b> Sat Mar 7, 2026, 12:08:23 PM<br/><b>Created</b> Thu Mar 5, 2026, 8:31:55 PM"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Minnesota Twins",
+     "urlName": "joe-ryan",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04ps7_96_8.png",
+     "scorerId": "04ps7",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "015",
+     "posShortNames": "SP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 20, 1:55 AM: Ryan allowed two runs on seven hits, a...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10100",
+     "name": "Joe Ryan",
+     "teamShortName": "MIN",
+     "shortName": "J. Ryan"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "numInGroup": 2,
+    "txSetId": "p7j4ijrommg0cj55",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Shag Dawgs",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "gvud812qmgdm460w"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "content": "0",
+      "rowspan": 2,
+      "key": "obj"
+     },
+     {
+      "icon": "COMMISSIONER",
+      "align": "LEFT",
+      "content": "Sat Mar 7, 2026, 12:08PM",
+      "iconToolTip": "Executed by Commissioner on Sat Mar 7, 2026, 2:34AM",
+      "rowspan": 2,
+      "key": "date",
+      "toolTip": "<b>Processed</b> Sat Mar 7, 2026, 12:08:16 PM<br/><b>Created</b> Sat Mar 7, 2026, 2:34:25 AM"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Kansas City Royals",
+     "urlName": "vinnie-pasquantino",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs05184_96_4.png",
+     "scorerId": "05184",
+     "posIdsNoFlex": [
+      "002"
+     ],
+     "defaultPosId": "002",
+     "posShortNames": "1B",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 22, 10:36 PM: Pasquantino went 3-for-5 with a grand...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "002",
+      "006",
+      "014"
+     ],
+     "teamId": "10090",
+     "name": "Vinnie Pasquantino",
+     "teamShortName": "KC",
+     "shortName": "V. Pasquantino"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "p7j4ijrommg0cj55",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "align": "LEFT",
+      "content": "Shag Dawgs",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "gvud812qmgdm460w"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "team": false,
+     "rookie": false,
+     "minorsEligible": false
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "draftPickDisplayParts": {
+     "roundInfo": "Round <b>2</b> (Dumpster Fire)",
+     "year": "<b>2026</b> Draft Pick"
+    },
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "numInGroup": 2,
+    "txSetId": "mw7jl4phmm5md40z",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Minor Legalities",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "s872idxcmgdm4617"
+     },
+     {
+      "align": "LEFT",
+      "content": "Sabermutrics",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "mfo4w3xsmgdm4618"
+     },
+     {
+      "content": "0",
+      "rowspan": 2,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Sun Mar 1, 2026, 3:00AM",
+      "rowspan": 2,
+      "key": "date"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "team": false,
+     "rookie": false,
+     "minorsEligible": false
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "draftPickDisplayParts": {
+     "roundInfo": "Round <b>2</b> (Sabermutrics)",
+     "year": "<b>2027</b> Draft Pick"
+    },
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "mw7jl4phmm5md40z",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Sabermutrics",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "mfo4w3xsmgdm4618"
+     },
+     {
+      "align": "LEFT",
+      "content": "Minor Legalities",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "s872idxcmgdm4617"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "team": false,
+     "rookie": false,
+     "minorsEligible": false
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "draftPickDisplayParts": {
+     "roundInfo": "Round <b>1</b> (Minor Legalities)",
+     "year": "<b>2026</b> Draft Pick"
+    },
+    "result": {
+     "content": "Executed"
+    },
+    "numInGroup": 2,
+    "txSetId": "ui3c7iohmm3v4prr",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Minor Legalities",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "s872idxcmgdm4617"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "content": "0",
+      "rowspan": 2,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Sat Feb 28, 2026, 3:00AM",
+      "rowspan": 2,
+      "key": "date"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "team": false,
+     "rookie": false,
+     "minorsEligible": false
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "draftPickDisplayParts": {
+     "roundInfo": "Round <b>1</b> (Tradezilla)",
+     "year": "<b>2027</b> Draft Pick"
+    },
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "ui3c7iohmm3v4prr",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "align": "LEFT",
+      "content": "Minor Legalities",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "s872idxcmgdm4617"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Boston Red Sox",
+     "urlName": "aroldis-chapman",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs01gya_96_16.png",
+     "scorerId": "01gya",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "016",
+     "posShortNames": "RP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 23, 10:07 PM: Chapman (lat) struck out the side in...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10020",
+     "name": "Aroldis Chapman",
+     "teamShortName": "BOS",
+     "shortName": "A. Chapman"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "numInGroup": 1,
+    "txSetId": "2n5bn5p5mlz8gom1",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Stat Sandwich",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "ofa8r5comgdm460x"
+     },
+     {
+      "align": "LEFT",
+      "content": "Cliff Lee Was Here.",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "lu612taqmgdm4612"
+     },
+     {
+      "content": "0",
+      "rowspan": 1,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Wed Feb 25, 2026, 3:00AM",
+      "rowspan": 1,
+      "key": "date"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Cleveland Guardians",
+     "urlName": "kyle-manzardo",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs05rfu_96_2.png",
+     "scorerId": "05rfu",
+     "posIdsNoFlex": [
+      "002"
+     ],
+     "defaultPosId": "013",
+     "posShortNames": "1B",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Minor Leagues",
+       "typeId": "4"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "002",
+      "006",
+      "014"
+     ],
+     "teamId": "10070",
+     "name": "Kyle Manzardo",
+     "teamShortName": "CLE",
+     "shortName": "K. Manzardo"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "numInGroup": 1,
+    "txSetId": "8xplr4nomlzki6o8",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Minor Legalities",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "s872idxcmgdm4617"
+     },
+     {
+      "align": "LEFT",
+      "content": "Sabermutrics",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "mfo4w3xsmgdm4618"
+     },
+     {
+      "content": "0",
+      "rowspan": 1,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Wed Feb 25, 2026, 3:00AM",
+      "rowspan": 1,
+      "key": "date"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Chicago Cubs",
+     "urlName": "justin-steele",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs03deg_96_10.png",
+     "scorerId": "03deg",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "015",
+     "posShortNames": "SP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Injured List - 60-day IL - Elbow",
+       "typeId": "2"
+      },
+      {
+       "tooltip": "Sep 24, 1:26 PM: Cubs manager Craig Counsell said...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10200",
+     "name": "Justin Steele",
+     "teamShortName": "CHC",
+     "shortName": "J. Steele"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "numInGroup": 3,
+    "txSetId": "mdjc6yokmlze5fhl",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "align": "LEFT",
+      "content": "Minor Legalities",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "s872idxcmgdm4617"
+     },
+     {
+      "content": "0",
+      "rowspan": 3,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Wed Feb 25, 2026, 3:00AM",
+      "rowspan": 3,
+      "key": "date"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Detroit Tigers",
+     "urlName": "jack-flaherty",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs03d6w_96_14.png",
+     "scorerId": "03d6w",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "015",
+     "posShortNames": "SP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Injured List - 15-day IL - Forearm",
+       "typeId": "2"
+      },
+      {
+       "tooltip": "Sep 22, 4:15 PM: Flaherty (forearm) will be activated...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10080",
+     "name": "Jack Flaherty",
+     "teamShortName": "DET",
+     "shortName": "J. Flaherty"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "mdjc6yokmlze5fhl",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "align": "LEFT",
+      "content": "Minor Legalities",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "s872idxcmgdm4617"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "team": false,
+     "rookie": false,
+     "minorsEligible": false
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "draftPickDisplayParts": {
+     "roundInfo": "Round <b>2</b> (Tradezilla)",
+     "year": "<b>2029</b> Draft Pick"
+    },
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "mdjc6yokmlze5fhl",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "align": "LEFT",
+      "content": "Minor Legalities",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "s872idxcmgdm4617"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Cincinnati Reds",
+     "urlName": "noelvi-marte",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04qnd_96_3.png",
+     "scorerId": "04qnd",
+     "posIdsNoFlex": [
+      "004",
+      "012"
+     ],
+     "defaultPosId": "011",
+     "posShortNames": "3B,OF",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Minor Leagues",
+       "typeId": "4"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "004",
+      "006",
+      "012",
+      "014"
+     ],
+     "teamId": "10210",
+     "name": "Noelvi Marte",
+     "teamShortName": "CIN",
+     "shortName": "N. Marte"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "numInGroup": 1,
+    "txSetId": "11pne0zcmlyi7dpi",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Stat Sandwich",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "ofa8r5comgdm460x"
+     },
+     {
+      "align": "LEFT",
+      "content": "JMoney",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "ebimnmrmmgdm4610"
+     },
+     {
+      "content": "0",
+      "rowspan": 1,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tue Feb 24, 2026, 3:00AM",
+      "rowspan": 1,
+      "key": "date"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Athletics",
+     "urlName": "zack-gelof",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs05ub0_96_5.png",
+     "scorerId": "05ub0",
+     "posIdsNoFlex": [
+      "003",
+      "004",
+      "012"
+     ],
+     "defaultPosId": "003",
+     "posShortNames": "2B,3B,OF",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 25, 2:33 AM: Gelof went 2-for-3 with a pair of solo...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "003",
+      "004",
+      "006",
+      "007",
+      "012",
+      "014"
+     ],
+     "teamId": "10121",
+     "name": "Zack Gelof",
+     "teamShortName": "ATH",
+     "shortName": "Z. Gelof"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "numInGroup": 2,
+    "txSetId": "oxyq4t8vmlyhzf79",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Minor Legalities",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "s872idxcmgdm4617"
+     },
+     {
+      "align": "LEFT",
+      "content": "Shag Dawgs",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "gvud812qmgdm460w"
+     },
+     {
+      "content": "0",
+      "rowspan": 2,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tue Feb 24, 2026, 3:00AM",
+      "rowspan": 2,
+      "key": "date"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Houston Astros",
+     "urlName": "cam-smith",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs060jo_96_2.png",
+     "scorerId": "060jo",
+     "posIdsNoFlex": [
+      "012"
+     ],
+     "defaultPosId": "011",
+     "posShortNames": "OF",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 9, 7:50 AM: Smith went 1-for-3 with a solo homer...",
+       "typeId": "8"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "012",
+      "014"
+     ],
+     "teamId": "10105",
+     "name": "Cam Smith",
+     "teamShortName": "HOU",
+     "shortName": "C. Smith"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "oxyq4t8vmlyhzf79",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Minor Legalities",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "s872idxcmgdm4617"
+     },
+     {
+      "align": "LEFT",
+      "content": "Shag Dawgs",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "gvud812qmgdm460w"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "team": false,
+     "rookie": false,
+     "minorsEligible": false
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "draftPickDisplayParts": {
+     "roundInfo": "Round <b>2</b> (JMoney)",
+     "year": "<b>2026</b> Draft Pick"
+    },
+    "result": {
+     "content": "Executed"
+    },
+    "numInGroup": 3,
+    "txSetId": "ism9y4nhmlnci8ov",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Cliff Lee Was Here.",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "lu612taqmgdm4612"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "content": "0",
+      "rowspan": 3,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tue Feb 24, 2026, 3:00AM",
+      "rowspan": 3,
+      "key": "date"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Milwaukee Brewers",
+     "urlName": "trevor-megill",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs03dau_96_7.png",
+     "scorerId": "03dau",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "016",
+     "posShortNames": "RP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 23, 10:24 PM: Megill earned the save in Wednesday's...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10230",
+     "name": "Trevor Megill",
+     "teamShortName": "MIL",
+     "shortName": "T. Megill"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "ism9y4nhmlnci8ov",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "align": "LEFT",
+      "content": "Cliff Lee Was Here.",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "lu612taqmgdm4612"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Detroit Tigers",
+     "urlName": "framber-valdez",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04auj_96_10.png",
+     "scorerId": "04auj",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "015",
+     "posShortNames": "SP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 23, 8:45 PM: Valdez (10-12) gave up two runs on four...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10080",
+     "name": "Framber Valdez",
+     "teamShortName": "DET",
+     "shortName": "F. Valdez"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "ism9y4nhmlnci8ov",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "align": "LEFT",
+      "content": "Cliff Lee Was Here.",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "lu612taqmgdm4612"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Arizona Diamondbacks",
+     "urlName": "jordan-lawlar",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs05r1m_96_2.png",
+     "scorerId": "05r1m",
+     "posIdsNoFlex": [
+      "004",
+      "005",
+      "012"
+     ],
+     "defaultPosId": "004",
+     "posShortNames": "3B,SS,OF",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 26, 1:51 AM: Lawlar went 1-for-4 with a solo home...",
+       "typeId": "14"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "004",
+      "005",
+      "006",
+      "007",
+      "012",
+      "014"
+     ],
+     "teamId": "10260",
+     "name": "Jordan Lawlar",
+     "teamShortName": "ARI",
+     "shortName": "J. Lawlar"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "numInGroup": 1,
+    "txSetId": "0ntvepwomlx5idgu",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Minor Legalities",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "s872idxcmgdm4617"
+     },
+     {
+      "align": "LEFT",
+      "content": "nygaardians",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "o519bpjumgdm4615"
+     },
+     {
+      "content": "0",
+      "rowspan": 1,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Mon Feb 23, 2026, 3:00AM",
+      "rowspan": 1,
+      "key": "date"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Kansas City Royals",
+     "urlName": "carlos-estevez",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs03mnq_96_14.png",
+     "scorerId": "03mnq",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "016",
+     "posShortNames": "RP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Injured List - 60-day IL - Shoulder",
+       "typeId": "2"
+      },
+      {
+       "tooltip": "Sep 1, 6:01 PM: Estevez will undergo season-ending...",
+       "typeId": "8"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10090",
+     "name": "Carlos Estevez",
+     "teamShortName": "KC",
+     "shortName": "C. Estevez"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "numInGroup": 6,
+    "txSetId": "fz2tg4wzmlgv76t0",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Dr Andrews Will See You Now",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "m84gn4f4mgdm460z"
+     },
+     {
+      "align": "LEFT",
+      "content": "Metropolitans",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "ukiajd5dmgdm460u"
+     },
+     {
+      "content": "0",
+      "rowspan": 6,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Thu Feb 12, 2026, 3:00AM",
+      "rowspan": 6,
+      "key": "date"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Los Angeles Dodgers",
+     "urlName": "edwin-diaz",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs02my5_96_13.png",
+     "scorerId": "02my5",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "016",
+     "posShortNames": "RP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 18, 5:18 PM: The Dodgers activated Diaz (neck) from...",
+       "typeId": "8"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10280",
+     "name": "Edwin Diaz",
+     "teamShortName": "LAD",
+     "shortName": "E. Diaz"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "fz2tg4wzmlgv76t0",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Dr Andrews Will See You Now",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "m84gn4f4mgdm460z"
+     },
+     {
+      "align": "LEFT",
+      "content": "Metropolitans",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "ukiajd5dmgdm460u"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Atlanta Braves",
+     "urlName": "spencer-strider",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs05mre_96_5.png",
+     "scorerId": "05mre",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "015",
+     "posShortNames": "SP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Injured List - 60-day IL - Elbow",
+       "typeId": "2"
+      },
+      {
+       "tooltip": "Aug 28, 4:43 PM: Strider (elbow) is not expected to...",
+       "typeId": "8"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10150",
+     "name": "Spencer Strider",
+     "teamShortName": "ATL",
+     "shortName": "S. Strider"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "fz2tg4wzmlgv76t0",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Dr Andrews Will See You Now",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "m84gn4f4mgdm460z"
+     },
+     {
+      "align": "LEFT",
+      "content": "Metropolitans",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "ukiajd5dmgdm460u"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Texas Rangers",
+     "urlName": "josh-jung",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04y44_96_6.png",
+     "scorerId": "04y44",
+     "posIdsNoFlex": [
+      "004"
+     ],
+     "defaultPosId": "004",
+     "posShortNames": "3B",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Hand - Out Indefinitely",
+       "typeId": "30"
+      },
+      {
+       "tooltip": "Sep 25, 11:23 PM: X-rays revealed a fracture in Jung's...",
+       "typeId": "14"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "004",
+      "006",
+      "014"
+     ],
+     "teamId": "10140",
+     "name": "Josh Jung",
+     "teamShortName": "TEX",
+     "shortName": "J. Jung"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "fz2tg4wzmlgv76t0",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Metropolitans",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "ukiajd5dmgdm460u"
+     },
+     {
+      "align": "LEFT",
+      "content": "Dr Andrews Will See You Now",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "m84gn4f4mgdm460z"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Athletics",
+     "urlName": "tyler-soderstrom",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs05gtn_96_5.png",
+     "scorerId": "05gtn",
+     "posIdsNoFlex": [
+      "002",
+      "012"
+     ],
+     "defaultPosId": "009",
+     "posShortNames": "1B,OF",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Injured List - 60-day IL - Hip",
+       "typeId": "2"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "002",
+      "006",
+      "012",
+      "014"
+     ],
+     "teamId": "10121",
+     "name": "Tyler Soderstrom",
+     "teamShortName": "ATH",
+     "shortName": "T. Soderstrom"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "fz2tg4wzmlgv76t0",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Metropolitans",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "ukiajd5dmgdm460u"
+     },
+     {
+      "align": "LEFT",
+      "content": "Dr Andrews Will See You Now",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "m84gn4f4mgdm460z"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "team": false,
+     "rookie": false,
+     "minorsEligible": false
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "draftPickDisplayParts": {
+     "roundInfo": "Round <b>1</b> (Metropolitans)",
+     "year": "<b>2026</b> Draft Pick"
+    },
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "fz2tg4wzmlgv76t0",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Metropolitans",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "ukiajd5dmgdm460u"
+     },
+     {
+      "align": "LEFT",
+      "content": "Dr Andrews Will See You Now",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "m84gn4f4mgdm460z"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Detroit Tigers",
+     "urlName": "jack-flaherty",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs03d6w_96_14.png",
+     "scorerId": "03d6w",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "015",
+     "posShortNames": "SP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Injured List - 15-day IL - Forearm",
+       "typeId": "2"
+      },
+      {
+       "tooltip": "Sep 22, 4:15 PM: Flaherty (forearm) will be activated...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10080",
+     "name": "Jack Flaherty",
+     "teamShortName": "DET",
+     "shortName": "J. Flaherty"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "numInGroup": 5,
+    "txSetId": "jmavhe6hmilyp5jk",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Brockasauras",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "lqwmepsrmgdm4616"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "content": "0",
+      "rowspan": 5,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tue Dec 2, 2025, 3:00AM",
+      "rowspan": 5,
+      "key": "date"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Chicago Cubs",
+     "urlName": "justin-steele",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs03deg_96_10.png",
+     "scorerId": "03deg",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "015",
+     "posShortNames": "SP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Injured List - 60-day IL - Elbow",
+       "typeId": "2"
+      },
+      {
+       "tooltip": "Sep 24, 1:26 PM: Cubs manager Craig Counsell said...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10200",
+     "name": "Justin Steele",
+     "teamShortName": "CHC",
+     "shortName": "J. Steele"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "jmavhe6hmilyp5jk",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Brockasauras",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "lqwmepsrmgdm4616"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "team": false,
+     "rookie": false,
+     "minorsEligible": false
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "draftPickDisplayParts": {
+     "roundInfo": "Round <b>2</b> (Sabermutrics)",
+     "year": "<b>2026</b> Draft Pick"
+    },
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "jmavhe6hmilyp5jk",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Brockasauras",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "lqwmepsrmgdm4616"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "New York Yankees",
+     "urlName": "max-fried",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs02i2j_96_14.png",
+     "scorerId": "02i2j",
+     "posIdsNoFlex": [
+      "017"
+     ],
+     "defaultPosId": "015",
+     "posShortNames": "SP",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 23, 10:14 AM: Fried (5-5) took the loss in the second...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "017"
+     ],
+     "teamId": "10030",
+     "name": "Max Fried",
+     "teamShortName": "NYY",
+     "shortName": "M. Fried"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "jmavhe6hmilyp5jk",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "align": "LEFT",
+      "content": "Brockasauras",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "lqwmepsrmgdm4616"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Seattle Mariners",
+     "urlName": "randy-arozarena",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs040b5_96_10.png",
+     "scorerId": "040b5",
+     "posIdsNoFlex": [
+      "012"
+     ],
+     "defaultPosId": "009",
+     "posShortNames": "OF",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 24, 2:55 AM: Arozarena went 1-for-3 with two walks,...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "012",
+      "014"
+     ],
+     "teamId": "10130",
+     "name": "Randy Arozarena",
+     "teamShortName": "SEA",
+     "shortName": "R. Arozarena"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "disabled": true,
+    "txSetId": "jmavhe6hmilyp5jk",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "align": "LEFT",
+      "content": "Brockasauras",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "lqwmepsrmgdm4616"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Kansas City Royals",
+     "urlName": "bobby-witt-jr",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04lgp_96_6.png",
+     "scorerId": "04lgp",
+     "posIdsNoFlex": [
+      "005"
+     ],
+     "defaultPosId": "005",
+     "posShortNames": "SS",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 23, 10:53 AM: Witt went 3-for-4 with a double in...",
+       "typeId": "9"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "005",
+      "007",
+      "014"
+     ],
+     "teamId": "10090",
+     "name": "Bobby Witt Jr.",
+     "teamShortName": "KC",
+     "shortName": "B. Witt Jr."
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "numInGroup": 4,
+    "txSetId": "natvufa9mgdntoii",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Sabermutrics",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "mfo4w3xsmgdm4618"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "content": "0",
+      "rowspan": 4,
+      "key": "obj"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tue Oct 7, 2025, 3:00AM",
+      "rowspan": 4,
+      "key": "date"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "team": false,
+     "rookie": false,
+     "minorsEligible": false
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "draftPickDisplayParts": {
+     "roundInfo": "Round <b>1</b> (Sabermutrics)",
+     "year": "<b>2027</b> Draft Pick"
+    },
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "natvufa9mgdntoii",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Sabermutrics",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "mfo4w3xsmgdm4618"
+     },
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Milwaukee Brewers",
+     "urlName": "jackson-chourio",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs05m1e_96_4.png",
+     "scorerId": "05m1e",
+     "posIdsNoFlex": [
+      "012"
+     ],
+     "defaultPosId": "010",
+     "posShortNames": "OF",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Sep 25, 5:55 PM: Chourio isn't in the lineup for...",
+       "typeId": "14"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "012",
+      "014"
+     ],
+     "teamId": "10230",
+     "name": "Jackson Chourio",
+     "teamShortName": "MIL",
+     "shortName": "J. Chourio"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "natvufa9mgdntoii",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "align": "LEFT",
+      "content": "Sabermutrics",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "mfo4w3xsmgdm4618"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   },
+   {
+    "scorer": {
+     "teamName": "Toronto Blue Jays",
+     "urlName": "addison-barger",
+     "headshotUrl": "https://fantraximg.com/si/headshots/MLB/hs04qii_96_4.png",
+     "scorerId": "04qii",
+     "posIdsNoFlex": [
+      "004",
+      "012"
+     ],
+     "defaultPosId": "004",
+     "posShortNames": "3B,OF",
+     "team": false,
+     "icons": [
+      {
+       "tooltip": "Injured List - 60-day IL - Elbow",
+       "typeId": "2"
+      }
+     ],
+     "rookie": false,
+     "minorsEligible": true,
+     "posIds": [
+      "004",
+      "006",
+      "012",
+      "014"
+     ],
+     "teamId": "10050",
+     "name": "Addison Barger",
+     "teamShortName": "TOR",
+     "shortName": "A. Barger"
+    },
+    "resultCode": "EXECUTED",
+    "executed": true,
+    "result": {
+     "content": "Executed"
+    },
+    "txSetId": "natvufa9mgdntoii",
+    "feesUsed": false,
+    "deleted": false,
+    "cells": [
+     {
+      "align": "LEFT",
+      "content": "Tradezilla",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "from",
+      "teamId": "aqg1e3nlmgdm4615"
+     },
+     {
+      "align": "LEFT",
+      "content": "Sabermutrics",
+      "leagueId": "p3z8zy75mgdm460o",
+      "key": "to",
+      "teamId": "mfo4w3xsmgdm4618"
+     },
+     {
+      "content": "1",
+      "key": "week"
+     }
+    ],
+    "undoButton": true
+   }
+  ]
+ }
+}
