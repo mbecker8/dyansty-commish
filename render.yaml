@@ -6,7 +6,7 @@ services:
     runtime: python
     plan: free
     buildCommand: ./bin/render-build.sh
-    startCommand: uv run --no-dev gunicorn config.wsgi:application
+    startCommand: uv run --frozen --no-dev gunicorn config.wsgi:application
     healthCheckPath: /healthz
     envVars:
       - key: PYTHON_VERSION

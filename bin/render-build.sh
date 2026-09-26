@@ -3,5 +3,5 @@
 set -o errexit
 pip install uv
 uv sync --frozen --no-dev
-uv run --no-dev python manage.py collectstatic --no-input
-uv run --no-dev python manage.py migrate --no-input
+uv run --frozen --no-dev python manage.py collectstatic --no-input
+uv run --frozen --no-dev python manage.py migrate --no-input
