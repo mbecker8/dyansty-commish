@@ -118,7 +118,7 @@ done by hand outside Fantrax: contracts, buyouts, the farm system, and the aucti
     managers, but nothing locks automatically.</li>
   <li><strong>Watch the teams table</strong>: status, new contracts, buyouts, contract count, budget left and any problems.
     <em>Review / edit</em> opens a team's page. Changing another team's decisions needs a note, which goes in the audit log.
-    You can edit a team even after it has submitted.</li>
+    You can edit a team even after it has submitted. If your edit leaves problems, it goes back to a draft and the team has to resubmit.</li>
   <li><strong>Lock signing</strong> when every team is ready. Locking applies every team's saved decisions in one go:
     new contracts (signed {{ league_season }}), buyouts (dropped in {{ league_season }}), farm keeps (salary bumped for
     {{ next_season }}) and releases. It's refused if any team has a problem or an undecided farm player. A team that
@@ -133,7 +133,7 @@ done by hand outside Fantrax: contracts, buyouts, the farm system, and the aucti
   <li><strong>Missed-IP penalties</strong>: Admin → Budget adjustments, kind “Missed IP penalty”, the season it's charged to, and a note (e.g. the week).</li>
   <li><strong>Farm pick trades</strong>: Admin → Farm picks, then change the owner.</li>
   <li><strong>Buyouts</strong> are normally created by accepting a <em>dropped</em> item or at signing. The drop season must be before the contract's final year.</li>
-  <li><strong>Missing salary</strong>: a roster player with no end-of-season salary can't be signed. Set it in Admin → Roster entries.</li>
+  <li><strong>Missing salary</strong>: a roster player with no end-of-season salary can't be signed. Set it in Admin → Roster entries. Once signing opens, only a missing salary can be filled in; set ones are fixed, so a team's submitted prices can't change under it.</li>
 </ul>
 
 <h3>Command line (on the machine that runs the site)</h3>

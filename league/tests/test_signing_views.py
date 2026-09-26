@@ -211,8 +211,9 @@ def test_admin_changes_are_audited(ready, commish):
             "fantrax_tx_id": trade.fantrax_tx_id,
         },
     )
-    entry = AuditEntry.objects.get(action="Admin: changed cash trade")
-    assert "amount" in entry.detail
+    entries = AuditEntry.objects.filter(action="Admin: changed cash trade")
+    assert {e.team_id for e in entries} == {trade.from_team_id, trade.to_team_id}
+    assert all("amount" in e.detail for e in entries)
 
 
 @pytest.mark.parametrize("name", ["budgets", "contracts", "buyouts", "farm", "picks", "cash"])
@@ -249,3 +250,45 @@ def test_team_pages_say_auction_budget_once_locked(opened, mb):
         html = mb.get(url).content
         assert b"Left before signings" not in html and b"Auction budget" in html
     assert b"Signing is locked" in mb.get("/signing/MB/").content
+
+
+def test_save_after_lock_is_refused(opened, mb):
+    """A request that passed the view's open check just before the lock re-checks under the row lock."""
+    from django.test import RequestFactory
+
+    from league import signing_views
+
+    for t in Team.objects.all():
+        sub = Submission.objects.create(period=SigningPeriod.objects.get(season=SEASON), team=t)
+        signing.save_plan(sub, signing.Plan(farm={f.pk: True for f in signing.farm_candidates(t, SEASON)}))
+    signing.lock_period(SEASON, None)
+    request = RequestFactory().post("/signing/MB/", form_for("MB", signings=[(signable("MB")[0], 1)], action="save"))
+    request.user = User.objects.get(username="discord-100")
+    _, text = signing_views._apply_post(request, Team.objects.get(code="MB"), False, "")
+    assert "isn't open" in text
+    assert not submission("MB").signings.exists()
+
+
+def test_commissioner_edit_that_breaks_a_submission_makes_it_a_draft(opened, mb, commish):
+    mb.post("/signing/MB/", form_for("MB", action="submit"))
+    assert submission("MB").status == "submitted"
+    commish.post("/signing/MB/", form_for("MB", farm=None, action="save", note="dropping farm calls"))
+    assert submission("MB").status == "draft"
+    assert AuditEntry.objects.filter(action="Signing submission back to draft", team__code="MB").exists()
+
+
+def test_withdrawing_a_draft_says_so(opened, mb):
+    mb.post("/signing/MB/", form_for("MB", action="save"))
+    response = mb.post("/signing/MB/", {"action": "withdraw"}, follow=True)
+    assert b"already a draft" in response.content
+
+
+def test_roster_salary_is_locked_once_signing_opens(opened, commish):
+    from league.models import RosterEntry
+
+    entry = RosterEntry.objects.exclude(salary=None).first()
+    page = commish.get(f"/admin/league/rosterentry/{entry.pk}/change/").content.decode()
+    assert 'name="salary"' not in page
+    RosterEntry.objects.filter(pk=entry.pk).update(salary=None)
+    page = commish.get(f"/admin/league/rosterentry/{entry.pk}/change/").content.decode()
+    assert 'name="salary"' in page

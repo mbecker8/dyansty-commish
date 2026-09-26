@@ -266,3 +266,17 @@ def test_panel_lines_add_up(opened):
         ev.committed.remaining - ev.new_contract_total + ev.freed - ev.new_penalties - ev.farm_cost
         == ev.budget.remaining
     )
+
+
+def test_sync_links_an_unlinked_sheet_player_instead_of_duplicating_him():
+    from league.models import Player
+
+    call_command("import_league", verbosity=0)
+    contract = Contract.live.filter(player__fantrax_id__isnull=False, team__code="MB").first()
+    fid, name = contract.player.fantrax_id, contract.player.name
+    Player.objects.filter(pk=contract.player_id).update(fantrax_id=None)  # as if the import couldn't link him
+    call_command("sync_rosters", verbosity=0)
+    assert Player.objects.filter(name=name).count() == 1
+    assert Player.objects.get(pk=contract.player_id).fantrax_id == fid
+    p = next(p for p in signing.pool(team(), SEASON) if p.player.pk == contract.player_id)
+    assert not p.can_sign

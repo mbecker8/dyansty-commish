@@ -7,6 +7,7 @@ import csv
 
 from django.conf import settings
 from django.contrib import messages
+from django.db import transaction
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
@@ -22,6 +23,7 @@ from league.models import (
     FarmPick,
     FarmPlayer,
     RosterEntry,
+    SigningPeriod,
     Submission,
     Team,
     audit,
@@ -80,6 +82,47 @@ def _decision_rows(ev):
     }
 
 
+@transaction.atomic
+def _apply_post(request, team, commish, note):
+    """Save, submit or withdraw, holding the period row so a lock can't interleave. Returns a message."""
+    period = SigningPeriod.objects.select_for_update().get(season=season())
+    if period.status != period.Status.OPEN:
+        return messages.ERROR, "Signing isn't open any more. Nothing was saved."
+    submission, _ = Submission.objects.select_for_update().get_or_create(period=period, team=team)
+    submitted = submission.status == Submission.Status.SUBMITTED
+    action = request.POST.get("action")
+    if action == "withdraw":
+        if not submitted:
+            return messages.INFO, "That's already a draft."
+        submission.status = Submission.Status.DRAFT
+        submission.save(update_fields=["status", "updated_at"])
+        audit(request.user, "Withdrew signing submission", team=team, note=note)
+        return messages.SUCCESS, "Back to a draft. Submit again when you're done."
+    if action not in ("save", "submit"):
+        return messages.ERROR, "Unknown action. Nothing was saved."
+    if submitted and not commish:
+        return messages.ERROR, "Your decisions are submitted. Withdraw the submission to change them."
+    ev = signing.evaluate(team, season(), signing.plan_from_form(request.POST))
+    signing.save_plan(submission, ev.plan)
+    audit(request.user, "Saved signing decisions", signing.describe(ev), team=team, note=note)
+    if submitted and not ev.complete:
+        # A commissioner's edit broke a submitted plan: it's a draft again, so it shows as not ready.
+        submission.status = Submission.Status.DRAFT
+        submission.save(update_fields=["status", "updated_at"])
+        audit(request.user, "Signing submission back to draft", "Edited plan has problems", team=team, note=note)
+        return messages.ERROR, "Saved, but it has problems, so it's back to a draft (the team needs to resubmit)."
+    if action == "submit" and not submitted:
+        if not ev.complete:
+            return messages.ERROR, "Saved as a draft, but not submitted: fix the problems listed first."
+        submission.status = Submission.Status.SUBMITTED
+        submission.submitted_at = timezone.now()
+        submission.submitted_by = request.user
+        submission.save(update_fields=["status", "submitted_at", "submitted_by", "updated_at"])
+        audit(request.user, "Submitted signing", signing.describe(ev), team=team, note=note)
+        return messages.SUCCESS, "Submitted. The commissioner will review it before signing locks."
+    return messages.SUCCESS, "Saved." if submitted else "Draft saved."
+
+
 @member_required
 def signing_team(request, code):
     team, own, denied = _signing_access(request, code)
@@ -95,36 +138,12 @@ def signing_team(request, code):
     for_other = not own  # a commissioner changing someone else's team
 
     if request.method == "POST":
-        action = request.POST.get("action")
         note = request.POST.get("note", "").strip()
         if for_other and not note:
             messages.error(request, "Add a note saying why you're changing this team's decisions. Nothing was saved.")
-            return redirect("signing", code=team.code)
-        if action == "withdraw" and submitted:
-            submission.status = Submission.Status.DRAFT
-            submission.save(update_fields=["status", "updated_at"])
-            audit(request.user, "Withdrew signing submission", team=team, note=note)
-            messages.success(request, "Back to a draft. Submit again when you're done.")
-            return redirect("signing", code=team.code)
-        if action not in ("save", "submit") or not editable:
-            messages.error(request, "Your decisions are submitted. Withdraw the submission to change them.")
-            return redirect("signing", code=team.code)
-        ev = signing.evaluate(team, season(), signing.plan_from_form(request.POST))
-        submission = submission or Submission.objects.create(period=period, team=team)
-        signing.save_plan(submission, ev.plan)
-        audit(request.user, "Saved signing decisions", signing.describe(ev), team=team, note=note)
-        if action == "submit":
-            if ev.complete:
-                submission.status = Submission.Status.SUBMITTED
-                submission.submitted_at = timezone.now()
-                submission.submitted_by = request.user
-                submission.save(update_fields=["status", "submitted_at", "submitted_by", "updated_at"])
-                audit(request.user, "Submitted signing", signing.describe(ev), team=team, note=note)
-                messages.success(request, "Submitted. The commissioner will review it before signing locks.")
-            else:
-                messages.error(request, "Saved as a draft, but not submitted: fix the problems listed first.")
         else:
-            messages.success(request, "Draft saved.")
+            level, text = _apply_post(request, team, commish, note)
+            messages.add_message(request, level, text)
         return redirect("signing", code=team.code)
 
     ev = signing.evaluate(team, season(), signing.plan_from_submission(submission))

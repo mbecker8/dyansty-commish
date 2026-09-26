@@ -5,11 +5,12 @@ from django.db import DatabaseError
 from league import models
 
 
-def _team_of(obj):
+def _teams_of(obj) -> list:
+    """Every team an object belongs to (a cash trade has two), so the audit log's team filter finds it."""
     if isinstance(obj, models.Team):
-        return obj
-    team = getattr(obj, "team", None)
-    return team if isinstance(team, models.Team) else None
+        return [obj]
+    teams = [getattr(obj, f, None) for f in ("team", "from_team", "to_team", "owner", "original_team")]
+    return list(dict.fromkeys(t for t in teams if isinstance(t, models.Team))) or [None]
 
 
 class AuditedAdmin(admin.ModelAdmin):
@@ -19,18 +20,21 @@ class AuditedAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
         verb = "changed" if change else "added"
         fields = f" ({', '.join(form.changed_data)})" if change and form.changed_data else ""
-        models.audit(request.user, f"Admin: {verb} {self.opts.verbose_name}", f"{obj}{fields}", team=_team_of(obj))
+        for team in _teams_of(obj):
+            models.audit(request.user, f"Admin: {verb} {self.opts.verbose_name}", f"{obj}{fields}", team=team)
 
     def delete_model(self, request, obj):
-        detail, team = str(obj), _team_of(obj)
+        detail, teams = str(obj), _teams_of(obj)
         super().delete_model(request, obj)
-        models.audit(request.user, f"Admin: deleted {self.opts.verbose_name}", detail, team=team)
+        for team in teams:
+            models.audit(request.user, f"Admin: deleted {self.opts.verbose_name}", detail, team=team)
 
     def delete_queryset(self, request, queryset):
-        gone = [(str(o), _team_of(o)) for o in queryset]
+        gone = [(str(o), _teams_of(o)) for o in queryset]
         super().delete_queryset(request, queryset)
-        for detail, team in gone:
-            models.audit(request.user, f"Admin: deleted {self.opts.verbose_name}", detail, team=team)
+        for detail, teams in gone:
+            for team in teams:
+                models.audit(request.user, f"Admin: deleted {self.opts.verbose_name}", detail, team=team)
 
 
 @admin.register(models.Team)
@@ -78,12 +82,26 @@ admin.site.register([models.TeamAlias, models.FarmPick, models.CashTrade, models
 
 @admin.register(models.RosterEntry)
 class RosterEntryAdmin(AuditedAdmin):
-    """Loaded by `sync_rosters`. Edit a salary here if the season-end snapshot is missing one."""
+    """Loaded by `sync_rosters`. Fill in a salary here if the season-end snapshot is missing one.
+
+    While signing is open, only a missing salary can be set: changing one would silently
+    reprice a contract a team may already have submitted.
+    """
 
     list_display = ["player", "team", "season", "salary", "status"]
     list_filter = ["season", "team", "status"]
     search_fields = ["player__name"]
     raw_id_fields = ["player"]
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj is None:
+            return []
+        period = models.SigningPeriod.objects.filter(season=obj.season).first()
+        if period and period.status != models.SigningPeriod.Status.PLANNED:
+            fields = ["season", "team", "player", "status"]
+            can_fill = obj.salary is None and period.status == models.SigningPeriod.Status.OPEN
+            return fields if can_fill else [*fields, "salary"]
+        return []
 
 
 @admin.register(models.SigningPeriod)

@@ -11,7 +11,7 @@ from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 
-from league.fantrax_data import Snapshot
+from league.fantrax_data import Snapshot, normalize_name
 from league.models import Contract, Player, RosterEntry, SigningPeriod, Team, TeamAlias, audit
 
 SNAPSHOT = str(Path(settings.BASE_DIR) / "data" / "fantrax" / "2026-final")
@@ -35,17 +35,36 @@ class Command(BaseCommand):
         rosters, prices = Snapshot(Path(fantrax)), Snapshot(Path(salaries)).salaries()
         teams = self.match_teams(rosters)
         players = {p.fantrax_id: p for p in Player.objects.exclude(fantrax_id=None)}
+        unlinked = {}
+        for p in Player.objects.filter(fantrax_id=None):
+            unlinked.setdefault(normalize_name(p.name), []).append(p)
+        linked = []
         for fp in rosters.players().values():
-            if fp.fantrax_id not in players:
-                players[fp.fantrax_id] = Player.objects.create(
-                    name=fp.name, fantrax_id=fp.fantrax_id, positions=fp.positions
-                )
+            if fp.fantrax_id in players:
+                continue
+            # A sheet player the import couldn't link (e.g. under contract): link him rather than duplicate him.
+            same_name = unlinked.get(normalize_name(fp.name), [])
+            if len(same_name) == 1:
+                player = same_name.pop()
+                player.fantrax_id, player.positions = fp.fantrax_id, fp.positions
+                player.save(update_fields=["fantrax_id", "positions"])
+                linked.append(player.name)
+            else:
+                player = Player.objects.create(name=fp.name, fantrax_id=fp.fantrax_id, positions=fp.positions)
+            players[fp.fantrax_id] = player
         RosterEntry.objects.filter(season=season).delete()
-        entries = []
+        entries, skipped = [], []
         for fid, end in rosters.end_states().items():
+            if fid not in players:
+                skipped.append(fid)  # a roster row with no player name
+                continue
             entries.append(
                 RosterEntry(
-                    season=season, team=teams[end.team], player=players[fid], salary=prices.get(fid), status=end.status
+                    season=season,
+                    team=teams[end.team],
+                    player=players[fid],
+                    salary=prices.get(fid),
+                    status=end.status or "",
                 )
             )
         RosterEntry.objects.bulk_create(entries)
@@ -57,6 +76,10 @@ class Command(BaseCommand):
         )
         if options["verbosity"]:
             self.stdout.write(f"Loaded {len(entries)} roster spots for the signing after {season}.")
+            if linked:
+                self.stdout.write(f"Linked to their Fantrax IDs by name: {', '.join(sorted(linked))}")
+            if skipped:
+                self.stdout.write(f"Skipped roster rows with no player name: {', '.join(skipped)}")
             if missing:
                 self.stdout.write(f"No end-of-season salary (not signable until fixed): {', '.join(missing)}")
             for line in self.contract_problems(season):
