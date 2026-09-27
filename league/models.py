@@ -195,10 +195,8 @@ class FinalStanding(models.Model):
 
     class Meta:
         ordering = ["-season", "place"]
-        constraints = [
-            models.UniqueConstraint(fields=["season", "team"], name="one_place_per_team"),
-            models.UniqueConstraint(fields=["season", "place"], name="one_team_per_place"),
-        ]
+        # Places aren't unique, so two teams can swap in the admin; the draft order page flags a duplicate.
+        constraints = [models.UniqueConstraint(fields=["season", "team"], name="one_place_per_team")]
 
     def __str__(self):
         return f"{self.season}: {self.place}. {self.team.code}"

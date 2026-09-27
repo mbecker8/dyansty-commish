@@ -131,9 +131,18 @@ where the numbers come from.
 - Static files are served by WhiteNoise (compressed, manifest-hashed).
 - Routes:
   - `/` sends you to your team, or to sign-in.
-  - `/teams/`, `/teams/<code>/`, `/contracts/`, `/buyouts/`, `/farm/`, `/picks/`, `/cash/`, `/export/` and `/help/` are league pages that need sign-in.
+  - `/teams/`, `/teams/<code>/`, `/contracts/`, `/buyouts/`, `/farm/`, `/picks/`, `/picks/order/` (farm draft order), `/cash/`, `/export/` and `/help/` are league pages that need sign-in.
   - `/signing/<code>/` is a team's signing page; `/commish/` and `/commish/audit/` are for commissioners.
   - `/auth/…` is Discord sign-in, `/healthz` is the Render health check, and `/admin/` is the Django admin.
+- **Layout** (`core/templates/base.html`): a left sidebar grouped into League, More and Commissioner, plus
+  breadcrumbs built by `league.context_processors.breadcrumbs` from the URL name.
+- **Grids:** a `<table class="grid">` gets click-to-sort headers and a filter box per column from
+  `core/static/core/grid.js`, which works on the rendered cells, so the page still works without JS. The
+  league-wide Contracts, Buyouts, Farm, Farm picks and Cash tables use it.
+- **Farm draft order:** `FinalStanding` (season, team, place) is entered in the admin, and `import_league`
+  seeds it from `data/league/final_standings.json`. Pick numbers (1–28) are computed from the previous
+  season's places by `rules.farm.pick_number`, never stored. Places aren't unique, so two teams can swap
+  in the admin, and the draft order page flags a duplicate.
 - League pages show the *next* auction's committed money (`seasons.current_season()` + 1),
   using `league.budget.team_budget`.
 

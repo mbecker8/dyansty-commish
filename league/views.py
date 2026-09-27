@@ -205,6 +205,7 @@ def draft_order(request):
     picks = FarmPick.objects.filter(year=year).select_related("original_team", "owner", "player")
     standings = FinalStanding.objects.filter(season=year - 1).select_related("team")
     placed = {f.team_id for f in standings}
+    places = [f.place for f in standings]
     return render(
         request,
         "league/draft_order.html",
@@ -214,6 +215,7 @@ def draft_order(request):
             "rows": pick_rows(picks.order_by("round", "original_team__code")),
             "standings": standings.order_by("place"),
             "unplaced": Team.objects.exclude(pk__in=placed),
+            "shared": sorted({p for p in places if places.count(p) > 1}),
         },
     )
 

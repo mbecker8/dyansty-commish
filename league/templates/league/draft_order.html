@@ -9,6 +9,7 @@
 </form>
 <p class="muted">By the {{ year|add:"-1" }} final standings, in this order: 8th, 10th, 12th, 9th, 11th, 13th, 5th, 4th, 6th, 7th, 14th, 3rd, 2nd, 1st. Round 2 repeats it. Bold means the pick was traded.</p>
 {% if unplaced %}<p class="banner-inline">The {{ year|add:"-1" }} final standings aren't complete, so some picks have no number yet. Missing: {% for t in unplaced %}{{ t.code }}{% if not forloop.last %}, {% endif %}{% endfor %}.{% if user.is_staff %} Enter them in <a href="{% url 'admin:league_finalstanding_changelist' %}">Admin → Final standings</a>.{% endif %}</p>{% endif %}
+{% if shared %}<p class="banner-inline">Two teams share {% if shared|length == 1 %}place{% else %}places{% endif %} {{ shared|join:", " }} in the {{ year|add:"-1" }} standings, so their picks have the same number.{% if user.is_staff %} Fix it in <a href="{% url 'admin:league_finalstanding_changelist' %}">Admin → Final standings</a>.{% endif %}</p>{% endif %}
 
 <div class="split">
 <div>
