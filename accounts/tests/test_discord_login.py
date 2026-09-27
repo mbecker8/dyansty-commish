@@ -129,13 +129,15 @@ def test_login_page_says_when_discord_is_not_configured(client, settings):
     assert response.status_code == 200 and b"not configured" in response.content
 
 
-def test_discord_outage_shows_an_error_not_a_crash(client, team):
+def test_discord_outage_shows_an_error_not_a_crash(client, team, caplog):
     from accounts.discord import DiscordError
 
     state = start_login(client)["state"][0]
-    with mock.patch("accounts.discord.fetch_identity", side_effect=DiscordError("down")):
+    with mock.patch("accounts.discord.fetch_identity", side_effect=DiscordError("token exchange failed (401)")):
         response = client.get("/auth/discord/callback", {"code": "abc", "state": state})
     assert response.status_code == 502 and "_auth_user_id" not in client.session
+    # The real reason goes to the server log, so a wrong secret or a rate limit can be told apart.
+    assert "token exchange failed (401)" in caplog.text and "/auth/discord/callback" in caplog.text
 
 
 def sign_in(client, user_id=DISCORD_ID):
