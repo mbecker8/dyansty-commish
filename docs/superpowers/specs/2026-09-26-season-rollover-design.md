@@ -1,6 +1,12 @@
 # Season rollover: advance the league year on draft day
 
-Status: implemented 2026-09-26 (branch season-rollover). The 12-month guard refuses the sync rather than storing an exception. Issue #21. Related: #22 (dry run), #34 (farm draft in
+Status: implemented 2026-09-26 (branch season-rollover). Changes after review:
+- The 12-month guard refuses the sync rather than storing an exception, and once signing is locked the sync
+  also refuses until the next draft day is entered.
+- Budgets freeze in the first sync after the auction start, exactly as of that minute (moves before it are
+  applied first); Start only freezes if no sync did.
+- Dates can't be set into time already synced; a started season can't be deleted; the team page's moves run
+  from draft day to draft day. Issue #21. Related: #22 (dry run), #34 (farm draft in
 the app), #37 (history archive), #48 (Fantrax events).
 
 ## Problem

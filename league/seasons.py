@@ -55,10 +55,17 @@ def farm_draft_at(when: datetime, seasons=None) -> Season | None:
     return None
 
 
+def _draft_day(season: Season) -> datetime:
+    return season.farm_draft_starts_at or season.auction_starts_at
+
+
 def window(season: Season) -> tuple[datetime, datetime | None]:
-    """[auction start, next season's auction start); open-ended until the next one is entered."""
+    """A season's moves on the team page: from its draft day to the next draft day (open until entered).
+
+    Starts at the farm draft, not the auction, so the picks made for a season are listed with it.
+    """
     following = Season.objects.filter(year=season.year + 1).first()
-    return season.auction_starts_at, following.auction_starts_at if following else None
+    return _draft_day(season), _draft_day(following) if following else None
 
 
 # --- rollover -------------------------------------------------------------------
@@ -74,22 +81,66 @@ def _when(t) -> str:
 
 @transaction.atomic
 def set_dates(farm_draft_starts_at, auction_starts_at, user) -> Season:
-    """Enter the next season's farm draft and auction start. Allowed until that season starts."""
+    """Enter the next season's farm draft and auction start, before anything from draft day is synced.
+
+    A move is processed once, so dates can't be set (or moved) into time the sync has already
+    covered: the moves there would stay filed the old way.
+    """
     now = current()
-    if auction_starts_at <= now.auction_starts_at:
-        raise RolloverError(f"The {now.year + 1} auction starts after the {now.year} one")
-    if farm_draft_starts_at and farm_draft_starts_at >= auction_starts_at:
+    if farm_draft_starts_at is None or auction_starts_at is None:
+        raise RolloverError("Enter both the farm draft start and the auction start")
+    if farm_draft_starts_at <= now.auction_starts_at:
+        raise RolloverError(f"The {now.year + 1} farm draft starts after the {now.year} auction")
+    if farm_draft_starts_at >= auction_starts_at:
         raise RolloverError("The farm draft starts before the auction")
-    season, _ = Season.objects.select_for_update().get_or_create(
+    season, created = Season.objects.select_for_update().get_or_create(
         year=now.year + 1, defaults={"auction_starts_at": auction_starts_at}
     )
     if season.started_at:
         raise RolloverError(f"The {season.year} season has started; change its dates in the admin")
+    synced = FantraxEvent.objects.aggregate(t=Max("happened_at"))["t"]
+    earliest = min([farm_draft_starts_at] + ([] if created else [_draft_day(season)]))
+    if synced and earliest <= synced:
+        raise RolloverError(
+            f"Fantrax is synced up to {_when(synced)}, so draft day can't start before then: moves already "
+            "synced wouldn't be re-read"
+        )
     season.farm_draft_starts_at, season.auction_starts_at = farm_draft_starts_at, auction_starts_at
     season.save(update_fields=["farm_draft_starts_at", "auction_starts_at"])
     detail = f"{season.year}: farm draft {_when(farm_draft_starts_at)}, auction {_when(auction_starts_at)}"
     audit(user, "Set season dates", detail)
     return season
+
+
+def freeze_budgets(year: int, as_of: datetime) -> int:
+    """Store every team's `year` auction budget as it stands now, dated `as_of`. Returns the team count."""
+    teams = list(Team.objects.all())
+    for team in teams:
+        b = team_budget(team, year)
+        SeasonBudget.objects.create(
+            season=year,
+            team=team,
+            base=b.base,
+            contracts=b.contracts,
+            buyouts=b.buyouts,
+            farm=b.farm,
+            missed_ip=b.missed_ip,
+            cash_net=b.cash_net,
+            remaining=b.remaining,
+            frozen_at=as_of,
+        )
+    return len(teams)
+
+
+def budgets_due(now: datetime) -> Season | None:
+    """The next season, when a sync should freeze its budgets: auction started, signing locked, not frozen yet."""
+    year = current_season()
+    nxt = Season.objects.filter(year=year + 1, started_at=None, auction_starts_at__lte=now).first()
+    period = SigningPeriod.objects.filter(season=year).first()
+    locked = period and period.status == SigningPeriod.Status.LOCKED
+    if nxt and locked and not SeasonBudget.objects.filter(season=nxt.year).exists():
+        return nxt
+    return None
 
 
 def checklist(now=None) -> list[Check]:
@@ -121,26 +172,15 @@ def start(year: int, user) -> Season:
     if missing := [c.label for c in checklist() if not c.ok]:
         raise RolloverError("Not ready: " + "; ".join(missing))
     now, teams = timezone.now(), list(Team.objects.all())
-    for team in teams:
-        b = team_budget(team, year)
-        SeasonBudget.objects.create(
-            season=year,
-            team=team,
-            base=b.base,
-            contracts=b.contracts,
-            buyouts=b.buyouts,
-            farm=b.farm,
-            missed_ip=b.missed_ip,
-            cash_net=b.cash_net,
-            remaining=b.remaining,
-            frozen_at=now,
-        )
+    # Normally the first sync after the auction start froze them, as of that minute.
+    froze = ""
+    if not SeasonBudget.objects.filter(season=year).exists():
+        froze = f"froze {freeze_budgets(year, now)} auction budgets, "
     pick_year = (FarmPick.objects.aggregate(y=Max("year"))["y"] or year) + 1
     FarmPick.objects.bulk_create(
         FarmPick(year=pick_year, round=r, original_team=t, owner=t) for t in teams for r in FARM_ROUNDS
     )
     season.started_at, season.started_by = now, user if user and user.is_authenticated else None
     season.save(update_fields=["started_at", "started_by"])
-    detail = f"The {year} season: froze {len(teams)} auction budgets, added {pick_year} farm picks"
-    audit(user, "Started season", detail)
+    audit(user, "Started season", f"The {year} season: {froze}added {pick_year} farm picks")
     return season

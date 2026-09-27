@@ -133,6 +133,20 @@ class SeasonAdmin(AuditedAdmin):
 
     list_display = ["year", "farm_draft_starts_at", "auction_starts_at", "started_at"]
     readonly_fields = ["started_at", "started_by"]
+    fieldsets = [
+        (
+            None,
+            {
+                "fields": ["year", "farm_draft_starts_at", "auction_starts_at", "started_at", "started_by"],
+                "description": "Changing a date doesn't re-read moves already synced: a move near the old date "
+                "stays in the season (and farm draft) it was filed under. Fix those by hand.",
+            },
+        )
+    ]
+
+    def has_delete_permission(self, request, obj=None):
+        # The current season is the latest started one; deleting it would leave the league without one.
+        return super().has_delete_permission(request, obj) and not (obj and obj.started_at)
 
 
 @admin.register(models.SeasonBudget)

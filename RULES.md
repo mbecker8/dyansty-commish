@@ -83,14 +83,17 @@ the rulebook, including decisions the rulebook doesn't spell out.
   flagged for a manual check rather than decided.
 - **Budget:** base $400 − contracts − buyout penalties − farm − missed-IP
   penalties ± cash trades.
-- **Rollover** (#21): the commissioner enters the next season's farm draft
-  and auction start on the console. The farm draft and auction run in
-  Fantrax; then the commissioner syncs and presses **Start the season**. That
-  needs signing locked, the auction start passed, a sync since it and no open
-  exceptions. Starting freezes each team's auction budget (only for that
-  auction; it's never recomputed) and adds the next year of farm picks, two
-  rounds per team, keeping a four-year horizon (2031 in 2027). Contracts
-  expire and buyouts carry forward by their years; nothing else changes.
+- **Rollover** (#21): once signing locks, the commissioner enters the next
+  season's farm draft and auction start on the console; the sync refuses to
+  run until they are, and they can't be set into time already synced. The
+  farm draft and auction run in Fantrax. The first sync after the auction
+  start **freezes each team's auction budget as of that minute**: moves
+  before it count, later ones don't. It's only for that auction and never
+  recomputed. The commissioner then presses **Start the season** (signing
+  locked, auction start passed, a sync since it, no open exceptions), which
+  advances the season and adds the next year of farm picks, two rounds per
+  team, keeping a four-year horizon (2031 in 2027). Contracts expire and
+  buyouts carry forward by their years; nothing else changes.
 - **Validation:** ≤10 contracts at signing (retained farm excluded), only
   signable players, etc.
 - **Signing period** (built in M4; the calls below confirmed by the

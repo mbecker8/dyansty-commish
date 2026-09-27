@@ -389,3 +389,52 @@ def test_draft_pick_not_yet_in_minors_is_not_promoted(draft):
     )
     sync([(league, snap)])
     assert FarmPlayer.objects.get(player__fantrax_id="p7").status == FarmPlayer.Status.ACTIVE
+
+
+def test_draft_links_a_sheet_player_without_a_fantrax_id(draft):
+    league, proc, a, b = draft
+    sheet = Player.objects.create(name="Rook")
+    proc.apply_move(in_draft("p7", "ta"))
+    sheet.refresh_from_db()
+    assert sheet.fantrax_id == "p7" and FarmPlayer.objects.get(player=sheet).salary == 1
+
+
+# --- after signing locks, draft day is next ---------------------------------------
+
+
+def lock_2026():
+    SigningPeriod.objects.create(season=2026, status="locked", locked_at=datetime(2026, 7, 1, tzinfo=EASTERN))
+
+
+def test_sync_after_the_lock_needs_draft_day_entered(world):
+    league, *_ = world
+    lock_2026()
+    snap = FakeSnapshot({"p1": EndState("ta", "Active", 0), "p2": EndState("ta", "Minors", 0)})
+    with pytest.raises(SeasonMissing, match="enter the 2027 farm draft"):
+        sync([(league, snap)])
+
+
+def test_sync_freezes_budgets_as_of_the_auction_start(world):
+    """A drop after the auction start doesn't reach the frozen budget; the one sync applies both sides."""
+    from league.budget import team_budget
+    from league.models import SeasonBudget
+
+    league, proc, a, b, c, f = world
+    lock_2026()
+    Season.objects.create(  # draft day already past on the real clock
+        year=2027,
+        farm_draft_starts_at=datetime(2026, 7, 15, tzinfo=EASTERN),
+        auction_starts_at=datetime(2026, 7, 20, 19, 0, tzinfo=EASTERN),
+    )
+    at_auction = team_budget(a, 2027)
+    snap = FakeSnapshot(
+        {"p2": EndState("ta", "Minors", 0)},
+        moves_=[at("DROP", "p1", "ta", when=datetime(2026, 7, 25, tzinfo=EASTERN))],
+    )
+    result = sync([(league, snap)])
+    frozen = SeasonBudget.objects.get(season=2027, team=a)
+    assert (result.froze, frozen.contracts, frozen.remaining) == (2027, at_auction.contracts, at_auction.remaining)
+    assert frozen.frozen_at == datetime(2026, 7, 20, 19, 0, tzinfo=EASTERN)
+    assert Buyout.objects.get(contract=c).dropped_in_season == 2027
+    assert team_budget(a, 2027).contracts < at_auction.contracts
+    assert sync([(league, snap)]).froze is None  # only once

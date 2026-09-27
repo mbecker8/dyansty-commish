@@ -51,10 +51,10 @@ def test_farm_draft_window_ends_at_the_auction():
     assert seasons.farm_draft_at(datetime(2026, 7, 1, tzinfo=EASTERN)) is None  # 2026 has no window
 
 
-def test_window_runs_to_the_next_auction():
+def test_window_runs_from_draft_day_to_draft_day():
     s27 = add_2027()
-    assert seasons.window(Season.objects.get(year=2026)) == (AUCTION_2026, s27.auction_starts_at)
-    assert seasons.window(s27) == (s27.auction_starts_at, None)
+    assert seasons.window(Season.objects.get(year=2026)) == (AUCTION_2026, s27.farm_draft_starts_at)
+    assert seasons.window(s27) == (s27.farm_draft_starts_at, None)
 
 
 # --- rollover -------------------------------------------------------------------
@@ -72,7 +72,11 @@ def ready_to_start():
     The checklist compares with the real clock, so the "2027" draft day is set in the past (mid-2026).
     """
     SigningPeriod.objects.create(season=2026, status="locked", locked_at=datetime(2026, 5, 1, tzinfo=EASTERN))
-    seasons.set_dates(datetime(2026, 5, 20, tzinfo=EASTERN), datetime(2026, 6, 1, 19, 0, tzinfo=EASTERN), None)
+    Season.objects.create(
+        year=2027,
+        farm_draft_starts_at=datetime(2026, 5, 20, tzinfo=EASTERN),
+        auction_starts_at=datetime(2026, 6, 1, 19, 0, tzinfo=EASTERN),
+    )
     AuditEntry.objects.create(action="Synced Fantrax")  # `at` is now, after that auction start
 
 
@@ -81,8 +85,19 @@ def test_set_dates_creates_the_next_season_and_checks_order():
         seasons.set_dates(None, datetime(2026, 1, 1, tzinfo=EASTERN), None)
     with pytest.raises(seasons.RolloverError):
         seasons.set_dates(datetime(2027, 3, 1, tzinfo=EASTERN), datetime(2027, 2, 24, tzinfo=EASTERN), None)
-    s = seasons.set_dates(None, datetime(2027, 2, 24, 19, 0, tzinfo=EASTERN), None)
+    with pytest.raises(seasons.RolloverError, match="after the 2026 auction"):  # a typo'd year
+        seasons.set_dates(datetime(2026, 2, 20, tzinfo=EASTERN), datetime(2027, 2, 24, tzinfo=EASTERN), None)
+    s = seasons.set_dates(
+        datetime(2027, 2, 20, 18, 0, tzinfo=EASTERN), datetime(2027, 2, 24, 19, 0, tzinfo=EASTERN), None
+    )
     assert (s.year, s.started_at, seasons.upcoming()) == (2027, None, s)
+
+
+def test_set_dates_refuses_time_already_synced(league_2026):
+    # settle_2026 synced up to now, so draft day can't be moved into the past.
+    with pytest.raises(seasons.RolloverError, match="synced up to"):
+        seasons.set_dates(datetime(2026, 5, 20, tzinfo=EASTERN), datetime(2027, 2, 24, 19, 0, tzinfo=EASTERN), None)
+    assert seasons.set_dates(datetime(2099, 2, 20, tzinfo=EASTERN), datetime(2099, 2, 24, tzinfo=EASTERN), None)
 
 
 def test_checklist_lists_what_is_missing(league_2026):
@@ -92,7 +107,7 @@ def test_checklist_lists_what_is_missing(league_2026):
 
 
 def test_start_is_refused_until_ready(league_2026):
-    seasons.set_dates(None, datetime(2027, 2, 24, 19, 0, tzinfo=EASTERN), None)
+    add_2027()
     with pytest.raises(seasons.RolloverError, match="Signing after 2026 is locked"):
         seasons.start(2027, None)
     assert seasons.current_season() == 2026
@@ -140,3 +155,23 @@ def test_a_farm_draft_pick_is_in_the_frozen_budget(league_2026):
     assert proc.apply_move(claim).effect == "FARM_DRAFTED"
     seasons.start(2027, None)
     assert SeasonBudget.objects.get(season=2027, team=team).farm == before + 1
+
+
+def test_start_keeps_budgets_a_sync_froze(league_2026):
+    ready_to_start()
+    team = Team.objects.first()
+    seasons.freeze_budgets(2027, datetime(2026, 6, 1, 19, 0, tzinfo=EASTERN))
+    SeasonBudget.objects.filter(team=team).update(remaining=1)
+    seasons.start(2027, None)
+    assert SeasonBudget.objects.get(team=team).remaining == 1
+
+
+def test_a_started_season_cannot_be_deleted_in_the_admin(rf):
+    from django.contrib import admin
+    from django.contrib.auth.models import User
+
+    request = rf.get("/")
+    request.user = User(is_staff=True, is_superuser=True)
+    site_admin = admin.site._registry[Season]
+    assert not site_admin.has_delete_permission(request, Season.objects.get(year=2026))
+    assert site_admin.has_delete_permission(request, add_2027())

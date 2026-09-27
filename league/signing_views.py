@@ -265,8 +265,8 @@ def console(request):
             "roster_count": RosterEntry.objects.filter(season=s).count(),
             "missing_salaries": RosterEntry.objects.filter(season=s, salary=None).select_related("player", "team"),
             "next_year": s + 1,
-            "upcoming": seasons.upcoming(),
-            "checklist": seasons.checklist(),
+            "upcoming": (upcoming := seasons.upcoming()),
+            "checklist": seasons.checklist() if upcoming else [],
         },
     )
 

@@ -197,13 +197,18 @@ where the numbers come from.
 
 - **Models:** `Season` (year, farm draft start, auction start, started at/by) replaces the old
   `LEAGUE_SEASON` setting; a migration seeds 2026. `SeasonBudget` is each team's auction budget,
-  frozen when its season starts and never recomputed.
+  frozen as of the auction start and never recomputed. A started season can't be deleted.
 - **`league/seasons.py`:** `current_season()` (the latest started season), `season_at(when)`,
-  `farm_draft_at(when)`, `window(season)`, and the rollover: `set_dates`, `checklist` and
-  `start(year, user)`. `start` locks the `Season` row, re-checks the checklist, freezes every
-  team's `team_budget(team, year)`, adds the next year of farm picks and audits it.
+  `farm_draft_at(when)`, `window(season)` (draft day to draft day, for the team page), and the
+  rollover: `set_dates` (refuses dates in time already synced), `budgets_due`/`freeze_budgets`,
+  `checklist` and `start(year, user)`.
+- **Freeze in the sync:** `events.check_seasons` refuses a sync once signing is locked and the
+  next draft day isn't entered. When `budgets_due`, the sync applies every move before the auction
+  start, freezes the budgets (`frozen_at` = the auction start), then applies the rest.
+- **Start** locks the `Season` row, re-checks the checklist, freezes the budgets only if no sync
+  did, adds the next year of farm picks and audits it.
 - **Console:** a season section to enter dates, see the checklist and start the season. The team
-  page shows the frozen budget, and its moves list covers the current season's date window.
+  page shows the frozen budget.
 
 ### Sign-in and permissions
 
