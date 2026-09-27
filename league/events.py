@@ -20,6 +20,7 @@ from league.models import (
     Contract,
     FantraxEvent,
     FantraxLeague,
+    FantraxTeam,
     FarmPick,
     FarmPlayer,
     Player,
@@ -43,6 +44,12 @@ class SeasonMissing(Exception):
 
 
 SEASON_LENGTH = timedelta(days=365)
+
+
+def record_team_ids(league, teams: dict[str, Team]) -> None:
+    """Remember each team's ID in this league, for links to its Fantrax roster."""
+    for fantrax_team_id, team in teams.items():
+        FantraxTeam.objects.update_or_create(league=league, team=team, defaults={"fantrax_team_id": fantrax_team_id})
 
 
 def match_teams(snapshot) -> dict[str, Team]:
@@ -473,6 +480,8 @@ def _sync_once(sources, user, source_label, dry_run) -> SyncResult:
             (Processor(lg, match_teams(snap), {fid: p.name for fid, p in snap.players().items()}, known), snap, moves)
             for lg, snap, moves in sources_moves
         ]
+        for proc, _, _ in procs:
+            record_team_ids(proc.league, proc.teams)
         # The next auction's budgets are frozen as of its start: moves before it count, later ones don't.
         due = seasons.budgets_due(now)
         cutoff = due.auction_starts_at if due else None

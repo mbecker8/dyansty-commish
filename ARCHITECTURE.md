@@ -139,6 +139,9 @@ where the numbers come from.
 - **Grids:** a `<table class="grid">` gets click-to-sort headers and a filter box per column from
   `core/static/core/grid.js`, which works on the rendered cells, so the page still works without JS. The
   league-wide Contracts, Buyouts, Farm, Farm picks and Cash tables use it.
+- **Fantrax roster links:** `FantraxTeam` holds each team's ID per Fantrax league, because renewal gives
+  every team a new ID. `import_league` (and migration 0015) seeds the 2026 league. Every sync records the
+  IDs it matched, and the link uses the newest league the team has been matched in.
 - **Farm draft order:** `FinalStanding` (season, team, place) is entered in the admin, and `import_league`
   seeds it from `data/league/final_standings.json`. Pick numbers (1–28) are computed from the previous
   season's places by `rules.farm.pick_number`, never stored. Places aren't unique, so two teams can swap

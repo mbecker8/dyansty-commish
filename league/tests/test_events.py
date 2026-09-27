@@ -249,6 +249,23 @@ def test_rosters_come_from_the_newest_league_of_the_season(world):
     assert c.team == b
 
 
+def test_roster_links_move_to_the_renewed_league_after_its_first_sync(world):
+    from league.views import fantrax_roster_urls
+
+    old, proc, a, b, c, f = world
+    renewed = FantraxLeague.objects.create(league_id="R", season=2026)
+    ends = {"p1": EndState("ta", "Active", 0), "p2": EndState("ta", "Minors", 0)}
+    sync([(old, FakeSnapshot(ends))])
+    assert fantrax_roster_urls()[a.pk].endswith("/league/L/team/roster;teamId=ta")
+    # Renewal gives each team a new ID; the sync matches them by name.
+    new_ends = {"p1": EndState("na", "Active", 0), "p2": EndState("na", "Minors", 0)}
+    new_teams = [{"id": "na", "name": "A"}, {"id": "nb", "name": "B"}]
+    sync([(old, FakeSnapshot(ends)), (renewed, FakeSnapshot(new_ends, teams=new_teams))])
+    urls = fantrax_roster_urls()
+    assert urls[a.pk].endswith("/league/R/team/roster;teamId=na")
+    assert urls[b.pk].endswith("/league/R/team/roster;teamId=nb")
+
+
 def test_cash_comments_in_the_old_league_are_still_listed(world):
     old, *_ = world
     renewed = FantraxLeague.objects.create(league_id="R", season=2026)

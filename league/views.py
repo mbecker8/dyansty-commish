@@ -12,7 +12,7 @@ from league.models import (
     CashTrade,
     Contract,
     FantraxEvent,
-    FantraxLeague,
+    FantraxTeam,
     FarmPick,
     FarmPlayer,
     FinalStanding,
@@ -67,18 +67,13 @@ def buyout_rows(buyouts):
     return rows
 
 
-FANTRAX_TEAM_URL = "https://www.fantrax.com/fantasy/league/{league}/team/roster;teamId={team}"
-
-
-def fantrax_team_url(team, league):
-    """The team's roster in the newest Fantrax league, so the link follows the league after renewal."""
-    if not (team.fantrax_id and league):
-        return None
-    return FANTRAX_TEAM_URL.format(league=league.league_id, team=team.fantrax_id)
-
-
-def newest_fantrax_league():
-    return FantraxLeague.objects.filter(active=True).order_by("-pk").first()
+def fantrax_roster_urls():
+    """Team pk -> its roster in the newest Fantrax league the sync has matched it in. Renewal gives
+    teams new IDs, so the link moves to the new league once its first sync has run."""
+    urls = {}
+    for ft in FantraxTeam.objects.select_related("league").order_by("league__pk"):
+        urls[ft.team_id] = ft.roster_url
+    return urls
 
 
 def pick_rows(picks):
@@ -99,9 +94,9 @@ def farm_rows(farm):
 
 @member_required
 def teams(request):
-    league = newest_fantrax_league()
+    urls = fantrax_roster_urls()
     rows = [
-        {"team": t, "budget": team_budget(t, next_season()), "fantrax_url": fantrax_team_url(t, league)}
+        {"team": t, "budget": team_budget(t, next_season()), "fantrax_url": urls.get(t.pk)}
         for t in Team.objects.prefetch_related("managers")
     ]
     return render(request, "league/teams.html", {"teams": rows})
@@ -137,7 +132,7 @@ def team(request, code):
         "league/team.html",
         {
             "team": team,
-            "fantrax_url": fantrax_team_url(team, newest_fantrax_league()),
+            "fantrax_url": fantrax_roster_urls().get(team.pk),
             "budget": budget,
             "ledger": ledger(budget),
             "adjustments": BudgetAdjustment.objects.filter(team=team, season=season),

@@ -27,6 +27,7 @@ from league.models import (
     Contract,
     FantraxEvent,
     FantraxLeague,
+    FantraxTeam,
     FarmPick,
     FarmPlayer,
     FinalStanding,
@@ -71,6 +72,7 @@ class Command(BaseCommand):
             AuditEntry.objects.all().delete()  # only command-line entries (roster syncs) are left
             for model in (
                 FantraxEvent,
+                FantraxTeam,
                 FantraxLeague,
                 RosterEntry,
                 BudgetAdjustment,
@@ -100,7 +102,7 @@ class Command(BaseCommand):
         self.import_cash_from_fantrax(load(DATA / "league" / "cash_trades_from_fantrax.json")["cash_trades"])
         self.import_farm_picks()
         self.import_final_standings(load(DATA / "league" / "final_standings.json")["standings"])
-        FantraxLeague.objects.create(
+        league = FantraxLeague.objects.create(
             league_id="p3z8zy75mgdm460o",
             name="Dynasty Yr 19",
             season=2026,
@@ -108,6 +110,9 @@ class Command(BaseCommand):
             # 15:11 on Feb 25; the first claim, at 18:21, was a farm pick. Earlier drops belong to 2025.
             process_since=datetime(2026, 2, 25, 16, 0, tzinfo=EASTERN),
         )
+        # teams.json holds the 2026 league's team IDs; the sync records a renewed league's own.
+        for team in Team.objects.exclude(fantrax_id=None):
+            FantraxTeam.objects.create(league=league, team=team, fantrax_team_id=team.fantrax_id)
         for s in aliases["sign_and_trade"]:
             Contract.objects.filter(team__code=s["team"], player=self.player(s["player"])).update(
                 sign_and_trade=True, note=s["note"]

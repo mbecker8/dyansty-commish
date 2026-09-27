@@ -283,6 +283,25 @@ class FantraxLeague(models.Model):
         return f"{self.name or self.league_id} ({self.season})"
 
 
+class FantraxTeam(models.Model):
+    """A team's ID in one Fantrax league. Renewal gives every team a new ID; the sync records it."""
+
+    league = models.ForeignKey(FantraxLeague, on_delete=models.CASCADE, related_name="teams")
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="fantrax_teams")
+    fantrax_team_id = models.CharField(max_length=32)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=["league", "team"], name="one_fantrax_id_per_league")]
+
+    def __str__(self):
+        return f"{self.team.code} in {self.league}: {self.fantrax_team_id}"
+
+    @property
+    def roster_url(self):
+        league, team = self.league.league_id, self.fantrax_team_id
+        return f"https://www.fantrax.com/fantasy/league/{league}/team/roster;teamId={team}"
+
+
 class FantraxEventQuerySet(models.QuerySet):
     def unresolved(self):
         return self.filter(effect=FantraxEvent.Effect.EXCEPTION, resolved_at=None)

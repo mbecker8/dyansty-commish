@@ -1,18 +1,17 @@
 <div class="table-wrap"><table{% if show_team %} class="grid"{% endif %}>
-  <thead><tr>{% if show_team %}<th>Team</th>{% endif %}<th>Player</th><th class="num">Per year</th><th class="num">Original</th><th class="num">Signed</th><th class="num">Length</th><th class="num">Final year</th><th class="num">Years left</th><th></th></tr></thead>
+  <thead><tr>{% if show_team %}<th>Team</th>{% endif %}<th>Player</th><th class="num">Per year</th><th class="num">Original</th><th class="num">Signed</th><th class="num">Length</th><th class="num">Final year</th><th class="num">Years left</th></tr></thead>
   <tbody>
   {% for row in rows %}{% with c=row.contract %}
     <tr>
       {% if show_team %}<td><a href="{% url 'team' c.team.code %}">{{ c.team.code }}</a></td>{% endif %}
-      <td>{{ c.player.name }}</td>
+      <td>{{ c.player.name }}{% if c.sign_and_trade %} <span class="tag">sign-and-trade</span>{% endif %}</td>
       <td class="num">${{ row.annual }}</td>
       <td class="num">${{ c.original_price }}</td>
       <td class="num">{{ c.year_signed }}</td>
       <td class="num">{{ c.length }}</td>
       <td class="num">{{ c.final_year }}</td>
       <td class="num">{{ row.years_left }}</td>
-      <td>{% if c.sign_and_trade %}<span class="tag">sign-and-trade</span>{% endif %}</td>
     </tr>
-  {% endwith %}{% empty %}<tr><td colspan="9" class="muted">None.</td></tr>{% endfor %}
+  {% endwith %}{% empty %}<tr><td colspan="8" class="muted">None.</td></tr>{% endfor %}
   </tbody>
 </table></div>
