@@ -1,0 +1,1906 @@
+{
+ "contracts": [
+  [
+   "Aaron Judge",
+   2024,
+   "KJ",
+   null
+  ],
+  [
+   "Adley Rutschman",
+   2023,
+   "AC",
+   null
+  ],
+  [
+   "Agustin Ramirez",
+   2025,
+   "CS",
+   null
+  ],
+  [
+   "Alec Bohm",
+   2025,
+   "MH",
+   2026
+  ],
+  [
+   "Alex Bregman",
+   2018,
+   "JJ",
+   null
+  ],
+  [
+   "Andrew Vaughn",
+   2025,
+   "JM",
+   null
+  ],
+  [
+   "Andy Pages",
+   2025,
+   "SM",
+   null
+  ],
+  [
+   "Aroldis Chapman",
+   2025,
+   "JJ",
+   null
+  ],
+  [
+   "Austin Wells",
+   2024,
+   "AW",
+   null
+  ],
+  [
+   "Ben Rice",
+   2025,
+   "KJ",
+   null
+  ],
+  [
+   "Bo Bichette",
+   2023,
+   "SM",
+   null
+  ],
+  [
+   "Bo Naylor",
+   2023,
+   "MT",
+   null
+  ],
+  [
+   "Bobby Miller",
+   2023,
+   "MT",
+   null
+  ],
+  [
+   "Bobby Witt Jr.",
+   2022,
+   "MT",
+   null
+  ],
+  [
+   "Bowden Francis",
+   2024,
+   "JM",
+   null
+  ],
+  [
+   "Brandon Lowe",
+   2025,
+   "MT",
+   null
+  ],
+  [
+   "Brandon Nimmo",
+   2024,
+   "SM",
+   null
+  ],
+  [
+   "Brandon Woodruff",
+   2024,
+   "KJ",
+   null
+  ],
+  [
+   "Braxton Garrett",
+   2023,
+   "MB",
+   null
+  ],
+  [
+   "Brayan Bello",
+   2023,
+   "MB",
+   null
+  ],
+  [
+   "Brent Rooker",
+   2024,
+   "AC",
+   null
+  ],
+  [
+   "Brenton Doyle",
+   2024,
+   "CS",
+   null
+  ],
+  [
+   "Brice Turang",
+   2024,
+   "KJ",
+   null
+  ],
+  [
+   "Bryan Woo",
+   2025,
+   "SM",
+   null
+  ],
+  [
+   "Bryson Stott",
+   2023,
+   "MH",
+   2026
+  ],
+  [
+   "Bubba Chandler",
+   2025,
+   "KJ",
+   null
+  ],
+  [
+   "Byron Buxton",
+   2025,
+   "AC",
+   null
+  ],
+  [
+   "CJ Abrams",
+   2024,
+   "DC",
+   null
+  ],
+  [
+   "Cade Smith",
+   2025,
+   "KJ",
+   null
+  ],
+  [
+   "Caleb Durbin",
+   2025,
+   "MH",
+   null
+  ],
+  [
+   "Cam Schlittler",
+   2025,
+   "MT",
+   null
+  ],
+  [
+   "Carlos Estevez",
+   2025,
+   "JJ",
+   null
+  ],
+  [
+   "Ceddanne Rafaela",
+   2023,
+   "SM",
+   null
+  ],
+  [
+   "Ceddanne Rafaela",
+   2025,
+   "MH",
+   null
+  ],
+  [
+   "Cedric Mullins",
+   2021,
+   "JM",
+   null
+  ],
+  [
+   "Chandler Simpson",
+   2025,
+   "JJ",
+   null
+  ],
+  [
+   "Christian Encarnacion-Strand",
+   2023,
+   "MH",
+   null
+  ],
+  [
+   "Christian Walker",
+   2025,
+   "AG",
+   null
+  ],
+  [
+   "Colt Keith",
+   2023,
+   "JJ",
+   null
+  ],
+  [
+   "Colton Cowser",
+   2024,
+   "AW",
+   null
+  ],
+  [
+   "Corbin Carroll",
+   2023,
+   "KJ",
+   null
+  ],
+  [
+   "Cristian Javier",
+   2022,
+   "BL",
+   null
+  ],
+  [
+   "Daniel Palencia",
+   2025,
+   "CS",
+   null
+  ],
+  [
+   "Daylen Lile",
+   2025,
+   "MB",
+   null
+  ],
+  [
+   "Drake Baldwin",
+   2025,
+   "CN",
+   null
+  ],
+  [
+   "Edward Cabrera",
+   2025,
+   "AC",
+   null
+  ],
+  [
+   "Edwin Diaz",
+   2025,
+   "JJ",
+   null
+  ],
+  [
+   "Elly De La Cruz",
+   2024,
+   "AC",
+   null
+  ],
+  [
+   "Eloy Jimenez",
+   2021,
+   "JM",
+   null
+  ],
+  [
+   "Emilio Pagan",
+   2025,
+   "JJ",
+   null
+  ],
+  [
+   "Emmet Sheehan",
+   2025,
+   "CN",
+   null
+  ],
+  [
+   "Eugenio Suarez",
+   2025,
+   "AW",
+   null
+  ],
+  [
+   "Eury Perez",
+   2025,
+   "MH",
+   null
+  ],
+  [
+   "Evan Carter",
+   2023,
+   "MH",
+   null
+  ],
+  [
+   "Felix Bautista",
+   2024,
+   "SM",
+   null
+  ],
+  [
+   "Fernando Tatis Jr.",
+   2020,
+   "KJ",
+   null
+  ],
+  [
+   "Framber Valdez",
+   2025,
+   "DC",
+   null
+  ],
+  [
+   "Francisco Alvarez",
+   2024,
+   "MT",
+   null
+  ],
+  [
+   "Francisco Lindor",
+   2024,
+   "JJ",
+   null
+  ],
+  [
+   "Garrett Crochet",
+   2024,
+   "CS",
+   null
+  ],
+  [
+   "Gavin Lux",
+   2023,
+   "MB",
+   null
+  ],
+  [
+   "Gavin Williams",
+   2023,
+   "SM",
+   null
+  ],
+  [
+   "George Kirby",
+   2024,
+   "AW",
+   null
+  ],
+  [
+   "George Springer",
+   2025,
+   "CS",
+   null
+  ],
+  [
+   "Geraldo Perdomo",
+   2025,
+   "DC",
+   null
+  ],
+  [
+   "Gerrit Cole",
+   2025,
+   "JM",
+   null
+  ],
+  [
+   "Grayson Rodriguez",
+   2024,
+   "KJ",
+   null
+  ],
+  [
+   "Gunnar Henderson",
+   2022,
+   "AG",
+   null
+  ],
+  [
+   "Hunter Brown",
+   2025,
+   "CS",
+   null
+  ],
+  [
+   "Hunter Goodman",
+   2025,
+   "SM",
+   null
+  ],
+  [
+   "Ian Happ",
+   2024,
+   "BL",
+   null
+  ],
+  [
+   "Isaac Paredes",
+   2023,
+   "BL",
+   null
+  ],
+  [
+   "Ivan Herrera",
+   2025,
+   "SM",
+   null
+  ],
+  [
+   "Jack Flaherty",
+   2024,
+   "AW",
+   null
+  ],
+  [
+   "Jackson Chourio",
+   2025,
+   "MH",
+   null
+  ],
+  [
+   "Jackson Holliday",
+   2024,
+   "AG",
+   null
+  ],
+  [
+   "Jackson Merrill",
+   2024,
+   "BL",
+   null
+  ],
+  [
+   "Jacob Misiorowski",
+   2025,
+   "JM",
+   null
+  ],
+  [
+   "Jacob Wilson",
+   2025,
+   "BL",
+   null
+  ],
+  [
+   "Jakob Marsee",
+   2025,
+   "KJ",
+   null
+  ],
+  [
+   "James Outman",
+   2023,
+   "AG",
+   null
+  ],
+  [
+   "James Wood",
+   2025,
+   "AC",
+   null
+  ],
+  [
+   "Jared Jones",
+   2024,
+   "AG",
+   null
+  ],
+  [
+   "Jazz Chisholm Jr.",
+   2023,
+   "SM",
+   null
+  ],
+  [
+   "Jesus Luzardo",
+   2024,
+   "MB",
+   null
+  ],
+  [
+   "Jo Adell",
+   2025,
+   "SM",
+   null
+  ],
+  [
+   "Joe Musgrove",
+   2025,
+   "SM",
+   null
+  ],
+  [
+   "Joe Ryan",
+   2023,
+   "MT",
+   null
+  ],
+  [
+   "Jonathan Aranda",
+   2025,
+   "MH",
+   null
+  ],
+  [
+   "Jordan Beck",
+   2025,
+   "MB",
+   2026
+  ],
+  [
+   "Jordan Westburg",
+   2024,
+   "AG",
+   null
+  ],
+  [
+   "Jorge Polanco",
+   2025,
+   "AC",
+   2026
+  ],
+  [
+   "Josh Jung",
+   2023,
+   "SM",
+   null
+  ],
+  [
+   "Josh Lowe",
+   2023,
+   "AG",
+   null
+  ],
+  [
+   "Juan Soto",
+   2019,
+   "MT",
+   null
+  ],
+  [
+   "Julio Rodriguez",
+   2023,
+   "MH",
+   null
+  ],
+  [
+   "Junior Caminero",
+   2023,
+   "CN",
+   null
+  ],
+  [
+   "Jurickson Profar",
+   2024,
+   "MB",
+   null
+  ],
+  [
+   "Justin Steele",
+   2023,
+   "AW",
+   2026
+  ],
+  [
+   "Kenley Jansen",
+   2025,
+   "MB",
+   null
+  ],
+  [
+   "Kerry Carpenter",
+   2023,
+   "AW",
+   2026
+  ],
+  [
+   "Kodai Senga",
+   2025,
+   "JM",
+   2026
+  ],
+  [
+   "Kris Bubic",
+   2025,
+   "MB",
+   null
+  ],
+  [
+   "Kyle Bradish",
+   2025,
+   "JM",
+   null
+  ],
+  [
+   "Kyle Manzardo",
+   2025,
+   "MH",
+   null
+  ],
+  [
+   "Kyle Stowers",
+   2025,
+   "JJ",
+   null
+  ],
+  [
+   "Lawrence Butler",
+   2024,
+   "AG",
+   null
+  ],
+  [
+   "Logan Webb",
+   2025,
+   "MT",
+   null
+  ],
+  [
+   "Maikel Garcia",
+   2025,
+   "SM",
+   null
+  ],
+  [
+   "Mark Vientos",
+   2024,
+   "MB",
+   null
+  ],
+  [
+   "Mason Miller",
+   2024,
+   "AG",
+   null
+  ],
+  [
+   "Masyn Winn",
+   2024,
+   "MB",
+   null
+  ],
+  [
+   "Matt McLain",
+   2023,
+   "MB",
+   2026
+  ],
+  [
+   "Max Fried",
+   2025,
+   "BL",
+   null
+  ],
+  [
+   "Michael Busch",
+   2025,
+   "CS",
+   null
+  ],
+  [
+   "Michael Harris II",
+   2022,
+   "MB",
+   null
+  ],
+  [
+   "Michael Toglia",
+   2024,
+   "MT",
+   null
+  ],
+  [
+   "Noelvi Marte",
+   2025,
+   "JM",
+   null
+  ],
+  [
+   "Nolan Gorman",
+   2023,
+   "JM",
+   null
+  ],
+  [
+   "Nolan Jones",
+   2023,
+   "AC",
+   null
+  ],
+  [
+   "Nolan McLean",
+   2025,
+   "CS",
+   null
+  ],
+  [
+   "Oneil Cruz",
+   2024,
+   "MT",
+   null
+  ],
+  [
+   "Orion Kerkering",
+   2024,
+   "AC",
+   null
+  ],
+  [
+   "Parker Messick",
+   2025,
+   "MT",
+   null
+  ],
+  [
+   "Pete Alonso",
+   2025,
+   "JJ",
+   null
+  ],
+  [
+   "Pete Crow-Armstrong",
+   2023,
+   "KJ",
+   null
+  ],
+  [
+   "Randy Arozarena",
+   2025,
+   "MB",
+   null
+  ],
+  [
+   "Ranger Suarez",
+   2025,
+   "DC",
+   null
+  ],
+  [
+   "Riley Greene",
+   2024,
+   "MT",
+   null
+  ],
+  [
+   "Robbie Ray",
+   2024,
+   "JM",
+   2026
+  ],
+  [
+   "Roman Anthony",
+   2025,
+   "BL",
+   null
+  ],
+  [
+   "Ronald Acuna Jr.",
+   2019,
+   "MT",
+   null
+  ],
+  [
+   "Royce Lewis",
+   2024,
+   "MB",
+   null
+  ],
+  [
+   "Ryan Walker",
+   2024,
+   "CS",
+   null
+  ],
+  [
+   "Ryan Walker",
+   2025,
+   "AC",
+   2026
+  ],
+  [
+   "Sal Stewart",
+   2025,
+   "CN",
+   null
+  ],
+  [
+   "Salvador Perez",
+   2024,
+   "MB",
+   null
+  ],
+  [
+   "Seiya Suzuki",
+   2025,
+   "BL",
+   null
+  ],
+  [
+   "Shane Baz",
+   2025,
+   "MB",
+   null
+  ],
+  [
+   "Shane Bieber",
+   2025,
+   "AC",
+   null
+  ],
+  [
+   "Shea Langeliers",
+   2024,
+   "KJ",
+   null
+  ],
+  [
+   "Shohei Ohtani",
+   2024,
+   "MT",
+   null
+  ],
+  [
+   "Shota Imanaga",
+   2024,
+   "KJ",
+   null
+  ],
+  [
+   "Spencer Arrighetti",
+   2024,
+   "JM",
+   null
+  ],
+  [
+   "Spencer Schwellenbach",
+   2024,
+   "SM",
+   null
+  ],
+  [
+   "Spencer Strider",
+   2022,
+   "JJ",
+   null
+  ],
+  [
+   "Spencer Torkelson",
+   2022,
+   "SM",
+   null
+  ],
+  [
+   "Tanner Bibee",
+   2025,
+   "MH",
+   2026
+  ],
+  [
+   "Tarik Skubal",
+   2023,
+   "AG",
+   null
+  ],
+  [
+   "Trent Grisham",
+   2025,
+   "DC",
+   null
+  ],
+  [
+   "Trevor Megill",
+   2025,
+   "JJ",
+   null
+  ],
+  [
+   "Trevor Rogers",
+   2025,
+   "JM",
+   2026
+  ],
+  [
+   "Triston Casas",
+   2023,
+   "DC",
+   null
+  ],
+  [
+   "Tyler Soderstrom",
+   2024,
+   "SM",
+   null
+  ],
+  [
+   "Vaughn Grissom",
+   2023,
+   "CN",
+   null
+  ],
+  [
+   "Vinnie Pasquantino",
+   2022,
+   "CS",
+   null
+  ],
+  [
+   "Wander Franco",
+   2022,
+   "JM",
+   null
+  ],
+  [
+   "Willson Contreras",
+   2024,
+   "MT",
+   null
+  ],
+  [
+   "Willy Adames",
+   2024,
+   "JM",
+   null
+  ],
+  [
+   "Wilyer Abreu",
+   2025,
+   "JJ",
+   null
+  ],
+  [
+   "Wyatt Langford",
+   2024,
+   "CN",
+   null
+  ],
+  [
+   "Xavier Edwards",
+   2024,
+   "JJ",
+   null
+  ],
+  [
+   "Yainer Diaz",
+   2023,
+   "CN",
+   2026
+  ],
+  [
+   "Yordan Alvarez",
+   2022,
+   "MT",
+   null
+  ],
+  [
+   "Yoshinobu Yamamoto",
+   2024,
+   "MT",
+   null
+  ],
+  [
+   "Zach Neto",
+   2024,
+   "MT",
+   null
+  ],
+  [
+   "Zack Gelof",
+   2023,
+   "CS",
+   null
+  ]
+ ],
+ "buyouts": [
+  [
+   "Agustin Ramirez",
+   2025,
+   "CS",
+   2026
+  ],
+  [
+   "Bo Naylor",
+   2023,
+   "MT",
+   2024
+  ],
+  [
+   "Bobby Miller",
+   2023,
+   "MT",
+   2025
+  ],
+  [
+   "Bowden Francis",
+   2024,
+   "JM",
+   2025
+  ],
+  [
+   "Braxton Garrett",
+   2023,
+   "MB",
+   2024
+  ],
+  [
+   "Brayan Bello",
+   2023,
+   "MB",
+   2024
+  ],
+  [
+   "Brenton Doyle",
+   2024,
+   "CS",
+   2026
+  ],
+  [
+   "Caleb Durbin",
+   2025,
+   "MH",
+   2026
+  ],
+  [
+   "Ceddanne Rafaela",
+   2023,
+   "SM",
+   2024
+  ],
+  [
+   "Cedric Mullins",
+   2021,
+   "JM",
+   2025
+  ],
+  [
+   "Christian Encarnacion-Strand",
+   2023,
+   "MH",
+   2025
+  ],
+  [
+   "Colton Cowser",
+   2024,
+   "AW",
+   2026
+  ],
+  [
+   "Cristian Javier",
+   2022,
+   "BL",
+   2024
+  ],
+  [
+   "Edward Cabrera",
+   2025,
+   "AC",
+   2026
+  ],
+  [
+   "Eloy Jimenez",
+   2021,
+   "JM",
+   2024
+  ],
+  [
+   "Emmet Sheehan",
+   2025,
+   "CN",
+   2026
+  ],
+  [
+   "Evan Carter",
+   2023,
+   "MH",
+   2025
+  ],
+  [
+   "Felix Bautista",
+   2024,
+   "SM",
+   2025
+  ],
+  [
+   "Gavin Lux",
+   2023,
+   "MB",
+   2025
+  ],
+  [
+   "Gavin Williams",
+   2023,
+   "SM",
+   2025
+  ],
+  [
+   "Grayson Rodriguez",
+   2024,
+   "KJ",
+   2026
+  ],
+  [
+   "Ian Happ",
+   2024,
+   "BL",
+   2025
+  ],
+  [
+   "Jack Flaherty",
+   2024,
+   "AW",
+   2025
+  ],
+  [
+   "James Outman",
+   2023,
+   "AG",
+   2024
+  ],
+  [
+   "Josh Jung",
+   2023,
+   "SM",
+   2025
+  ],
+  [
+   "Jurickson Profar",
+   2024,
+   "MB",
+   2025
+  ],
+  [
+   "Kyle Manzardo",
+   2025,
+   "MH",
+   2026
+  ],
+  [
+   "Mark Vientos",
+   2024,
+   "MB",
+   2026
+  ],
+  [
+   "Michael Toglia",
+   2024,
+   "MT",
+   2025
+  ],
+  [
+   "Noelvi Marte",
+   2025,
+   "JM",
+   2026
+  ],
+  [
+   "Nolan Gorman",
+   2023,
+   "JM",
+   2024
+  ],
+  [
+   "Nolan Jones",
+   2023,
+   "AC",
+   2025
+  ],
+  [
+   "Ryan Walker",
+   2024,
+   "CS",
+   2025
+  ],
+  [
+   "Spencer Arrighetti",
+   2024,
+   "JM",
+   2025
+  ],
+  [
+   "Spencer Torkelson",
+   2022,
+   "SM",
+   2026
+  ],
+  [
+   "Triston Casas",
+   2023,
+   "DC",
+   2025
+  ],
+  [
+   "Vaughn Grissom",
+   2023,
+   "CN",
+   2024
+  ],
+  [
+   "Wander Franco",
+   2022,
+   "JM",
+   2023
+  ],
+  [
+   "Zack Gelof",
+   2023,
+   "CS",
+   2025
+  ]
+ ],
+ "farm": [
+  [
+   "Adael Amador",
+   2023,
+   "BL",
+   "active",
+   true
+  ],
+  [
+   "Aidan Miller",
+   2025,
+   "AC",
+   "active",
+   false
+  ],
+  [
+   "Alex Freeland",
+   2025,
+   "MH",
+   "active",
+   true
+  ],
+  [
+   "Alfredo Duno",
+   2025,
+   "AW",
+   "active",
+   false
+  ],
+  [
+   "Andrew Painter",
+   2023,
+   "AC",
+   "released",
+   false
+  ],
+  [
+   "Braden Montgomery",
+   2025,
+   "SM",
+   "active",
+   true
+  ],
+  [
+   "Brady House",
+   2022,
+   "CN",
+   "active",
+   true
+  ],
+  [
+   "Brock Wilken",
+   2024,
+   "BL",
+   "active",
+   false
+  ],
+  [
+   "Brooks Lee",
+   2024,
+   "MB",
+   "promoted",
+   true
+  ],
+  [
+   "Bryce Eldridge",
+   2025,
+   "JM",
+   "active",
+   true
+  ],
+  [
+   "Bryce Rainer",
+   2026,
+   "AW",
+   "active",
+   false
+  ],
+  [
+   "Caleb Bonemer",
+   2026,
+   "CS",
+   "active",
+   false
+  ],
+  [
+   "Cam Collier",
+   2022,
+   "SM",
+   "active",
+   false
+  ],
+  [
+   "Cam Smith",
+   2025,
+   "CS",
+   "active",
+   true
+  ],
+  [
+   "Carson Benge",
+   2026,
+   "JM",
+   "active",
+   true
+  ],
+  [
+   "Carson Williams",
+   2024,
+   "DC",
+   "active",
+   true
+  ],
+  [
+   "Charlie Condon",
+   2024,
+   "MB",
+   "active",
+   false
+  ],
+  [
+   "Chase Burns",
+   2025,
+   "AG",
+   "promoted",
+   true
+  ],
+  [
+   "Chase Dollander",
+   2023,
+   "AW",
+   "released",
+   true
+  ],
+  [
+   "Christian Moore",
+   2025,
+   "MB",
+   "active",
+   true
+  ],
+  [
+   "Coby Mayo",
+   2022,
+   "DC",
+   "active",
+   true
+  ],
+  [
+   "Colson Montgomery",
+   2023,
+   "DC",
+   "promoted",
+   true
+  ],
+  [
+   "Colt Emerson",
+   2024,
+   "JM",
+   "active",
+   true
+  ],
+  [
+   "Dalton Rushing",
+   2025,
+   "MH",
+   "active",
+   true
+  ],
+  [
+   "Eduardo Beltre",
+   2026,
+   "AG",
+   "active",
+   false
+  ],
+  [
+   "Eduardo Quintero",
+   2026,
+   "MH",
+   "active",
+   false
+  ],
+  [
+   "Edward Florentino",
+   2026,
+   "AW",
+   "active",
+   false
+  ],
+  [
+   "Eli Willits",
+   2026,
+   "AW",
+   "active",
+   false
+  ],
+  [
+   "Emil Morales",
+   2026,
+   "JM",
+   "active",
+   false
+  ],
+  [
+   "Emmanuel Rodriguez",
+   2023,
+   "BL",
+   "active",
+   true
+  ],
+  [
+   "Ethan Holliday",
+   2024,
+   "AW",
+   "active",
+   false
+  ],
+  [
+   "Ethan Salas",
+   2024,
+   "DC",
+   "active",
+   true
+  ],
+  [
+   "Felnin Celesten",
+   2025,
+   "CS",
+   "active",
+   false
+  ],
+  [
+   "Franklin Arias",
+   2026,
+   "DC",
+   "active",
+   false
+  ],
+  [
+   "Grady Emerson",
+   2026,
+   "MB",
+   "active",
+   false
+  ],
+  [
+   "Hagen Smith",
+   2025,
+   "AW",
+   "active",
+   true
+  ],
+  [
+   "JJ Wetherholt",
+   2024,
+   "AG",
+   "promoted",
+   true
+  ],
+  [
+   "Jac Caglianone",
+   2025,
+   "MB",
+   "promoted",
+   true
+  ],
+  [
+   "Jace LaViolette",
+   2025,
+   "AG",
+   "active",
+   false
+  ],
+  [
+   "Jack Leiter",
+   2022,
+   "CS",
+   "released",
+   true
+  ],
+  [
+   "Jackson Jobe",
+   2024,
+   "MH",
+   "active",
+   true
+  ],
+  [
+   "Jaison Chourio",
+   2025,
+   "DC",
+   "active",
+   false
+  ],
+  [
+   "Jarlin Susana",
+   2025,
+   "DC",
+   "active",
+   false
+  ],
+  [
+   "Jesus Made",
+   2025,
+   "AW",
+   "active",
+   false
+  ],
+  [
+   "Jett Williams",
+   2024,
+   "SM",
+   "active",
+   false
+  ],
+  [
+   "Jonny Farmelo",
+   2026,
+   "MB",
+   "active",
+   false
+  ],
+  [
+   "Jordan Lawlar",
+   2022,
+   "CN",
+   "promoted",
+   true
+  ],
+  [
+   "Joshua Baez",
+   2026,
+   "AW",
+   "active",
+   true
+  ],
+  [
+   "Josuar Gonzalez",
+   2026,
+   "CN",
+   "active",
+   false
+  ],
+  [
+   "Josue Briceno",
+   2026,
+   "DC",
+   "active",
+   false
+  ],
+  [
+   "Josue De Paula",
+   2023,
+   "MB",
+   "active",
+   true
+  ],
+  [
+   "Justin Lebron",
+   2026,
+   "CN",
+   "active",
+   false
+  ],
+  [
+   "Kade Anderson",
+   2026,
+   "MH",
+   "active",
+   true
+  ],
+  [
+   "Kahlil Watson",
+   2022,
+   "DC",
+   "active",
+   true
+  ],
+  [
+   "Kayson Cunningham",
+   2025,
+   "AW",
+   "active",
+   false
+  ],
+  [
+   "Kazuma Okamoto",
+   2026,
+   "AW",
+   "promoted",
+   true
+  ],
+  [
+   "Kevin McGonigle",
+   2025,
+   "MT",
+   "active",
+   true
+  ],
+  [
+   "Konnor Griffin",
+   2025,
+   "AG",
+   "active",
+   true
+  ],
+  [
+   "Lazaro Montes",
+   2024,
+   "AW",
+   "active",
+   true
+  ],
+  [
+   "Leo De Vries",
+   2024,
+   "MH",
+   "active",
+   false
+  ],
+  [
+   "Luis Hernandez",
+   2026,
+   "CN",
+   "active",
+   false
+  ],
+  [
+   "Luis Morales",
+   2023,
+   "AW",
+   "active",
+   true
+  ],
+  [
+   "Luis Pena",
+   2026,
+   "JM",
+   "active",
+   false
+  ],
+  [
+   "Luke Keaschall",
+   2025,
+   "BL",
+   "promoted",
+   true
+  ],
+  [
+   "Marcelo Mayer",
+   2022,
+   "MB",
+   "promoted",
+   true
+  ],
+  [
+   "Matt Shaw",
+   2024,
+   "MB",
+   "active",
+   true
+  ],
+  [
+   "Max Clark",
+   2024,
+   "MH",
+   "active",
+   true
+  ],
+  [
+   "Moises Ballesteros",
+   2025,
+   "KJ",
+   "active",
+   true
+  ],
+  [
+   "Munetaka Murakami",
+   2022,
+   "MB",
+   "promoted",
+   true
+  ],
+  [
+   "Nick Kurtz",
+   2024,
+   "DC",
+   "promoted",
+   true
+  ],
+  [
+   "Noah Schultz",
+   2025,
+   "SM",
+   "active",
+   true
+  ],
+  [
+   "Orelvis Martinez",
+   2021,
+   "DC",
+   "active",
+   true
+  ],
+  [
+   "Paul Skenes",
+   2024,
+   "SM",
+   "promoted",
+   true
+  ],
+  [
+   "Rainiel Rodriguez",
+   2026,
+   "AC",
+   "active",
+   false
+  ],
+  [
+   "Ricky Tiedemann",
+   2023,
+   "MB",
+   "active",
+   true
+  ],
+  [
+   "Rintaro Sasaki",
+   2026,
+   "AW",
+   "active",
+   false
+  ],
+  [
+   "Roch Cholowsky",
+   2026,
+   "CN",
+   "active",
+   false
+  ],
+  [
+   "Roki Sasaki",
+   2024,
+   "DC",
+   "active",
+   true
+  ],
+  [
+   "Ryan Sloan",
+   2026,
+   "BL",
+   "active",
+   false
+  ],
+  [
+   "Ryan Waldschmidt",
+   2026,
+   "DC",
+   "promoted",
+   true
+  ],
+  [
+   "Samuel Basallo",
+   2024,
+   "AC",
+   "promoted",
+   true
+  ],
+  [
+   "Sebastian Walcott",
+   2025,
+   "DC",
+   "active",
+   false
+  ],
+  [
+   "Slade Caldwell",
+   2026,
+   "AG",
+   "active",
+   false
+  ],
+  [
+   "Termarr Johnson",
+   2022,
+   "CN",
+   "active",
+   false
+  ],
+  [
+   "Thomas White",
+   2025,
+   "MH",
+   "active",
+   false
+  ],
+  [
+   "Travis Bazzana",
+   2024,
+   "MH",
+   "active",
+   true
+  ],
+  [
+   "Tyler Black",
+   2024,
+   "MH",
+   "active",
+   true
+  ],
+  [
+   "Vance Honeycutt",
+   2024,
+   "AW",
+   "active",
+   false
+  ],
+  [
+   "Walker Jenkins",
+   2024,
+   "BL",
+   "active",
+   true
+  ],
+  [
+   "Walker Martin",
+   2026,
+   "AG",
+   "active",
+   false
+  ],
+  [
+   "Wehiwa Aloy",
+   2025,
+   "AW",
+   "active",
+   false
+  ],
+  [
+   "Xavier Isaac",
+   2025,
+   "BL",
+   "active",
+   false
+  ],
+  [
+   "Zac Veen",
+   2021,
+   "MB",
+   "active",
+   true
+  ],
+  [
+   "Zyhir Hope",
+   2025,
+   "BL",
+   "active",
+   false
+  ]
+ ],
+ "unknown_minors": [
+  "Brendan Lawson",
+  "Shunpeita Yamashita"
+ ]
+}
