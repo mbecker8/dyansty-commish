@@ -1,4 +1,4 @@
-"""Read the committed Fantrax snapshot (data/fantrax/<dir>/) into plain Python structures."""
+"""Read Fantrax data (a saved data/fantrax/<dir>/ snapshot, or a live fetch) into plain Python structures."""
 
 import json
 import re
@@ -70,13 +70,25 @@ class EndState:
 
 
 class Snapshot:
-    def __init__(self, directory: Path):
+    """A saved snapshot directory, or the same data fetched live (`from_raw`)."""
+
+    def __init__(self, directory: Path | None = None, *, raw: dict | None = None):
+        if raw is None:
+            teams = json.loads((directory / "teams.json").read_text())
+            raw = {
+                "league_info": json.loads((directory / "league_info.json").read_text()),
+                "teams": teams,
+                "rosters": {t["id"]: json.loads((directory / f"roster_{t['id']}.json").read_text()) for t in teams},
+                "transactions": json.loads((directory / "transactions.json").read_text()),
+                "trades": json.loads((directory / "trades.json").read_text()),
+            }
         self.dir = directory
-        self.league_info = json.loads((directory / "league_info.json").read_text())
-        self.teams = json.loads((directory / "teams.json").read_text())
-        self.rosters = {t["id"]: json.loads((directory / f"roster_{t['id']}.json").read_text()) for t in self.teams}
-        self.transactions = json.loads((directory / "transactions.json").read_text())
-        self.trades = json.loads((directory / "trades.json").read_text())
+        self.league_info, self.teams, self.rosters = raw["league_info"], raw["teams"], raw["rosters"]
+        self.transactions, self.trades = raw["transactions"], raw["trades"]
+
+    @classmethod
+    def from_raw(cls, raw: dict) -> Snapshot:
+        return cls(raw=raw)
 
     def roster_rows(self):
         """(fantrax team id, row) for every rostered player."""

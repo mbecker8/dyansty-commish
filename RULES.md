@@ -31,20 +31,20 @@ the rulebook, including decisions the rulebook doesn't spell out.
     rather than expiring (decided 2026-09-26; e.g. Kodai Senga and Tanner
     Bibee, re-claimed at $0).
   - Today this is an honor system: drops are announced on Discord and the
-    commissioner spot-checks. The app *detects* these by replaying the
-    season's Fantrax trades, drops and claims from the auction onward
-    (`manage.py reconcile`), and the commissioner accepts or rejects each
-    proposal. Moves into the team that already has a player (pre-auction
-    sign-and-trades, farm draft picks entered as claims) are already in the
-    sheet and are skipped.
-  - The replay starts when the auction does, not at midnight: drops made
+    commissioner spot-checks. The app applies the season's Fantrax trades,
+    drops and claims from the auction onward as events (`manage.py
+    sync_fantrax`, or Sync from Fantrax on the console), each once. Moves into
+    the team that already has a player (pre-auction sign-and-trades, farm
+    draft picks entered as claims) are already in the sheet and change
+    nothing. Anything that contradicts the records becomes an exception for
+    the commissioner.
+  - Processing starts when the auction does, not at midnight: drops made
     earlier on auction day belong to the previous season (2026: last
     pre-auction drop 15:11, first auction claim 18:21, cutoff 16:00).
-  - Reconciliation is re-run on a fresh snapshot before signing, because
-    offseason trades and drops count toward the season just ended. Every
-    player is replayed from his holder at the start of the season, and one
-    already decided (accepted or rejected) gets a new item only if the answer
-    changed (a later trade, drop or MLB debut).
+  - Sync again before signing, because offseason trades and drops count
+    toward the season just ended. After renewal they happen in the new
+    Fantrax league, which the commissioner adds on the console. Trades and
+    drops after signing locks apply to the newly signed contracts.
   - A farm player released and then claimed back into a Minors slot is
     flagged, because farm adds are only by draft or trade. A farm player
     promoted and sent back down in the same season can't be detected, since
@@ -61,7 +61,7 @@ the rulebook, including decisions the rulebook doesn't spell out.
   appeared); promoted players can't return to the farm. An MLB appearance
   means at least 1 plate appearance or 0.1 innings pitched (confirmed
   2026-09-26); a game played as a pinch runner or defensive sub doesn't
-  count. Reconciliation reads AB + BB and IP from Fantrax. Fantrax doesn't
+  count. The sync reads AB + BB and IP from Fantrax. Fantrax doesn't
   show HBP or sacrifices, so a player with games but no AB, BB or out is
   flagged for a manual check rather than decided.
 - **Budget:** base $400 − contracts − buyout penalties − farm − missed-IP
@@ -105,6 +105,6 @@ price and buyout penalty matches. Two budgets differ because of sheet bugs:
 DC's farm total skips Farm 1 (+$3 of budget), and JM's buyout total only sums
 4 of its 6 buyouts (+$10). Separately, the AW tab is missing two of AW's 2026
 farm draft picks (Brendan Lawson, Shunpeita Yamashita), so AW's 2026 budget
-was $2 too high. Reconciliation adds them.
+was $2 too high. The sync flags them for the commissioner to add.
 Where the app disagrees with the sheet, each difference is either a
 documented spreadsheet bug or a bug in the app.

@@ -200,7 +200,7 @@ def test_commissioner_manager_gets_the_admin(client, team):
     Manager.objects.create(team=team, discord_id=DISCORD_ID, name="Matt", is_commissioner=True)
     sign_in(client)
     assert client.get("/admin/").status_code == 200
-    assert client.get("/admin/league/reconciliationitem/").status_code == 200
+    assert client.get("/admin/league/fantraxevent/").status_code == 200
 
 
 def test_ordinary_manager_does_not_get_the_admin(client, team):

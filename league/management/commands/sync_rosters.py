@@ -11,8 +11,9 @@ from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 
+from league.events import UnmatchedTeam, match_teams
 from league.fantrax_data import Snapshot, normalize_name
-from league.models import Contract, Player, RosterEntry, SigningPeriod, Team, TeamAlias, audit
+from league.models import Contract, Player, RosterEntry, SigningPeriod, Team, audit
 
 SNAPSHOT = str(Path(settings.BASE_DIR) / "data" / "fantrax" / "2026-final")
 
@@ -33,7 +34,10 @@ class Command(BaseCommand):
         if period and period.status != SigningPeriod.Status.PLANNED:
             raise CommandError(f"Signing after {season} is {period.get_status_display().lower()}; rosters are fixed.")
         rosters, prices = Snapshot(Path(fantrax)), Snapshot(Path(salaries)).salaries()
-        teams = self.match_teams(rosters)
+        try:
+            teams = match_teams(rosters)
+        except UnmatchedTeam as e:
+            raise CommandError(str(e)) from None
         players = {p.fantrax_id: p for p in Player.objects.exclude(fantrax_id=None)}
         unlinked = {}
         for p in Player.objects.filter(fantrax_id=None):
@@ -85,22 +89,9 @@ class Command(BaseCommand):
             for line in self.contract_problems(season):
                 self.stdout.write(line)
 
-    def match_teams(self, snapshot) -> dict[str, Team]:
-        by_id = {t.fantrax_id: t for t in Team.objects.all()}
-        by_name = {t.name.lower(): t for t in by_id.values()} | {
-            a.alias.lower(): a.team for a in TeamAlias.objects.all()
-        }
-        out = {}
-        for t in snapshot.teams:
-            team = by_id.get(t["id"]) or by_name.get(t["name"].strip().lower())
-            if team is None:
-                raise CommandError(f"Fantrax team {t['name']!r} ({t['id']}) matches no team; add an alias")
-            out[t["id"]] = team
-        return out
-
     @staticmethod
     def contract_problems(season):
-        """Contracts still running whose player isn't on the holder's blackout roster: a drop or trade to reconcile."""
+        """Contracts still running whose player isn't on the holder's blackout roster: an unsynced drop or trade."""
         where = {e.player_id: e.team for e in RosterEntry.objects.filter(season=season).select_related("team")}
         lines = []
         for c in Contract.live.select_related("player", "team").order_by("team__code", "player__name"):
@@ -110,6 +101,6 @@ class Command(BaseCommand):
             lines.append(
                 f"  {c.team.code} {c.player.name} (through {c.final_year}) is "
                 + (f"on {now.code}'s roster" if now else "on no roster")
-                + ": re-run reconcile on this snapshot"
+                + ": run sync_fantrax"
             )
         return ["Contracts not on their team's roster:", *lines] if lines else []

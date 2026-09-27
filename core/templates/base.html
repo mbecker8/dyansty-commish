@@ -28,10 +28,6 @@
     </form>
     {% endif %}
   </header>
-  {% if pending_review %}
-  <p class="banner">{{ pending_review }} change{{ pending_review|pluralize }} from the {{ league_season }} season
-    await commissioner review; rosters and numbers below may still change.</p>
-  {% endif %}
   <main>
     {% if messages %}<ul class="messages">{% for m in messages %}<li class="{{ m.tags }}">{{ m }}</li>{% endfor %}</ul>{% endif %}
     {% block content %}{% endblock %}

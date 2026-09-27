@@ -9,6 +9,7 @@ Reads only committed files:
 """
 
 import json
+from datetime import datetime
 from pathlib import Path
 
 from django.conf import settings
@@ -16,17 +17,18 @@ from django.contrib.admin.models import LogEntry
 from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 
-from league.fantrax_data import Snapshot, normalize_name
+from league.fantrax_data import EASTERN, Snapshot, normalize_name
 from league.models import (
     AuditEntry,
     BudgetAdjustment,
     Buyout,
     CashTrade,
     Contract,
+    FantraxEvent,
+    FantraxLeague,
     FarmPick,
     FarmPlayer,
     Player,
-    ReconciliationItem,
     RosterEntry,
     SigningPeriod,
     Team,
@@ -53,10 +55,8 @@ class Command(BaseCommand):
         if Team.objects.exists():
             if not replace:
                 raise CommandError("League data already exists; pass --replace to reload it.")
-            if ReconciliationItem.objects.exclude(status=ReconciliationItem.Status.PENDING).exists():
-                raise CommandError(
-                    "The commissioner has accepted or rejected reconciliation items; --replace would erase them."
-                )
+            if FantraxEvent.objects.exists():
+                raise CommandError("Fantrax events have been applied; --replace would erase them.")
             if LogEntry.objects.filter(content_type__app_label="league").exists():
                 raise CommandError("League data has been edited in the admin; --replace would erase those edits.")
             if SigningPeriod.objects.exists() or AuditEntry.objects.exclude(user=None).exists():
@@ -65,8 +65,9 @@ class Command(BaseCommand):
                 )
             AuditEntry.objects.all().delete()  # only command-line entries (roster syncs) are left
             for model in (
+                FantraxEvent,
+                FantraxLeague,
                 RosterEntry,
-                ReconciliationItem,
                 BudgetAdjustment,
                 CashTrade,
                 FarmPick,
@@ -92,6 +93,14 @@ class Command(BaseCommand):
         self.import_cash_trades()
         self.import_cash_from_fantrax(load(DATA / "league" / "cash_trades_from_fantrax.json")["cash_trades"])
         self.import_farm_picks()
+        FantraxLeague.objects.create(
+            league_id="p3z8zy75mgdm460o",
+            name="Dynasty Yr 19",
+            season=2026,
+            # The post-signing sheet reflects every move up to the auction. The last pre-auction drop
+            # was 15:11 on Feb 25 and the first auction claim 18:21; earlier drops belong to 2025.
+            process_since=datetime(2026, 2, 25, 16, 0, tzinfo=EASTERN),
+        )
         for s in aliases["sign_and_trade"]:
             Contract.objects.filter(team__code=s["team"], player=self.player(s["player"])).update(
                 sign_and_trade=True, note=s["note"]

@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.core.management import call_command
 
 from league.budget import team_budget
-from league.models import Buyout, Contract, FarmPick, Manager, ReconciliationItem, Team
+from league.models import Buyout, Contract, FarmPick, Manager, Team
 from rules.buyouts import buyout_schedule
 
 pytestmark = pytest.mark.django_db
@@ -118,16 +118,6 @@ def test_pick_page_lists_every_pick(manager_client):
     assert sum(len(row["picks"]) for row in page.context["rows"]) == FarmPick.objects.count()
 
 
-def test_banner_warns_while_reconciliation_is_pending(manager_client):
-    call_command("reconcile", verbosity=0)
-    pending = ReconciliationItem.objects.filter(status="pending").count()
-    assert f"{pending} changes from the 2026 season".encode() in manager_client.get("/teams/").content
-
-
-def test_no_banner_when_nothing_is_pending(manager_client):
-    assert b"await commissioner review" not in manager_client.get("/teams/").content
-
-
 def test_team_page_breakdown_adds_up_including_farm(manager_client):
     team = Team.objects.get(code="MB")
     farm = team.farm.filter(status="active").first()
@@ -187,11 +177,9 @@ def test_impossible_buyout_is_refused():
         b.full_clean()
 
 
-def test_banner_is_not_shown_to_people_without_a_team(league, client):
-    call_command("reconcile", verbosity=0)
+def test_people_without_a_team_are_refused(league, client):
     client.force_login(User.objects.create_user("discord-999"))
-    response = client.get("/contracts/")
-    assert response.status_code == 403 and b"await commissioner review" not in response.content
+    assert client.get("/contracts/").status_code == 403
 
 
 def test_help_page_for_managers_hides_the_commissioner_guide(manager_client):
@@ -206,3 +194,13 @@ def test_help_page_shows_commissioners_their_guide(league, client):
 
 def test_help_needs_sign_in(client):
     assert client.get("/help/").status_code == 302
+
+
+def test_team_page_lists_the_seasons_moves(manager_client):
+    from league.tests.test_signing import settle_2026
+
+    settle_2026()
+    html = manager_client.get("/teams/SM/").content.decode()
+    moves = html.split("Moves this season")[1].split("</ul>")[0]
+    assert "dropped Spencer Torkelson (SM): buyout owed" in moves
+    assert "claimed" not in moves  # claims change nothing, so they aren't listed

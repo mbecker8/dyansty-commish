@@ -28,7 +28,7 @@ def team_budget(team: Team, season: int, changes: Changes | None = None) -> Budg
     """The auction budget for `season`, computed from who holds what *now*, plus any `changes`.
 
     Only meaningful for the next auction. A past season's budget was fixed when its
-    auction ran, and accepting that season's reconciliation (trades, drops, promotions)
+    auction ran, and the season's Fantrax moves (trades, drops, promotions)
     changes current holdings, so recomputing it afterwards gives a different number.
     Budgets aren't stored yet; if a past season's figure is ever shown, snapshot it
     at auction time instead of calling this.

@@ -1,8 +1,7 @@
 # Dynasty Commish — Architecture
 
-> Status: reflects the code as of **M3 (Read side)**, merged 2026-09-26.
-> Sections marked **(planned)** describe where M2+ is headed. They're design
-> intent, not code yet. For goals, scope and the rules themselves, see
+> Status: reflects the code as of **Fantrax events** (PR #48, 2026-09-26), after M4.
+> Sections marked **(planned)** describe design intent, not code yet. For goals, scope and the rules themselves, see
 > [VISION.md](VISION.md) and [the rulebook](docs/reference/rulebook-year19.md).
 
 ## 1. The big picture
@@ -12,18 +11,19 @@
                  │                                                                 │
   Managers ────► │  gunicorn ─► Django (config/)                                   │
   Commissioner   │               ├─ core/      pages, healthz                      │
-                 │               ├─ league/    domain models, views   (planned)    │
+                 │               ├─ league/    models, views, Fantrax events       │
                  │               └─ rules/     pure-Python engine ◄── called by ─┐ │
                  │                                                               │ │
                  │               Postgres (managed) ◄── Django ORM ──────────────┘ │
                  └─────────────────────────────────────────────────────────────────┘
                                         ▲
-                         one-off / on-demand imports
+             imports, and on-demand Fantrax syncs (command or console button)
                                         │
           ┌─────────────────────────────┴──────────────────────────────┐
           │                                                            │
   Fantrax (read-only, cookie auth)                  Year 19 contract workbook (.xlsx)
-  scripts/fantrax_snapshot.py ─► data/fantrax/      scripts/extract_workbook_fixture.py
+  league/fantrax_client.py (live sync)              scripts/extract_workbook_fixture.py
+  scripts/fantrax_snapshot.py ─► data/fantrax/
 ```
 
 The app has three layers, and the dependencies only point downward:
@@ -35,8 +35,10 @@ The app has three layers, and the dependencies only point downward:
 3. **Rules engine** (`rules/`): pure functions over plain dataclasses. It
    never imports Django and never touches the database.
 
-Everything that talks to the outside world (Fantrax, the workbook) enters
-through scripts or import commands, never from inside a request.
+The workbook enters only through import commands. Fantrax enters through
+`league.events.sync`: from a saved snapshot, from `manage.py sync_fantrax`, or
+from the console's Sync from Fantrax button, which fetches inside that request
+before opening the transaction. Nothing ever writes to Fantrax.
 
 ## 2. Repository layout
 
@@ -44,7 +46,7 @@ through scripts or import commands, never from inside a request.
 |---|---|
 | `config/` | Django project: settings, root URLs, WSGI/ASGI. |
 | `core/` | Site shell: base template, CSS, `/healthz`. |
-| `league/` | Domain models, import and reconcile commands, budget adapter, league pages. |
+| `league/` | Domain models, import and Fantrax sync commands, event processor, budget adapter, league pages. |
 | `accounts/` | Sign in with Discord (OAuth2, `identify` scope). |
 | `rules/` | League rules engine plus its tests (`rules/tests/`), including golden tests. |
 | `scripts/` | Standalone tools run by hand: the Fantrax snapshot and the workbook fixture extractor. |
@@ -115,7 +117,10 @@ where the numbers come from.
 
 - `config/settings.py` reads everything from environment variables, so one
   file serves local dev, CI and Render:
-  - `DATABASE_URL` (via `dj-database-url`). Falls back to SQLite locally.
+  - `DATABASE_URL` (via `dj-database-url`). Falls back to SQLite locally, where
+    transactions take the write lock up front (`IMMEDIATE`), so overlapping
+    writes such as a double-clicked sync wait instead of failing.
+  - `FANTRAX_COOKIE` and `FANTRAX_SECRET_ID`, else the matching files in `secrets/`.
   - `DJANGO_DEBUG` defaults to on locally and **off on Render** (detected by
     `RENDER`), so production fails safe.
   - `DJANGO_SECRET_KEY` is required whenever DEBUG is off.
@@ -130,8 +135,7 @@ where the numbers come from.
   - `/signing/<code>/` is a team's signing page; `/commish/` and `/commish/audit/` are for commissioners.
   - `/auth/…` is Discord sign-in, `/healthz` is the Render health check, and `/admin/` is the Django admin.
 - League pages show the *next* auction's committed money (`LEAGUE_SEASON` + 1), using
-  `league.budget.team_budget`. While reconciliation items are pending, a banner says the numbers
-  may still change.
+  `league.budget.team_budget`.
 
 ### Signing, console, audit and export (built in M4)
 
@@ -160,12 +164,29 @@ where the numbers come from.
   budget and problems, jump to any team's page, and follow links to the admin for manual
   entries (cash trades, missed-IP penalties, farm picks and farm players).
 - **Audit log** (`/commish/audit/`): signing saves, submits, withdrawals, open, lock,
-  roster syncs, reconciliation decisions, and every admin add, change or delete (through
+  roster syncs, Fantrax syncs, resolved exceptions, and every admin add, change or delete (through
   `league.admin.AuditedAdmin`).
 - **Export** (`/export/`): CSV downloads of budgets, contracts, buyouts, farm, picks and
   cash, built from the same row helpers as the league pages.
-- `reconcile` skips contracts signed at the signing after the season it replays. Otherwise
-  re-running it after lock would replay the new contracts against last season's moves.
+
+### Fantrax events
+
+- **Models:** `FantraxLeague` (a league the sync reads: Fantrax ID, season, start time, active)
+  and `FantraxEvent` (one processed fact, unique `key`, with the effect and what it touched).
+  `import_league` seeds the 2026 league.
+- **`league/events.py`:** `sync([(league, snapshot)])` applies everything new in one
+  transaction. Transactions are keyed `tx:<txSetId>:<player>:<kind>`; roster-derived facts
+  (promotion, debut, unknown Minors player, cash comment, roster mismatch) have their own keys.
+  A key already stored is skipped, so re-running is safe and hand fixes in the admin stick.
+- Moves are applied against current records, so a trade after the signing locks moves the new
+  contract. A contract signed at the signing after a season ignores that season's moves from
+  before the lock.
+- Facts the app can't interpret are `EXCEPTION` events. `signing.open_period` refuses while
+  any are unresolved; the console resolves them with a required note.
+- **Entry points:** `manage.py sync_fantrax` (live, or `--snapshot`, `--dry-run`) and the
+  console's Sync from Fantrax. Both fetch before the transaction starts.
+- The golden test (`league/tests/test_sync_2026.py`) checks the 2026 result against the state
+  the old reconciliation queue produced when everything was accepted.
 
 ### Sign-in and permissions
 
@@ -189,30 +210,31 @@ where the numbers come from.
 ### Fantrax
 
 - **Read-only.** The app never writes to Fantrax.
-- Auth is the commissioner's browser cookie, kept in
-  `secrets/fantrax_cookie.txt` locally (gitignored). **(planned)** An env var
-  secret on Render.
-- `scripts/fantrax_client.py` is a minimal helper that POSTs to Fantrax's
-  `fxpa/req` endpoint. `scripts/fantrax_snapshot.py` saves league info, teams,
-  every roster, the transaction history and a flattened `rosters.csv` into
-  `data/fantrax/<name>/`.
+- Transactions, trades and stats need the logged-in `fxpa/req` API, so auth is the
+  commissioner's browser cookie: `FANTRAX_COOKIE` (a Render secret), else
+  `secrets/fantrax_cookie.txt` locally (gitignored). The Fantrax Secret ID
+  (`FANTRAX_SECRET_ID`, else `secrets/fantrax_secret_id.txt`) only works for the
+  public `getLeagues` call, which the console uses to find the renewed league.
+- `league/fantrax_client.py` fetches a league into memory; `Snapshot.from_raw`
+  reads it exactly like a saved snapshot. `scripts/fantrax_snapshot.py` uses the
+  same client to save league info, teams, every roster, the transaction history
+  and a flattened `rosters.csv` into `data/fantrax/<name>/`.
 - Raw JSON is committed so imports are reproducible and don't depend on
   Fantrax staying up. Fantrax renewal creates a **new league ID** and leaves the
   old one frozen, so an end-of-season snapshot isn't a race against rollover.
 - **Source-of-truth split:** Fantrax owns rosters and end-of-season salaries
   (salary = original price). The app owns contract history (lengths,
   buyouts, farm). When the sheet and Fantrax disagree on a salary, Fantrax wins.
-- **(planned)** All Fantrax access goes behind one sync interface (on-demand
-  command / commissioner button for the MVP). This leaves room for the
-  scheduled live sync on the roadmap without touching callers.
+- All transaction access goes through `league.events.sync` (on-demand command
+  and console button). A scheduled live sync (#33) can call the same code.
 
 ### Contract workbook
 
 - The Year 19 workbook is the one-time seed for contract history.
   `docs/reference/` holds the pre-signing export.
-- **(planned)** An import command loads it into the models, plus a
-  reconciliation report explaining every difference from the sheet (the same
-  discipline as the golden tests).
+- `manage.py import_league` loads it (plus the 2026 Fantrax snapshot and
+  `data/league/`) into the models and seeds the 2026 `FantraxLeague`. It refuses
+  `--replace` once anyone has made changes, including applied Fantrax events.
 
 ## 6. Deployment and operations
 
@@ -221,7 +243,8 @@ where the numbers come from.
   league beta** (free Postgres expires).
 - **Build** (`bin/render-build.sh`): `uv sync --frozen --no-dev` →
   `collectstatic` → `migrate`. Migrations run on every deploy.
-- **Run:** `uv run --frozen --no-dev gunicorn config.wsgi:application`.
+- **Run:** `uv run --frozen --no-dev gunicorn config.wsgi:application --timeout 120`. The long
+  timeout is for Sync from Fantrax, which makes about 15 Fantrax calls (about 25s).
 - **Health check:** `GET /healthz` returns `ok` and is exempt from the HTTPS
   redirect.
 - Python 3.14 and Django 6.1, pinned with `uv.lock`. Every install uses
@@ -244,7 +267,10 @@ GitHub Actions (`.github/workflows/ci.yml`) runs on every PR and on pushes to
 - The workbook's **Contact Info** tab holds personal data. The fixture
   extractor reads team tabs only and never touches it.
 - On Render, `DJANGO_SECRET_KEY` is generated by the Blueprint and
-  `DATABASE_URL` is wired from the managed database.
+  `DATABASE_URL` is wired from the managed database. `FANTRAX_COOKIE`,
+  `FANTRAX_SECRET_ID` and the Discord credentials are set in the dashboard
+  (`sync: false`). The cookie is a login to the commissioner's whole Fantrax
+  account: it's never stored in the database, logged or shown.
 
 ## 9. Key decisions
 
@@ -257,4 +283,5 @@ GitHub Actions (`.github/workflows/ci.yml`) runs on every PR and on pushes to
 | Golden tests against the real workbook | Parity with the sheet is a success criterion. Every difference must be explained. |
 | Commit raw Fantrax snapshots | Reproducible imports. Protects against API changes or outages. |
 | Fantrax read-only, on-demand sync (MVP) | Keeps the scope out of anything Fantrax already does (VISION §10). |
+| Fantrax moves applied as events, not approved one by one | They're facts that already happened. Each is stored once by key, so re-runs are safe and hand fixes stick; only what the app can't interpret waits for the commissioner. |
 | Render with config from env vars | Simple managed hosting. The same settings file works in every environment. |

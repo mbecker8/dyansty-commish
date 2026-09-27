@@ -10,12 +10,12 @@ from django.db import transaction
 from django.utils import timezone
 
 import rules.contracts
+from league import events
 from league.budget import Changes, team_budget
 from league.models import (
     Buyout,
     Contract,
     FarmPlayer,
-    ReconciliationItem,
     RosterEntry,
     SigningPeriod,
     Submission,
@@ -305,17 +305,13 @@ def save_plan(submission: Submission, plan: Plan) -> None:
     submission.save(update_fields=["updated_at"])
 
 
-def pending_reconciliation(season: int) -> int:
-    return ReconciliationItem.objects.filter(season=season, status=ReconciliationItem.Status.PENDING).count()
-
-
 @transaction.atomic
 def open_period(season: int, user) -> SigningPeriod:
     period, _ = SigningPeriod.objects.select_for_update().get_or_create(season=season)
     if period.status != SigningPeriod.Status.PLANNED:
         raise SigningError(f"Signing after {season} is already {period.get_status_display().lower()}")
-    if n := pending_reconciliation(season):
-        raise SigningError(f"{n} reconciliation item(s) for {season} are still pending; decide them first")
+    if n := events.unresolved_count():
+        raise SigningError(f"{n} Fantrax exception(s) are unresolved; resolve them on the console first")
     if not RosterEntry.objects.filter(season=season).exists():
         raise SigningError(f"No rosters loaded for {season}; run sync_rosters first")
     period.status = SigningPeriod.Status.OPEN

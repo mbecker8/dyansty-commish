@@ -1,19 +1,26 @@
 """The signing period end to end: what a team can sign, what it costs, and what locking applies."""
 
+from pathlib import Path
+
 import pytest
+from django.conf import settings
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.http import QueryDict
+from django.utils import timezone
 
 from league import signing
 from league.budget import team_budget
+from league.events import sync
+from league.fantrax_data import EndState, Move
 from league.models import (
     AuditEntry,
     Buyout,
     CashTrade,
     Contract,
+    FantraxEvent,
+    FantraxLeague,
     FarmPlayer,
-    ReconciliationItem,
     RosterEntry,
     SigningPeriod,
     Submission,
@@ -25,20 +32,22 @@ pytestmark = pytest.mark.django_db
 SEASON = 2026
 
 
-def decide_everything():
-    for item in ReconciliationItem.objects.filter(status=ReconciliationItem.Status.PENDING):
-        try:
-            item.accept("test")
-        except ValueError:
-            item.reject("test")
+SNAPSHOT = Path(settings.BASE_DIR) / "data" / "fantrax" / "2026-final"
+
+
+def settle_2026():
+    """What the commissioner does after the 2026 sync: add the two drafted rookies Fantrax shows in Minors."""
+    call_command("sync_fantrax", snapshot=str(SNAPSHOT), verbosity=0)
+    for e in FantraxEvent.objects.unresolved():
+        FarmPlayer.objects.create(team=e.to_team, player=e.player, drafted_year=2026, salary=1, salary_season=2026)
+        e.resolve(None, "added by hand")
 
 
 @pytest.fixture
 def ready():
-    """The league after the 2026 season: reconciled, rosters loaded, signing not open yet."""
+    """The league after the 2026 season: events applied, rosters loaded, signing not open yet."""
     call_command("import_league", verbosity=0)
-    call_command("reconcile", verbosity=0)
-    decide_everything()
+    settle_2026()
     call_command("sync_rosters", verbosity=0)
 
 
@@ -110,14 +119,25 @@ def test_full_signing_period_budgets_match_the_previews(opened):
     assert AuditEntry.objects.filter(action="Applied signing", team=mb).exists()
 
 
-def test_reconcile_after_lock_proposes_nothing(opened):
+def test_trade_after_lock_moves_a_new_contract(opened):
+    from league.tests.test_events import FakeSnapshot
+
     for t in Team.objects.all():
         submit(t, signing.Plan(farm=farm_all(t)))
     mb = team()
     submit(mb, signing.Plan(signings={signable(mb)[0].player.pk: 2}, farm=farm_all(mb)))
     signing.lock_period(SEASON, None)
-    call_command("reconcile", verbosity=0)
-    assert not ReconciliationItem.objects.filter(status=ReconciliationItem.Status.PENDING).exists()
+    new = Contract.objects.select_related("player").get(team=mb, year_signed=SEASON)
+    other = Team.objects.exclude(pk=mb.pk).first()
+    snap = FakeSnapshot(
+        ends={new.player.fantrax_id: EndState(other.fantrax_id, "Active", 0)},
+        moves_=[Move(timezone.now(), "TRADE", new.player.fantrax_id, mb.fantrax_id, other.fantrax_id, "post-lock")],
+        teams=[{"id": t.fantrax_id, "name": t.name} for t in Team.objects.all()],
+    )
+    renewed = FantraxLeague.objects.create(league_id="renewed", season=SEASON)
+    sync([(renewed, snap)])
+    new.refresh_from_db()
+    assert new.team == other
 
 
 def test_lock_twice_is_refused(opened):
@@ -212,11 +232,11 @@ def test_form_parsing_ignores_junk():
     assert plan == signing.Plan(signings={5: 3}, buyouts={11}, farm={7: True, 9: False})
 
 
-def test_open_refuses_while_reconciliation_is_pending():
+def test_open_refuses_while_exceptions_are_unresolved():
     call_command("import_league", verbosity=0)
-    call_command("reconcile", verbosity=0)
+    call_command("sync_fantrax", snapshot=str(SNAPSHOT), verbosity=0)
     call_command("sync_rosters", verbosity=0)
-    with pytest.raises(signing.SigningError, match="pending"):
+    with pytest.raises(signing.SigningError, match="unresolved"):
         signing.open_period(SEASON, None)
 
 

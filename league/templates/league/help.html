@@ -88,31 +88,38 @@ done by hand outside Fantrax: contracts, buyouts, the farm system, and the aucti
     that person's next page load.</li>
 </ul>
 
-<h3>Review the season's moves (reconciliation)</h3>
-<p>After a season (and again before signing, once offseason trades are done), the app replays every Fantrax trade, drop and
-  claim against the contracts and proposes the changes. Nothing changes until you decide.</p>
-<ol>
-  <li>Admin → <strong>Reconciliation items</strong>. Filter by kind or status.</li>
-  <li>Tick items → action <strong>Accept selected</strong> (apply) or <strong>Reject selected</strong> (no change).
-    To leave a note, open a pending item, type it, and save before you decide. The note is kept with the decision.</li>
-  <li><em>Needs a look</em> items and <em>cash comments</em> can't be accepted. Fix the data by hand (e.g. add a Cash trade),
-    write what you did in the note, then reject the item.</li>
-  <li>Decided items are read-only. Re-running reconciliation on a newer Fantrax snapshot only brings back a player if
-    something changed (a later trade, drop or debut).</li>
-</ol>
-<p>Accepting does this: <em>traded</em> moves the contract; <em>dropped</em> creates the buyout, owed by the team that dropped him;
-  <em>dropped in final year</em> voids the contract; <em>farm</em> items apply a trade, promotion, release or MLB debut;
-  <em>not on the sheet</em> adds a $1 farm pick.</p>
+<h3>Fantrax moves (sync)</h3>
+<p>The app reads every Fantrax trade, drop and claim, plus promotions and MLB debuts from the rosters, and applies them
+  itself. Each move is applied once. Press <strong>Sync from Fantrax</strong> on the <a href="{% url 'console' %}">console</a>
+  whenever you want the records caught up; running it again only picks up what's new.</p>
+<ul>
+  <li><strong>What it applies</strong>: a trade moves the contract or farm player; a drop before the contract's final year
+    creates the buyout, owed by the team that dropped him; a drop in the final year voids the contract with no penalty; a
+    farm drop releases him; a farm player in an active roster slot is promoted; a farm player's first plate appearance or out
+    records his MLB debut. Claims change nothing. A claimed player has no contract until he's signed.</li>
+  <li><strong>Exceptions</strong> are the few things it can't sort out: a move that contradicts the records, a Minors player
+    who isn't on a farm (usually a draft pick to add), MLB games with no plate appearance or out, a trade comment that
+    mentions cash, or a contract whose Fantrax roster doesn't match. They're listed on the console. Fix the data by hand
+    (usually in the admin), then resolve the exception with a note saying what you did. Signing can't open while any are
+    listed.</li>
+  <li><strong>If the app applied something wrongly</strong> (a trade that was later reversed, say), correct the contract,
+    buyout or farm player in the admin. Admin edits are audited, and the next sync won't undo them.</li>
+  <li><strong>After renewal</strong>, offseason trades happen in the new Fantrax league. Use <em>Find new Fantrax leagues</em> on
+    the console to add it; the sync then reads both.</li>
+  <li><strong>Fantrax login</strong>: the sync uses your browser's Fantrax cookie (<code>FANTRAX_COOKIE</code> on the server,
+    <code>secrets/fantrax_cookie.txt</code> locally). When it expires, the console says so. Copy a fresh Cookie header from a
+    logged-in Fantrax tab and update it.</li>
+  <li>Every change is listed under <em>Moves this season</em> on each team's page, and in full in Admin → Fantrax events.</li>
+</ul>
 
 <h3>Run the signing period</h3>
 <p>Everything here is on the <a href="{% url 'console' %}">commissioner console</a> (<strong>Commish</strong> in the menu).</p>
 <ol>
-  <li><strong>Take the blackout snapshot</strong> once offseason trades stop, and re-run reconciliation on it (see the
-    command line below). Decide every item. The console won't open signing while any are pending. <em>Known gap:</em> reconcile only reads
-    snapshots of the league that just ended, not a renewed Fantrax league with a new league ID.</li>
+  <li><strong>Sync from Fantrax</strong> once offseason trades stop, and resolve every exception. The console won't open
+    signing while any are listed.</li>
   <li><strong>Load the rosters</strong>: <code>manage.py sync_rosters --fantrax data/fantrax/&lt;blackout&gt;</code>. Prices
     always come from the end-of-season snapshot (<code>--salaries</code>, 2026-final by default). The command lists any
-    contract whose player isn't on his team's roster. That's a drop or trade reconciliation missed. Rosters can be
+    contract whose player isn't on his team's roster. That's a drop or trade the sync hasn't applied yet. Rosters can be
     re-loaded until signing opens, and not after.</li>
   <li><strong>Open signing</strong> on the console. Optionally set a deadline in Admin → Signing periods. It's shown to
     managers, but nothing locks automatically.</li>
@@ -124,15 +131,18 @@ done by hand outside Fantrax: contracts, buyouts, the farm system, and the aucti
     {{ next_season }}) and releases. It's refused if any team has a problem or an undecided farm player. A team that
     hasn't submitted gets its saved draft applied. Locking can't be undone from the console.</li>
 </ol>
-<p>The <a href="{% url 'audit' %}">audit log</a> records every save, submit, withdraw, open and lock, every reconciliation
-  decision, and every add, change or delete in the admin.</p>
+<p>The <a href="{% url 'audit' %}">audit log</a> records every save, submit, withdraw, open and lock, every Fantrax sync and
+  resolved exception, and every add, change or delete in the admin.</p>
 
 <h3>Enter things by hand</h3>
 <ul>
-  <li><strong>Cash trades</strong>: Admin → Cash trades. The budget season is the auction the money applies to.</li>
+  <li><strong>Cash trades</strong>: Admin → Cash trades. The budget season is the auction the money applies to. Enter the
+    Fantrax trade ID too when there is one: a trade comment that mentions cash then stops being flagged.</li>
+  <li><strong>Farm draft picks</strong>: Admin → Farm players ($1, drafted this season). Until you add one, the sync flags him
+    as a Minors player who isn't on a farm.</li>
   <li><strong>Missed-IP penalties</strong>: Admin → Budget adjustments, kind “Missed IP penalty”, the season it's charged to, and a note (e.g. the week).</li>
   <li><strong>Farm pick trades</strong>: Admin → Farm picks, then change the owner.</li>
-  <li><strong>Buyouts</strong> are normally created by accepting a <em>dropped</em> item or at signing. The drop season must be before the contract's final year.</li>
+  <li><strong>Buyouts</strong> are normally created by the Fantrax sync or at signing. The drop season must be before the contract's final year.</li>
   <li><strong>Missing salary</strong>: a roster player with no end-of-season salary can't be signed. Set it in Admin → Roster entries. Once signing opens, only a missing salary can be filled in; set ones are fixed, so a team's submitted prices can't change under it.</li>
 </ul>
 
@@ -142,12 +152,13 @@ done by hand outside Fantrax: contracts, buyouts, the farm system, and the aucti
     It reads Discord credentials from <code>secrets/discord.env</code>.</li>
   <li><code>uv run python scripts/fantrax_snapshot.py &lt;league id&gt; data/fantrax/&lt;name&gt;</code>: take a fresh Fantrax snapshot
     (needs the Fantrax cookie in <code>secrets/fantrax_cookie.txt</code>).</li>
-  <li><code>uv run python manage.py reconcile --fantrax data/fantrax/&lt;name&gt; --preview</code>: propose changes from that
-    snapshot and print next season's budgets as if you accepted everything.</li>
+  <li><code>uv run python manage.py sync_fantrax</code>: the same as the console button. Add
+    <code>--snapshot data/fantrax/&lt;name&gt;</code> to read a saved snapshot instead (with <code>--league &lt;id&gt;</code> once
+    a season has two Fantrax leagues), and <code>--dry-run</code> to see what would change without saving it.</li>
   <li><code>uv run python manage.py sync_rosters --fantrax data/fantrax/&lt;name&gt;</code>: load the signing pool from the
     blackout snapshot, before signing opens.</li>
   <li><code>uv run python manage.py import_league</code>: first-time load of the Year 19 sheet and the 2026 Fantrax snapshot.
-    It refuses to overwrite data once you've made decisions or admin edits.</li>
+    It refuses to overwrite data once you've made decisions, admin edits or applied Fantrax events.</li>
 </ul>
 {% endif %}
 </article>

@@ -6,6 +6,7 @@ Budget math lives in the pure `rules` package; models convert to rules objects.
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 from django.db import models, transaction
+from django.utils import timezone
 
 import rules.contracts
 
@@ -196,6 +197,100 @@ class CashTrade(models.Model):
         return f"${self.amount} {self.from_team.code} -> {self.to_team.code} ({self.budget_season})"
 
 
+class FantraxLeague(models.Model):
+    """A Fantrax league whose moves the app applies. Renewal makes a new league for the offseason."""
+
+    league_id = models.CharField(max_length=32, unique=True)
+    name = models.CharField(max_length=100, blank=True)
+    season = models.PositiveIntegerField(help_text="League season its moves belong to")
+    process_since = models.DateTimeField(
+        null=True, blank=True, help_text="Ignore moves before this time (the league data already includes them)"
+    )
+    active = models.BooleanField(default=True, help_text="Read by Sync from Fantrax")
+
+    class Meta:
+        ordering = ["season", "pk"]
+
+    def __str__(self):
+        return f"{self.name or self.league_id} ({self.season})"
+
+
+class FantraxEventQuerySet(models.QuerySet):
+    def unresolved(self):
+        return self.filter(effect=FantraxEvent.Effect.EXCEPTION, resolved_at=None)
+
+
+class FantraxEvent(models.Model):
+    """One Fantrax fact the app processed, stored once under `key`, with what it changed."""
+
+    class Kind(models.TextChoices):
+        TRADE = "TRADE", "Trade"
+        DROP = "DROP", "Drop"
+        CLAIM = "CLAIM", "Claim"
+        PROMOTED = "PROMOTED", "Promotion"
+        DEBUT = "DEBUT", "MLB debut"
+        DEBUT_CHECK = "DEBUT_CHECK", "Possible MLB debut"
+        MINORS_UNKNOWN = "MINORS_UNKNOWN", "Minors player not on a farm"
+        CASH_COMMENT = "CASH_COMMENT", "Cash in a trade comment"
+        ROSTER_MISMATCH = "ROSTER_MISMATCH", "Roster doesn't match"
+
+    class Effect(models.TextChoices):
+        CONTRACT_MOVED = "CONTRACT_MOVED", "Contract moved"
+        BUYOUT = "BUYOUT", "Buyout"
+        VOIDED = "VOIDED", "Contract voided"
+        FARM_MOVED = "FARM_MOVED", "Farm moved"
+        FARM_RELEASED = "FARM_RELEASED", "Farm released"
+        FARM_PROMOTED = "FARM_PROMOTED", "Farm promoted"
+        FARM_DEBUT = "FARM_DEBUT", "Farm debut"
+        ALREADY_REFLECTED = "ALREADY_REFLECTED", "Already reflected"
+        NONE = "NONE", "No change"
+        EXCEPTION = "EXCEPTION", "Exception"
+
+    key = models.CharField(max_length=120, unique=True)
+    league = models.ForeignKey(FantraxLeague, on_delete=models.PROTECT, related_name="events")
+    happened_at = models.DateTimeField()
+    kind = models.CharField(max_length=20, choices=Kind.choices)
+    effect = models.CharField(max_length=20, choices=Effect.choices)
+    fantrax_player_id = models.CharField(max_length=32, blank=True)
+    player_name = models.CharField(max_length=100, blank=True)
+    # PROTECT: an event is history; deleting what it touched must not erase it.
+    player = models.ForeignKey(Player, on_delete=models.PROTECT, null=True, blank=True, related_name="+")
+    from_team = models.ForeignKey(Team, on_delete=models.PROTECT, null=True, blank=True, related_name="+")
+    to_team = models.ForeignKey(Team, on_delete=models.PROTECT, null=True, blank=True, related_name="+")
+    contract = models.ForeignKey(Contract, on_delete=models.PROTECT, null=True, blank=True, related_name="+")
+    farm_player = models.ForeignKey(FarmPlayer, on_delete=models.PROTECT, null=True, blank=True, related_name="+")
+    buyout = models.ForeignKey(Buyout, on_delete=models.PROTECT, null=True, blank=True, related_name="+")
+    detail = models.TextField(blank=True)
+    synced_at = models.DateTimeField(auto_now_add=True)
+    resolved_at = models.DateTimeField(null=True, blank=True)
+    resolved_by = models.ForeignKey("auth.User", on_delete=models.SET_NULL, null=True, blank=True, related_name="+")
+    resolved_note = models.TextField(blank=True)
+
+    objects = FantraxEventQuerySet.as_manager()
+
+    class Meta:
+        ordering = ["-happened_at", "pk"]
+
+    def __str__(self):
+        return f"{self.happened_at:%Y-%m-%d} {self.get_kind_display()}: {self.detail}"
+
+    @transaction.atomic
+    def resolve(self, user, note: str):
+        """Mark an exception handled. The commissioner fixes the data by hand and says what they did."""
+        note = note.strip()
+        if not note:
+            raise ValueError("Say what you did in the note")
+        # Re-read under a row lock so a second tab or double submit can't resolve twice.
+        current = FantraxEvent.objects.select_for_update().get(pk=self.pk)
+        if current.effect != self.Effect.EXCEPTION or current.resolved_at:
+            raise ValueError("This isn't an open exception")
+        self.resolved_at = timezone.now()
+        self.resolved_by = user if user and user.is_authenticated else None
+        self.resolved_note = note
+        self.save(update_fields=["resolved_at", "resolved_by", "resolved_note"])
+        audit(user, "Resolved Fantrax exception", self.detail, team=self.to_team or self.from_team, note=note)
+
+
 class BudgetAdjustment(models.Model):
     """Commissioner-entered charges, e.g. missed-IP penalties."""
 
@@ -207,115 +302,6 @@ class BudgetAdjustment(models.Model):
     kind = models.CharField(max_length=20, choices=Kind.choices)
     amount = models.PositiveIntegerField()
     note = models.CharField(max_length=200, blank=True)
-
-
-class ReconciliationItem(models.Model):
-    """Something the season's Fantrax moves imply for a contract or farm player, awaiting the commissioner."""
-
-    class Kind(models.TextChoices):
-        CONTINUES = "continues"
-        EXPIRING = "expiring"
-        TRADED = "traded", "Traded (contract moves)"
-        DROPPED = "dropped", "Dropped (buyout owed)"
-        DROPPED_FREE = "dropped_free", "Dropped in final year (no penalty)"
-        INCONSISTENT = "inconsistent", "Needs a look"
-        FARM_CONTINUES = "farm_continues", "Farm: still on the farm"
-        FARM_TRADED = "farm_traded", "Farm: traded"
-        FARM_PROMOTED = "farm_promoted", "Farm: promoted (can't return)"
-        FARM_RELEASED = "farm_released", "Farm: released"
-        FARM_INCONSISTENT = "farm_inconsistent", "Farm: needs a look"
-        FARM_UNKNOWN = "farm_unknown", "Farm: in Fantrax minors but not on the sheet"
-        CASH_COMMENT = "cash_comment", "Trade comment mentioning cash (enter a CashTrade by hand)"
-
-    class Status(models.TextChoices):
-        PENDING = "pending"
-        ACCEPTED = "accepted"
-        REJECTED = "rejected"
-
-    season = models.PositiveIntegerField()
-    kind = models.CharField(max_length=20, choices=Kind.choices)
-    # PROTECT: a decision is history; deleting what it refers to must not erase it.
-    contract = models.ForeignKey(Contract, on_delete=models.PROTECT, null=True, blank=True, related_name="+")
-    farm_player = models.ForeignKey(FarmPlayer, on_delete=models.PROTECT, null=True, blank=True, related_name="+")
-    player = models.ForeignKey(Player, on_delete=models.PROTECT, null=True, blank=True, related_name="+")
-    mlb_debut = models.BooleanField(default=False, help_text="Farm player appeared in MLB this season")
-    team = models.ForeignKey(
-        Team,
-        on_delete=models.PROTECT,
-        null=True,
-        blank=True,
-        related_name="+",
-        help_text="New holder (trade/promotion) or team owing the buyout (drop)",
-    )
-    detail = models.TextField(blank=True)
-    fantrax_tx_ids = models.CharField(max_length=500, blank=True)
-    start_team = models.ForeignKey(
-        Team,
-        on_delete=models.PROTECT,
-        null=True,
-        blank=True,
-        related_name="+",
-        help_text="Team the replay started from (holder before the season's moves)",
-    )
-    status = models.CharField(max_length=10, choices=Status.choices, default=Status.PENDING)
-    decided_note = models.TextField(blank=True)
-
-    class Meta:
-        ordering = ["kind", "player__name"]
-
-    def __str__(self):
-        return f"{self.get_kind_display()}: {self.contract or self.farm_player or self.player or self.detail}"
-
-    def _lock_pending(self):
-        """Re-read status under a row lock so a stale copy (second tab, double submit) can't decide twice."""
-        status = ReconciliationItem.objects.select_for_update().values_list("status", flat=True).get(pk=self.pk)
-        if status != self.Status.PENDING:
-            raise ValueError(f"Item {self.pk} is already {status}")
-
-    @transaction.atomic
-    def accept(self, note: str = ""):
-        """Apply the proposed change, all or nothing."""
-        self._lock_pending()
-        if self.kind == self.Kind.DROPPED:
-            self.contract.team = self.team  # the team holding him when he was dropped
-            self.contract.save(update_fields=["team"])
-            Buyout.objects.create(
-                contract=self.contract, team=self.team, dropped_in_season=self.season, note=self.detail
-            )
-        elif self.kind == self.Kind.DROPPED_FREE:
-            self.contract.voided_in_season = self.season
-            self.contract.save(update_fields=["voided_in_season"])
-        elif self.kind == self.Kind.TRADED:
-            self.contract.team = self.team
-            self.contract.save(update_fields=["team"])
-        elif self.kind == self.Kind.FARM_UNKNOWN:
-            # A farm draft pick the sheet missed.
-            self.farm_player = FarmPlayer.objects.create(
-                team=self.team, player=self.player, drafted_year=self.season, salary=1, salary_season=self.season
-            )
-        elif self.kind in (self.Kind.INCONSISTENT, self.Kind.FARM_INCONSISTENT, self.Kind.CASH_COMMENT):
-            raise ValueError("Fix this by hand, write what you did in the note, then reject it")
-        elif self.farm_player_id:
-            farm = self.farm_player
-            if self.mlb_debut:
-                farm.has_mlb_appearance = True
-            if self.kind in (self.Kind.FARM_TRADED, self.Kind.FARM_PROMOTED):
-                farm.team = self.team
-            if self.kind == self.Kind.FARM_PROMOTED:
-                farm.status = FarmPlayer.Status.PROMOTED
-            elif self.kind == self.Kind.FARM_RELEASED:
-                farm.status = FarmPlayer.Status.RELEASED
-            farm.save()
-        self.status = self.Status.ACCEPTED
-        self.decided_note = note
-        self.save(update_fields=["status", "decided_note", "farm_player"])
-
-    @transaction.atomic
-    def reject(self, note: str):
-        self._lock_pending()
-        self.status = self.Status.REJECTED
-        self.decided_note = note
-        self.save(update_fields=["status", "decided_note"])
 
 
 class RosterEntry(models.Model):

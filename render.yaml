@@ -6,7 +6,7 @@ services:
     runtime: python
     plan: free
     buildCommand: ./bin/render-build.sh
-    startCommand: uv run --frozen --no-dev gunicorn config.wsgi:application
+    startCommand: uv run --frozen --no-dev gunicorn config.wsgi:application --timeout 120
     healthCheckPath: /healthz
     envVars:
       - key: PYTHON_VERSION
@@ -24,6 +24,12 @@ services:
       - key: DISCORD_CLIENT_ID
         sync: false
       - key: DISCORD_CLIENT_SECRET
+        sync: false
+      # Fantrax (read-only): the commissioner's browser Cookie header, and the Secret ID from
+      # the Fantrax user profile (only used to find the renewed league). Set in the dashboard.
+      - key: FANTRAX_COOKIE
+        sync: false
+      - key: FANTRAX_SECRET_ID
         sync: false
 
 databases:

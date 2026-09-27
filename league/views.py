@@ -8,7 +8,17 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from league.access import is_league_member, member_required
 from league.budget import team_budget
-from league.models import BudgetAdjustment, Buyout, CashTrade, Contract, FarmPick, FarmPlayer, Player, Team
+from league.models import (
+    BudgetAdjustment,
+    Buyout,
+    CashTrade,
+    Contract,
+    FantraxEvent,
+    FarmPick,
+    FarmPlayer,
+    Player,
+    Team,
+)
 from rules.buyouts import buyout_schedule
 from rules.farm import retained_salary
 
@@ -104,6 +114,17 @@ def team(request, code):
             .select_related("from_team", "to_team")
             .order_by("-budget_season", "pk"),
             "managers": team.managers.all(),
+            "moves": FantraxEvent.objects.filter(
+                Q(from_team=team) | Q(to_team=team), league__season=settings.LEAGUE_SEASON
+            )
+            .exclude(
+                effect__in=[
+                    FantraxEvent.Effect.NONE,
+                    FantraxEvent.Effect.ALREADY_REFLECTED,
+                    FantraxEvent.Effect.EXCEPTION,
+                ]
+            )
+            .order_by("-happened_at", "pk"),
         },
     )
 

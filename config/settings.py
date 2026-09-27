@@ -83,6 +83,10 @@ DATABASES = {
         conn_health_checks=True,
     )
 }
+if DATABASES["default"]["ENGINE"] == "django.db.backends.sqlite3":
+    # Local runs: take the write lock when a transaction starts, so two overlapping writes (say, a
+    # double-clicked Fantrax sync) queue instead of failing with "database is locked".
+    DATABASES["default"].setdefault("OPTIONS", {}).update({"transaction_mode": "IMMEDIATE", "timeout": 30})
 
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
@@ -114,6 +118,19 @@ DISCORD_CLIENT_SECRET = os.environ.get("DISCORD_CLIENT_SECRET", "")
 # The last completed season; league pages show commitments for the one after it.
 # Replaced by a Season model once season rollover exists.
 LEAGUE_SEASON = int(os.environ.get("LEAGUE_SEASON", "2026"))
+
+
+def _secret(name: str, filename: str) -> str:
+    """Env var, else the gitignored secrets/ file (local runs)."""
+    if value := os.environ.get(name):
+        return value
+    path = BASE_DIR / "secrets" / filename
+    return path.read_text().strip() if path.exists() else ""
+
+
+# Fantrax (read-only). The cookie is the commissioner's browser session; the Secret ID only lists leagues.
+FANTRAX_COOKIE = _secret("FANTRAX_COOKIE", "fantrax_cookie.txt")
+FANTRAX_SECRET_ID = _secret("FANTRAX_SECRET_ID", "fantrax_secret_id.txt")
 
 MAILERS = {
     "default": {
