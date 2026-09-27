@@ -4,9 +4,8 @@ import pytest
 from playwright.sync_api import expect
 
 from e2e.conftest import SEASON
-from e2e.pages import add_cash_trade, admin_saved, browse_signing, team_label
-from league.budget import team_budget
-from league.models import AuditEntry, FarmPick, FarmPlayer, Player, Team
+from e2e.pages import add_cash_trade, admin_saved, browse_signing, panel_line, team_label
+from league.models import AuditEntry, FarmPick, FarmPlayer, Player
 
 pytestmark = pytest.mark.usefixtures("opened")
 
@@ -77,5 +76,4 @@ def test_added_farm_player_shows_up_to_keep_or_release(commish_page, mb_page):
     expect(page.locator("#panel")).to_contain_text(player.name)  # still to decide
     row.get_by_label("Keep").check()
     expect(page.locator("#panel")).not_to_contain_text(player.name)
-    ev_remaining = team_budget(Team.objects.get(code="MB"), SEASON + 1).remaining
-    expect(page.locator("#panel tr").filter(has_text="Before signing")).to_contain_text(f"${ev_remaining}")
+    expect(panel_line(page, "Farm players kept")).to_have_text("−$3")  # $2 + $1, no MLB time

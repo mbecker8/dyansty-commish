@@ -1,11 +1,14 @@
 """Browser tests: the league after the 2026 season, served by a live server and driven with Playwright.
 
-Run with `uv run pytest e2e` (once: `uv run playwright install chromium`). Add `--headed` to watch.
+Part of the local `uv run pytest` run; CI skips them. Once: `uv run playwright install chromium`.
+Add `--headed` to watch.
 """
 
-import os
+from importlib import import_module
+from pathlib import Path
 
 import pytest
+from django.apps import apps
 from django.contrib.auth.models import User
 from django.core.management import call_command
 from django.test import Client
@@ -14,22 +17,33 @@ from league import signing
 from league.models import Manager, SigningPeriod, Submission, Team
 from league.tests.test_signing import settle_2026
 
-# Playwright's sync API runs an event loop in this thread; the ORM calls the tests make are still synchronous.
-os.environ.setdefault("DJANGO_ALLOW_ASYNC_UNSAFE", "true")
-
+HERE = Path(__file__).parent
 SEASON = 2026
 
 
+@pytest.fixture(autouse=True, scope="session")
+def _orm_beside_playwright():
+    # Playwright's sync API runs an event loop in this thread; the ORM calls the tests make (and the database
+    # flush after each one) are still synchronous. Session-wide, so it outlasts each test's teardown.
+    with pytest.MonkeyPatch.context() as mp:
+        mp.setenv("DJANGO_ALLOW_ASYNC_UNSAFE", "true")
+        yield
+
+
 def pytest_collection_modifyitems(items):
-    # Transactional, so the live server's thread sees each test's data. Serialized rollback puts back
-    # the rows the migrations seed (the 2026 season), which the flush after each test removes.
+    # Transactional, so the live server's thread sees each test's data. The hook sees the whole session,
+    # so only mark the tests in this directory.
     for item in items:
-        item.add_marker(pytest.mark.django_db(transaction=True, serialized_rollback=True))
+        if item.path.is_relative_to(HERE):
+            item.add_marker(pytest.mark.django_db(transaction=True))
 
 
 @pytest.fixture
 def league(live_server):
     """The league after the 2026 season: events applied, rosters loaded, signing not open yet."""
+    # The flush after each transactional test also removes the rows the data migrations seed, so seed them again.
+    for migration in ("0009_seed_2026_fantrax_league", "0010_season"):
+        import_module(f"league.migrations.{migration}").seed(apps, None)
     call_command("import_league", verbosity=0)
     settle_2026()
     call_command("sync_rosters", verbosity=0)
