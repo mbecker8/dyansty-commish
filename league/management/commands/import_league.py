@@ -100,8 +100,8 @@ class Command(BaseCommand):
             league_id="p3z8zy75mgdm460o",
             name="Dynasty Yr 19",
             season=2026,
-            # The post-signing sheet reflects every move up to the auction. The last pre-auction drop
-            # was 15:11 on Feb 25 and the first auction claim 18:21; earlier drops belong to 2025.
+            # The post-signing sheet reflects every move up to draft day. The last earlier drop was
+            # 15:11 on Feb 25; the first claim, at 18:21, was a farm pick. Earlier drops belong to 2025.
             process_since=datetime(2026, 2, 25, 16, 0, tzinfo=EASTERN),
         )
         for s in aliases["sign_and_trade"]:

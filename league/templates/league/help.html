@@ -134,6 +134,20 @@ done by hand outside Fantrax: contracts, buyouts, the farm system, and the aucti
 <p>The <a href="{% url 'audit' %}">audit log</a> records every save, submit, withdraw, open and lock, every Fantrax sync and
   resolved exception, and every add, change or delete in the admin.</p>
 
+<h3>Draft day and the new season</h3>
+<p>Also on the <a href="{% url 'console' %}">console</a>, under <em>The {{ next_season }} season</em>.</p>
+<ol>
+  <li><strong>Enter the dates</strong> before draft day: when the farm draft starts and when the auction starts (Eastern
+    time). You can change them until the season starts; after that, only in Admin → Seasons.</li>
+  <li><strong>Run the farm draft, then the auction, in Fantrax.</strong> Teams add their farm picks as ordinary claims.
+    Every claim between the two times is a farm pick: the sync makes him a farm player at $1, whatever Fantrax says,
+    and uses up the team's pick. A claim by a team with no pick left is listed as an exception.</li>
+  <li><strong>Sync from Fantrax</strong> once the auction has started, and resolve any exceptions.</li>
+  <li><strong>Start the season.</strong> The checklist shows what's missing: signing locked, the auction start passed, a
+    sync since then, no open exceptions. Starting freezes each team's auction budget (shown on its page) and adds the
+    next year of farm picks. Moves from the auction on count toward the new season whenever you press it.</li>
+</ol>
+
 <h3>Enter things by hand</h3>
 <ul>
   <li><strong>Cash trades</strong>: Admin → Cash trades. The budget season is the auction the money applies to. Enter the
