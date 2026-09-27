@@ -32,12 +32,13 @@ from league.models import (
     Team,
     audit,
 )
+from league.seasons import current_season
 from league.views import buyout_rows, contract_rows, next_season
 from rules.farm import retained_salary
 
 
 def season():
-    return settings.LEAGUE_SEASON
+    return current_season()
 
 
 # --- signing screen ------------------------------------------------------------

@@ -321,12 +321,10 @@ SEASON_LENGTH = timedelta(days=365)
 `Processor.__init__`: replace the `self.season` / period lines with
 
 ```python
-        self.league, self.teams, self.names = league, teams, names
-        self.season = seasons.current_season()  # roster facts are about now
-        self.seasons = list(Season.objects.all())
-        self.locks = dict(
-            SigningPeriod.objects.exclude(locked_at=None).values_list("season", "locked_at")
-        )
+self.league, self.teams, self.names = league, teams, names
+self.season = seasons.current_season()  # roster facts are about now
+self.seasons = list(Season.objects.all())
+self.locks = dict(SigningPeriod.objects.exclude(locked_at=None).values_list("season", "locked_at"))
 ```
 
 Add:
@@ -462,40 +460,44 @@ and in `FantraxEvent.Effect` add `FARM_DRAFTED = "FARM_DRAFTED", "Farm drafted"`
 New method:
 
 ```python
-    def draft(self, m: Move, key: str, year: int, to: Team, name: str) -> FantraxEvent:
-        """A claim in the farm draft window is a farm pick: $1, spending the team's lowest unused pick."""
+def draft(self, m: Move, key: str, year: int, to: Team, name: str) -> FantraxEvent:
+    """A claim in the farm draft window is a farm pick: $1, spending the team's lowest unused pick."""
 
-        def rec(effect, detail, **links):
-            return self.record(key, m.kind, effect, m.when, detail, m.fantrax_id, to_team=to, **links)
+    def rec(effect, detail, **links):
+        return self.record(key, m.kind, effect, m.when, detail, m.fantrax_id, to_team=to, **links)
 
-        if held := self.farm(m.fantrax_id):
-            if held.team == to:
-                return rec(Effect.ALREADY_REFLECTED, f"drafted {name}: already on the {to.code} farm", farm_player=held)
-            return rec(Effect.EXCEPTION, f"{to.code} drafted {name}, but he's on the {held.team.code} farm", farm_player=held)
-        if held := self.contract(m.fantrax_id, m.when):
-            return rec(Effect.EXCEPTION, f"{to.code} drafted {name}, but he's under contract to {held.team.code}", contract=held)
-        pick = FarmPick.objects.filter(year=year, owner=to, player=None).order_by("round", "pk").first()
-        if pick is None:
-            return rec(
-                Effect.EXCEPTION,
-                f"{to.code} claimed {name} in the farm draft but has no {year} pick left: add him in the admin if "
-                "he's a farm player",
-            )
-        player = self.player(m.fantrax_id)
-        if player is None:
-            player = Player.objects.create(name=name, fantrax_id=m.fantrax_id)
-            self._players[m.fantrax_id] = player
-        farm = FarmPlayer.objects.create(
-            team=to, player=player, drafted_year=year, salary=DRAFT_PICK_SALARY, salary_season=year
-        )
-        pick.player = player
-        pick.save(update_fields=["player"])
-        self.tracked.add(m.fantrax_id)
+    if held := self.farm(m.fantrax_id):
+        if held.team == to:
+            return rec(Effect.ALREADY_REFLECTED, f"drafted {name}: already on the {to.code} farm", farm_player=held)
         return rec(
-            Effect.FARM_DRAFTED,
-            f"drafted {name} to the {to.code} farm ({year} round {pick.round}, ${DRAFT_PICK_SALARY})",
-            farm_player=farm,
+            Effect.EXCEPTION, f"{to.code} drafted {name}, but he's on the {held.team.code} farm", farm_player=held
         )
+    if held := self.contract(m.fantrax_id, m.when):
+        return rec(
+            Effect.EXCEPTION, f"{to.code} drafted {name}, but he's under contract to {held.team.code}", contract=held
+        )
+    pick = FarmPick.objects.filter(year=year, owner=to, player=None).order_by("round", "pk").first()
+    if pick is None:
+        return rec(
+            Effect.EXCEPTION,
+            f"{to.code} claimed {name} in the farm draft but has no {year} pick left: add him in the admin if "
+            "he's a farm player",
+        )
+    player = self.player(m.fantrax_id)
+    if player is None:
+        player = Player.objects.create(name=name, fantrax_id=m.fantrax_id)
+        self._players[m.fantrax_id] = player
+    farm = FarmPlayer.objects.create(
+        team=to, player=player, drafted_year=year, salary=DRAFT_PICK_SALARY, salary_season=year
+    )
+    pick.player = player
+    pick.save(update_fields=["player"])
+    self.tracked.add(m.fantrax_id)
+    return rec(
+        Effect.FARM_DRAFTED,
+        f"drafted {name} to the {to.code} farm ({year} round {pick.round}, ${DRAFT_PICK_SALARY})",
+        farm_player=farm,
+    )
 ```
 
 - [ ] **Step 5: Run** `uv run pytest league -q` — pass.
@@ -568,7 +570,11 @@ def test_start_freezes_budgets_adds_picks_and_advances(league_2026):
     for sb in SeasonBudget.objects.filter(season=2027).select_related("team"):
         b = want.pop(sb.team.code)
         assert (sb.remaining, sb.contracts, sb.buyouts, sb.farm, sb.cash_net) == (
-            b.remaining, b.contracts, b.buyouts, b.farm, b.cash_net
+            b.remaining,
+            b.contracts,
+            b.buyouts,
+            b.farm,
+            b.cash_net,
         )
     assert want == {}
     new = FarmPick.objects.filter(year=2031)
@@ -650,7 +656,11 @@ def set_dates(farm_draft_starts_at, auction_starts_at, user) -> Season:
     season.farm_draft_starts_at, season.auction_starts_at = farm_draft_starts_at, auction_starts_at
     season.save(update_fields=["farm_draft_starts_at", "auction_starts_at"])
     when = lambda t: f"{timezone.localtime(t):%b %-d %Y %-I:%M %p}" if t else "not set"  # noqa: E731
-    audit(user, "Set season dates", f"{season.year}: farm draft {when(farm_draft_starts_at)}, auction {when(auction_starts_at)}")
+    audit(
+        user,
+        "Set season dates",
+        f"{season.year}: farm draft {when(farm_draft_starts_at)}, auction {when(auction_starts_at)}",
+    )
     return season
 
 
@@ -686,8 +696,16 @@ def start(year: int, user) -> Season:
     for team in teams:
         b = team_budget(team, year)
         SeasonBudget.objects.create(
-            season=year, team=team, base=b.base, contracts=b.contracts, buyouts=b.buyouts, farm=b.farm,
-            missed_ip=b.missed_ip, cash_net=b.cash_net, remaining=b.remaining, frozen_at=now,
+            season=year,
+            team=team,
+            base=b.base,
+            contracts=b.contracts,
+            buyouts=b.buyouts,
+            farm=b.farm,
+            missed_ip=b.missed_ip,
+            cash_net=b.cash_net,
+            remaining=b.remaining,
+            frozen_at=now,
         )
     pick_year = (FarmPick.objects.aggregate(y=Max("year"))["y"] or year) + 1
     FarmPick.objects.bulk_create(
@@ -695,7 +713,9 @@ def start(year: int, user) -> Season:
     )
     season.started_at, season.started_by = now, user if user and user.is_authenticated else None
     season.save(update_fields=["started_at", "started_by"])
-    audit(user, "Started season", f"The {year} season: froze {len(teams)} auction budgets, added {pick_year} farm picks")
+    audit(
+        user, "Started season", f"The {year} season: froze {len(teams)} auction budgets, added {pick_year} farm picks"
+    )
     return season
 ```
 
@@ -772,8 +792,16 @@ def test_team_page_shows_the_frozen_auction_budget(manager_client):
     Season.objects.create(year=2027, auction_starts_at="2027-02-24T19:00-05:00", started_at="2027-02-25T00:00-05:00")
     team = Team.objects.get(code="MB")
     SeasonBudget.objects.create(
-        season=2027, team=team, base=400, contracts=200, buyouts=10, farm=4, missed_ip=0, cash_net=5,
-        remaining=191, frozen_at="2027-02-25T00:00-05:00",
+        season=2027,
+        team=team,
+        base=400,
+        contracts=200,
+        buyouts=10,
+        farm=4,
+        missed_ip=0,
+        cash_net=5,
+        remaining=191,
+        frozen_at="2027-02-25T00:00-05:00",
     )
     html = manager_client.get("/teams/MB/").content.decode()
     assert "2027 auction budget: $191" in html

@@ -127,6 +127,14 @@ class FarmPlayerAdmin(AuditedAdmin):
 admin.site.register([models.TeamAlias, models.FarmPick, models.CashTrade, models.BudgetAdjustment], AuditedAdmin)
 
 
+@admin.register(models.Season)
+class SeasonAdmin(AuditedAdmin):
+    """Set a season's dates on the console; change a started season's dates here."""
+
+    list_display = ["year", "farm_draft_starts_at", "auction_starts_at", "started_at"]
+    readonly_fields = ["started_at", "started_by"]
+
+
 @admin.register(models.FantraxLeague)
 class FantraxLeagueAdmin(AuditedAdmin):
     """Leagues Sync from Fantrax reads. Add the renewed league from the console's league finder."""

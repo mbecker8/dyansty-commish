@@ -115,10 +115,6 @@ LOGIN_REDIRECT_URL = "/"
 DISCORD_CLIENT_ID = os.environ.get("DISCORD_CLIENT_ID", "")
 DISCORD_CLIENT_SECRET = os.environ.get("DISCORD_CLIENT_SECRET", "")
 
-# The last completed season; league pages show commitments for the one after it.
-# Replaced by a Season model once season rollover exists.
-LEAGUE_SEASON = int(os.environ.get("LEAGUE_SEASON", "2026"))
-
 
 def _secret(name: str, filename: str) -> str:
     """Env var, else the gitignored secrets/ file (local runs)."""

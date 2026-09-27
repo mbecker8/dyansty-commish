@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.core.management import call_command
 
 from league.budget import team_budget
-from league.models import Buyout, Contract, FarmPick, Manager, Team
+from league.models import Buyout, Contract, FarmPick, Manager, Season, Team
 from rules.buyouts import buyout_schedule
 
 pytestmark = pytest.mark.django_db
@@ -158,11 +158,11 @@ def test_team_page_lists_past_cash_trades_too(manager_client):
     assert f"{past.budget_season}: ${past.amount}" in manager_client.get("/teams/MB/").content.decode()
 
 
-def test_ended_contracts_are_only_last_seasons(manager_client, settings):
+def test_ended_contracts_are_only_last_seasons(manager_client):
     team = Team.objects.get(code="MB")
     ended = manager_client.get("/teams/MB/").context["expired"]
     assert ended and all(c.final_year == 2026 for c in ended)
-    settings.LEAGUE_SEASON = 2027
+    Season.objects.create(year=2027, auction_starts_at="2027-02-24T19:00-05:00", started_at="2027-02-25T00:00-05:00")
     assert all(c.final_year == 2027 for c in manager_client.get("/teams/MB/").context["expired"])
     assert team
 

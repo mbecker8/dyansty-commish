@@ -2,7 +2,6 @@
 
 from collections import defaultdict
 
-from django.conf import settings
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -19,12 +18,13 @@ from league.models import (
     Player,
     Team,
 )
+from league.seasons import current_season
 from rules.buyouts import buyout_schedule
 from rules.farm import retained_salary
 
 
 def next_season():
-    return settings.LEAGUE_SEASON + 1
+    return current_season() + 1
 
 
 def home(request):
@@ -104,7 +104,7 @@ def team(request, code):
             "ledger": ledger(budget),
             "adjustments": BudgetAdjustment.objects.filter(team=team, season=season),
             "contracts": contract_rows(c for c in live if c.final_year >= season),
-            "expired": [c for c in live if c.final_year == settings.LEAGUE_SEASON],
+            "expired": [c for c in live if c.final_year == current_season()],
             "buyouts": buyout_rows(buyouts),
             "farm": farm_rows(farm.order_by("player__name")),
             "picks": FarmPick.objects.filter(owner=team, year__gte=season)
@@ -114,9 +114,7 @@ def team(request, code):
             .select_related("from_team", "to_team")
             .order_by("-budget_season", "pk"),
             "managers": team.managers.all(),
-            "moves": FantraxEvent.objects.filter(
-                Q(from_team=team) | Q(to_team=team), league__season=settings.LEAGUE_SEASON
-            )
+            "moves": FantraxEvent.objects.filter(Q(from_team=team) | Q(to_team=team), league__season=current_season())
             .exclude(
                 effect__in=[
                     FantraxEvent.Effect.NONE,
