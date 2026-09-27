@@ -11,8 +11,9 @@ from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 
+from league.events import UnmatchedTeam, match_teams
 from league.fantrax_data import Snapshot, normalize_name
-from league.models import Contract, Player, RosterEntry, SigningPeriod, Team, TeamAlias, audit
+from league.models import Contract, Player, RosterEntry, SigningPeriod, Team, audit
 
 SNAPSHOT = str(Path(settings.BASE_DIR) / "data" / "fantrax" / "2026-final")
 
@@ -33,7 +34,10 @@ class Command(BaseCommand):
         if period and period.status != SigningPeriod.Status.PLANNED:
             raise CommandError(f"Signing after {season} is {period.get_status_display().lower()}; rosters are fixed.")
         rosters, prices = Snapshot(Path(fantrax)), Snapshot(Path(salaries)).salaries()
-        teams = self.match_teams(rosters)
+        try:
+            teams = match_teams(rosters)
+        except UnmatchedTeam as e:
+            raise CommandError(str(e)) from None
         players = {p.fantrax_id: p for p in Player.objects.exclude(fantrax_id=None)}
         unlinked = {}
         for p in Player.objects.filter(fantrax_id=None):
@@ -84,19 +88,6 @@ class Command(BaseCommand):
                 self.stdout.write(f"No end-of-season salary (not signable until fixed): {', '.join(missing)}")
             for line in self.contract_problems(season):
                 self.stdout.write(line)
-
-    def match_teams(self, snapshot) -> dict[str, Team]:
-        by_id = {t.fantrax_id: t for t in Team.objects.all()}
-        by_name = {t.name.lower(): t for t in by_id.values()} | {
-            a.alias.lower(): a.team for a in TeamAlias.objects.all()
-        }
-        out = {}
-        for t in snapshot.teams:
-            team = by_id.get(t["id"]) or by_name.get(t["name"].strip().lower())
-            if team is None:
-                raise CommandError(f"Fantrax team {t['name']!r} ({t['id']}) matches no team; add an alias")
-            out[t["id"]] = team
-        return out
 
     @staticmethod
     def contract_problems(season):
