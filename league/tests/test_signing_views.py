@@ -10,7 +10,7 @@ from django.test import Client
 
 from league import signing
 from league.budget import team_budget
-from league.models import AuditEntry, CashTrade, Manager, SigningPeriod, Submission, Team
+from league.models import AuditEntry, CashTrade, Contract, Manager, SigningPeriod, Submission, Team
 from league.tests.test_signing import decide_everything
 
 pytestmark = pytest.mark.django_db
@@ -292,3 +292,25 @@ def test_roster_salary_is_locked_once_signing_opens(opened, commish):
     RosterEntry.objects.filter(pk=entry.pk).update(salary=None)
     page = commish.get(f"/admin/league/rosterentry/{entry.pk}/change/").content.decode()
     assert 'name="salary"' in page
+
+
+def year_options(page, name):
+    return page.split(f'name="{name}"')[1].split("</select>")[0]
+
+
+def test_year_fields_are_dropdowns_from_this_year(ready, commish):
+    import datetime
+
+    this_year = datetime.date.today().year
+    for url, name in [("cashtrade", "budget_season"), ("budgetadjustment", "season")]:
+        options = year_options(commish.get(f"/admin/league/{url}/add/").content.decode(), name)
+        assert options.index(f'value="{this_year}"') < options.index(f'value="{this_year + 1}"')
+        assert f'value="{this_year - 1}"' not in options
+    options = year_options(commish.get("/admin/league/contract/add/").content.decode(), "year_signed")
+    assert options.index(f'value="{this_year}"') < options.index(f'value="{this_year - 1}"')
+
+
+def test_year_dropdown_keeps_an_older_year(ready, commish):
+    contract = Contract.objects.order_by("year_signed").first()
+    page = commish.get(f"/admin/league/contract/{contract.pk}/change/").content.decode()
+    assert f'value="{contract.year_signed}" selected' in year_options(page, "year_signed")

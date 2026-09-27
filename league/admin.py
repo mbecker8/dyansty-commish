@@ -1,3 +1,6 @@
+import datetime
+
+from django import forms
 from django.contrib import admin, messages
 from django.contrib.admin.options import ActionLocation
 from django.db import DatabaseError
@@ -13,8 +16,54 @@ def _teams_of(obj) -> list:
     return list(dict.fromkeys(t for t in teams if isinstance(t, models.Team))) or [None]
 
 
+# Year fields become dropdowns starting at the present year. YEARS_AHEAD fields run forward
+# (a coming auction or draft); the rest run back (when something was signed or dropped).
+YEAR_FIELDS = {
+    "year",
+    "season",
+    "budget_season",
+    "year_signed",
+    "voided_in_season",
+    "dropped_in_season",
+    "drafted_year",
+    "salary_season",
+}
+YEARS_AHEAD = {("cashtrade", "budget_season"), ("budgetadjustment", "season"), ("farmpick", "year")}
+
+
+class YearChoicesForm(forms.ModelForm):
+    """Picks years from a list instead of typing them. A record's existing year is always offered."""
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        this_year = datetime.date.today().year
+        for name, field in list(self.fields.items()):
+            if name not in YEAR_FIELDS:
+                continue
+            if (self._meta.model._meta.model_name, name) in YEARS_AHEAD:
+                years = list(range(this_year, this_year + 5))
+            else:
+                years = list(range(this_year, this_year - 11, -1))
+            current = getattr(self.instance, name, None) if self.instance.pk else None
+            if current is not None and current not in years:
+                years = sorted([*years, current], reverse=years[0] > years[-1])
+            choices = [(y, y) for y in years]
+            if not field.required:
+                choices.insert(0, ("", "---------"))
+            self.fields[name] = forms.TypedChoiceField(
+                choices=choices,
+                coerce=int,
+                empty_value=None,
+                required=field.required,
+                label=field.label,
+                help_text=field.help_text,
+            )
+
+
 class AuditedAdmin(admin.ModelAdmin):
     """Every add, change and delete in the admin also goes in the league audit log."""
+
+    form = YearChoicesForm
 
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)
