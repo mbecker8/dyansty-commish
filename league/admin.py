@@ -127,6 +127,45 @@ class FarmPlayerAdmin(AuditedAdmin):
 admin.site.register([models.TeamAlias, models.FarmPick, models.CashTrade, models.BudgetAdjustment], AuditedAdmin)
 
 
+@admin.register(models.Season)
+class SeasonAdmin(AuditedAdmin):
+    """Set a season's dates on the console; change a started season's dates here."""
+
+    list_display = ["year", "farm_draft_starts_at", "auction_starts_at", "started_at"]
+    readonly_fields = ["started_at", "started_by"]
+    fieldsets = [
+        (
+            None,
+            {
+                "fields": ["year", "farm_draft_starts_at", "auction_starts_at", "started_at", "started_by"],
+                "description": "Changing a date doesn't re-read moves already synced: a move near the old date "
+                "stays in the season (and farm draft) it was filed under. Fix those by hand.",
+            },
+        )
+    ]
+
+    def has_delete_permission(self, request, obj=None):
+        # The current season is the latest started one; deleting it would leave the league without one.
+        return super().has_delete_permission(request, obj) and not (obj and obj.started_at)
+
+
+@admin.register(models.SeasonBudget)
+class SeasonBudgetAdmin(admin.ModelAdmin):
+    """Frozen when a season starts. Read-only: it's what each team brought to that auction."""
+
+    list_display = ["season", "team", "remaining", "frozen_at"]
+    list_filter = ["season"]
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
 @admin.register(models.FantraxLeague)
 class FantraxLeagueAdmin(AuditedAdmin):
     """Leagues Sync from Fantrax reads. Add the renewed league from the console's league finder."""

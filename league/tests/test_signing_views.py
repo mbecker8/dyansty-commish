@@ -2,14 +2,16 @@
 
 import csv
 import io
+from datetime import datetime
 
 import pytest
 from django.contrib.auth.models import User
 from django.core.management import call_command
 from django.test import Client
 
-from league import signing
+from league import seasons, signing
 from league.budget import team_budget
+from league.fantrax_data import EASTERN
 from league.models import (
     AuditEntry,
     Buyout,
@@ -18,6 +20,7 @@ from league.models import (
     FantraxEvent,
     FantraxLeague,
     Manager,
+    Season,
     SigningPeriod,
     Submission,
     Team,
@@ -399,3 +402,21 @@ def test_adding_a_league_needs_an_id(ready, commish):
     response = commish.post("/commish/", {"action": "add_league", "league_id": " "}, follow=True)
     assert b"Pick a Fantrax league" in response.content
     assert FantraxLeague.objects.count() == 1
+
+
+def test_console_sets_dates_and_starts_the_season(ready, commish):
+    r = commish.post(
+        "/commish/",
+        {"action": "season_dates", "farm_draft_starts_at": "2027-02-20T18:00", "auction_starts_at": "2027-02-24T19:00"},
+        follow=True,
+    )
+    s = Season.objects.get(year=2027)
+    assert s.auction_starts_at == datetime(2027, 2, 24, 19, 0, tzinfo=EASTERN)
+    assert "Start the 2027 season" in r.content.decode()
+    r = commish.post("/commish/", {"action": "start_season", "year": "2027"}, follow=True)
+    assert "Not ready" in r.content.decode() and seasons.current_season() == 2026
+
+
+def test_manager_cannot_start_a_season(ready, mb):
+    assert mb.post("/commish/", {"action": "season_dates", "auction_starts_at": "2027-02-24T19:00"}).status_code == 403
+    assert not Season.objects.filter(year=2027).exists()

@@ -10,7 +10,7 @@ from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 
 from league import fantrax_client
-from league.events import UnmatchedTeam, sync, unresolved_count
+from league.events import SeasonMissing, UnmatchedTeam, sync, unresolved_count
 from league.fantrax_client import FantraxError
 from league.fantrax_data import Snapshot
 from league.models import FantraxLeague, Team
@@ -30,7 +30,7 @@ class Command(BaseCommand):
         sources = self.from_snapshot(snapshot, league) if snapshot else self.live()
         try:
             result = sync(sources, source_label=f"sync_fantrax {snapshot or 'live'}", dry_run=dry_run)
-        except UnmatchedTeam as e:
+        except (UnmatchedTeam, SeasonMissing) as e:
             raise CommandError(str(e)) from None
         if not options["verbosity"]:
             return

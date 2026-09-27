@@ -14,6 +14,7 @@ from django.db import transaction
 from league.events import UnmatchedTeam, match_teams
 from league.fantrax_data import Snapshot, normalize_name
 from league.models import Contract, Player, RosterEntry, SigningPeriod, Team, audit
+from league.seasons import current_season
 
 SNAPSHOT = str(Path(settings.BASE_DIR) / "data" / "fantrax" / "2026-final")
 
@@ -22,7 +23,7 @@ class Command(BaseCommand):
     help = "Load blackout rosters (and end-of-season salaries) for the signing period."
 
     def add_arguments(self, parser):
-        parser.add_argument("--season", type=int, default=settings.LEAGUE_SEASON, help="The season that just ended")
+        parser.add_argument("--season", type=int, default=None, help="The season that just ended (default: current)")
         parser.add_argument("--fantrax", default=SNAPSHOT, help="Snapshot taken at the blackout (rosters)")
         parser.add_argument("--salaries", default=SNAPSHOT, help="End-of-season snapshot (original prices)")
 
@@ -30,6 +31,7 @@ class Command(BaseCommand):
     def handle(self, *args, season, fantrax, salaries, **options):
         if not Team.objects.exists():
             raise CommandError("No league data yet; run import_league first.")
+        season = season or current_season()
         period = SigningPeriod.objects.filter(season=season).first()
         if period and period.status != SigningPeriod.Status.PLANNED:
             raise CommandError(f"Signing after {season} is {period.get_status_display().lower()}; rosters are fixed.")

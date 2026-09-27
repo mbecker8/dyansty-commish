@@ -15,6 +15,10 @@
 </div>
 <p class="muted">{% if signing_status == "locked" %}{{ next_season }} auction budget, after this year's signings and farm keeps.{% else %}{{ next_season }} auction budget from what's already committed. Signings and farm keeps come out of this in February.{% endif %}</p>
 
+{% if frozen %}<p><strong>{{ frozen.season }} auction budget: ${{ frozen.remaining }}</strong> <span class="muted">(frozen
+  {{ frozen.frozen_at|date:"M j" }}: base ${{ frozen.base }} − contracts ${{ frozen.contracts }} − buyouts ${{ frozen.buyouts }}
+  − farm ${{ frozen.farm }}{% if frozen.missed_ip %} − missed IP ${{ frozen.missed_ip }}{% endif %}{% if frozen.cash_net %}, cash ${{ frozen.cash_net }}{% endif %})</span></p>{% endif %}
+
 <details>
   <summary>How it adds up</summary>
   <div class="table-wrap"><table>
@@ -38,7 +42,7 @@
 {% include "league/_contracts_table.html" with rows=contracts %}
 
 {% if expired %}
-<h2>Contracts that ended with the {{ league_season }} season</h2>
+<h2>{% if signing_status %}Contracts that ended with the {{ league_season }} season{% else %}Final year: {{ league_season }}{% endif %}</h2>
 <p class="muted">{% for c in expired %}{{ c.player.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
 {% endif %}
 

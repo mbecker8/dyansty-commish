@@ -38,9 +38,20 @@ the rulebook, including decisions the rulebook doesn't spell out.
     draft picks entered as claims) are already in the sheet and change
     nothing. Anything that contradicts the records becomes an exception for
     the commissioner.
-  - Processing starts when the auction does, not at midnight: drops made
-    earlier on auction day belong to the previous season (2026: last
-    pre-auction drop 15:11, first auction claim 18:21, cutoff 16:00).
+  - Season S runs from the start of the S auction until just before the S+1
+    auction, so a move's season comes from its **date**, not from the Fantrax
+    league it's in. A drop after the 2027 auction is a 2027 drop even though
+    the renewed league also held the 2026 offseason. The dates must be entered
+    before any draft-day sync: a move is processed once, so one synced
+    earlier stays filed under the old season. As a backstop, the sync refuses
+    moves more than a year past the last auction.
+  - A farm pick isn't treated as promoted until his season starts, so teams
+    have until the commissioner starts the season to move picks into Minors.
+  - Processing starts at a set time, not at midnight: drops made earlier that
+    day belong to the previous season. 2026's cutoff is 16:00 on Feb 25 (last
+    earlier drop 15:11). The 18:21 claim once taken as the first auction claim
+    was Eduardo Quintero, a farm pick, so 16:00 really marks the start of the
+    2026 farm draft; the imported sheet already reflects that draft.
   - Sync again before signing, because offseason trades and drops count
     toward the season just ended. After renewal they happen in the new
     Fantrax league, which the commissioner adds on the console. Trades and
@@ -57,6 +68,12 @@ the rulebook, including decisions the rulebook doesn't spell out.
   free. Each year's penalty is rounded to whole dollars, **half up**: 50% of
   $33 is $17 (decided 2026-09-26). The sheet builds the percentage in floating
   point, so on exact halves it may round down; the app doesn't copy that.
+- **Farm draft:** runs in Fantrax **before** the auction; the drafting team
+  adds each pick as an ordinary claim (at $0). Every claim from the farm draft
+  start until the auction start is a farm pick: the app makes him a farm player
+  at **$1**, whatever Fantrax shows, and spends the team's lowest unused pick
+  for that year. A team with no pick left is flagged. Claims into Minors at
+  any other time are flagged, as before.
 - **Farm:** $1 per pick; retention adds $1 (no MLB appearance) or $2 (has
   appeared); promoted players can't return to the farm. An MLB appearance
   means at least 1 plate appearance or 0.1 innings pitched (confirmed
@@ -66,6 +83,17 @@ the rulebook, including decisions the rulebook doesn't spell out.
   flagged for a manual check rather than decided.
 - **Budget:** base $400 − contracts − buyout penalties − farm − missed-IP
   penalties ± cash trades.
+- **Rollover** (#21): once signing locks, the commissioner enters the next
+  season's farm draft and auction start on the console; the sync refuses to
+  run until they are, and they can't be set into time already synced. The
+  farm draft and auction run in Fantrax. The first sync after the auction
+  start **freezes each team's auction budget as of that minute**: moves
+  before it count, later ones don't. It's only for that auction and never
+  recomputed. The commissioner then presses **Start the season** (signing
+  locked, auction start passed, a sync since it, no open exceptions), which
+  advances the season and adds the next year of farm picks, two rounds per
+  team, keeping a four-year horizon (2031 in 2027). Contracts expire and
+  buyouts carry forward by their years; nothing else changes.
 - **Validation:** ≤10 contracts at signing (retained farm excluded), only
   signable players, etc.
 - **Signing period** (built in M4; the calls below confirmed by the
@@ -104,7 +132,9 @@ a Google Sheets export by `scripts/extract_workbook_fixture.py`. Every contract
 price and buyout penalty matches. Two budgets differ because of sheet bugs:
 DC's farm total skips Farm 1 (+$3 of budget), and JM's buyout total only sums
 4 of its 6 buyouts (+$10). Separately, the AW tab is missing two of AW's 2026
-farm draft picks (Brendan Lawson, Shunpeita Yamashita), so AW's 2026 budget
-was $2 too high. The sync flags them for the commissioner to add.
+farm draft picks (Brendan Lawson, Shunpeita Yamashita), picked up in Fantrax at
+$0, so AW's 2026 budget was $2 too high. No harm done: there's no 2026
+correction. The sync flags them for the commissioner to add at $1 for 2026, so
+keeping them costs $2 in 2027.
 Where the app disagrees with the sheet, each difference is either a
 documented spreadsheet bug or a bug in the app.

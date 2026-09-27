@@ -1,6 +1,6 @@
 # Dynasty Commish — Architecture
 
-> Status: reflects the code as of **Fantrax events** (PR #48, 2026-09-26), after M4.
+> Status: reflects the code as of **Season rollover** (#21, 2026-09-26).
 > Sections marked **(planned)** describe design intent, not code yet. For goals, scope and the rules themselves, see
 > [VISION.md](VISION.md) and [the rulebook](docs/reference/rulebook-year19.md).
 
@@ -134,8 +134,8 @@ where the numbers come from.
   - `/teams/`, `/teams/<code>/`, `/contracts/`, `/buyouts/`, `/farm/`, `/picks/`, `/cash/`, `/export/` and `/help/` are league pages that need sign-in.
   - `/signing/<code>/` is a team's signing page; `/commish/` and `/commish/audit/` are for commissioners.
   - `/auth/…` is Discord sign-in, `/healthz` is the Render health check, and `/admin/` is the Django admin.
-- League pages show the *next* auction's committed money (`LEAGUE_SEASON` + 1), using
-  `league.budget.team_budget`.
+- League pages show the *next* auction's committed money (`seasons.current_season()` + 1),
+  using `league.budget.team_budget`.
 
 ### Signing, console, audit and export (built in M4)
 
@@ -181,12 +181,34 @@ where the numbers come from.
 - Moves are applied against current records, so a trade after the signing locks moves the new
   contract. A contract signed at the signing after a season ignores that season's moves from
   before the lock.
+- A move's season comes from its date (`seasons.season_at`), not from `FantraxLeague.season`,
+  which is now only a label and picks the newest league for roster facts. `sync` raises
+  `SeasonMissing` (nothing saved) for moves over a year past the last auction start.
+- Claims in a season's farm draft window become `FARM_DRAFTED` farm players at $1, spending the
+  team's lowest unused `FarmPick` (recorded on `FarmPick.player`); no pick left is an exception.
 - Facts the app can't interpret are `EXCEPTION` events. `signing.open_period` refuses while
   any are unresolved; the console resolves them with a required note.
 - **Entry points:** `manage.py sync_fantrax` (live, or `--snapshot`, `--dry-run`) and the
   console's Sync from Fantrax. Both fetch before the transaction starts.
 - The golden test (`league/tests/test_sync_2026.py`) checks the 2026 result against the state
   the old reconciliation queue produced when everything was accepted.
+
+### Seasons and rollover
+
+- **Models:** `Season` (year, farm draft start, auction start, started at/by) replaces the old
+  `LEAGUE_SEASON` setting; a migration seeds 2026. `SeasonBudget` is each team's auction budget,
+  frozen as of the auction start and never recomputed. A started season can't be deleted.
+- **`league/seasons.py`:** `current_season()` (the latest started season), `season_at(when)`,
+  `farm_draft_at(when)`, `window(season)` (draft day to draft day, for the team page), and the
+  rollover: `set_dates` (refuses dates in time already synced), `budgets_due`/`freeze_budgets`,
+  `checklist` and `start(year, user)`.
+- **Freeze in the sync:** `events.check_seasons` refuses a sync once signing is locked and the
+  next draft day isn't entered. When `budgets_due`, the sync applies every move before the auction
+  start, freezes the budgets (`frozen_at` = the auction start), then applies the rest.
+- **Start** locks the `Season` row, re-checks the checklist, freezes the budgets only if no sync
+  did, adds the next year of farm picks and audits it.
+- **Console:** a season section to enter dates, see the checklist and start the season. The team
+  page shows the frozen budget.
 
 ### Sign-in and permissions
 

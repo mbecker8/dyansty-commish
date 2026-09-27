@@ -1,5 +1,6 @@
 """The signing period end to end: what a team can sign, what it costs, and what locking applies."""
 
+from datetime import datetime
 from pathlib import Path
 
 import pytest
@@ -12,7 +13,7 @@ from django.utils import timezone
 from league import signing
 from league.budget import team_budget
 from league.events import sync
-from league.fantrax_data import EndState, Move
+from league.fantrax_data import EASTERN, EndState, Move
 from league.models import (
     AuditEntry,
     Buyout,
@@ -22,6 +23,7 @@ from league.models import (
     FantraxLeague,
     FarmPlayer,
     RosterEntry,
+    Season,
     SigningPeriod,
     Submission,
     Team,
@@ -135,6 +137,11 @@ def test_trade_after_lock_moves_a_new_contract(opened):
         teams=[{"id": t.fantrax_id, "name": t.name} for t in Team.objects.all()],
     )
     renewed = FantraxLeague.objects.create(league_id="renewed", season=SEASON)
+    Season.objects.create(  # draft day is entered before any sync after the lock
+        year=SEASON + 1,
+        farm_draft_starts_at=datetime(2099, 2, 20, tzinfo=EASTERN),
+        auction_starts_at=datetime(2099, 2, 24, tzinfo=EASTERN),
+    )
     sync([(renewed, snap)])
     new.refresh_from_db()
     assert new.team == other

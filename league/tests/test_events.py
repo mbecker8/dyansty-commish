@@ -5,9 +5,21 @@ import pytest
 from django.contrib.auth.models import User
 from django.core.management import call_command
 
-from league.events import Processor, sync
+from league.events import Processor, SeasonMissing, sync
 from league.fantrax_data import EASTERN, EndState, Move
-from league.models import AuditEntry, Buyout, Contract, FantraxEvent, FantraxLeague, FarmPlayer, Player, Team
+from league.models import (
+    AuditEntry,
+    Buyout,
+    Contract,
+    FantraxEvent,
+    FantraxLeague,
+    FarmPick,
+    FarmPlayer,
+    Player,
+    Season,
+    SigningPeriod,
+    Team,
+)
 
 pytestmark = pytest.mark.django_db
 
@@ -262,3 +274,167 @@ def test_a_sync_racing_another_retries_and_skips_its_events(world, monkeypatch):
     monkeypatch.setattr(events, "known_keys", lambda: next(stale, None) or real())
     assert sync([(league, snap)]).created == []
     assert FantraxEvent.objects.count() == 1
+
+
+# --- the season of a move comes from its date ---------------------------------
+
+
+def season_2027():
+    return Season.objects.create(year=2027, auction_starts_at=datetime(2027, 2, 24, 19, 0, tzinfo=EASTERN))
+
+
+def at(kind, fid, frm=None, to=None, when=None, tx="t9"):
+    return Move(when, kind, fid, frm, to, tx)
+
+
+def test_final_year_drop_after_the_next_auction_is_free(world):
+    league, proc, a, b, c, f = world
+    Contract.objects.filter(pk=c.pk).update(year_signed=2025, length=2)  # final year 2027
+    season_2027()
+    proc = Processor(league, proc.teams, proc.names)
+    e = proc.apply_move(at("DROP", "p1", "ta", when=datetime(2027, 6, 1, tzinfo=EASTERN)))
+    c.refresh_from_db()
+    assert (e.effect, c.voided_in_season) == ("VOIDED", 2027)
+
+
+def test_drop_after_the_next_auction_is_bought_out_in_that_season(world):
+    league, proc, a, b, c, f = world  # final year 2028
+    season_2027()
+    proc = Processor(league, proc.teams, proc.names)
+    proc.apply_move(at("DROP", "p1", "ta", when=datetime(2027, 6, 1, tzinfo=EASTERN)))
+    assert Buyout.objects.get(contract=c).dropped_in_season == 2027
+
+
+def test_drop_before_the_next_auction_is_the_old_season(world):
+    league, proc, a, b, c, f = world
+    season_2027()
+    proc = Processor(league, proc.teams, proc.names)
+    proc.apply_move(at("DROP", "p1", "ta", when=datetime(2027, 2, 24, 18, 0, tzinfo=EASTERN)))
+    assert Buyout.objects.get(contract=c).dropped_in_season == 2026
+
+
+def test_new_contract_is_visible_to_moves_after_its_lock(world):
+    league, proc, a, b, c, f = world
+    Contract.objects.filter(pk=c.pk).update(year_signed=2026)
+    SigningPeriod.objects.create(season=2026, status="locked", locked_at=datetime(2026, 7, 5, tzinfo=EASTERN))
+    proc = Processor(league, proc.teams, proc.names)
+    assert proc.apply_move(move("TRADE", "p1", "ta", "tb")).effect == "CONTRACT_MOVED"
+
+
+def test_sync_refuses_moves_a_year_past_the_last_auction(world):
+    league, proc, a, b, c, f = world
+    snap = FakeSnapshot(
+        {"p1": EndState("ta", "Active", 0), "p2": EndState("ta", "Minors", 0)},
+        moves_=[at("DROP", "p1", "ta", when=datetime(2027, 3, 1, tzinfo=EASTERN))],
+    )
+    with pytest.raises(SeasonMissing, match="2027"):
+        sync([(league, snap)])
+    assert not FantraxEvent.objects.exists()
+
+
+# --- farm draft ---------------------------------------------------------------
+
+
+@pytest.fixture
+def draft(world):
+    league, proc, a, b, c, f = world
+    Season.objects.create(
+        year=2027,
+        farm_draft_starts_at=datetime(2027, 2, 20, 18, 0, tzinfo=EASTERN),
+        auction_starts_at=datetime(2027, 2, 24, 19, 0, tzinfo=EASTERN),
+    )
+    for r in (1, 2):
+        FarmPick.objects.create(year=2027, round=r, original_team=a, owner=a)
+    return league, Processor(league, proc.teams, {"p7": "Rook", "p8": "Kid", "p9": "Late"}), a, b
+
+
+def in_draft(fid, to, day=21, tx=None):
+    return Move(datetime(2027, 2, day, 20, 0, tzinfo=EASTERN), "CLAIM", fid, None, to, tx or f"d{fid}")
+
+
+def test_draft_claim_makes_a_one_dollar_farm_player(draft):
+    league, proc, a, b = draft
+    e = proc.apply_move(in_draft("p7", "ta"))
+    fp = FarmPlayer.objects.get(player__fantrax_id="p7")
+    assert (e.effect, fp.team, fp.salary, fp.salary_season, fp.drafted_year) == ("FARM_DRAFTED", a, 1, 2027, 2027)
+    assert FarmPick.objects.get(year=2027, round=1, owner=a).player == fp.player
+    proc.apply_move(in_draft("p8", "ta", day=22))
+    assert FarmPick.objects.get(year=2027, round=2, owner=a).player.name == "Kid"
+
+
+def test_draft_claim_without_a_pick_is_an_exception(draft):
+    league, proc, a, b = draft
+    e = proc.apply_move(in_draft("p7", "tb"))
+    assert e.effect == "EXCEPTION" and "no 2027 pick left" in e.detail
+    assert not FarmPlayer.objects.filter(player__fantrax_id="p7").exists()
+
+
+def test_claim_after_the_auction_start_is_not_a_draft_pick(draft):
+    league, proc, a, b = draft
+    late = Move(datetime(2027, 2, 24, 19, 0, tzinfo=EASTERN), "CLAIM", "p9", None, "ta", "late")
+    assert proc.apply_move(late).effect == "NONE"
+    assert not FarmPick.objects.exclude(player=None).exists()
+
+
+def test_draft_claim_of_a_contracted_player_is_an_exception(draft):
+    league, proc, a, b = draft
+    assert proc.apply_move(in_draft("p1", "tb")).effect == "EXCEPTION"
+
+
+def test_draft_pick_not_yet_in_minors_is_not_promoted(draft):
+    league, proc, a, b = draft
+    snap = FakeSnapshot(
+        {"p1": EndState("ta", "Active", 0), "p2": EndState("ta", "Minors", 0), "p7": EndState("ta", "Reserve", 0)},
+        moves_=[in_draft("p7", "ta")],
+    )
+    sync([(league, snap)])
+    assert FarmPlayer.objects.get(player__fantrax_id="p7").status == FarmPlayer.Status.ACTIVE
+
+
+def test_draft_links_a_sheet_player_without_a_fantrax_id(draft):
+    league, proc, a, b = draft
+    sheet = Player.objects.create(name="Rook")
+    proc.apply_move(in_draft("p7", "ta"))
+    sheet.refresh_from_db()
+    assert sheet.fantrax_id == "p7" and FarmPlayer.objects.get(player=sheet).salary == 1
+
+
+# --- after signing locks, draft day is next ---------------------------------------
+
+
+def lock_2026():
+    SigningPeriod.objects.create(season=2026, status="locked", locked_at=datetime(2026, 7, 1, tzinfo=EASTERN))
+
+
+def test_sync_after_the_lock_needs_draft_day_entered(world):
+    league, *_ = world
+    lock_2026()
+    snap = FakeSnapshot({"p1": EndState("ta", "Active", 0), "p2": EndState("ta", "Minors", 0)})
+    with pytest.raises(SeasonMissing, match="enter the 2027 farm draft"):
+        sync([(league, snap)])
+
+
+def test_sync_freezes_budgets_as_of_the_auction_start(world):
+    """A drop after the auction start doesn't reach the frozen budget; the one sync applies both sides."""
+    from league.budget import team_budget
+    from league.models import SeasonBudget
+
+    league, proc, a, b, c, f = world
+    lock_2026()
+    Season.objects.create(  # draft day already past on the real clock
+        year=2027,
+        farm_draft_starts_at=datetime(2026, 7, 15, tzinfo=EASTERN),
+        auction_starts_at=datetime(2026, 7, 20, 19, 0, tzinfo=EASTERN),
+    )
+    at_auction = team_budget(a, 2027)
+    snap = FakeSnapshot(
+        {"p2": EndState("ta", "Minors", 0)},
+        moves_=[at("DROP", "p1", "ta", when=datetime(2026, 7, 25, tzinfo=EASTERN))],
+    )
+    result = sync([(league, snap)])
+    frozen = SeasonBudget.objects.get(season=2027, team=a)
+    assert (result.froze, frozen.contracts, frozen.remaining) == (2027, at_auction.contracts, at_auction.remaining)
+    assert frozen.frozen_at == datetime(2026, 7, 20, 19, 0, tzinfo=EASTERN)
+    assert Buyout.objects.get(contract=c).dropped_in_season == 2027
+    assert team_budget(a, 2027).contracts < at_auction.contracts
+    assert sync([(league, snap)]).froze is None  # only once

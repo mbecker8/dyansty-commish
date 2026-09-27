@@ -69,8 +69,8 @@ League communication happens on **Discord**, not email.
 ## 4. The league year (lifecycle)
 
 ```
-Season ends (Fantrax) ──► Offseason trade window ──► SIGNING BLACKOUT ──► Trades reopen ──► Auction ──► Snake draft ──► Farm draft ──► In-season
-      (Sept/Oct)              (Oct → Feb)            (mid-Feb, ≤1 wk)    (until auction)                               (Discord, late Feb)
+Season ends (Fantrax) ──► Offseason trade window ──► SIGNING BLACKOUT ──► Trades reopen ──► Farm draft ──► Auction ──► Snake draft ──► In-season
+      (Sept/Oct)              (Oct → Feb)            (mid-Feb, ≤1 wk)    (until auction)     (Fantrax claims, late Feb)
 ```
 
 The **signing blackout** is the heart of the MVP:

@@ -30,6 +30,7 @@ from league.models import (
     FarmPlayer,
     Player,
     RosterEntry,
+    SeasonBudget,
     SigningPeriod,
     Team,
     TeamAlias,
@@ -59,6 +60,8 @@ class Command(BaseCommand):
                 raise CommandError("Fantrax events have been applied; --replace would erase them.")
             if LogEntry.objects.filter(content_type__app_label="league").exists():
                 raise CommandError("League data has been edited in the admin; --replace would erase those edits.")
+            if SeasonBudget.objects.exists():
+                raise CommandError("A season has been started; --replace would erase it.")
             if SigningPeriod.objects.exists() or AuditEntry.objects.exclude(user=None).exists():
                 raise CommandError(
                     "A signing period has started or people have made changes; --replace would erase them."
@@ -97,8 +100,8 @@ class Command(BaseCommand):
             league_id="p3z8zy75mgdm460o",
             name="Dynasty Yr 19",
             season=2026,
-            # The post-signing sheet reflects every move up to the auction. The last pre-auction drop
-            # was 15:11 on Feb 25 and the first auction claim 18:21; earlier drops belong to 2025.
+            # The post-signing sheet reflects every move up to draft day. The last earlier drop was
+            # 15:11 on Feb 25; the first claim, at 18:21, was a farm pick. Earlier drops belong to 2025.
             process_since=datetime(2026, 2, 25, 16, 0, tzinfo=EASTERN),
         )
         for s in aliases["sign_and_trade"]:

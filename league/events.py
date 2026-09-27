@@ -7,31 +7,42 @@ commissioner, who fixes the data by hand and resolves them with a note.
 
 from collections import Counter
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from django.db import IntegrityError, transaction
 from django.utils import timezone
 
-from league.fantrax_data import Move
+from league import seasons
+from league.fantrax_data import Move, normalize_name
 from league.models import (
     Buyout,
     CashTrade,
     Contract,
     FantraxEvent,
     FantraxLeague,
+    FarmPick,
     FarmPlayer,
     Player,
+    Season,
     SigningPeriod,
     Team,
     TeamAlias,
     audit,
 )
+from rules.farm import DRAFT_PICK_SALARY
 
 Effect, Kind = FantraxEvent.Effect, FantraxEvent.Kind
 
 
 class UnmatchedTeam(Exception):
     pass
+
+
+class SeasonMissing(Exception):
+    """A move is over a year past the last auction: the next season's auction start isn't entered."""
+
+
+SEASON_LENGTH = timedelta(days=365)
 
 
 def match_teams(snapshot) -> dict[str, Team]:
@@ -55,10 +66,11 @@ class Processor:
     """Applies one league's facts against the current records."""
 
     def __init__(self, league: FantraxLeague, teams: dict[str, Team], names: dict[str, str], known=None):
-        self.league, self.season, self.teams, self.names = league, league.season, teams, names
+        self.league, self.teams, self.names = league, teams, names
+        self.season = seasons.current_season()  # roster facts are about now
+        self.seasons = list(Season.objects.all())
+        self.locks = dict(SigningPeriod.objects.exclude(locked_at=None).values_list("season", "locked_at"))
         self.known = set(FantraxEvent.objects.values_list("key", flat=True)) if known is None else known
-        period = SigningPeriod.objects.filter(season=self.season).first()
-        self.locked_at = period.locked_at if period else None
         self.created: list[FantraxEvent] = []
         self._players = {p.fantrax_id: p for p in Player.objects.exclude(fantrax_id=None)}
         # Only these players' moves can change anything; the rest are logged in one batch.
@@ -76,18 +88,39 @@ class Processor:
     def player(self, fid: str) -> Player | None:
         return self._players.get(fid)
 
+    def season_of(self, when: datetime) -> int:
+        """The season a moment belongs to: the latest auction start at or before it."""
+        s = seasons.season_at(when, self.seasons)
+        if s is None:
+            raise SeasonMissing(f"{when:%Y-%m-%d} is before the first season's auction")
+        return s.year
+
     def contract(self, fid: str, when: datetime) -> Contract | None:
         """The live contract a move at `when` can affect.
 
-        A contract signed at the signing after this season doesn't exist yet for moves before the lock.
+        A contract signed at the signing after the move's season doesn't exist yet for moves before the lock.
         """
+        season = self.season_of(when)
+        lock = self.locks.get(season)
         for c in Contract.live.filter(player__fantrax_id=fid).select_related("team", "player"):
-            if c.final_year < self.season:
+            if c.final_year < season:
                 continue
-            if c.year_signed >= self.season and (self.locked_at is None or when < self.locked_at):
+            if c.year_signed >= season and (lock is None or when < lock):
                 continue
             return c
         return None
+
+    def link_or_create(self, fid: str, name: str) -> Player:
+        """A player new to Fantrax IDs: link a sheet player of the same name, as sync_rosters does, else add him."""
+        same = [p for p in Player.objects.filter(fantrax_id=None) if normalize_name(p.name) == normalize_name(name)]
+        if len(same) == 1:
+            player = same[0]
+            player.fantrax_id = fid
+            player.save(update_fields=["fantrax_id"])
+        else:
+            player = Player.objects.create(name=name, fantrax_id=fid)
+        self._players[fid] = player
+        return player
 
     def farm(self, fid: str) -> FarmPlayer | None:
         return (
@@ -141,6 +174,8 @@ class Processor:
         def rec(effect, detail, **links):
             return self.record(key, m.kind, effect, m.when, detail, m.fantrax_id, **teams, **links)
 
+        if m.kind == "CLAIM" and (draft := seasons.farm_draft_at(m.when, self.seasons)):
+            return self.draft(m, key, draft.year, to, name)
         if m.kind == "CLAIM" or m.fantrax_id not in self.tracked:
             verb = {"CLAIM": "claimed", "DROP": "dropped", "TRADE": "traded"}[m.kind]
             return self.record(key, m.kind, Effect.NONE, m.when, f"{verb} {name}", m.fantrax_id, batch=True, **teams)
@@ -175,14 +210,50 @@ class Processor:
             held.status = FarmPlayer.Status.RELEASED
             held.save(update_fields=["status"])
             return rec(Effect.FARM_RELEASED, f"released {name} from the {frm.code} farm", **link)
-        if held.final_year > self.season:
+        season = self.season_of(m.when)
+        if held.final_year > season:
             buyout = Buyout.objects.create(
-                contract=held, team=frm, dropped_in_season=self.season, note=f"Dropped {m.when:%Y-%m-%d}"
+                contract=held, team=frm, dropped_in_season=season, note=f"Dropped {m.when:%Y-%m-%d}"
             )
             return rec(Effect.BUYOUT, f"dropped {name} ({frm.code}): buyout owed", buyout=buyout, **link)
-        held.voided_in_season = self.season
+        held.voided_in_season = season
         held.save(update_fields=["voided_in_season"])
         return rec(Effect.VOIDED, f"dropped {name} ({frm.code}) in his final year: contract voided", **link)
+
+    def draft(self, m: Move, key: str, year: int, to: Team, name: str) -> FantraxEvent:
+        """A claim in the farm draft window is a farm pick: $1, spending the team's lowest unused pick."""
+
+        def rec(effect, detail, **links):
+            return self.record(key, m.kind, effect, m.when, detail, m.fantrax_id, to_team=to, **links)
+
+        if held := self.farm(m.fantrax_id):
+            if held.team == to:
+                return rec(Effect.ALREADY_REFLECTED, f"drafted {name}: already on the {to.code} farm", farm_player=held)
+            return rec(
+                Effect.EXCEPTION, f"{to.code} drafted {name}, but he's on the {held.team.code} farm", farm_player=held
+            )
+        if held := self.contract(m.fantrax_id, m.when):
+            detail = f"{to.code} drafted {name}, but he's under contract to {held.team.code}"
+            return rec(Effect.EXCEPTION, detail, contract=held)
+        pick = FarmPick.objects.filter(year=year, owner=to, player=None).order_by("round", "pk").first()
+        if pick is None:
+            return rec(
+                Effect.EXCEPTION,
+                f"{to.code} claimed {name} in the farm draft but has no {year} pick left: add him in the admin if "
+                "he's a farm player",
+            )
+        player = self.player(m.fantrax_id) or self.link_or_create(m.fantrax_id, name)
+        farm = FarmPlayer.objects.create(
+            team=to, player=player, drafted_year=year, salary=DRAFT_PICK_SALARY, salary_season=year
+        )
+        pick.player = player
+        pick.save(update_fields=["player"])
+        self.tracked.add(m.fantrax_id)
+        return rec(
+            Effect.FARM_DRAFTED,
+            f"drafted {name} to the {to.code} farm ({year} round {pick.round}, ${DRAFT_PICK_SALARY})",
+            farm_player=farm,
+        )
 
     # --- facts from the latest rosters -------------------------------------
 
@@ -199,6 +270,8 @@ class Processor:
             end = ends.get(fid) if fid else None
             if end is None:
                 continue  # checked with the roster mismatches below
+            if f.drafted_year > season:
+                continue  # drafted for a season that hasn't started: teams may not have moved him to Minors yet
             team = self.teams.get(end.team)
             if end.status != "Minors" and f"promoted:{fid}" not in self.known:
                 f.status, f.team = FarmPlayer.Status.PROMOTED, team
@@ -323,6 +396,7 @@ class Processor:
 @dataclass
 class SyncResult:
     created: list[FantraxEvent] = field(default_factory=list)
+    froze: int | None = None  # the season whose auction budgets this sync froze
 
     NO_CHANGE = (Effect.NONE, Effect.ALREADY_REFLECTED)
 
@@ -336,10 +410,31 @@ class SyncResult:
         return [e for e in self.created if e.effect == Effect.EXCEPTION]
 
     def summary(self) -> str:
+        froze = f"; froze the {self.froze} auction budgets as of the auction start" if self.froze else ""
         if not self.created:
-            return "No new events"
+            return "No new events" + froze
         changes = ", ".join(f"{n} {label.lower()}" for label, n in self.counts().items()) or "no changes"
-        return f"{len(self.created)} new events: {changes}"
+        return f"{len(self.created)} new events: {changes}{froze}"
+
+
+def check_seasons(sources_moves) -> None:
+    """Refuse to sync moves whose season can't be told yet. Nothing is saved, so a re-sync after is safe."""
+    year = seasons.current_season()
+    period = SigningPeriod.objects.filter(season=year).first()
+    nxt = Season.objects.filter(year=year + 1).exclude(farm_draft_starts_at=None).first()
+    if period and period.status == SigningPeriod.Status.LOCKED and nxt is None:
+        raise SeasonMissing(
+            f"Signing after {year} is locked, so draft day is next: enter the {year + 1} farm draft and auction "
+            "start on the console, then sync."
+        )
+    latest = max(Season.objects.all(), key=lambda s: s.year)
+    for _league, _snapshot, moves in sources_moves:
+        late = [m for m in moves if m.when - latest.auction_starts_at > SEASON_LENGTH]
+        if late:
+            raise SeasonMissing(
+                f"Fantrax has moves from {late[0].when:%b %-d, %Y}, over a year after the {latest.year} auction. "
+                f"Enter the {latest.year + 1} farm draft and auction start on the console, then sync again."
+            )
 
 
 def known_keys() -> set[str]:
@@ -369,19 +464,35 @@ def _sync_once(sources, user, source_label, dry_run) -> SyncResult:
         # Two syncs at once queue here; the second then finds the first one's keys and skips them.
         list(FantraxLeague.objects.select_for_update().filter(pk__in=[lg.pk for lg, _ in sources]))
         known = known_keys()
+        check_seasons(sources_moves := [(lg, snap, snap.moves()) for lg, snap in sources])
         # After renewal the old league is frozen, so only the season's newest league has current rosters.
         newest = {}
         for lg in FantraxLeague.objects.filter(active=True).order_by("pk"):
             newest[lg.season] = lg.pk
-        for league, snapshot in sources:
-            names = {fid: p.name for fid, p in snapshot.players().items()}
-            proc = Processor(league, match_teams(snapshot), names, known)
-            for m in snapshot.moves():
-                proc.apply_move(m)
+        procs = [
+            (Processor(lg, match_teams(snap), {fid: p.name for fid, p in snap.players().items()}, known), snap, moves)
+            for lg, snap, moves in sources_moves
+        ]
+        # The next auction's budgets are frozen as of its start: moves before it count, later ones don't.
+        due = seasons.budgets_due(now)
+        cutoff = due.auction_starts_at if due else None
+        for proc, _, moves in procs:
+            for m in moves:
+                if cutoff is None or m.when < cutoff:
+                    proc.apply_move(m)
             proc.flush()
-            proc.apply_trade_comments(snapshot)
-            if newest.get(league.season, league.pk) == league.pk:
-                proc.apply_rosters(snapshot, now)
+        if due:
+            result.froze = due.year
+            seasons.freeze_budgets(due.year, cutoff)
+        for proc, snap, moves in procs:
+            if cutoff:
+                for m in moves:
+                    if m.when >= cutoff:
+                        proc.apply_move(m)
+                proc.flush()
+            proc.apply_trade_comments(snap)
+            if newest.get(proc.league.season, proc.league.pk) == proc.league.pk:
+                proc.apply_rosters(snap, now)
             result.created += proc.created
         if dry_run:
             transaction.set_rollback(True)

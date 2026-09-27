@@ -175,6 +175,9 @@ class FarmPick(models.Model):
     round = models.PositiveIntegerField()
     original_team = models.ForeignKey(Team, on_delete=models.PROTECT, related_name="+")
     owner = models.ForeignKey(Team, on_delete=models.PROTECT, related_name="farm_picks")
+    player = models.ForeignKey(
+        Player, on_delete=models.PROTECT, null=True, blank=True, related_name="+", help_text="Who the pick was spent on"
+    )
 
     class Meta:
         constraints = [models.UniqueConstraint(fields=["year", "round", "original_team"], name="unique_farm_pick")]
@@ -195,6 +198,55 @@ class CashTrade(models.Model):
 
     def __str__(self):
         return f"${self.amount} {self.from_team.code} -> {self.to_team.code} ({self.budget_season})"
+
+
+class Season(models.Model):
+    """A league season: from its auction start until just before the next season's auction.
+
+    The farm draft runs in Fantrax before the auction, so every claim from `farm_draft_starts_at`
+    until the auction start is a farm pick. The commissioner starts a season on the console
+    once its auction has run and been synced; until then the previous season is current.
+    """
+
+    year = models.PositiveIntegerField(unique=True)
+    farm_draft_starts_at = models.DateTimeField(
+        null=True, blank=True, help_text="Claims from here until the auction start are farm draft picks"
+    )
+    auction_starts_at = models.DateTimeField(help_text="Moves from here on belong to this season")
+    started_at = models.DateTimeField(null=True, blank=True)
+    started_by = models.ForeignKey("auth.User", on_delete=models.SET_NULL, null=True, blank=True, related_name="+")
+
+    class Meta:
+        ordering = ["year"]
+
+    def __str__(self):
+        return str(self.year)
+
+    def clean(self):
+        if self.farm_draft_starts_at and self.auction_starts_at and self.farm_draft_starts_at >= self.auction_starts_at:
+            raise ValidationError({"farm_draft_starts_at": "The farm draft starts before the auction"})
+
+
+class SeasonBudget(models.Model):
+    """A team's auction budget, frozen when its season started. For that auction only; never recomputed."""
+
+    season = models.PositiveIntegerField()
+    team = models.ForeignKey(Team, on_delete=models.PROTECT, related_name="frozen_budgets")
+    base = models.PositiveIntegerField()
+    contracts = models.PositiveIntegerField()
+    buyouts = models.PositiveIntegerField()
+    farm = models.PositiveIntegerField()
+    missed_ip = models.PositiveIntegerField()
+    cash_net = models.IntegerField()
+    remaining = models.IntegerField()
+    frozen_at = models.DateTimeField()
+
+    class Meta:
+        ordering = ["season", "team"]
+        constraints = [models.UniqueConstraint(fields=["season", "team"], name="one_frozen_budget_per_season")]
+
+    def __str__(self):
+        return f"{self.team.code} {self.season} auction budget ${self.remaining}"
 
 
 class FantraxLeague(models.Model):
@@ -242,6 +294,7 @@ class FantraxEvent(models.Model):
         FARM_RELEASED = "FARM_RELEASED", "Farm released"
         FARM_PROMOTED = "FARM_PROMOTED", "Farm promoted"
         FARM_DEBUT = "FARM_DEBUT", "Farm debut"
+        FARM_DRAFTED = "FARM_DRAFTED", "Farm drafted"
         ALREADY_REFLECTED = "ALREADY_REFLECTED", "Already reflected"
         NONE = "NONE", "No change"
         EXCEPTION = "EXCEPTION", "Exception"
