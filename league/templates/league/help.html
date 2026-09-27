@@ -137,8 +137,10 @@ done by hand outside Fantrax: contracts, buyouts, the farm system, and the aucti
 <h3>Draft day and the new season</h3>
 <p>Also on the <a href="{% url 'console' %}">console</a>, under <em>The {{ next_season }} season</em>.</p>
 <ol>
-  <li><strong>Enter the dates</strong> before draft day: when the farm draft starts and when the auction starts (Eastern
-    time). You can change them until the season starts; after that, only in Admin → Seasons.</li>
+  <li><strong>Enter the dates</strong> before you sync anything from draft day: when the farm draft starts and when the
+    auction starts (Eastern time). A sync reads each move once, so claims and drops synced before the dates are entered
+    are filed under the old season for good. You can change the dates until the season starts; after that, only in
+    Admin → Seasons.</li>
   <li><strong>Run the farm draft, then the auction, in Fantrax.</strong> Teams add their farm picks as ordinary claims.
     Every claim between the two times is a farm pick: the sync makes him a farm player at $1, whatever Fantrax says,
     and uses up the team's pick. A claim by a team with no pick left is listed as an exception.</li>

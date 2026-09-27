@@ -41,9 +41,12 @@ the rulebook, including decisions the rulebook doesn't spell out.
   - Season S runs from the start of the S auction until just before the S+1
     auction, so a move's season comes from its **date**, not from the Fantrax
     league it's in. A drop after the 2027 auction is a 2027 drop even though
-    the renewed league also held the 2026 offseason. The sync refuses moves
-    more than a year past the last auction until the next auction start is
-    entered.
+    the renewed league also held the 2026 offseason. The dates must be entered
+    before any draft-day sync: a move is processed once, so one synced
+    earlier stays filed under the old season. As a backstop, the sync refuses
+    moves more than a year past the last auction.
+  - A farm pick isn't treated as promoted until his season starts, so teams
+    have until the commissioner starts the season to move picks into Minors.
   - Processing starts at a set time, not at midnight: drops made earlier that
     day belong to the previous season. 2026's cutoff is 16:00 on Feb 25 (last
     earlier drop 15:11). The 18:21 claim once taken as the first auction claim

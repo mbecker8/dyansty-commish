@@ -75,7 +75,7 @@
 {% endif %}
 
 <h2>The {{ next_year }} season</h2>
-<p class="muted">Draft day runs in Fantrax: the farm draft, then the auction. Every claim from the farm draft start until
+<p class="muted">Enter these dates before syncing anything from draft day. Draft day runs in Fantrax: the farm draft, then the auction. Every claim from the farm draft start until
   the auction start is a farm pick ($1). After the auction, sync, then start the season: that freezes each team's auction
   budget and adds the next year of farm picks.</p>
 <form method="post" class="season-dates">{% csrf_token %}<input type="hidden" name="action" value="season_dates">

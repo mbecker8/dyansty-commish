@@ -125,3 +125,18 @@ def test_start_happens_once(league_2026):
     with pytest.raises(seasons.RolloverError, match="already started"):
         seasons.start(2027, None)
     assert FarmPick.objects.filter(year=2032).count() == 0
+
+
+def test_a_farm_draft_pick_is_in_the_frozen_budget(league_2026):
+    from league.events import Processor
+    from league.fantrax_data import Move
+    from league.models import FantraxLeague
+
+    team = FarmPick.objects.filter(year=2027, player=None).first().owner
+    before = team_budget(team, 2027).farm
+    ready_to_start()
+    proc = Processor(FantraxLeague.objects.get(), {team.fantrax_id: team}, {"newfid": "Prospect"})
+    claim = Move(datetime(2026, 5, 25, 20, 0, tzinfo=EASTERN), "CLAIM", "newfid", None, team.fantrax_id, "d1")
+    assert proc.apply_move(claim).effect == "FARM_DRAFTED"
+    seasons.start(2027, None)
+    assert SeasonBudget.objects.get(season=2027, team=team).farm == before + 1

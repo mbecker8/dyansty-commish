@@ -261,6 +261,8 @@ class Processor:
             end = ends.get(fid) if fid else None
             if end is None:
                 continue  # checked with the roster mismatches below
+            if f.drafted_year > season:
+                continue  # drafted for a season that hasn't started: teams may not have moved him to Minors yet
             team = self.teams.get(end.team)
             if end.status != "Minors" and f"promoted:{fid}" not in self.known:
                 f.status, f.team = FarmPlayer.Status.PROMOTED, team

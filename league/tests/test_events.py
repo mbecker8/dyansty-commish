@@ -379,3 +379,13 @@ def test_claim_after_the_auction_start_is_not_a_draft_pick(draft):
 def test_draft_claim_of_a_contracted_player_is_an_exception(draft):
     league, proc, a, b = draft
     assert proc.apply_move(in_draft("p1", "tb")).effect == "EXCEPTION"
+
+
+def test_draft_pick_not_yet_in_minors_is_not_promoted(draft):
+    league, proc, a, b = draft
+    snap = FakeSnapshot(
+        {"p1": EndState("ta", "Active", 0), "p2": EndState("ta", "Minors", 0), "p7": EndState("ta", "Reserve", 0)},
+        moves_=[in_draft("p7", "ta")],
+    )
+    sync([(league, snap)])
+    assert FarmPlayer.objects.get(player__fantrax_id="p7").status == FarmPlayer.Status.ACTIVE
