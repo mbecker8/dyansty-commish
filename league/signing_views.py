@@ -11,8 +11,9 @@ from django.db import transaction
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
+from django.utils.dateparse import parse_datetime
 
-from league import events, fantrax_client, signing
+from league import events, fantrax_client, seasons, signing
 from league.access import commissioner_required, is_league_member, manages, member_required
 from league.budget import team_budget
 from league.fantrax_client import FantraxError
@@ -214,7 +215,23 @@ def console(request):
                 if created:
                     audit(request.user, "Added Fantrax league", str(league))
                 messages.success(request, f"{league} is added. Sync from Fantrax reads it from now on.")
-        except (signing.SigningError, FantraxError, events.UnmatchedTeam, events.SeasonMissing, ValueError) as e:
+            elif action == "season_dates":
+                auction = _local(request.POST.get("auction_starts_at"))
+                if auction is None:
+                    raise ValueError("Enter the auction start")
+                seasons.set_dates(_local(request.POST.get("farm_draft_starts_at")), auction, request.user)
+                messages.success(request, "Season dates saved.")
+            elif action == "start_season":
+                started = seasons.start(int(request.POST.get("year") or 0), request.user)
+                messages.success(request, f"The {started.year} season has started. Auction budgets are frozen.")
+        except (
+            signing.SigningError,
+            seasons.RolloverError,
+            FantraxError,
+            events.UnmatchedTeam,
+            events.SeasonMissing,
+            ValueError,
+        ) as e:
             messages.error(request, str(e))
         return redirect("console")
 
@@ -247,8 +264,17 @@ def console(request):
             "found_leagues": found_leagues,
             "roster_count": RosterEntry.objects.filter(season=s).count(),
             "missing_salaries": RosterEntry.objects.filter(season=s, salary=None).select_related("player", "team"),
+            "next_year": s + 1,
+            "upcoming": seasons.upcoming(),
+            "checklist": seasons.checklist(),
         },
     )
+
+
+def _local(text):
+    """A datetime-local form value, in the league's time zone. Blank is None."""
+    value = parse_datetime(text or "")
+    return timezone.make_aware(value) if value else None
 
 
 def sync_from_fantrax(user) -> events.SyncResult:

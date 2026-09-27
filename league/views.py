@@ -5,6 +5,7 @@ from collections import defaultdict
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 
+from league import seasons
 from league.access import is_league_member, member_required
 from league.budget import team_budget
 from league.models import (
@@ -16,6 +17,7 @@ from league.models import (
     FarmPick,
     FarmPlayer,
     Player,
+    SeasonBudget,
     Team,
 )
 from league.seasons import current_season
@@ -95,6 +97,11 @@ def team(request, code):
     live = Contract.live.filter(team=team).select_related("player").order_by("player__name")
     buyouts = Buyout.objects.filter(team=team).select_related("contract__player").order_by("contract__player__name")
     farm = FarmPlayer.objects.filter(team=team, status=FarmPlayer.Status.ACTIVE).select_related("player")
+    current = seasons.current()
+    start, end = seasons.window(current)
+    moves = FantraxEvent.objects.filter(Q(from_team=team) | Q(to_team=team), happened_at__gte=start)
+    if end:
+        moves = moves.filter(happened_at__lt=end)
     return render(
         request,
         "league/team.html",
@@ -104,25 +111,24 @@ def team(request, code):
             "ledger": ledger(budget),
             "adjustments": BudgetAdjustment.objects.filter(team=team, season=season),
             "contracts": contract_rows(c for c in live if c.final_year >= season),
-            "expired": [c for c in live if c.final_year == current_season()],
+            "expired": [c for c in live if c.final_year == current.year],
             "buyouts": buyout_rows(buyouts),
             "farm": farm_rows(farm.order_by("player__name")),
-            "picks": FarmPick.objects.filter(owner=team, year__gte=season)
+            "picks": FarmPick.objects.filter(owner=team, year__gte=season, player=None)
             .select_related("original_team")
             .order_by("year", "round", "original_team__code"),
             "cash": CashTrade.objects.filter(Q(from_team=team) | Q(to_team=team))
             .select_related("from_team", "to_team")
             .order_by("-budget_season", "pk"),
             "managers": team.managers.all(),
-            "moves": FantraxEvent.objects.filter(Q(from_team=team) | Q(to_team=team), league__season=current_season())
-            .exclude(
+            "frozen": SeasonBudget.objects.filter(team=team, season=current.year).first(),
+            "moves": moves.exclude(
                 effect__in=[
                     FantraxEvent.Effect.NONE,
                     FantraxEvent.Effect.ALREADY_REFLECTED,
                     FantraxEvent.Effect.EXCEPTION,
                 ]
-            )
-            .order_by("-happened_at", "pk"),
+            ).order_by("-happened_at", "pk"),
         },
     )
 

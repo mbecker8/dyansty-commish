@@ -74,6 +74,20 @@
 <p>Locked {{ period.locked_at|date:"M j, Y g:i A" }}. Contracts and budgets are published on the <a href="{% url 'teams' %}">Teams</a> page; download them from <a href="{% url 'export' %}">Export</a>.</p>
 {% endif %}
 
+<h2>The {{ next_year }} season</h2>
+<p class="muted">Draft day runs in Fantrax: the farm draft, then the auction. Every claim from the farm draft start until
+  the auction start is a farm pick ($1). After the auction, sync, then start the season: that freezes each team's auction
+  budget and adds the next year of farm picks.</p>
+<form method="post" class="season-dates">{% csrf_token %}<input type="hidden" name="action" value="season_dates">
+  <label>Farm draft starts <input type="datetime-local" name="farm_draft_starts_at" value="{{ upcoming.farm_draft_starts_at|date:'Y-m-d\TH:i' }}"></label>
+  <label>Auction starts <input type="datetime-local" name="auction_starts_at" required value="{{ upcoming.auction_starts_at|date:'Y-m-d\TH:i' }}"></label>
+  <button type="submit">Save dates</button> <span class="muted">Eastern time</span></form>
+{% if upcoming %}
+<ul class="checklist">{% for c in checklist %}<li class="{% if c.ok %}ok{% else %}todo{% endif %}">{{ c.label }}</li>{% endfor %}</ul>
+<form method="post">{% csrf_token %}<input type="hidden" name="year" value="{{ upcoming.year }}">
+  <button type="submit" name="action" value="start_season" class="primary">Start the {{ upcoming.year }} season</button></form>
+{% endif %}
+
 <h2>Enter things by hand</h2>
 <ul>
   <li><a href="{% url 'admin:league_cashtrade_add' %}">Add a cash trade</a> · <a href="{% url 'admin:league_budgetadjustment_add' %}">Add a missed-IP penalty</a></li>

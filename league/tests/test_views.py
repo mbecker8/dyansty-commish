@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.core.management import call_command
 
 from league.budget import team_budget
-from league.models import Buyout, Contract, FarmPick, Manager, Season, Team
+from league.models import Buyout, Contract, FarmPick, Manager, Season, SeasonBudget, Team
 from rules.buyouts import buyout_schedule
 
 pytestmark = pytest.mark.django_db
@@ -204,3 +204,22 @@ def test_team_page_lists_the_seasons_moves(manager_client):
     moves = html.split("Moves this season")[1].split("</ul>")[0]
     assert "dropped Spencer Torkelson (SM): buyout owed" in moves
     assert "claimed" not in moves  # claims change nothing, so they aren't listed
+
+
+def test_team_page_shows_the_frozen_auction_budget(manager_client):
+    Season.objects.create(year=2027, auction_starts_at="2027-02-24T19:00-05:00", started_at="2027-02-25T00:00-05:00")
+    SeasonBudget.objects.create(
+        season=2027,
+        team=Team.objects.get(code="MB"),
+        base=400,
+        contracts=200,
+        buyouts=10,
+        farm=4,
+        missed_ip=0,
+        cash_net=5,
+        remaining=191,
+        frozen_at="2027-02-25T00:00-05:00",
+    )
+    html = manager_client.get("/teams/MB/").content.decode()
+    assert "2027 auction budget: $191" in html
+    assert "Contracts that ended" not in html  # the 2027 season is under way
