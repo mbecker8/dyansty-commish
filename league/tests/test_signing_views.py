@@ -86,7 +86,15 @@ def submission(code):
 def test_signing_is_closed_until_the_commissioner_opens_it(ready, mb):
     page = mb.get("/signing/MB/")
     assert page.status_code == 200 and b"isn't open yet" in page.content
-    assert b">Signing<" not in mb.get("/teams/").content
+    assert b"My Signing Worksheet" not in mb.get("/teams/").content
+
+
+def test_worksheet_button_shows_how_far_the_team_has_got(opened, mb):
+    assert "not started" in mb.get("/teams/").content.decode()
+    mb.post("/signing/MB/", form_for("MB", action="save"))
+    assert "Draft saved, not submitted" in mb.get("/teams/").content.decode()
+    mb.post("/signing/MB/", form_for("MB", action="submit"))
+    assert "✓ Submitted" in mb.get("/teams/").content.decode()
 
 
 def test_manager_sees_their_signing_page_and_the_nav_link(opened, mb):
@@ -94,7 +102,7 @@ def test_manager_sees_their_signing_page_and_the_nav_link(opened, mb):
     assert page.status_code == 200
     html = page.content.decode()
     assert signable("MB")[0].player.name in html and "Left for the auction" in html
-    assert "Signing is open</a>" in html
+    assert "My Signing Worksheet" in html and "not started" in html
     assert mb.get("/signing/")["Location"] == "/signing/MB/"
 
 

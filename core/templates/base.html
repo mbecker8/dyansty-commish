@@ -25,7 +25,10 @@
     {% with here=request.resolver_match.url_name %}
     <nav class="sidebar" aria-label="Site">
       {% if signing_status == "open" %}
-      <a class="nav-signing" href="{% url 'signing_home' %}"{% if here == "signing" %} aria-current="page"{% endif %}>Signing is open</a>
+      <a class="nav-signing" href="{% url 'signing_home' %}"{% if here == "signing" %} aria-current="page"{% endif %}>
+        <strong>My Signing Worksheet</strong>
+        <small>{% if my_submission == "submitted" %}✓ Submitted{% elif my_submission == "draft" %}Draft saved, not submitted{% elif my_submission == "todo" %}Signing is open: not started{% else %}Signing is open{% endif %}{% if signing_deadline %}<br>Due {{ signing_deadline|date:"D M j, g:i A" }}{% endif %}</small>
+      </a>
       {% endif %}
       <h2>League</h2>
       <a href="{% url 'teams' %}"{% if here == "teams" or here == "team" %} aria-current="page"{% endif %}>Teams</a>
