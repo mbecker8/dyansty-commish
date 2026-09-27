@@ -13,13 +13,13 @@ import sys
 import tempfile
 from pathlib import Path
 
-from fantrax_client import call, session
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
 
+from league.fantrax_client import fetch_raw, session  # noqa: E402
+
+COOKIE_FILE = ROOT / "secrets" / "fantrax_cookie.txt"
 STATUS = {"1": "Active", "2": "Reserve", "3": "Inj Res", "9": "Minors"}
-
-
-def data(resp: dict) -> dict:
-    return resp["responses"][0]["data"]
 
 
 def main(league_id: str, out: Path) -> None:
@@ -38,18 +38,12 @@ def main(league_id: str, out: Path) -> None:
 
 
 def fetch(league_id: str, out: Path) -> None:
-    s = session()
-
-    info = data(call(s, league_id, ("getFantasyLeagueInfo", {})))
-    (out / "league_info.json").write_text(json.dumps(info, indent=1))
-
-    first = data(call(s, league_id, ("getTeamRosterInfo", {"view": "STATS"})))
-    teams = first["fantasyTeams"]
-    (out / "teams.json").write_text(json.dumps(teams, indent=1))
-
+    raw = fetch_raw(session(COOKIE_FILE.read_text()), league_id)
+    (out / "league_info.json").write_text(json.dumps(raw["league_info"], indent=1))
+    (out / "teams.json").write_text(json.dumps(raw["teams"], indent=1))
     rows = []
-    for team in teams:
-        roster = data(call(s, league_id, ("getTeamRosterInfo", {"teamId": team["id"], "view": "STATS"})))
+    for team in raw["teams"]:
+        roster = raw["rosters"][team["id"]]
         (out / f"roster_{team['id']}.json").write_text(json.dumps(roster, indent=1))
         for table in roster["tables"]:
             headers = [c.get("name") for c in table["header"]["cells"]]
@@ -82,25 +76,10 @@ def fetch(league_id: str, out: Path) -> None:
         w = csv.DictWriter(f, fieldnames=list(rows[0]))
         w.writeheader()
         w.writerows(rows)
-
-    pages, page = [], 1
-    while True:
-        tx = data(
-            call(s, league_id, ("getTransactionDetailsHistory", {"maxResultsPerPage": "200", "pageNumber": str(page)}))
-        )
-        pages.append(tx)
-        pi = tx.get("paginatedResultSet", {})
-        if page >= int(pi.get("totalNumPages", 1)):
-            break
-        page += 1
-    (out / "transactions.json").write_text(json.dumps(pages, indent=1))
-
-    # Trades (players, draft picks; cash only appears as a commissioner comment).
-    trades = data(call(s, league_id, ("getTransactionDetailsHistory", {"view": "TRADE", "maxResultsPerPage": "500"})))
-    if int(trades["paginatedResultSet"].get("totalNumPages", 1)) > 1:
-        raise SystemExit("More than one page of trades; add pagination.")
-    (out / "trades.json").write_text(json.dumps(trades, indent=1))
-    print(f"trades: {trades['paginatedResultSet'].get('totalNumResults')} results")
+    (out / "transactions.json").write_text(json.dumps(raw["transactions"], indent=1))
+    (out / "trades.json").write_text(json.dumps(raw["trades"], indent=1))
+    print(f"trades: {raw['trades']['paginatedResultSet'].get('totalNumResults')} results")
+    pages = raw["transactions"]
     print(
         f"transactions: {len(pages)} page(s), {pages[0].get('paginatedResultSet', {}).get('totalNumResults')} results"
     )

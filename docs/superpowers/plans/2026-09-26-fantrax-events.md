@@ -165,8 +165,7 @@ def fetch_raw(s, league_id: str) -> dict:
     info = _data(call(s, league_id, ("getFantasyLeagueInfo", {})))
     teams = _data(call(s, league_id, ("getTeamRosterInfo", {"view": "STATS"})))["fantasyTeams"]
     rosters = {
-        t["id"]: _data(call(s, league_id, ("getTeamRosterInfo", {"teamId": t["id"], "view": "STATS"})))
-        for t in teams
+        t["id"]: _data(call(s, league_id, ("getTeamRosterInfo", {"teamId": t["id"], "view": "STATS"}))) for t in teams
     }
     pages, page = [], 1
     while True:
@@ -341,7 +340,9 @@ from league.models import Buyout, Contract, FarmPlayer, Player, Team
 
 @pytest.fixture
 def world():
-    league = FantraxLeague.objects.create(league_id="L", season=2026, process_since=datetime(2026, 3, 1, tzinfo=EASTERN))
+    league = FantraxLeague.objects.create(
+        league_id="L", season=2026, process_since=datetime(2026, 3, 1, tzinfo=EASTERN)
+    )
     a = Team.objects.create(code="AA", name="A", fantrax_id="ta")
     b = Team.objects.create(code="BB", name="B", fantrax_id="tb")
     p = Player.objects.create(name="Pat", fantrax_id="p1")
@@ -494,7 +495,9 @@ def test_promotion_and_debut(world):
 def test_unknown_minors_player_is_an_exception(world):
     league, *_ = world
     Player.objects.create(name="Rookie", fantrax_id="p9")
-    snap = FakeSnapshot({"p1": EndState("ta", "Active", 0), "p2": EndState("ta", "Minors", 0), "p9": EndState("tb", "Minors", 0)})
+    snap = FakeSnapshot(
+        {"p1": EndState("ta", "Active", 0), "p2": EndState("ta", "Minors", 0), "p9": EndState("tb", "Minors", 0)}
+    )
     (e,) = sync([(league, snap)]).exceptions
     assert e.key == "minors-unknown:p9:2026"
 
@@ -508,8 +511,9 @@ def test_contract_on_the_wrong_roster_is_an_exception(world):
 
 def test_dry_run_changes_nothing(world):
     league, proc, a, b, c, f = world
-    snap = FakeSnapshot({"p1": EndState("tb", "Active", 0), "p2": EndState("ta", "Minors", 0)},
-                        moves_=[move("TRADE", "p1", "ta", "tb")])
+    snap = FakeSnapshot(
+        {"p1": EndState("tb", "Active", 0), "p2": EndState("ta", "Minors", 0)}, moves_=[move("TRADE", "p1", "ta", "tb")]
+    )
     result = sync([(league, snap)], dry_run=True)
     assert result.counts() == {"Contract moved": 1}
     assert not FantraxEvent.objects.exists()
@@ -543,9 +547,18 @@ def synced():
 
 def state():
     return {
-        "contracts": sorted([c.player.name, c.year_signed, c.team.code, c.voided_in_season] for c in Contract.objects.select_related("player", "team")),
-        "buyouts": sorted([b.contract.player.name, b.contract.year_signed, b.team.code, b.dropped_in_season] for b in Buyout.objects.select_related("contract__player", "team")),
-        "farm": sorted([f.player.name, f.drafted_year, f.team.code, f.status, f.has_mlb_appearance] for f in FarmPlayer.objects.select_related("player", "team")),
+        "contracts": sorted(
+            [c.player.name, c.year_signed, c.team.code, c.voided_in_season]
+            for c in Contract.objects.select_related("player", "team")
+        ),
+        "buyouts": sorted(
+            [b.contract.player.name, b.contract.year_signed, b.team.code, b.dropped_in_season]
+            for b in Buyout.objects.select_related("contract__player", "team")
+        ),
+        "farm": sorted(
+            [f.player.name, f.drafted_year, f.team.code, f.status, f.has_mlb_appearance]
+            for f in FarmPlayer.objects.select_related("player", "team")
+        ),
     }
 
 
@@ -627,7 +640,9 @@ def test_trade_after_lock_moves_a_new_contract(opened):
     other = Team.objects.exclude(pk=new.team_id).first()
     snap = FakeSnapshot(  # from test_events
         ends={new.player.fantrax_id: EndState(other.fantrax_id, "Active", 0)},
-        moves_=[Move(timezone.now(), "TRADE", new.player.fantrax_id, new.team.fantrax_id, other.fantrax_id, "post-lock")],
+        moves_=[
+            Move(timezone.now(), "TRADE", new.player.fantrax_id, new.team.fantrax_id, other.fantrax_id, "post-lock")
+        ],
         teams=[{"id": t.fantrax_id, "name": t.name} for t in Team.objects.all()],
     )
     sync([(league, snap)])
@@ -745,10 +760,14 @@ def test_find_and_add_a_league(ready, commish, monkeypatch, settings):
     from league import fantrax_client
 
     settings.FANTRAX_SECRET_ID = "s"
-    monkeypatch.setattr(fantrax_client, "list_leagues", lambda secret: [
-        {"leagueId": "p3z8zy75mgdm460o", "leagueName": "Dynasty Yr 19"},
-        {"leagueId": "newone", "leagueName": "Dynasty Yr 20"},
-    ])
+    monkeypatch.setattr(
+        fantrax_client,
+        "list_leagues",
+        lambda secret: [
+            {"leagueId": "p3z8zy75mgdm460o", "leagueName": "Dynasty Yr 19"},
+            {"leagueId": "newone", "leagueName": "Dynasty Yr 20"},
+        ],
+    )
     page = commish.get("/commish/?find_leagues=1").content.decode()
     assert "newone" in page and "p3z8zy75mgdm460o" not in page.split("Find new Fantrax leagues")[1]
     commish.post("/commish/", {"action": "add_league", "league_id": "newone", "name": "Dynasty Yr 20"})
