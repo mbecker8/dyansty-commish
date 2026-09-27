@@ -273,6 +273,7 @@ def console(request):
             "snapshots": setup.snapshots(),
             "found_leagues": found_leagues,
             "roster_count": RosterEntry.objects.filter(season=s).count(),
+            "off_roster": setup.contracts_off_roster(s) if not period or period.status == period.Status.PLANNED else [],
             "missing_salaries": RosterEntry.objects.filter(season=s, salary=None).select_related("player", "team"),
             "next_year": s + 1,
             "upcoming": (upcoming := seasons.upcoming()),

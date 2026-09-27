@@ -242,7 +242,8 @@ def test_listed_discord_id_signs_in_as_commissioner_on_an_empty_database(client,
     user = User.objects.get(username=f"discord-{DISCORD_ID}")
     assert user.is_staff and user.is_superuser
     assert not Manager.objects.exists()
-    assert client.get("/commish/").status_code == 200
+    for url in ("/", "/help/", "/commish/", "/admin/"):
+        assert client.get(url, follow=True).status_code == 200, url
 
 
 def test_unlisted_discord_id_is_still_turned_away(client, settings):

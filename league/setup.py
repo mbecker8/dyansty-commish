@@ -9,7 +9,7 @@ from django.db import transaction
 
 from league import events
 from league.fantrax_data import Snapshot
-from league.models import FantraxLeague, Team, audit
+from league.models import Contract, FantraxLeague, RosterEntry, Team, audit
 
 SNAPSHOTS = Path(settings.BASE_DIR) / "data" / "fantrax"
 LEAGUE_2026 = "p3z8zy75mgdm460o"
@@ -34,6 +34,17 @@ def load_league(user) -> events.SyncResult:
     result = events.sync([(league, Snapshot(SNAPSHOTS / "2026-final"))], user, source_label="Load league")
     audit(user, "Loaded the league", f"Year 19 sheet and the 2026 Fantrax snapshot; {result.summary()}")
     return result
+
+
+def contracts_off_roster(season: int) -> list[tuple[Contract, Team | None]]:
+    """Contracts still running whose player isn't on the holder's blackout roster: an unsynced drop
+    or trade. Each comes with the team whose roster he's on now (None: no roster)."""
+    where = {e.player_id: e.team for e in RosterEntry.objects.filter(season=season).select_related("team")}
+    return [
+        (c, where.get(c.player_id))
+        for c in Contract.live.select_related("player", "team").order_by("team__code", "player__name")
+        if c.final_year > season and where.get(c.player_id) != c.team
+    ]
 
 
 def load_rosters(name: str, user) -> None:

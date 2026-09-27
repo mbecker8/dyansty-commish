@@ -6,7 +6,7 @@ from django.core.management import call_command
 from django.test import Client
 
 from league import signing
-from league.models import AuditEntry, FantraxEvent, RosterEntry, Team
+from league.models import AuditEntry, Contract, FantraxEvent, RosterEntry, Team
 from league.tests.test_signing import settle_2026
 
 pytestmark = pytest.mark.django_db
@@ -78,3 +78,17 @@ def test_load_rosters_refuses_once_signing_opens(settled, commish):
     signing.open_period(2026, None)
     response = commish.post("/commish/", {"action": "load_rosters", "snapshot": "2026-final"}, follow=True)
     assert "rosters are fixed" in response.content.decode()
+
+
+def test_league_pages_work_for_a_commissioner_without_a_team(settled, commish):
+    for url in ("/", "/teams/", "/signing/", "/help/"):
+        assert commish.get(url, follow=True).status_code == 200, url
+
+
+def test_console_lists_contracts_whose_player_is_not_on_the_teams_roster(settled, commish):
+    commish.post("/commish/", {"action": "load_rosters", "snapshot": "2026-final"})
+    contract = next(c for c in Contract.live.select_related("player", "team") if c.final_year > 2026)
+    RosterEntry.objects.filter(season=2026, player=contract.player).delete()
+    text = page(commish)
+    assert f"{contract.team.code} {contract.player.name}" in text
+    assert "on no roster" in text

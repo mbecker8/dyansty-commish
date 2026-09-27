@@ -41,6 +41,9 @@
 <ul class="checklist">
   <li class="{% if exceptions %}todo{% else %}ok{% endif %}">{% if exceptions %}{{ exceptions|length }} Fantrax exception{{ exceptions|pluralize }} to resolve (above).{% else %}Fantrax moves are applied and nothing needs a look.{% endif %}</li>
   <li class="{% if roster_count %}ok{% else %}todo{% endif %}">{% if roster_count %}{{ roster_count }} roster spots loaded.{% else %}No rosters loaded yet: load them from the blackout snapshot below.{% endif %}</li>
+  {% if roster_count and off_roster %}<li class="todo">{{ off_roster|length }} contract{{ off_roster|pluralize }} whose player isn't on the team's roster.
+    Usually a drop or trade not synced yet: Sync from Fantrax, then load the rosters again.<ul>
+    {% for c, now in off_roster %}<li>{{ c.team.code }} {{ c.player.name }} (through {{ c.final_year }}) is {% if now %}on {{ now.code }}'s roster{% else %}on no roster{% endif %}</li>{% endfor %}</ul></li>{% endif %}
   {% if missing_salaries %}<li class="todo">{{ missing_salaries|length }} player{{ missing_salaries|pluralize }} without an end-of-season salary can't be signed:
     {% for e in missing_salaries %}{{ e.player.name }} ({{ e.team.code }}){% if not forloop.last %}, {% endif %}{% endfor %}. Set it in Admin → Roster entries if needed.</li>{% endif %}
 </ul>
