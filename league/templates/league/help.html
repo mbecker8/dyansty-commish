@@ -86,7 +86,15 @@ done by hand outside Fantrax: contracts, buyouts, the farm system, and the aucti
     carries over from the old one.</li>
   <li><strong>Commissioner rights</strong> follow the <em>Is commissioner</em> box. Admin access is granted or removed on
     that person's next page load.</li>
+  <li><strong>The first commissioner</strong> on an empty site: put your Discord ID in the server's
+    <code>COMMISSIONER_DISCORD_IDS</code> setting (a Render environment variable, comma-separated). That ID is a
+    commissioner even with no Manager, so you can sign in, load the league and then add your own Manager.</li>
 </ul>
+
+<h3>Set up an empty site</h3>
+<p>On an empty database the <a href="{% url 'console' %}">console</a> shows only <strong>Load league</strong>. It loads the
+  Year 19 sheet, the files in <code>data/league/</code> and the 2026 Fantrax league, then applies the 2026 Fantrax moves.
+  Resolve the exceptions it lists, then load the rosters (below). Nothing needs a shell on the server.</p>
 
 <h3>Fantrax moves (sync)</h3>
 <p>The app reads every Fantrax trade, drop and claim, plus promotions and MLB debuts from the rosters, and applies them
@@ -117,10 +125,10 @@ done by hand outside Fantrax: contracts, buyouts, the farm system, and the aucti
 <ol>
   <li><strong>Sync from Fantrax</strong> once offseason trades stop, and resolve every exception. The console won't open
     signing while any are listed.</li>
-  <li><strong>Load the rosters</strong>: <code>manage.py sync_rosters --fantrax data/fantrax/&lt;blackout&gt;</code>. Prices
-    always come from the end-of-season snapshot (<code>--salaries</code>, 2026-final by default). The command lists any
-    contract whose player isn't on his team's roster. That's a drop or trade the sync hasn't applied yet. Rosters can be
-    re-loaded until signing opens, and not after.</li>
+  <li><strong>Load the rosters</strong> on the console from the blackout snapshot (commit it to <code>data/fantrax/</code>
+    first; the console lists the committed snapshots). Prices always come from the end-of-season snapshot (2026-final).
+    Rosters can be re-loaded until signing opens, and not after. The console then lists any contract whose player isn't
+    on his team's roster: a drop or trade the sync hasn't applied yet.</li>
   <li><strong>Open signing</strong> on the console. Optionally set a deadline in Admin → Signing periods. It's shown to
     managers, but nothing locks automatically.</li>
   <li><strong>Watch the teams table</strong>: status, new contracts, buyouts, contract count, budget left and any problems.
@@ -165,7 +173,7 @@ done by hand outside Fantrax: contracts, buyouts, the farm system, and the aucti
   <li><strong>Missing salary</strong>: a roster player with no end-of-season salary can't be signed. Set it in Admin → Roster entries. Once signing opens, only a missing salary can be filled in; set ones are fixed, so a team's submitted prices can't change under it.</li>
 </ul>
 
-<h3>Command line (on the machine that runs the site)</h3>
+<h3>Command line (local runs only; the live site never needs it)</h3>
 <ul>
   <li><code>bin/local-review.sh</code>: run the site locally on its own database (review.sqlite3), keeping your decisions.
     It reads Discord credentials from <code>secrets/discord.env</code>.</li>
@@ -174,10 +182,10 @@ done by hand outside Fantrax: contracts, buyouts, the farm system, and the aucti
   <li><code>uv run python manage.py sync_fantrax</code>: the same as the console button. Add
     <code>--snapshot data/fantrax/&lt;name&gt;</code> to read a saved snapshot instead (with <code>--league &lt;id&gt;</code> once
     a season has two Fantrax leagues), and <code>--dry-run</code> to see what would change without saving it.</li>
-  <li><code>uv run python manage.py sync_rosters --fantrax data/fantrax/&lt;name&gt;</code>: load the signing pool from the
-    blackout snapshot, before signing opens.</li>
-  <li><code>uv run python manage.py import_league</code>: first-time load of the Year 19 sheet and the 2026 Fantrax snapshot.
-    It refuses to overwrite data once you've made decisions, admin edits or applied Fantrax events.</li>
+  <li><code>uv run python manage.py sync_rosters --fantrax data/fantrax/&lt;name&gt;</code>: the console's Load rosters.</li>
+  <li><code>uv run python manage.py import_league</code>: first-time load of the Year 19 sheet and the 2026 Fantrax snapshot
+    (the console's Load league runs it, then the 2026 sync). It refuses to overwrite data once you've made decisions,
+    admin edits or applied Fantrax events.</li>
 </ul>
 {% endif %}
 </article>

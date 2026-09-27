@@ -2,6 +2,7 @@ import logging
 import secrets
 from urllib.parse import urlencode
 
+from django.conf import settings
 from django.contrib.auth import login, logout
 from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.models import User
@@ -74,7 +75,7 @@ def discord_callback(request):
         )
 
     manager = Manager.objects.select_related("user", "team").filter(discord_id=identity["id"]).first()
-    if manager is None:
+    if manager is None and identity["id"] not in settings.COMMISSIONER_DISCORD_IDS:
         return render(
             request,
             "accounts/not_linked.html",
@@ -84,17 +85,19 @@ def discord_callback(request):
     # The account belongs to the Discord ID, not the team: handing a team to someone else
     # gives them their own account, never the previous manager's (or its admin rights).
     user, created = User.objects.get_or_create(
-        username=discord_username(identity["id"]), defaults={"first_name": manager.name}
+        username=discord_username(identity["id"]),
+        defaults={"first_name": manager.name if manager else identity.get("username", "")},
     )
     if created:
         user.set_unusable_password()
         user.save(update_fields=["password"])
-    Manager.objects.filter(user=user).exclude(pk=manager.pk).update(user=None)
-    manager.user = user
-    manager.discord_username = str(identity.get("username", ""))[:100]
-    manager.save(update_fields=["user", "discord_username"])
+    if manager is not None:
+        Manager.objects.filter(user=user).exclude(pk=manager.pk).update(user=None)
+        manager.user = user
+        manager.discord_username = str(identity.get("username", ""))[:100]
+        manager.save(update_fields=["user", "discord_username"])
     sync_commissioner_rights(user)
-    login(request, manager.user, backend=f"{ModelBackend.__module__}.{ModelBackend.__name__}")
+    login(request, user, backend=f"{ModelBackend.__module__}.{ModelBackend.__name__}")
     return redirect(_safe_next(request, next_url))
 
 
