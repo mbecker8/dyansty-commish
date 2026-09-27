@@ -30,6 +30,7 @@ from league.models import (
     FarmPlayer,
     Player,
     RosterEntry,
+    SeasonBudget,
     SigningPeriod,
     Team,
     TeamAlias,
@@ -59,6 +60,8 @@ class Command(BaseCommand):
                 raise CommandError("Fantrax events have been applied; --replace would erase them.")
             if LogEntry.objects.filter(content_type__app_label="league").exists():
                 raise CommandError("League data has been edited in the admin; --replace would erase those edits.")
+            if SeasonBudget.objects.exists():
+                raise CommandError("A season has been started; --replace would erase it.")
             if SigningPeriod.objects.exists() or AuditEntry.objects.exclude(user=None).exists():
                 raise CommandError(
                     "A signing period has started or people have made changes; --replace would erase them."

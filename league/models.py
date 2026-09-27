@@ -227,6 +227,28 @@ class Season(models.Model):
             raise ValidationError({"farm_draft_starts_at": "The farm draft starts before the auction"})
 
 
+class SeasonBudget(models.Model):
+    """A team's auction budget, frozen when its season started. For that auction only; never recomputed."""
+
+    season = models.PositiveIntegerField()
+    team = models.ForeignKey(Team, on_delete=models.PROTECT, related_name="frozen_budgets")
+    base = models.PositiveIntegerField()
+    contracts = models.PositiveIntegerField()
+    buyouts = models.PositiveIntegerField()
+    farm = models.PositiveIntegerField()
+    missed_ip = models.PositiveIntegerField()
+    cash_net = models.IntegerField()
+    remaining = models.IntegerField()
+    frozen_at = models.DateTimeField()
+
+    class Meta:
+        ordering = ["season", "team"]
+        constraints = [models.UniqueConstraint(fields=["season", "team"], name="one_frozen_budget_per_season")]
+
+    def __str__(self):
+        return f"{self.team.code} {self.season} auction budget ${self.remaining}"
+
+
 class FantraxLeague(models.Model):
     """A Fantrax league whose moves the app applies. Renewal makes a new league for the offseason."""
 

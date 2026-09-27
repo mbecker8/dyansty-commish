@@ -135,6 +135,23 @@ class SeasonAdmin(AuditedAdmin):
     readonly_fields = ["started_at", "started_by"]
 
 
+@admin.register(models.SeasonBudget)
+class SeasonBudgetAdmin(admin.ModelAdmin):
+    """Frozen when a season starts. Read-only: it's what each team brought to that auction."""
+
+    list_display = ["season", "team", "remaining", "frozen_at"]
+    list_filter = ["season"]
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
 @admin.register(models.FantraxLeague)
 class FantraxLeagueAdmin(AuditedAdmin):
     """Leagues Sync from Fantrax reads. Add the renewed league from the console's league finder."""
