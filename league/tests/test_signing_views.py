@@ -12,6 +12,7 @@ from league import signing
 from league.budget import team_budget
 from league.models import (
     AuditEntry,
+    Buyout,
     CashTrade,
     Contract,
     FantraxEvent,
@@ -373,3 +374,22 @@ def test_find_and_add_the_renewed_league(ready, commish, monkeypatch, settings):
     commish.post("/commish/", {"action": "add_league", "league_id": "newone", "name": "Dynasty Yr 20"})
     commish.post("/commish/", {"action": "add_league", "league_id": "newone", "name": "Dynasty Yr 20"})
     assert FantraxLeague.objects.get(league_id="newone").season == SEASON
+
+
+@pytest.fixture
+def imported():
+    call_command("import_league", verbosity=0)
+
+
+def test_clicking_sync_twice_applies_events_once(imported, commish, monkeypatch, settings):
+    from league import fantrax_client
+    from league.tests.test_fantrax_client import FakeSession
+
+    settings.FANTRAX_COOKIE = "a=1"
+    monkeypatch.setattr(fantrax_client, "session", lambda cookie: FakeSession())
+    first = commish.post("/commish/", {"action": "sync"}, follow=True)
+    assert b"11 buyout" in first.content
+    n, buyouts = FantraxEvent.objects.count(), Buyout.objects.count()
+    second = commish.post("/commish/", {"action": "sync"}, follow=True)
+    assert b"No new events" in second.content
+    assert (FantraxEvent.objects.count(), Buyout.objects.count()) == (n, buyouts)

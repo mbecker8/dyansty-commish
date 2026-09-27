@@ -221,3 +221,44 @@ def test_sync_is_audited(world):
     snap = FakeSnapshot({"p1": EndState("ta", "Active", 0), "p2": EndState("ta", "Minors", 0)})
     sync([(league, snap)], source_label="test")
     assert AuditEntry.objects.get(action="Synced Fantrax").detail == "test: No new events"
+
+
+def test_rosters_come_from_the_newest_league_of_the_season(world):
+    old, proc, a, b, c, f = world
+    renewed = FantraxLeague.objects.create(league_id="R", season=2026)
+    old_snap = FakeSnapshot({"p1": EndState("ta", "Active", 0), "p2": EndState("ta", "Minors", 0)})
+    new_snap = FakeSnapshot(
+        {"p1": EndState("tb", "Active", 0), "p2": EndState("ta", "Minors", 0)},
+        moves_=[move("TRADE", "p1", "ta", "tb", tx="offseason", day=20)],
+    )
+    for _ in range(2):
+        assert sync([(old, old_snap), (renewed, new_snap)]).exceptions == []
+    c.refresh_from_db()
+    assert c.team == b
+
+
+def test_cash_comments_in_the_old_league_are_still_listed(world):
+    old, *_ = world
+    renewed = FantraxLeague.objects.create(league_id="R", season=2026)
+    when = datetime(2026, 7, 1, tzinfo=EASTERN)
+    ends = {"p1": EndState("ta", "Active", 0), "p2": EndState("ta", "Minors", 0)}
+    old_snap = FakeSnapshot(ends, comments=[("tx9", when, {"ta", "tb"}, "AA sends $5")])
+    (e,) = sync([(old, old_snap), (renewed, FakeSnapshot(ends))]).exceptions
+    assert e.kind == "CASH_COMMENT"
+
+
+def test_a_sync_racing_another_retries_and_skips_its_events(world, monkeypatch):
+    """A double-click: the second run read the stored keys before the first run saved its events."""
+    from league import events
+
+    league, proc, a, b, c, f = world
+    snap = FakeSnapshot(
+        {"p1": EndState("tb", "Active", 0), "p2": EndState("ta", "Minors", 0)},
+        moves_=[move("TRADE", "p1", "ta", "tb")],
+    )
+    assert sync([(league, snap)]).counts() == {"Contract moved": 1}
+    stale = iter([set()])  # the first read misses the other run's events; the retry sees them
+    real = events.known_keys
+    monkeypatch.setattr(events, "known_keys", lambda: next(stale, None) or real())
+    assert sync([(league, snap)]).created == []
+    assert FantraxEvent.objects.count() == 1

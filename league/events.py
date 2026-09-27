@@ -9,7 +9,7 @@ from collections import Counter
 from dataclasses import dataclass, field
 from datetime import datetime
 
-from django.db import transaction
+from django.db import IntegrityError, transaction
 from django.utils import timezone
 
 from league.fantrax_data import Move
@@ -231,6 +231,10 @@ class Processor:
                 to_team=team,
             )
 
+        self.roster_mismatches(ends, now, rec)
+
+    def apply_trade_comments(self, snapshot):
+        """Cash in trades is only a free-text commissioner comment; list each for entry by hand."""
         entered = set(CashTrade.objects.exclude(fantrax_tx_id="").values_list("fantrax_tx_id", flat=True))
         for tx, when, team_ids, text in snapshot.trade_comments():
             if tx in entered or (self.league.process_since and when < self.league.process_since):
@@ -245,8 +249,6 @@ class Processor:
                     when,
                     f"Trade between {codes} mentions cash: {text!r}. Enter the cash trade by hand.",
                 )
-
-        self.roster_mismatches(ends, now, rec)
 
     def debut(self, f: FarmPlayer, end, team, rec):
         fid = f.player.fantrax_id
@@ -340,24 +342,46 @@ class SyncResult:
         return f"{len(self.created)} new events: {changes}"
 
 
+def known_keys() -> set[str]:
+    return set(FantraxEvent.objects.values_list("key", flat=True))
+
+
 def sync(sources, user=None, source_label: str = "", dry_run: bool = False) -> SyncResult:
     """Apply every new fact from `sources` ([(FantraxLeague, Snapshot)]), all or nothing.
 
-    Fetch before calling this: nothing here touches the network.
+    Fetch before calling this: nothing here touches the network. Safe to run twice at once
+    (a double-click): the league rows are locked, and if the other run stored the same events
+    first, this one rolls back and retries, skipping them.
     """
+    for attempt in range(3):
+        try:
+            return _sync_once(sources, user, source_label, dry_run)
+        except IntegrityError:
+            if attempt == 2:
+                raise
+    raise AssertionError("unreachable")
+
+
+def _sync_once(sources, user, source_label, dry_run) -> SyncResult:
     result = SyncResult()
     now = timezone.now()
     with transaction.atomic():
         # Two syncs at once queue here; the second then finds the first one's keys and skips them.
         list(FantraxLeague.objects.select_for_update().filter(pk__in=[lg.pk for lg, _ in sources]))
-        known = set(FantraxEvent.objects.values_list("key", flat=True))
+        known = known_keys()
+        # After renewal the old league is frozen, so only the season's newest league has current rosters.
+        newest = {}
+        for lg in FantraxLeague.objects.filter(active=True).order_by("pk"):
+            newest[lg.season] = lg.pk
         for league, snapshot in sources:
             names = {fid: p.name for fid, p in snapshot.players().items()}
             proc = Processor(league, match_teams(snapshot), names, known)
             for m in snapshot.moves():
                 proc.apply_move(m)
             proc.flush()
-            proc.apply_rosters(snapshot, now)
+            proc.apply_trade_comments(snapshot)
+            if newest.get(league.season, league.pk) == league.pk:
+                proc.apply_rosters(snapshot, now)
             result.created += proc.created
         if dry_run:
             transaction.set_rollback(True)

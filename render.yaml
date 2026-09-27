@@ -25,6 +25,12 @@ services:
         sync: false
       - key: DISCORD_CLIENT_SECRET
         sync: false
+      # Fantrax (read-only): the commissioner's browser Cookie header, and the Secret ID from
+      # the Fantrax user profile (only used to find the renewed league). Set in the dashboard.
+      - key: FANTRAX_COOKIE
+        sync: false
+      - key: FANTRAX_SECRET_ID
+        sync: false
 
 databases:
   - name: dynasty-commish-db
