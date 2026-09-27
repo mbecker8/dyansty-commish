@@ -24,7 +24,7 @@ def test_manager_sees_only_their_own_team(mb_page):
     page.get_by_role("link", name="Signing").click()
     expect(page).to_have_url(re.compile(r"/signing/MB/$"))
     expect(page.get_by_role("heading", level=1)).to_contain_text("(MB)")
-    expect(page.get_by_role("link", name="Commish", exact=True)).to_have_count(0)
+    expect(page.get_by_role("link", name="Console", exact=True)).to_have_count(0)
 
     for url in ("/signing/SM/", "/commish/", "/commish/audit/"):
         response = page.goto(url)
@@ -102,7 +102,7 @@ def test_commissioner_edit_needs_a_note_and_a_broken_plan_goes_back_to_draft(mb_
 def test_unticking_is_commissioner_takes_admin_away_at_once(browse, commish_page):
     me = browse(manager("MB", "100", commissioner=True))
     me.goto("/teams/")
-    expect(me.get_by_role("link", name="Commish", exact=True)).to_be_visible()
+    expect(me.get_by_role("link", name="Console", exact=True)).to_be_visible()
     expect(me.get_by_role("link", name="Admin")).to_be_visible()
 
     def set_flag(on):
@@ -113,12 +113,12 @@ def test_unticking_is_commissioner_takes_admin_away_at_once(browse, commish_page
 
     set_flag(False)
     me.goto("/teams/")
-    expect(me.get_by_role("link", name="Commish", exact=True)).to_have_count(0)
+    expect(me.get_by_role("link", name="Console", exact=True)).to_have_count(0)
     assert me.goto("/commish/").status == 403
     assert me.goto("/signing/SM/").status == 403
     assert me.goto("/admin/").url.endswith("/admin/login/?next=/admin/")
 
     set_flag(True)
     me.goto("/teams/")
-    expect(me.get_by_role("link", name="Commish", exact=True)).to_be_visible()
+    expect(me.get_by_role("link", name="Console", exact=True)).to_be_visible()
     assert me.goto("/signing/SM/").status == 200
