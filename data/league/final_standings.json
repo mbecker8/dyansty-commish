@@ -1,0 +1,6 @@
+{
+  "_comment": "Final places by season (1 = champion); they set the next farm draft's order. 2026 from the commissioner's Discord post (Shag Dawgs 8th on a tiebreaker).",
+  "standings": {
+    "2026": ["KJ", "MB", "MT", "SM", "AC", "JM", "JJ", "CS", "CN", "MH", "BL", "AW", "DC", "AG"]
+  }
+}

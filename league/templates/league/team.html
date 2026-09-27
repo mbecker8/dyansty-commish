@@ -2,7 +2,7 @@
 {% block title %}{{ team.code }} · Dynasty Commish{% endblock %}
 {% block content %}
 <h1>{{ team.name }} <span class="muted">({{ team.code }})</span></h1>
-{% if managers %}<p class="muted">Managed by {% for m in managers %}{{ m.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>{% endif %}
+<p class="muted">{% if managers %}Managed by {% for m in managers %}{{ m.name }}{% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}{% if managers and fantrax_url %} · {% endif %}{% if fantrax_url %}<a href="{{ fantrax_url }}" target="_blank" rel="noopener">Fantrax roster ↗</a>{% endif %}</p>
 
 <div class="summary">
   <div>Base<strong>${{ budget.base }}</strong></div>
@@ -53,7 +53,7 @@
 {% include "league/_farm_table.html" with rows=farm %}
 
 <h2>Farm picks owned</h2>
-{% if picks %}<ul>{% for p in picks %}<li>{{ p.year }} round {{ p.round }}{% if p.original_team_id != team.pk %} (from {{ p.original_team.code }}){% endif %}</li>{% endfor %}</ul>
+{% if picks %}<ul>{% for row in picks %}{% with p=row.pick %}<li>{{ p.year }} round {{ p.round }}{% if row.number %}, pick {{ row.number }}{% endif %}{% if p.original_team_id != team.pk %} (from {{ p.original_team.code }}){% endif %}</li>{% endwith %}{% endfor %}</ul>
 {% else %}<p class="muted">None.</p>{% endif %}
 
 <h2>Cash trades</h2>

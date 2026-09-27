@@ -28,14 +28,14 @@ done by hand outside Fantrax: contracts, buyouts, the farm system, and the aucti
     final year and years left.</li>
   <li><strong>Buyouts</strong>: dropped contracts that still owe penalties, season by season.</li>
   <li><strong>Farm</strong>: every farm system, with what each player would cost to keep next season.</li>
-  <li><strong>Farm picks</strong>: who owns each future farm draft pick. Bold means it was traded.</li>
+  <li><strong>Farm picks</strong>: who owns each future farm draft pick, and its overall number in that draft (1–28). Bold means it was traded.</li>
   <li><strong>Cash</strong>: auction money traded between teams, and which auction it applies to.</li>
 </ul>
 <p>A yellow banner at the top means the commissioner is still reviewing moves from the {{ league_season }} season
   (trades, drops, promotions). Until that's done, rosters and budgets may still change.</p>
 
 <h2>Signing ({{ next_season }})</h2>
-<p>When the commissioner opens signing, a <strong>Signing</strong> link appears at the top. Your page has three parts, and the
+<p>When the commissioner opens signing, a <strong>Signing is open</strong> link appears at the top of the menu on the left. Your page has three parts, and the
   budget box on the right updates as you change anything.</p>
 <ul>
   <li><strong>Sign players</strong>: every player on your roster who can get a new contract, with the price per year for each
@@ -113,7 +113,7 @@ done by hand outside Fantrax: contracts, buyouts, the farm system, and the aucti
 </ul>
 
 <h3>Run the signing period</h3>
-<p>Everything here is on the <a href="{% url 'console' %}">commissioner console</a> (<strong>Commish</strong> in the menu).</p>
+<p>Everything here is on the <a href="{% url 'console' %}">commissioner console</a> (<strong>Console</strong>, under Commissioner in the menu).</p>
 <ol>
   <li><strong>Sync from Fantrax</strong> once offseason trades stop, and resolve every exception. The console won't open
     signing while any are listed.</li>
@@ -160,6 +160,7 @@ done by hand outside Fantrax: contracts, buyouts, the farm system, and the aucti
     as a Minors player who isn't on a farm.</li>
   <li><strong>Missed-IP penalties</strong>: Admin → Budget adjustments, kind “Missed IP penalty”, the season it's charged to, and a note (e.g. the week).</li>
   <li><strong>Farm pick trades</strong>: Admin → Farm picks, then change the owner.</li>
+  <li><strong>Pick numbers</strong>: a new year's picks are numbered 1–28 by round, then by original team. Set the real draft order in Admin → Farm picks: filter by year and type the numbers straight into the list.</li>
   <li><strong>Buyouts</strong> are normally created by the Fantrax sync or at signing. The drop season must be before the contract's final year.</li>
   <li><strong>Missing salary</strong>: a roster player with no end-of-season salary can't be signed. Set it in Admin → Roster entries. Once signing opens, only a missing salary can be filled in; set ones are fixed, so a team's submitted prices can't change under it.</li>
 </ul>

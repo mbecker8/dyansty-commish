@@ -94,7 +94,7 @@ def test_manager_sees_their_signing_page_and_the_nav_link(opened, mb):
     assert page.status_code == 200
     html = page.content.decode()
     assert signable("MB")[0].player.name in html and "Left for the auction" in html
-    assert "<strong>Signing</strong>" in html
+    assert "Signing is open</a>" in html
     assert mb.get("/signing/")["Location"] == "/signing/MB/"
 
 

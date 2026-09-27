@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}{{ year }} farm draft order · Dynasty Commish{% endblock %}
+{% block content %}
+<h1>{{ year }} farm draft order</h1>
+{% include "league/_picks_tabs.html" %}
+<form method="get" class="filter">
+  <label>Draft <select name="year" onchange="this.form.submit()">{% for y in years %}<option value="{{ y }}"{% if y == year %} selected{% endif %}>{{ y }}</option>{% endfor %}</select></label>
+  <noscript><button type="submit">Show</button></noscript>
+</form>
+<p class="muted">By the {{ year|add:"-1" }} final standings, in this order: 8th, 10th, 12th, 9th, 11th, 13th, 5th, 4th, 6th, 7th, 14th, 3rd, 2nd, 1st. Round 2 repeats it. Bold means the pick was traded.</p>
+{% if unplaced %}<p class="banner-inline">The {{ year|add:"-1" }} final standings aren't complete, so some picks have no number yet. Missing: {% for t in unplaced %}{{ t.code }}{% if not forloop.last %}, {% endif %}{% endfor %}.{% if user.is_staff %} Enter them in <a href="{% url 'admin:league_finalstanding_changelist' %}">Admin → Final standings</a>.{% endif %}</p>{% endif %}
+
+<div class="split">
+<div>
+<h2>Picks</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th class="num">Pick</th><th class="num">Round</th><th>Original team</th><th class="num">{{ year|add:"-1" }} finish</th><th>Owned by</th><th>Drafted</th></tr></thead>
+  <tbody>{% for row in rows %}{% with p=row.pick %}
+    <tr>
+      <td class="num">{% if row.number %}<strong>{{ row.number }}</strong>{% else %}<span class="muted">—</span>{% endif %}</td>
+      <td class="num">{{ p.round }}</td>
+      <td>{{ p.original_team.code }} <span class="muted">{{ p.original_team.name }}</span></td>
+      <td class="num">{{ row.place|default:"—" }}</td>
+      <td>{% if p.owner_id != p.original_team_id %}<strong><a href="{% url 'team' p.owner.code %}">{{ p.owner.code }}</a></strong>{% else %}<a href="{% url 'team' p.owner.code %}">{{ p.owner.code }}</a>{% endif %}</td>
+      <td>{% if p.player %}{{ p.player.name }}{% else %}<span class="muted">—</span>{% endif %}</td>
+    </tr>
+  {% endwith %}{% empty %}<tr><td colspan="6" class="muted">No picks for {{ year }}.</td></tr>{% endfor %}</tbody>
+</table></div>
+</div>
+<div>
+<h2>{{ year|add:"-1" }} final standings</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th class="num">Place</th><th>Team</th></tr></thead>
+  <tbody>{% for f in standings %}<tr><td class="num">{{ f.place }}</td><td><a href="{% url 'team' f.team.code %}">{{ f.team.code }}</a> {{ f.team.name }}</td></tr>
+  {% empty %}<tr><td colspan="2" class="muted">Not entered yet.</td></tr>{% endfor %}</tbody>
+</table></div>
+</div>
+</div>
+{% endblock %}

@@ -4,12 +4,13 @@
 <h1>Teams — {{ next_season }} auction budgets</h1>
 <p class="muted">Committed money for {{ next_season }}{% if signing_status != "locked" %} before signings and farm keeps{% endif %}: $400 base, minus contracts, buyouts, farm and missed-IP penalties, plus or minus cash trades.</p>
 <div class="table-wrap"><table>
-  <thead><tr><th>Team</th><th>Managers</th><th class="num">Contracts</th><th class="num">Buyouts</th><th class="num">Farm</th><th class="num">Cash</th><th class="num">Missed IP</th><th class="num">{% if signing_status == "locked" %}Auction budget{% else %}Left before signings{% endif %}</th></tr></thead>
+  <thead><tr><th>Team</th><th>Managers</th><th>Fantrax</th><th class="num">Contracts</th><th class="num">Buyouts</th><th class="num">Farm</th><th class="num">Cash</th><th class="num">Missed IP</th><th class="num">{% if signing_status == "locked" %}Auction budget{% else %}Left before signings{% endif %}</th></tr></thead>
   <tbody>
   {% for row in teams %}
     <tr>
       <td><a href="{% url 'team' row.team.code %}">{{ row.team.code }}</a> {{ row.team.name }}</td>
       <td>{% for m in row.team.managers.all %}{{ m.name }}{% if not forloop.last %}, {% endif %}{% empty %}<span class="muted">—</span>{% endfor %}</td>
+      <td>{% if row.fantrax_url %}<a href="{{ row.fantrax_url }}" target="_blank" rel="noopener">Roster ↗</a>{% else %}<span class="muted">—</span>{% endif %}</td>
       <td class="num">${{ row.budget.contracts }}</td>
       <td class="num">${{ row.budget.buyouts }}</td>
       <td class="num">${{ row.budget.farm }}</td>

@@ -1,4 +1,4 @@
-<div class="table-wrap"><table>
+<div class="table-wrap"><table{% if show_team %} class="grid"{% endif %}>
   <thead><tr>{% if show_team %}<th>Team</th>{% endif %}<th>Player</th><th class="num">Per year</th><th class="num">Original</th><th class="num">Signed</th><th class="num">Length</th><th class="num">Final year</th><th class="num">Years left</th><th></th></tr></thead>
   <tbody>
   {% for row in rows %}{% with c=row.contract %}

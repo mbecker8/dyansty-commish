@@ -4,7 +4,7 @@ Budget math lives in the pure `rules` package; models convert to rules objects.
 """
 
 from django.core.exceptions import ValidationError
-from django.core.validators import RegexValidator
+from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 from django.db import models, transaction
 from django.utils import timezone
 
@@ -184,6 +184,24 @@ class FarmPick(models.Model):
 
     def __str__(self):
         return f"{self.year} R{self.round} ({self.original_team.code}) -> {self.owner.code}"
+
+
+class FinalStanding(models.Model):
+    """A team's final place in a season (1 = champion). It sets the order of the next farm draft."""
+
+    season = models.PositiveIntegerField()
+    team = models.ForeignKey(Team, on_delete=models.PROTECT, related_name="+")
+    place = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(14)])
+
+    class Meta:
+        ordering = ["-season", "place"]
+        constraints = [
+            models.UniqueConstraint(fields=["season", "team"], name="one_place_per_team"),
+            models.UniqueConstraint(fields=["season", "place"], name="one_team_per_place"),
+        ]
+
+    def __str__(self):
+        return f"{self.season}: {self.place}. {self.team.code}"
 
 
 class CashTrade(models.Model):

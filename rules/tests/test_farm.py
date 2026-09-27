@@ -1,6 +1,6 @@
 import pytest
 
-from rules.farm import DRAFT_PICK_SALARY, retained_salary
+from rules.farm import DRAFT_PICK_SALARY, pick_number, retained_salary
 
 
 def test_draft_pick_costs_one_dollar():
@@ -19,3 +19,18 @@ def test_salary_history_matches_sheet():
     for mlb in (False, False, False, True):
         salary = retained_salary(salary, has_mlb_appearance=mlb)
     assert salary == 6
+
+
+def test_pick_numbers_follow_the_rulebook_order():
+    # 8th picks first, 12th third, the champion last; round 2 repeats.
+    assert pick_number(1, 8) == 1
+    assert pick_number(1, 12) == 3
+    assert pick_number(1, 7) == 10
+    assert pick_number(1, 1) == 14
+    assert pick_number(2, 8) == 15
+    assert pick_number(2, 14) == 25
+    assert pick_number(2, 1) == 28
+
+
+def test_every_place_gets_one_pick_per_round():
+    assert sorted(pick_number(1, place) for place in range(1, 15)) == list(range(1, 15))
