@@ -223,3 +223,9 @@ def test_team_page_shows_the_frozen_auction_budget(manager_client):
     html = manager_client.get("/teams/MB/").content.decode()
     assert "2027 auction budget: $191" in html
     assert "Contracts that ended" not in html  # the 2027 season is under way
+
+
+def test_nav_marks_the_current_page(manager_client):
+    html = manager_client.get("/teams/MB/").content.decode()
+    assert '<a href="/teams/" aria-current="page">Teams</a>' in html
+    assert html.count('aria-current="page"') == 1
