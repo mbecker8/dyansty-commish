@@ -214,7 +214,7 @@ def console(request):
                 if created:
                     audit(request.user, "Added Fantrax league", str(league))
                 messages.success(request, f"{league} is added. Sync from Fantrax reads it from now on.")
-        except (signing.SigningError, FantraxError, events.UnmatchedTeam, ValueError) as e:
+        except (signing.SigningError, FantraxError, events.UnmatchedTeam, events.SeasonMissing, ValueError) as e:
             messages.error(request, str(e))
         return redirect("console")
 

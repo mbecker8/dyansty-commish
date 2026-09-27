@@ -7,11 +7,12 @@ commissioner, who fixes the data by hand and resolves them with a note.
 
 from collections import Counter
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from django.db import IntegrityError, transaction
 from django.utils import timezone
 
+from league import seasons
 from league.fantrax_data import Move
 from league.models import (
     Buyout,
@@ -21,6 +22,7 @@ from league.models import (
     FantraxLeague,
     FarmPlayer,
     Player,
+    Season,
     SigningPeriod,
     Team,
     TeamAlias,
@@ -32,6 +34,13 @@ Effect, Kind = FantraxEvent.Effect, FantraxEvent.Kind
 
 class UnmatchedTeam(Exception):
     pass
+
+
+class SeasonMissing(Exception):
+    """A move is over a year past the last auction: the next season's auction start isn't entered."""
+
+
+SEASON_LENGTH = timedelta(days=365)
 
 
 def match_teams(snapshot) -> dict[str, Team]:
@@ -55,10 +64,11 @@ class Processor:
     """Applies one league's facts against the current records."""
 
     def __init__(self, league: FantraxLeague, teams: dict[str, Team], names: dict[str, str], known=None):
-        self.league, self.season, self.teams, self.names = league, league.season, teams, names
+        self.league, self.teams, self.names = league, teams, names
+        self.season = seasons.current_season()  # roster facts are about now
+        self.seasons = list(Season.objects.all())
+        self.locks = dict(SigningPeriod.objects.exclude(locked_at=None).values_list("season", "locked_at"))
         self.known = set(FantraxEvent.objects.values_list("key", flat=True)) if known is None else known
-        period = SigningPeriod.objects.filter(season=self.season).first()
-        self.locked_at = period.locked_at if period else None
         self.created: list[FantraxEvent] = []
         self._players = {p.fantrax_id: p for p in Player.objects.exclude(fantrax_id=None)}
         # Only these players' moves can change anything; the rest are logged in one batch.
@@ -76,15 +86,24 @@ class Processor:
     def player(self, fid: str) -> Player | None:
         return self._players.get(fid)
 
+    def season_of(self, when: datetime) -> int:
+        """The season a moment belongs to: the latest auction start at or before it."""
+        s = seasons.season_at(when, self.seasons)
+        if s is None:
+            raise SeasonMissing(f"{when:%Y-%m-%d} is before the first season's auction")
+        return s.year
+
     def contract(self, fid: str, when: datetime) -> Contract | None:
         """The live contract a move at `when` can affect.
 
-        A contract signed at the signing after this season doesn't exist yet for moves before the lock.
+        A contract signed at the signing after the move's season doesn't exist yet for moves before the lock.
         """
+        season = self.season_of(when)
+        lock = self.locks.get(season)
         for c in Contract.live.filter(player__fantrax_id=fid).select_related("team", "player"):
-            if c.final_year < self.season:
+            if c.final_year < season:
                 continue
-            if c.year_signed >= self.season and (self.locked_at is None or when < self.locked_at):
+            if c.year_signed >= season and (lock is None or when < lock):
                 continue
             return c
         return None
@@ -175,12 +194,13 @@ class Processor:
             held.status = FarmPlayer.Status.RELEASED
             held.save(update_fields=["status"])
             return rec(Effect.FARM_RELEASED, f"released {name} from the {frm.code} farm", **link)
-        if held.final_year > self.season:
+        season = self.season_of(m.when)
+        if held.final_year > season:
             buyout = Buyout.objects.create(
-                contract=held, team=frm, dropped_in_season=self.season, note=f"Dropped {m.when:%Y-%m-%d}"
+                contract=held, team=frm, dropped_in_season=season, note=f"Dropped {m.when:%Y-%m-%d}"
             )
             return rec(Effect.BUYOUT, f"dropped {name} ({frm.code}): buyout owed", buyout=buyout, **link)
-        held.voided_in_season = self.season
+        held.voided_in_season = season
         held.save(update_fields=["voided_in_season"])
         return rec(Effect.VOIDED, f"dropped {name} ({frm.code}) in his final year: contract voided", **link)
 
@@ -369,6 +389,14 @@ def _sync_once(sources, user, source_label, dry_run) -> SyncResult:
         # Two syncs at once queue here; the second then finds the first one's keys and skips them.
         list(FantraxLeague.objects.select_for_update().filter(pk__in=[lg.pk for lg, _ in sources]))
         known = known_keys()
+        latest = max(Season.objects.all(), key=lambda s: s.year)
+        for _league, snapshot in sources:
+            late = [m for m in snapshot.moves() if m.when - latest.auction_starts_at > SEASON_LENGTH]
+            if late:
+                raise SeasonMissing(
+                    f"Fantrax has moves from {late[0].when:%b %-d, %Y}, over a year after the {latest.year} auction. "
+                    f"Enter the {latest.year + 1} auction start on the console, then sync again."
+                )
         # After renewal the old league is frozen, so only the season's newest league has current rosters.
         newest = {}
         for lg in FantraxLeague.objects.filter(active=True).order_by("pk"):

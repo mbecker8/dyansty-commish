@@ -5,9 +5,20 @@ import pytest
 from django.contrib.auth.models import User
 from django.core.management import call_command
 
-from league.events import Processor, sync
+from league.events import Processor, SeasonMissing, sync
 from league.fantrax_data import EASTERN, EndState, Move
-from league.models import AuditEntry, Buyout, Contract, FantraxEvent, FantraxLeague, FarmPlayer, Player, Team
+from league.models import (
+    AuditEntry,
+    Buyout,
+    Contract,
+    FantraxEvent,
+    FantraxLeague,
+    FarmPlayer,
+    Player,
+    Season,
+    SigningPeriod,
+    Team,
+)
 
 pytestmark = pytest.mark.django_db
 
@@ -262,3 +273,59 @@ def test_a_sync_racing_another_retries_and_skips_its_events(world, monkeypatch):
     monkeypatch.setattr(events, "known_keys", lambda: next(stale, None) or real())
     assert sync([(league, snap)]).created == []
     assert FantraxEvent.objects.count() == 1
+
+
+# --- the season of a move comes from its date ---------------------------------
+
+
+def season_2027():
+    return Season.objects.create(year=2027, auction_starts_at=datetime(2027, 2, 24, 19, 0, tzinfo=EASTERN))
+
+
+def at(kind, fid, frm=None, to=None, when=None, tx="t9"):
+    return Move(when, kind, fid, frm, to, tx)
+
+
+def test_final_year_drop_after_the_next_auction_is_free(world):
+    league, proc, a, b, c, f = world
+    Contract.objects.filter(pk=c.pk).update(year_signed=2025, length=2)  # final year 2027
+    season_2027()
+    proc = Processor(league, proc.teams, proc.names)
+    e = proc.apply_move(at("DROP", "p1", "ta", when=datetime(2027, 6, 1, tzinfo=EASTERN)))
+    c.refresh_from_db()
+    assert (e.effect, c.voided_in_season) == ("VOIDED", 2027)
+
+
+def test_drop_after_the_next_auction_is_bought_out_in_that_season(world):
+    league, proc, a, b, c, f = world  # final year 2028
+    season_2027()
+    proc = Processor(league, proc.teams, proc.names)
+    proc.apply_move(at("DROP", "p1", "ta", when=datetime(2027, 6, 1, tzinfo=EASTERN)))
+    assert Buyout.objects.get(contract=c).dropped_in_season == 2027
+
+
+def test_drop_before_the_next_auction_is_the_old_season(world):
+    league, proc, a, b, c, f = world
+    season_2027()
+    proc = Processor(league, proc.teams, proc.names)
+    proc.apply_move(at("DROP", "p1", "ta", when=datetime(2027, 2, 24, 18, 0, tzinfo=EASTERN)))
+    assert Buyout.objects.get(contract=c).dropped_in_season == 2026
+
+
+def test_new_contract_is_visible_to_moves_after_its_lock(world):
+    league, proc, a, b, c, f = world
+    Contract.objects.filter(pk=c.pk).update(year_signed=2026)
+    SigningPeriod.objects.create(season=2026, status="locked", locked_at=datetime(2026, 7, 5, tzinfo=EASTERN))
+    proc = Processor(league, proc.teams, proc.names)
+    assert proc.apply_move(move("TRADE", "p1", "ta", "tb")).effect == "CONTRACT_MOVED"
+
+
+def test_sync_refuses_moves_a_year_past_the_last_auction(world):
+    league, proc, a, b, c, f = world
+    snap = FakeSnapshot(
+        {"p1": EndState("ta", "Active", 0), "p2": EndState("ta", "Minors", 0)},
+        moves_=[at("DROP", "p1", "ta", when=datetime(2027, 3, 1, tzinfo=EASTERN))],
+    )
+    with pytest.raises(SeasonMissing, match="2027"):
+        sync([(league, snap)])
+    assert not FantraxEvent.objects.exists()
