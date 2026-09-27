@@ -86,7 +86,15 @@ def submission(code):
 def test_signing_is_closed_until_the_commissioner_opens_it(ready, mb):
     page = mb.get("/signing/MB/")
     assert page.status_code == 200 and b"isn't open yet" in page.content
-    assert b">Signing<" not in mb.get("/teams/").content
+    assert b"My Signing Worksheet" not in mb.get("/teams/").content
+
+
+def test_worksheet_button_shows_how_far_the_team_has_got(opened, mb):
+    assert "not started" in mb.get("/teams/").content.decode()
+    mb.post("/signing/MB/", form_for("MB", action="save"))
+    assert "Draft saved, not submitted" in mb.get("/teams/").content.decode()
+    mb.post("/signing/MB/", form_for("MB", action="submit"))
+    assert "✓ Submitted" in mb.get("/teams/").content.decode()
 
 
 def test_manager_sees_their_signing_page_and_the_nav_link(opened, mb):
@@ -94,7 +102,7 @@ def test_manager_sees_their_signing_page_and_the_nav_link(opened, mb):
     assert page.status_code == 200
     html = page.content.decode()
     assert signable("MB")[0].player.name in html and "Left for the auction" in html
-    assert "<strong>Signing</strong>" in html
+    assert "My Signing Worksheet" in html and "not started" in html
     assert mb.get("/signing/")["Location"] == "/signing/MB/"
 
 
@@ -227,6 +235,37 @@ def test_admin_changes_are_audited(ready, commish):
     entries = AuditEntry.objects.filter(action="Admin: changed cash trade")
     assert {e.team_id for e in entries} == {trade.from_team_id, trade.to_team_id}
     assert all("amount" in e.detail for e in entries)
+
+
+def test_two_teams_can_swap_final_places_in_the_admin_list(ready, commish):
+    from league.models import FinalStanding
+
+    rows = list(FinalStanding.objects.filter(season=2026).order_by("place"))
+    places = {r.team.code: r.place for r in rows}
+    swapped = {**places, "CS": places["CN"], "CN": places["CS"]}
+    data = {
+        "form-TOTAL_FORMS": len(rows),
+        "form-INITIAL_FORMS": len(rows),
+        "form-MIN_NUM_FORMS": 0,
+        "form-MAX_NUM_FORMS": 1000,
+        "_save": "Save",
+    }
+    for i, r in enumerate(rows):
+        data[f"form-{i}-id"] = r.pk
+        data[f"form-{i}-place"] = swapped[r.team.code]
+    response = commish.post("/admin/league/finalstanding/?season__exact=2026", data)
+    assert response.status_code == 302
+    now = {r.team.code: r.place for r in FinalStanding.objects.filter(season=2026)}
+    assert now == swapped and now["CS"] == 9 and now["CN"] == 8
+    assert AuditEntry.objects.filter(action="Admin: changed final standing").count() == 2
+
+
+def test_a_shared_place_is_flagged_on_the_draft_order(ready, commish):
+    from league.models import FinalStanding
+
+    FinalStanding.objects.filter(season=2026, team__code="CN").update(place=8)
+    html = commish.get("/picks/order/?year=2027").content.decode()
+    assert "Two teams share place 8 in the 2026 standings" in html
 
 
 @pytest.mark.parametrize("name", ["budgets", "contracts", "buyouts", "farm", "picks", "cash"])

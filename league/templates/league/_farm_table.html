@@ -1,4 +1,4 @@
-<div class="table-wrap"><table>
+<div class="table-wrap"><table{% if show_team %} class="grid"{% endif %}>
   <thead><tr>{% if show_team %}<th>Team</th>{% endif %}<th>Player</th><th class="num">Drafted</th><th class="num">Salary</th><th>MLB time</th><th class="num">Cost to keep for {{ next_season }}</th></tr></thead>
   <tbody>
   {% for row in rows %}{% with f=row.farm %}

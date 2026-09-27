@@ -1,0 +1,4 @@
+<nav class="tabs" aria-label="Farm picks">
+  <a href="{% url 'picks' %}"{% if request.resolver_match.url_name == "picks" %} aria-current="page"{% endif %}>Ownership</a>
+  <a href="{% url 'draft_order' %}"{% if request.resolver_match.url_name == "draft_order" %} aria-current="page"{% endif %}>Draft order</a>
+</nav>
