@@ -49,7 +49,14 @@ Then link yourself: sign in once to see your Discord ID, then in the admin add a
 uv run pytest -q                 # tests (SQLite locally; CI uses Postgres)
 uv run ruff check . && uv run ruff format --check .
 uv run python manage.py makemigrations --check --dry-run
+uv run pytest e2e -q             # browser tests of the signing flow (not run in CI)
 ```
+
+The `e2e/` tests drive the signing period in a real browser with Playwright: opening signing,
+pricing every contract length, buyouts, farm keeps, the contract and $0 limits, the admin's
+manual entries, a manager's view, the commissioner's edits, locking and the next season's
+dates. CI doesn't run them, so **run them locally before every PR**. First time only: `uv run playwright install chromium`.
+Add `--headed --slowmo 300` to watch.
 
 Work happens on a branch per milestone, with a PR into `main`. CI must pass, and the PR
 lists the issues it fixes. Never commit anything from `secrets/`: the Fantrax cookie and
