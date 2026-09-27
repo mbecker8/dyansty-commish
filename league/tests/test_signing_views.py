@@ -393,3 +393,9 @@ def test_clicking_sync_twice_applies_events_once(imported, commish, monkeypatch,
     second = commish.post("/commish/", {"action": "sync"}, follow=True)
     assert b"No new events" in second.content
     assert (FantraxEvent.objects.count(), Buyout.objects.count()) == (n, buyouts)
+
+
+def test_adding_a_league_needs_an_id(ready, commish):
+    response = commish.post("/commish/", {"action": "add_league", "league_id": " "}, follow=True)
+    assert b"Pick a Fantrax league" in response.content
+    assert FantraxLeague.objects.count() == 1

@@ -1,4 +1,4 @@
-"""Read the committed Fantrax snapshot (data/fantrax/<dir>/) into plain Python structures."""
+"""Read Fantrax data (a saved data/fantrax/<dir>/ snapshot, or a live fetch) into plain Python structures."""
 
 import json
 import re

@@ -117,7 +117,13 @@ def team(request, code):
             "moves": FantraxEvent.objects.filter(
                 Q(from_team=team) | Q(to_team=team), league__season=settings.LEAGUE_SEASON
             )
-            .exclude(effect__in=[FantraxEvent.Effect.NONE, FantraxEvent.Effect.EXCEPTION])
+            .exclude(
+                effect__in=[
+                    FantraxEvent.Effect.NONE,
+                    FantraxEvent.Effect.ALREADY_REFLECTED,
+                    FantraxEvent.Effect.EXCEPTION,
+                ]
+            )
             .order_by("-happened_at", "pk"),
         },
     )

@@ -204,6 +204,8 @@ def console(request):
                 event.resolve(request.user, request.POST.get("note", ""))
                 messages.success(request, "Exception resolved.")
             elif action == "add_league":
+                if not request.POST.get("league_id", "").strip():
+                    raise ValueError("Pick a Fantrax league to add")
                 league, created = FantraxLeague.objects.get_or_create(
                     league_id=request.POST.get("league_id", "").strip(),
                     defaults={"name": request.POST.get("name", ""), "season": s},

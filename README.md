@@ -9,7 +9,7 @@ lineups and scoring.
 
 - **Managers and commissioners:** the in-app **Help** page (`/help/`) explains the pages and
   the rules. Commissioners also see a commissioner guide there (linking managers,
-  reviewing the season's moves, manual entries, command line).
+  syncing Fantrax moves and resolving exceptions, manual entries, command line).
 - **The rules as implemented:** [RULES.md](RULES.md)
 - **Why and what:** [VISION.md](VISION.md) · **How it's built:** [ARCHITECTURE.md](ARCHITECTURE.md)
 
@@ -24,12 +24,12 @@ bin/local-review.sh
 The script:
 - sets up `review.sqlite3`,
 - loads the league from the committed data (`data/`),
-- proposes the 2026 season's changes,
+- applies the 2026 season's Fantrax moves from the saved snapshot (each only once),
 - loads the signing pool from the Fantrax rosters (first run only),
 - asks you to create an admin login,
 - and serves http://127.0.0.1:8000/.
 
-Re-running it keeps your decisions.
+Re-running it keeps everything you've done: admin edits, resolved exceptions and signing decisions.
 
 For Discord sign-in, create an app at https://discord.com/developers/applications. Add the
 OAuth2 redirect `http://127.0.0.1:8000/auth/discord/callback`, then put the credentials in
@@ -52,11 +52,12 @@ uv run python manage.py makemigrations --check --dry-run
 ```
 
 Work happens on a branch per milestone, with a PR into `main`. CI must pass, and the PR
-lists the issues it fixes. Never commit anything from `secrets/`: the Fantrax cookie,
-Discord credentials, or the workbook with managers' contact details.
+lists the issues it fixes. Never commit anything from `secrets/`: the Fantrax cookie and
+Secret ID, Discord credentials, or the workbook with managers' contact details.
 
 ## Deploy
 
 Render Blueprint (`render.yaml`): https://dynasty-commish.onrender.com. It runs on the free
 tier for now. Before the league beta, upgrade to paid Postgres with backups, and set
-`DISCORD_CLIENT_ID` / `DISCORD_CLIENT_SECRET` in the dashboard.
+`DISCORD_CLIENT_ID` / `DISCORD_CLIENT_SECRET` and `FANTRAX_COOKIE` / `FANTRAX_SECRET_ID` in the
+dashboard.

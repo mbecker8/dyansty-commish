@@ -62,3 +62,18 @@ def test_not_logged_in_raises_login_expired():
 def test_session_parses_a_cookie_header():
     s = fantrax_client.session("Cookie: a=1; b=two")
     assert s.cookies.get("a") == "1" and s.cookies.get("b") == "two"
+
+
+def test_listing_leagues_needs_the_secret_id():
+    with pytest.raises(fantrax_client.FantraxError, match="FANTRAX_SECRET_ID"):
+        fantrax_client.list_leagues("")
+
+
+def test_listing_leagues_reports_a_fantrax_error(monkeypatch):
+    monkeypatch.setattr(
+        fantrax_client.requests,
+        "get",
+        lambda *a, **k: FakeResponse({"error": {"code": "WARNING", "message": "bad id"}}),
+    )
+    with pytest.raises(fantrax_client.FantraxError, match="bad id"):
+        fantrax_client.list_leagues("nope")

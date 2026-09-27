@@ -118,22 +118,26 @@ by golden tests against the Year 19 workbook.
 
 ## 7. Fantrax integration
 
-- Uses the open-source `FantraxAPI` Python library (sibling project). It is
-  **read-only** and needs the commissioner's logged-in **cookie** for private
-  data.
+- A small in-app client (`league/fantrax_client.py`). It is **read-only** and
+  needs the commissioner's logged-in **cookie** for transactions, trades and
+  stats. The Fantrax Secret ID only lists the commissioner's leagues.
 - Fantrax is the source of truth for **rosters** and **end-of-season
   salaries**, which become each signable player's *original price*.
 - The app is the source of truth for **contract history** (lengths, buyouts,
   farm) — seeded once from the Year 19 workbook.
 - The sync is **on demand** (a commissioner button or management command), not
-  scheduled.
+  scheduled. It applies trades, drops, promotions and MLB debuts to the
+  contracts and farm itself, each once; only what it can't interpret becomes an
+  exception for the commissioner (decided 2026-09-26).
 - What Fantrax does and doesn't record (from the 2026 snapshot):
   - Rosters, salaries, claims, drops and trades, with player IDs. Salary
     equals the contract's annual price for contracted players.
   - Farm-pick ownership for future years (`draftPicksData`), which the app
     imports as the source of truth.
   - Cash in trades appears only as a free-text commissioner comment. The app
-    lists these comments, and the commissioner enters the cash trade.
+    flags these comments, and the commissioner enters the cash trade. Cash
+    trades are also posted in a Discord channel; reading them from there is
+    planned (#47).
   - Its "Year Signed" and "Contract Expires" columns are hand-kept and
     unreliable; the app ignores them.
 - Franchises are keyed by code and Fantrax ID, with every name the sheet uses
@@ -153,7 +157,9 @@ by golden tests against the Year 19 workbook.
 - One-time **import of the Year 19 workbook** (contracts, buyouts, farm,
   dropped contracts, cash trades, farm-pick ownership), plus a commissioner
   reconciliation screen for the known spreadsheet errors.
-- **Fantrax sync:** final rosters + salaries → each team's signable pool.
+- **Fantrax sync:** the season's and offseason's moves (including the renewed
+  league) applied to contracts, buyouts and farm; final rosters + salaries →
+  each team's signable pool.
 - **Manager signing screen:** signable players with a price preview for each
   length, buyout decisions with full penalty schedules, farm retention,
   live budget, validation, save draft, submit.
@@ -174,17 +180,17 @@ by golden tests against the Year 19 workbook.
 
 All of these are admin work done by hand outside Fantrax today:
 
-- **Live Fantrax link:** scheduled sync of rosters and transactions, so the
-  app picks up drops, pickups and trades itself (for example, a contract
-  becomes a buyout when a player is dropped, or cash moves when a trade
-  processes). Most items below depend on it.
+- **Live Fantrax link:** run the sync on a schedule instead of on demand, so
+  drops, trades and promotions show up without the commissioner pressing a
+  button. Most items below depend on it.
 - **Farm draft in the app:** the rulebook's pick order, pick ownership,
   default picks (highest available Baseball America Top 100), and picks
   recorded automatically.
 - Automated missed-IP penalties and deadbeat-deposit tracking from Fantrax
   weekly data.
 - League history: import past years; contract and trade archive.
-- **Discord integration:** post to the league server when signing opens, a
+- **Discord integration:** read cash trades from the league's cash-trade
+  channel (#47); post to the league server when signing opens, a
   deadline approaches, a team submits, a period locks, or a trade is pending.
   Later, a bot for lookups (`/contract <player>`, `/budget <team>`) and farm
   draft picks made in a channel.
@@ -209,8 +215,8 @@ All of these are admin work done by hand outside Fantrax today:
   signing screen; Django admin as the commissioner's escape hatch.
 - Hosted on **Render** (web service + managed Postgres with daily backups).
 - **Discord OAuth** for sign-in (no email provider).
-- `FantraxAPI` as a dependency; the commissioner's Fantrax cookie is stored as
-  a secret.
+- A small read-only Fantrax client in the app; the commissioner's Fantrax
+  cookie is stored as a secret.
 - Rules engine as an isolated package with its own test suite.
 
 ## 12. Success criteria

@@ -18,7 +18,7 @@ uv run python manage.py migrate --verbosity 0
 if [ "$(uv run python manage.py shell --no-imports -c 'from league.models import Team; print(Team.objects.exists())')" = "False" ]; then
   uv run python manage.py import_league
 fi
-uv run python manage.py sync_fantrax --snapshot data/fantrax/2026-final
+uv run python manage.py sync_fantrax --snapshot data/fantrax/2026-final --league p3z8zy75mgdm460o
 # The signing pool. Rosters are fixed once signing opens, so load them only the first time.
 if [ "$(uv run python manage.py shell --no-imports -c 'from league.models import RosterEntry; print(RosterEntry.objects.exists())')" = "False" ]; then
   uv run python manage.py sync_rosters

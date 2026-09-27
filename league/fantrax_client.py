@@ -76,9 +76,14 @@ def fetch_raw(s, league_id: str) -> dict:
 
 def list_leagues(secret_id: str) -> list[dict]:
     """The commissioner's leagues (leagueId, leagueName, ...), via the public API and the Secret ID."""
+    if not secret_id:
+        raise FantraxError("FANTRAX_SECRET_ID isn't set (it's on your Fantrax user profile)")
     try:
         r = requests.get(LEAGUES_URL, params={"userSecretId": secret_id}, timeout=30)
         r.raise_for_status()
-        return r.json().get("leagues", [])
+        body = r.json()
     except (requests.RequestException, ValueError) as e:
         raise FantraxError(f"Couldn't list Fantrax leagues: {e}") from e
+    if "leagues" not in body:
+        raise FantraxError(f"Fantrax didn't list your leagues: {body.get('error', body)}")
+    return body["leagues"]

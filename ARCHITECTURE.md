@@ -1,8 +1,7 @@
 # Dynasty Commish — Architecture
 
-> Status: reflects the code as of **M3 (Read side)**, merged 2026-09-26.
-> Sections marked **(planned)** describe where M2+ is headed. They're design
-> intent, not code yet. For goals, scope and the rules themselves, see
+> Status: reflects the code as of **Fantrax events** (PR #48, 2026-09-26), after M4.
+> Sections marked **(planned)** describe design intent, not code yet. For goals, scope and the rules themselves, see
 > [VISION.md](VISION.md) and [the rulebook](docs/reference/rulebook-year19.md).
 
 ## 1. The big picture
@@ -12,18 +11,19 @@
                  │                                                                 │
   Managers ────► │  gunicorn ─► Django (config/)                                   │
   Commissioner   │               ├─ core/      pages, healthz                      │
-                 │               ├─ league/    domain models, views   (planned)    │
+                 │               ├─ league/    models, views, Fantrax events       │
                  │               └─ rules/     pure-Python engine ◄── called by ─┐ │
                  │                                                               │ │
                  │               Postgres (managed) ◄── Django ORM ──────────────┘ │
                  └─────────────────────────────────────────────────────────────────┘
                                         ▲
-                         one-off / on-demand imports
+             imports, and on-demand Fantrax syncs (command or console button)
                                         │
           ┌─────────────────────────────┴──────────────────────────────┐
           │                                                            │
   Fantrax (read-only, cookie auth)                  Year 19 contract workbook (.xlsx)
-  scripts/fantrax_snapshot.py ─► data/fantrax/      scripts/extract_workbook_fixture.py
+  league/fantrax_client.py (live sync)              scripts/extract_workbook_fixture.py
+  scripts/fantrax_snapshot.py ─► data/fantrax/
 ```
 
 The app has three layers, and the dependencies only point downward:
@@ -35,8 +35,10 @@ The app has three layers, and the dependencies only point downward:
 3. **Rules engine** (`rules/`): pure functions over plain dataclasses. It
    never imports Django and never touches the database.
 
-Everything that talks to the outside world (Fantrax, the workbook) enters
-through scripts or import commands, never from inside a request.
+The workbook enters only through import commands. Fantrax enters through
+`league.events.sync`: from a saved snapshot, from `manage.py sync_fantrax`, or
+from the console's Sync from Fantrax button, which fetches inside that request
+before opening the transaction. Nothing ever writes to Fantrax.
 
 ## 2. Repository layout
 
@@ -115,7 +117,10 @@ where the numbers come from.
 
 - `config/settings.py` reads everything from environment variables, so one
   file serves local dev, CI and Render:
-  - `DATABASE_URL` (via `dj-database-url`). Falls back to SQLite locally.
+  - `DATABASE_URL` (via `dj-database-url`). Falls back to SQLite locally, where
+    transactions take the write lock up front (`IMMEDIATE`), so overlapping
+    writes such as a double-clicked sync wait instead of failing.
+  - `FANTRAX_COOKIE` and `FANTRAX_SECRET_ID`, else the matching files in `secrets/`.
   - `DJANGO_DEBUG` defaults to on locally and **off on Render** (detected by
     `RENDER`), so production fails safe.
   - `DJANGO_SECRET_KEY` is required whenever DEBUG is off.
@@ -227,9 +232,9 @@ where the numbers come from.
 
 - The Year 19 workbook is the one-time seed for contract history.
   `docs/reference/` holds the pre-signing export.
-- **(planned)** An import command loads it into the models, plus a
-  reconciliation report explaining every difference from the sheet (the same
-  discipline as the golden tests).
+- `manage.py import_league` loads it (plus the 2026 Fantrax snapshot and
+  `data/league/`) into the models and seeds the 2026 `FantraxLeague`. It refuses
+  `--replace` once anyone has made changes, including applied Fantrax events.
 
 ## 6. Deployment and operations
 
@@ -238,7 +243,8 @@ where the numbers come from.
   league beta** (free Postgres expires).
 - **Build** (`bin/render-build.sh`): `uv sync --frozen --no-dev` →
   `collectstatic` → `migrate`. Migrations run on every deploy.
-- **Run:** `uv run --frozen --no-dev gunicorn config.wsgi:application`.
+- **Run:** `uv run --frozen --no-dev gunicorn config.wsgi:application --timeout 120`. The long
+  timeout is for Sync from Fantrax, which makes about 15 Fantrax calls (about 25s).
 - **Health check:** `GET /healthz` returns `ok` and is exempt from the HTTPS
   redirect.
 - Python 3.14 and Django 6.1, pinned with `uv.lock`. Every install uses
@@ -261,7 +267,10 @@ GitHub Actions (`.github/workflows/ci.yml`) runs on every PR and on pushes to
 - The workbook's **Contact Info** tab holds personal data. The fixture
   extractor reads team tabs only and never touches it.
 - On Render, `DJANGO_SECRET_KEY` is generated by the Blueprint and
-  `DATABASE_URL` is wired from the managed database.
+  `DATABASE_URL` is wired from the managed database. `FANTRAX_COOKIE`,
+  `FANTRAX_SECRET_ID` and the Discord credentials are set in the dashboard
+  (`sync: false`). The cookie is a login to the commissioner's whole Fantrax
+  account: it's never stored in the database, logged or shown.
 
 ## 9. Key decisions
 
@@ -274,4 +283,5 @@ GitHub Actions (`.github/workflows/ci.yml`) runs on every PR and on pushes to
 | Golden tests against the real workbook | Parity with the sheet is a success criterion. Every difference must be explained. |
 | Commit raw Fantrax snapshots | Reproducible imports. Protects against API changes or outages. |
 | Fantrax read-only, on-demand sync (MVP) | Keeps the scope out of anything Fantrax already does (VISION §10). |
+| Fantrax moves applied as events, not approved one by one | They're facts that already happened. Each is stored once by key, so re-runs are safe and hand fixes stick; only what the app can't interpret waits for the commissioner. |
 | Render with config from env vars | Simple managed hosting. The same settings file works in every environment. |

@@ -68,6 +68,11 @@ differ, so teams are matched by Fantrax ID first, then by name and `TeamAlias`, 
 
 `sync` of a whole batch runs in one transaction. Events are read-only in the admin.
 
+**Running twice at once** (a double-click): the button disables itself; the league rows are locked
+(`select_for_update`), and SQLite takes its write lock at the start of every transaction, so a second
+sync waits and then skips what the first stored. A run that still loses the race on a unique key
+rolls back and retries.
+
 ## Processing rules
 
 Transactions are processed oldest first (drops before claims at the same time, as today). A key
@@ -85,13 +90,14 @@ contract or farm player) is an EXCEPTION, and nothing changes.
 Only **live** contracts are touched. A contract already bought out or voided is no longer affected by
 later moves of the same player.
 
-**Roster-derived facts**, from the latest roster fetch of each active league, stored once each:
+**Roster-derived facts**, from the latest roster fetch of the season's newest active league (after
+renewal the old league is frozen, so its rosters are stale), stored once each:
 
 - A farm player now in a non-Minors slot: FARM_PROMOTED (status promoted; can't return).
 - A farm player without an MLB appearance whose stats show a debut: FARM_DEBUT. The existing
   "games played but no PA or out" note becomes an EXCEPTION for a look.
 - A Minors-slot player who isn't a farm player: EXCEPTION ("add him in the admin if he was drafted").
-- A trade with a commissioner comment: EXCEPTION ("enter the cash trade by hand").
+- A trade with a commissioner comment, in any league: EXCEPTION ("enter the cash trade by hand").
 - After applying, a live contract whose team doesn't match the player's Fantrax roster team:
   EXCEPTION.
 

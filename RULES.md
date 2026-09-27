@@ -38,7 +38,7 @@ the rulebook, including decisions the rulebook doesn't spell out.
     draft picks entered as claims) are already in the sheet and change
     nothing. Anything that contradicts the records becomes an exception for
     the commissioner.
-  - The replay starts when the auction does, not at midnight: drops made
+  - Processing starts when the auction does, not at midnight: drops made
     earlier on auction day belong to the previous season (2026: last
     pre-auction drop 15:11, first auction claim 18:21, cutoff 16:00).
   - Sync again before signing, because offseason trades and drops count
