@@ -129,6 +129,31 @@ class FarmPlayerAdmin(AuditedAdmin):
 admin.site.register([models.TeamAlias, models.FarmPick, models.CashTrade, models.BudgetAdjustment], AuditedAdmin)
 
 
+@admin.register(models.FantraxLeague)
+class FantraxLeagueAdmin(AuditedAdmin):
+    """Leagues Sync from Fantrax reads. Add the renewed league from the console's league finder."""
+
+    list_display = ["league_id", "name", "season", "process_since", "active"]
+
+
+@admin.register(models.FantraxEvent)
+class FantraxEventAdmin(admin.ModelAdmin):
+    """What each Fantrax fact changed. Read-only: fix a wrong result on the contract, buyout or farm page."""
+
+    list_display = ["happened_at", "kind", "effect", "player_name", "from_team", "to_team", "detail", "resolved_at"]
+    list_filter = ["effect", "kind", "league"]
+    search_fields = ["player_name", "detail"]
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
 @admin.register(models.RosterEntry)
 class RosterEntryAdmin(AuditedAdmin):
     """Loaded by `sync_rosters`. Fill in a salary here if the season-end snapshot is missing one.

@@ -6,6 +6,7 @@ Budget math lives in the pure `rules` package; models convert to rules objects.
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 from django.db import models, transaction
+from django.utils import timezone
 
 import rules.contracts
 
@@ -194,6 +195,100 @@ class CashTrade(models.Model):
 
     def __str__(self):
         return f"${self.amount} {self.from_team.code} -> {self.to_team.code} ({self.budget_season})"
+
+
+class FantraxLeague(models.Model):
+    """A Fantrax league whose moves the app applies. Renewal makes a new league for the offseason."""
+
+    league_id = models.CharField(max_length=32, unique=True)
+    name = models.CharField(max_length=100, blank=True)
+    season = models.PositiveIntegerField(help_text="League season its moves belong to")
+    process_since = models.DateTimeField(
+        null=True, blank=True, help_text="Ignore moves before this time (the league data already includes them)"
+    )
+    active = models.BooleanField(default=True, help_text="Read by Sync from Fantrax")
+
+    class Meta:
+        ordering = ["season", "pk"]
+
+    def __str__(self):
+        return f"{self.name or self.league_id} ({self.season})"
+
+
+class FantraxEventQuerySet(models.QuerySet):
+    def unresolved(self):
+        return self.filter(effect=FantraxEvent.Effect.EXCEPTION, resolved_at=None)
+
+
+class FantraxEvent(models.Model):
+    """One Fantrax fact the app processed, stored once under `key`, with what it changed."""
+
+    class Kind(models.TextChoices):
+        TRADE = "TRADE", "Trade"
+        DROP = "DROP", "Drop"
+        CLAIM = "CLAIM", "Claim"
+        PROMOTED = "PROMOTED", "Promotion"
+        DEBUT = "DEBUT", "MLB debut"
+        DEBUT_CHECK = "DEBUT_CHECK", "Possible MLB debut"
+        MINORS_UNKNOWN = "MINORS_UNKNOWN", "Minors player not on a farm"
+        CASH_COMMENT = "CASH_COMMENT", "Cash in a trade comment"
+        ROSTER_MISMATCH = "ROSTER_MISMATCH", "Roster doesn't match"
+
+    class Effect(models.TextChoices):
+        CONTRACT_MOVED = "CONTRACT_MOVED", "Contract moved"
+        BUYOUT = "BUYOUT", "Buyout"
+        VOIDED = "VOIDED", "Contract voided"
+        FARM_MOVED = "FARM_MOVED", "Farm moved"
+        FARM_RELEASED = "FARM_RELEASED", "Farm released"
+        FARM_PROMOTED = "FARM_PROMOTED", "Farm promoted"
+        FARM_DEBUT = "FARM_DEBUT", "Farm debut"
+        ALREADY_REFLECTED = "ALREADY_REFLECTED", "Already reflected"
+        NONE = "NONE", "No change"
+        EXCEPTION = "EXCEPTION", "Exception"
+
+    key = models.CharField(max_length=120, unique=True)
+    league = models.ForeignKey(FantraxLeague, on_delete=models.PROTECT, related_name="events")
+    happened_at = models.DateTimeField()
+    kind = models.CharField(max_length=20, choices=Kind.choices)
+    effect = models.CharField(max_length=20, choices=Effect.choices)
+    fantrax_player_id = models.CharField(max_length=32, blank=True)
+    player_name = models.CharField(max_length=100, blank=True)
+    # PROTECT: an event is history; deleting what it touched must not erase it.
+    player = models.ForeignKey(Player, on_delete=models.PROTECT, null=True, blank=True, related_name="+")
+    from_team = models.ForeignKey(Team, on_delete=models.PROTECT, null=True, blank=True, related_name="+")
+    to_team = models.ForeignKey(Team, on_delete=models.PROTECT, null=True, blank=True, related_name="+")
+    contract = models.ForeignKey(Contract, on_delete=models.PROTECT, null=True, blank=True, related_name="+")
+    farm_player = models.ForeignKey(FarmPlayer, on_delete=models.PROTECT, null=True, blank=True, related_name="+")
+    buyout = models.ForeignKey(Buyout, on_delete=models.PROTECT, null=True, blank=True, related_name="+")
+    detail = models.TextField(blank=True)
+    synced_at = models.DateTimeField(auto_now_add=True)
+    resolved_at = models.DateTimeField(null=True, blank=True)
+    resolved_by = models.ForeignKey("auth.User", on_delete=models.SET_NULL, null=True, blank=True, related_name="+")
+    resolved_note = models.TextField(blank=True)
+
+    objects = FantraxEventQuerySet.as_manager()
+
+    class Meta:
+        ordering = ["-happened_at", "pk"]
+
+    def __str__(self):
+        return f"{self.happened_at:%Y-%m-%d} {self.get_kind_display()}: {self.detail}"
+
+    @transaction.atomic
+    def resolve(self, user, note: str):
+        """Mark an exception handled. The commissioner fixes the data by hand and says what they did."""
+        note = note.strip()
+        if not note:
+            raise ValueError("Say what you did in the note")
+        # Re-read under a row lock so a second tab or double submit can't resolve twice.
+        current = FantraxEvent.objects.select_for_update().get(pk=self.pk)
+        if current.effect != self.Effect.EXCEPTION or current.resolved_at:
+            raise ValueError("This isn't an open exception")
+        self.resolved_at = timezone.now()
+        self.resolved_by = user if user and user.is_authenticated else None
+        self.resolved_note = note
+        self.save(update_fields=["resolved_at", "resolved_by", "resolved_note"])
+        audit(user, "Resolved Fantrax exception", self.detail, team=self.to_team or self.from_team, note=note)
 
 
 class BudgetAdjustment(models.Model):
