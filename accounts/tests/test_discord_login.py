@@ -242,3 +242,39 @@ def test_discord_id_must_be_digits(team, bad):
 
     with pytest.raises(ValidationError):
         Manager(team=team, name="Matt", discord_id=bad).full_clean()
+
+
+# --- the first commissioner, before any team or Manager exists --------------------------
+
+
+def test_listed_discord_id_signs_in_as_commissioner_on_an_empty_database(client, settings):
+    settings.COMMISSIONER_DISCORD_IDS = [DISCORD_ID]
+    assert sign_in(client).status_code == 302
+    user = User.objects.get(username=f"discord-{DISCORD_ID}")
+    assert user.is_staff and user.is_superuser
+    assert not Manager.objects.exists()
+    for url in ("/", "/help/", "/commish/", "/admin/"):
+        assert client.get(url, follow=True).status_code == 200, url
+
+
+def test_unlisted_discord_id_is_still_turned_away(client, settings):
+    settings.COMMISSIONER_DISCORD_IDS = ["1"]
+    assert sign_in(client).status_code == 403
+    assert not User.objects.exists()
+
+
+def test_removing_the_listed_id_takes_the_rights_away(client, settings):
+    settings.COMMISSIONER_DISCORD_IDS = [DISCORD_ID]
+    sign_in(client)
+    settings.COMMISSIONER_DISCORD_IDS = []
+    assert client.get("/commish/").status_code == 403
+    assert not User.objects.get(username=f"discord-{DISCORD_ID}").is_staff
+
+
+def test_listed_commissioner_keeps_the_same_account_once_linked_to_a_team(client, settings, team):
+    settings.COMMISSIONER_DISCORD_IDS = [DISCORD_ID]
+    sign_in(client)
+    Manager.objects.create(team=team, discord_id=DISCORD_ID, name="Matt")
+    sign_in(client)
+    assert User.objects.count() == 1
+    assert Manager.objects.get().user.is_superuser

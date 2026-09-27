@@ -116,6 +116,9 @@ LOGIN_REDIRECT_URL = "/"
 # Stripped: a value pasted into the dashboard with a trailing space or newline fails as a wrong secret.
 DISCORD_CLIENT_ID = os.environ.get("DISCORD_CLIENT_ID", "").strip()
 DISCORD_CLIENT_SECRET = os.environ.get("DISCORD_CLIENT_SECRET", "").strip()
+# Discord IDs (comma-separated) that are commissioners with or without a Manager: how the first
+# commissioner gets in on an empty database, with no shell. Set in the Render dashboard.
+COMMISSIONER_DISCORD_IDS = [x.strip() for x in os.environ.get("COMMISSIONER_DISCORD_IDS", "").split(",") if x.strip()]
 # Where the server's two Discord API calls go. Production sets our Cloudflare Worker, because Discord's
 # Cloudflare blocks Render's shared outbound IPs; the key stops the Worker being an open proxy.
 DISCORD_API_BASE = os.environ.get("DISCORD_API_BASE", "").strip() or "https://discord.com/api"

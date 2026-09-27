@@ -32,6 +32,9 @@ services:
         sync: false
       - key: DISCORD_PROXY_KEY
         sync: false
+      # Discord IDs (comma-separated) that are commissioners even with no Manager: the first sign-in.
+      - key: COMMISSIONER_DISCORD_IDS
+        sync: false
       # Fantrax (read-only): the commissioner's browser Cookie header, and the Secret ID from
       # the Fantrax user profile (only used to find the renewed league). Set in the dashboard.
       - key: FANTRAX_COOKIE

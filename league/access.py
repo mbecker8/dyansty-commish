@@ -2,6 +2,7 @@
 
 from functools import wraps
 
+from django.conf import settings
 from django.contrib.auth.views import redirect_to_login
 from django.shortcuts import render
 
@@ -23,10 +24,18 @@ def linked_manager(user):
     return None
 
 
+def is_listed_commissioner(user) -> bool:
+    """The Discord account is in COMMISSIONER_DISCORD_IDS, so it's a commissioner even without a Manager."""
+    prefix = discord_username("")
+    username = user.get_username()
+    return username.startswith(prefix) and username.removeprefix(prefix) in settings.COMMISSIONER_DISCORD_IDS
+
+
 def sync_commissioner_rights(user) -> None:
-    """A Discord account has admin rights exactly while its Manager is marked commissioner."""
+    """A Discord account has admin rights exactly while its Manager is marked commissioner,
+    or while its ID is in COMMISSIONER_DISCORD_IDS."""
     manager = linked_manager(user)
-    commissioner = bool(manager and manager.is_commissioner)
+    commissioner = bool(manager and manager.is_commissioner) or is_listed_commissioner(user)
     if user.is_staff != commissioner or user.is_superuser != commissioner:
         user.is_staff = user.is_superuser = commissioner
         user.save(update_fields=["is_staff", "is_superuser"])
@@ -36,7 +45,7 @@ def is_league_member(user) -> bool:
     if not user.is_authenticated or not user.is_active:
         return False
     if is_discord_account(user):
-        return linked_manager(user) is not None
+        return linked_manager(user) is not None or is_listed_commissioner(user)
     return user.is_staff  # the commissioner's password account for the admin
 
 

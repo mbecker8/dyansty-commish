@@ -240,8 +240,10 @@ where the numbers come from.
   - `accounts.middleware.DiscordAccountMiddleware` re-checks the link on every request. It turns
     admin rights (staff + superuser) on exactly while the Manager is marked **Is commissioner**, so
     unlinking or removing the flag applies immediately, the admin included.
-  - League pages use `league.access.member_required`: a linked Discord manager, or the commissioner's
-    password account. `commissioner_required` adds staff. `manages(user, team)` decides who edits
+  - `COMMISSIONER_DISCORD_IDS` (env, comma-separated) makes those Discord accounts commissioners
+    with or without a Manager. It's how the first commissioner signs in on an empty database.
+  - League pages use `league.access.member_required`: a linked Discord manager, a listed commissioner,
+    or a local password account. `commissioner_required` adds staff. `manages(user, team)` decides who edits
     which team's signing.
 
 ## 5. External data
@@ -274,12 +276,18 @@ where the numbers come from.
 - `manage.py import_league` loads it (plus the 2026 Fantrax snapshot and
   `data/league/`) into the models and seeds the 2026 `FantraxLeague`. It refuses
   `--replace` once anyone has made changes, including applied Fantrax events.
+- In production, the console's **Load league** (`league.setup.load_league`, empty database
+  only) runs `import_league` and then the 2026 sync from the committed snapshot, and **Load
+  rosters** runs `sync_rosters` on a committed snapshot in `data/fantrax/`.
 
 ## 6. Deployment and operations
 
 - **Render Blueprint** (`render.yaml`): one Python web service plus managed
-  Postgres. Free tier for M1. Upgrade to paid plans with backups **before the
-  league beta** (free Postgres expires).
+  Postgres. Postgres is on the paid basic plan (daily backups). The web service
+  is free, so it sleeps when idle and has no Shell: move it to Starter before
+  signing opens to avoid cold starts.
+- **No shell in production.** Every task runs from the commissioner console or the
+  admin; the first commissioner comes from `COMMISSIONER_DISCORD_IDS`.
 - **Build** (`bin/render-build.sh`): `uv sync --frozen --no-dev` →
   `collectstatic` → `migrate`. Migrations run on every deploy.
 - **Run:** `uv run --frozen --no-dev gunicorn config.wsgi:application --timeout 120`. The long

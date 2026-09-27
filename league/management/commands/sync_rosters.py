@@ -13,14 +13,16 @@ from django.db import transaction
 
 from league.events import UnmatchedTeam, match_teams
 from league.fantrax_data import Snapshot, normalize_name
-from league.models import Contract, Player, RosterEntry, SigningPeriod, Team, audit
+from league.models import Player, RosterEntry, SigningPeriod, Team, audit
 from league.seasons import current_season
+from league.setup import contracts_off_roster
 
 SNAPSHOT = str(Path(settings.BASE_DIR) / "data" / "fantrax" / "2026-final")
 
 
 class Command(BaseCommand):
     help = "Load blackout rosters (and end-of-season salaries) for the signing period."
+    stealth_options = ("user",)  # the console passes who clicked Load rosters, for the audit log
 
     def add_arguments(self, parser):
         parser.add_argument("--season", type=int, default=None, help="The season that just ended (default: current)")
@@ -76,7 +78,7 @@ class Command(BaseCommand):
         RosterEntry.objects.bulk_create(entries)
         missing = sorted(e.player.name for e in entries if e.salary is None)
         audit(
-            None,
+            options.get("user"),
             "Synced rosters",
             f"{len(entries)} players from {Path(fantrax).name}; salaries from {Path(salaries).name}",
         )
@@ -93,16 +95,10 @@ class Command(BaseCommand):
 
     @staticmethod
     def contract_problems(season):
-        """Contracts still running whose player isn't on the holder's blackout roster: an unsynced drop or trade."""
-        where = {e.player_id: e.team for e in RosterEntry.objects.filter(season=season).select_related("team")}
-        lines = []
-        for c in Contract.live.select_related("player", "team").order_by("team__code", "player__name"):
-            if c.final_year <= season or where.get(c.player_id) == c.team:
-                continue
-            now = where.get(c.player_id)
-            lines.append(
-                f"  {c.team.code} {c.player.name} (through {c.final_year}) is "
-                + (f"on {now.code}'s roster" if now else "on no roster")
-                + ": run sync_fantrax"
-            )
+        lines = [
+            f"  {c.team.code} {c.player.name} (through {c.final_year}) is "
+            + (f"on {now.code}'s roster" if now else "on no roster")
+            + ": run sync_fantrax"
+            for c, now in contracts_off_roster(season)
+        ]
         return ["Contracts not on their team's roster:", *lines] if lines else []
