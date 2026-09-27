@@ -4,7 +4,7 @@ Budget math lives in the pure `rules` package; models convert to rules objects.
 """
 
 from django.core.exceptions import ValidationError
-from django.core.validators import RegexValidator
+from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 from django.db import models, transaction
 from django.utils import timezone
 
@@ -186,6 +186,22 @@ class FarmPick(models.Model):
         return f"{self.year} R{self.round} ({self.original_team.code}) -> {self.owner.code}"
 
 
+class FinalStanding(models.Model):
+    """A team's final place in a season (1 = champion). It sets the order of the next farm draft."""
+
+    season = models.PositiveIntegerField()
+    team = models.ForeignKey(Team, on_delete=models.PROTECT, related_name="+")
+    place = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(14)])
+
+    class Meta:
+        ordering = ["-season", "place"]
+        # Places aren't unique, so two teams can swap in the admin; the draft order page flags a duplicate.
+        constraints = [models.UniqueConstraint(fields=["season", "team"], name="one_place_per_team")]
+
+    def __str__(self):
+        return f"{self.season}: {self.place}. {self.team.code}"
+
+
 class CashTrade(models.Model):
     """Auction budget moved between teams, applied to `budget_season`'s auction."""
 
@@ -265,6 +281,25 @@ class FantraxLeague(models.Model):
 
     def __str__(self):
         return f"{self.name or self.league_id} ({self.season})"
+
+
+class FantraxTeam(models.Model):
+    """A team's ID in one Fantrax league. Renewal gives every team a new ID; the sync records it."""
+
+    league = models.ForeignKey(FantraxLeague, on_delete=models.CASCADE, related_name="teams")
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="fantrax_teams")
+    fantrax_team_id = models.CharField(max_length=32)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=["league", "team"], name="one_fantrax_id_per_league")]
+
+    def __str__(self):
+        return f"{self.team.code} in {self.league}: {self.fantrax_team_id}"
+
+    @property
+    def roster_url(self):
+        league, team = self.league.league_id, self.fantrax_team_id
+        return f"https://www.fantrax.com/fantasy/league/{league}/team/roster;teamId={team}"
 
 
 class FantraxEventQuerySet(models.QuerySet):

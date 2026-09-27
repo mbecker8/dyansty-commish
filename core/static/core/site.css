@@ -91,20 +91,43 @@ header.site {
   display: grid; place-items: center; width: 1.75rem; height: 1.75rem; border-radius: 8px;
   background: linear-gradient(135deg, var(--accent), #7c3aed); color: #fff; font-size: .8rem; font-weight: 800;
 }
-nav { display: flex; gap: .25rem; overflow-x: auto; scrollbar-width: none; min-width: 0; flex: 1; }
-nav::-webkit-scrollbar { display: none; }
-nav a {
-  padding: .35rem .7rem; border-radius: 999px; color: var(--muted); font-weight: 500; font-size: .9rem; white-space: nowrap;
-}
-nav a:hover { color: var(--fg); background: var(--surface-2); text-decoration: none; }
-nav a[aria-current="page"] { color: var(--accent); background: var(--accent-soft); }
-nav a.nav-signing { color: var(--accent-fg); background: var(--accent); }
-nav a.nav-signing strong { font-weight: 600; }
+.repo { color: var(--muted); font-size: .85rem; font-weight: 500; white-space: nowrap; }
+.repo:hover { color: var(--fg); }
 .logout { margin-left: auto; display: flex; gap: .6rem; align-items: center; color: var(--muted); font-size: .9rem; white-space: nowrap; }
+
+/* --- layout: sidebar + page ----------------------------------------------------------- */
+
+.layout.with-sidebar { display: grid; grid-template-columns: 13rem minmax(0, 1fr); align-items: start; }
+.sidebar {
+  position: sticky; top: 3.1rem; max-height: calc(100vh - 3.1rem); overflow-y: auto;
+  display: flex; flex-direction: column; gap: .1rem; padding: 1rem .75rem 2rem; border-right: 1px solid var(--line);
+  min-height: calc(100vh - 3.1rem);
+}
+.sidebar h2 {
+  margin: 1rem .6rem .3rem; font-size: .7rem; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--muted);
+}
+.sidebar a { padding: .38rem .6rem; border-radius: var(--radius-sm); color: var(--fg); font-weight: 500; font-size: .92rem; }
+.sidebar a:hover { background: var(--surface-2); text-decoration: none; }
+.sidebar a[aria-current="page"] { color: var(--accent); background: var(--accent-soft); }
+.sidebar a.nav-signing { color: var(--accent-fg); background: var(--accent); font-weight: 600; margin-bottom: .25rem; }
+.layout.with-sidebar main { margin: 0; max-width: 76rem; min-width: 0; }
+
+.crumbs ol { list-style: none; display: flex; flex-wrap: wrap; gap: .35rem; margin: 0 0 .25rem; padding: 0; font-size: .85rem; color: var(--muted); }
+.crumbs li + li::before { content: "›"; margin-right: .35rem; }
+.crumbs a { color: var(--muted); }
+.crumbs a:hover { color: var(--accent); }
+.crumbs [aria-current] { color: var(--fg); font-weight: 500; }
 
 @media (max-width: 48rem) {
   header.site { flex-wrap: wrap; row-gap: .4rem; }
-  nav { order: 3; flex-basis: 100%; }
+  .layout.with-sidebar { grid-template-columns: minmax(0, 1fr); }
+  .sidebar {
+    position: static; max-height: none; min-height: 0; flex-direction: row; flex-wrap: wrap; align-items: center;
+    padding: .5rem .75rem; border-right: 0; border-bottom: 1px solid var(--line);
+  }
+  .sidebar h2 { flex-basis: 100%; margin: .4rem .3rem .1rem; }
+  .sidebar h2:first-of-type { margin-top: 0; }
+  .sidebar a.nav-signing { flex-basis: 100%; margin-bottom: 0; }
 }
 
 /* --- cards, tables ------------------------------------------------------------------ */
@@ -149,6 +172,30 @@ table.panel tbody tr:hover td { background: none; }
 .ok { color: var(--pos); }
 .todo { color: var(--warn); }
 .error-text { color: var(--neg); font-size: .9rem; }
+/* sub-page tabs and side-by-side tables */
+.tabs { display: flex; gap: .25rem; margin: 0 0 1rem; border-bottom: 1px solid var(--line); }
+.tabs a { padding: .45rem .8rem; color: var(--muted); font-weight: 500; font-size: .92rem; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.tabs a:hover { color: var(--fg); text-decoration: none; }
+.tabs a[aria-current="page"] { color: var(--accent); border-bottom-color: var(--accent); }
+.split { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 1.5rem; align-items: start; }
+.split h2 { margin-top: .5rem; }
+@media (max-width: 60rem) { .split { grid-template-columns: minmax(0, 1fr); } }
+
+/* sortable, filterable tables (grid.js) */
+table.grid th button.sort {
+  all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: .3rem;
+  font: inherit; text-transform: inherit; letter-spacing: inherit; color: inherit;
+}
+table.grid th button.sort::after { content: "↕"; opacity: .35; font-size: .9em; }
+table.grid th[aria-sort="ascending"] button.sort::after { content: "↑"; opacity: 1; }
+table.grid th[aria-sort="descending"] button.sort::after { content: "↓"; opacity: 1; }
+table.grid th[aria-sort] { color: var(--accent); }
+table.grid th button.sort:focus-visible { box-shadow: var(--focus); border-radius: 4px; }
+table.grid tr.filters th { padding: .35rem .5rem; background: var(--surface); text-transform: none; letter-spacing: 0; }
+table.grid tr.filters input { width: 100%; min-width: 4.5rem; padding: .25rem .45rem; font-size: .8rem; }
+table.grid tr.filters th.num input { text-align: right; }
+.grid-count { font-size: .8rem; margin: .25rem 0 -.25rem; }
+
 .tag {
   display: inline-block; font-size: .72rem; font-weight: 600; line-height: 1.6; padding: 0 .55rem; border-radius: 999px;
   background: var(--surface-2); color: var(--muted); vertical-align: middle;

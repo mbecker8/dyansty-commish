@@ -74,6 +74,11 @@ the rulebook, including decisions the rulebook doesn't spell out.
   at **$1**, whatever Fantrax shows, and spends the team's lowest unused pick
   for that year. A team with no pick left is flagged. Claims into Minors at
   any other time are flagged, as before.
+- **Farm draft order:** by the previous season's final place: 8th, 10th, 12th, 9th,
+  11th, 13th, 5th, 4th, 6th, 7th, 14th, 3rd, 2nd, 1st, repeated for round 2, so
+  picks are numbered 1–28 (confirmed by the commissioner 2026-09-27; it replaces
+  the Year 19 rulebook's order, which predates the change to the playoff field).
+  The commissioner enters each season's final places in Admin → Final standings.
 - **Farm:** $1 per pick; retention adds $1 (no MLB appearance) or $2 (has
   appeared); promoted players can't return to the farm. An MLB appearance
   means at least 1 plate appearance or 0.1 innings pitched (confirmed

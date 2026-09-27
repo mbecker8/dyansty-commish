@@ -2,6 +2,7 @@ import datetime
 
 from django import forms
 from django.contrib import admin
+from django.contrib.auth.models import Group
 
 from league import models
 
@@ -124,7 +125,28 @@ class FarmPlayerAdmin(AuditedAdmin):
     list_filter = ["team", "status"]
 
 
-admin.site.register([models.TeamAlias, models.FarmPick, models.CashTrade, models.BudgetAdjustment], AuditedAdmin)
+admin.site.register([models.TeamAlias, models.CashTrade, models.BudgetAdjustment], AuditedAdmin)
+
+
+@admin.register(models.FarmPick)
+class FarmPickAdmin(AuditedAdmin):
+    """Change the owner for a pick trade. Pick numbers come from Final standings."""
+
+    list_display = ["year", "round", "original_team", "owner", "player"]
+    list_filter = ["year", "owner"]
+
+
+# Access comes from Manager.is_commissioner, never from permission groups.
+admin.site.unregister(Group)
+
+
+@admin.register(models.FinalStanding)
+class FinalStandingAdmin(AuditedAdmin):
+    """Each season's final places (1 = champion). They set the next farm draft's order."""
+
+    list_display = ["season", "place", "team"]
+    list_editable = ["place"]
+    list_filter = ["season"]
 
 
 @admin.register(models.Season)

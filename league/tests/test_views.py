@@ -115,7 +115,52 @@ def test_players_without_a_fantrax_id_still_show(manager_client):
 
 def test_pick_page_lists_every_pick(manager_client):
     page = manager_client.get("/picks/")
-    assert sum(len(row["picks"]) for row in page.context["rows"]) == FarmPick.objects.count()
+    assert len(page.context["rows"]) == FarmPick.objects.count()
+
+
+def test_2027_picks_are_numbered_by_the_2026_standings(manager_client):
+    rows = manager_client.get("/picks/order/?year=2027").context["rows"]
+    assert [r["number"] for r in rows] == list(range(1, 29))
+    # 8th (CS) picks first, 12th (AW) third, the champion (KJ) last in each round.
+    assert [rows[i]["pick"].original_team.code for i in (0, 2, 13, 14, 27)] == ["CS", "AW", "KJ", "CS", "KJ"]
+    assert all(r["pick"].round == (1 if r["number"] <= 14 else 2) for r in rows)
+
+
+def test_picks_have_no_number_until_the_standings_are_in(manager_client):
+    page = manager_client.get("/picks/order/?year=2028")
+    assert page.status_code == 200
+    assert all(r["number"] is None for r in page.context["rows"])
+    assert "final standings aren't complete" in page.content.decode()
+
+
+def test_a_bad_draft_year_falls_back_to_the_next_draft(manager_client):
+    assert manager_client.get("/picks/order/?year=abc").context["year"] == 2027
+
+
+def test_team_page_shows_pick_numbers(manager_client):
+    html = manager_client.get("/teams/CS/").content.decode()
+    assert "2027 round 1, pick 1" in html
+
+
+def test_teams_link_to_their_fantrax_roster(manager_client):
+    html = manager_client.get("/teams/").content.decode()
+    team = Team.objects.get(code="MB")
+    assert f"/fantasy/league/p3z8zy75mgdm460o/team/roster;teamId={team.fantrax_id}" in html
+
+
+def test_breadcrumbs_lead_back_home(manager_client):
+    html = manager_client.get("/teams/MB/").content.decode()
+    assert (
+        '<a href="/">Home</a></li><li><a href="/teams/">Teams</a></li><li><span aria-current="page">MB</span>' in html
+    )
+    html = manager_client.get("/picks/order/").content.decode()
+    assert '<a href="/picks/">Farm picks</a></li><li><span aria-current="page">Draft order</span>' in html
+
+
+def test_league_grids_are_sortable_but_team_page_tables_are_not(manager_client):
+    for url in ["/contracts/", "/buyouts/", "/farm/", "/picks/", "/cash/"]:
+        assert 'class="grid"' in manager_client.get(url).content.decode(), url
+    assert 'class="grid"' not in manager_client.get("/teams/MB/").content.decode()
 
 
 def test_team_page_breakdown_adds_up_including_farm(manager_client):
@@ -227,5 +272,23 @@ def test_team_page_shows_the_frozen_auction_budget(manager_client):
 
 def test_nav_marks_the_current_page(manager_client):
     html = manager_client.get("/teams/MB/").content.decode()
-    assert '<a href="/teams/" aria-current="page">Teams</a>' in html
-    assert html.count('aria-current="page"') == 1
+    sidebar = html[html.index('<nav class="sidebar"') : html.index("</nav>", html.index('<nav class="sidebar"'))]
+    assert '<a href="/teams/" aria-current="page">Teams</a>' in sidebar
+    assert sidebar.count('aria-current="page"') == 1
+
+
+def test_permission_groups_are_hidden_from_the_admin():
+    from django.contrib import admin
+    from django.contrib.auth.models import Group
+
+    assert not admin.site.is_registered(Group)
+
+
+def test_contracts_have_no_unlabelled_column(manager_client):
+    html = manager_client.get("/contracts/").content.decode()
+    assert "<th></th>" not in html
+
+
+def test_every_page_has_the_baseball_icon(manager_client, admin_client):
+    assert "core/favicon.svg" in manager_client.get("/teams/").content.decode()
+    assert "core/favicon.svg" in admin_client.get("/admin/").content.decode()

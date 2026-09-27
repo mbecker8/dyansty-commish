@@ -1,4 +1,4 @@
-<div class="table-wrap"><table>
+<div class="table-wrap"><table{% if show_team %} class="grid"{% endif %}>
   <thead><tr>{% if show_team %}<th>Owed by</th>{% endif %}<th>Player</th><th class="num">Was per year</th><th class="num">Dropped in</th><th>Penalties still to come</th><th class="num">{{ next_season }}</th><th class="num">Total left</th></tr></thead>
   <tbody>
   {% for row in rows %}{% with b=row.buyout %}

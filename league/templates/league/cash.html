@@ -2,7 +2,7 @@
 {% block title %}Cash trades · Dynasty Commish{% endblock %}
 {% block content %}
 <h1>Cash trades</h1>
-<div class="table-wrap"><table>
+<div class="table-wrap"><table class="grid">
   <thead><tr><th class="num">Auction</th><th>From</th><th>To</th><th class="num">Amount</th><th>Note</th></tr></thead>
   <tbody>{% for t in trades %}
     <tr><td class="num">{{ t.budget_season }}</td><td>{{ t.from_team.code }}</td><td>{{ t.to_team.code }}</td><td class="num">${{ t.amount }}</td><td class="muted">{{ t.note }}</td></tr>

@@ -1,14 +1,20 @@
 {% extends "base.html" %}
 {% block title %}Farm picks · Dynasty Commish{% endblock %}
 {% block content %}
-<h1>Farm pick ownership</h1>
-{% for row in rows %}
-<h2>{{ row.year }}</h2>
-<div class="table-wrap"><table>
-  <thead><tr><th>Round</th><th>Original team</th><th>Owned by</th></tr></thead>
-  <tbody>{% for p in row.picks %}
-    <tr><td>{{ p.round }}</td><td>{{ p.original_team.code }}</td><td>{% if p.owner_id != p.original_team_id %}<strong><a href="{% url 'team' p.owner.code %}">{{ p.owner.code }}</a></strong>{% else %}<a href="{% url 'team' p.owner.code %}">{{ p.owner.code }}</a>{% endif %}</td></tr>
-  {% endfor %}</tbody>
+<h1>Farm picks</h1>
+{% include "league/_picks_tabs.html" %}
+<p class="muted">Pick is the overall number in that year's farm draft (1–28), set by the season before's final standings. Bold means the pick was traded.</p>
+<div class="table-wrap"><table class="grid">
+  <thead><tr><th class="num">Year</th><th class="num">Pick</th><th class="num">Round</th><th>Original team</th><th>Owned by</th><th>Drafted</th></tr></thead>
+  <tbody>{% for row in rows %}{% with p=row.pick %}
+    <tr>
+      <td class="num">{{ p.year }}</td>
+      <td class="num">{% if row.number %}{{ row.number }}{% else %}<span class="muted">—</span>{% endif %}</td>
+      <td class="num">{{ p.round }}</td>
+      <td>{{ p.original_team.code }}</td>
+      <td>{% if p.owner_id != p.original_team_id %}<strong><a href="{% url 'team' p.owner.code %}">{{ p.owner.code }}</a></strong>{% else %}<a href="{% url 'team' p.owner.code %}">{{ p.owner.code }}</a>{% endif %}</td>
+      <td>{% if p.player %}{{ p.player.name }}{% else %}<span class="muted">—</span>{% endif %}</td>
+    </tr>
+  {% endwith %}{% empty %}<tr><td colspan="6" class="muted">No picks recorded.</td></tr>{% endfor %}</tbody>
 </table></div>
-{% empty %}<p class="muted">No picks recorded.</p>{% endfor %}
 {% endblock %}
