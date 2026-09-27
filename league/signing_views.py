@@ -12,15 +12,18 @@ from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 
-from league import signing
+from league import events, fantrax_client, signing
 from league.access import commissioner_required, is_league_member, manages, member_required
 from league.budget import team_budget
+from league.fantrax_client import FantraxError
+from league.fantrax_data import Snapshot
 from league.models import (
     AuditEntry,
     Buyout,
     CashTrade,
     Contract,
     FantraxEvent,
+    FantraxLeague,
     FarmPick,
     FarmPlayer,
     RosterEntry,
@@ -194,9 +197,33 @@ def console(request):
                 else:
                     signing.lock_period(s, request.user, note=request.POST.get("note", "").strip())
                     messages.success(request, "Signing is locked and every team's decisions are applied.")
-        except signing.SigningError as e:
+            elif action == "sync":
+                messages.success(request, sync_from_fantrax(request.user).summary())
+            elif action == "resolve":
+                event = get_object_or_404(FantraxEvent, pk=request.POST.get("event"), effect="EXCEPTION")
+                event.resolve(request.user, request.POST.get("note", ""))
+                messages.success(request, "Exception resolved.")
+            elif action == "add_league":
+                league, created = FantraxLeague.objects.get_or_create(
+                    league_id=request.POST.get("league_id", "").strip(),
+                    defaults={"name": request.POST.get("name", ""), "season": s},
+                )
+                if created:
+                    audit(request.user, "Added Fantrax league", str(league))
+                messages.success(request, f"{league} is added. Sync from Fantrax reads it from now on.")
+        except (signing.SigningError, FantraxError, events.UnmatchedTeam, ValueError) as e:
             messages.error(request, str(e))
         return redirect("console")
+
+    found_leagues = None
+    if request.GET.get("find_leagues"):
+        try:
+            known = set(FantraxLeague.objects.values_list("league_id", flat=True))
+            found_leagues = [
+                lg for lg in fantrax_client.list_leagues(settings.FANTRAX_SECRET_ID) if lg["leagueId"] not in known
+            ]
+        except FantraxError as e:
+            messages.error(request, str(e))
 
     rows = []
     if period and period.status == period.Status.OPEN:
@@ -213,10 +240,24 @@ def console(request):
             "ready": all(r["ev"].complete for r in rows),
             "unsubmitted": [r["team"].code for r in rows if getattr(r["submission"], "status", None) != "submitted"],
             "exceptions": FantraxEvent.objects.unresolved().select_related("from_team", "to_team"),
+            "fantrax_leagues": FantraxLeague.objects.filter(active=True),
+            "found_leagues": found_leagues,
             "roster_count": RosterEntry.objects.filter(season=s).count(),
             "missing_salaries": RosterEntry.objects.filter(season=s, salary=None).select_related("player", "team"),
         },
     )
+
+
+def sync_from_fantrax(user) -> events.SyncResult:
+    """Fetch every active league live, then apply what's new in one transaction."""
+    if not settings.FANTRAX_COOKIE:
+        raise FantraxError("FANTRAX_COOKIE isn't set")
+    s = fantrax_client.session(settings.FANTRAX_COOKIE)
+    sources = [
+        (lg, Snapshot.from_raw(fantrax_client.fetch_raw(s, lg.league_id)))
+        for lg in FantraxLeague.objects.filter(active=True)
+    ]
+    return events.sync(sources, user, source_label="Sync from Fantrax")
 
 
 @commissioner_required

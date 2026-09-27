@@ -194,3 +194,13 @@ def test_help_page_shows_commissioners_their_guide(league, client):
 
 def test_help_needs_sign_in(client):
     assert client.get("/help/").status_code == 302
+
+
+def test_team_page_lists_the_seasons_moves(manager_client):
+    from league.tests.test_signing import settle_2026
+
+    settle_2026()
+    html = manager_client.get("/teams/SM/").content.decode()
+    moves = html.split("Moves this season")[1].split("</ul>")[0]
+    assert "dropped Spencer Torkelson (SM): buyout owed" in moves
+    assert "claimed" not in moves  # claims change nothing, so they aren't listed

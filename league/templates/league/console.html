@@ -5,6 +5,28 @@
 <p class="muted">Signing after the {{ league_season }} season: <strong>{{ period.get_status_display|default:"Not open yet" }}</strong>.
   <a href="{% url 'audit' %}">Audit log</a></p>
 
+<h2>Fantrax</h2>
+<form method="post">{% csrf_token %}<button type="submit" name="action" value="sync" class="primary">Sync from Fantrax</button>
+  <span class="muted">Reads {% for lg in fantrax_leagues %}{{ lg }}{% if not forloop.last %}, {% endif %}{% empty %}no leagues{% endfor %}
+  and applies new trades, drops, promotions and MLB debuts.</span></form>
+{% if exceptions %}
+<h3>Fantrax exceptions ({{ exceptions|length }})</h3>
+<p class="muted">Fix each one by hand (usually in the admin), then say what you did. Signing can't open while any are listed.</p>
+<div class="table-wrap"><table class="panel"><tbody>
+{% for e in exceptions %}<tr><td>{{ e.happened_at|date:"M j" }}</td><td class="wrap">{{ e.detail }}</td>
+  <td><form method="post">{% csrf_token %}<input type="hidden" name="event" value="{{ e.pk }}">
+    <input name="note" required placeholder="What you did"> <button type="submit" name="action" value="resolve">Resolve</button></form></td></tr>
+{% endfor %}
+</tbody></table></div>
+{% endif %}
+<p><a href="?find_leagues=1">Find new Fantrax leagues</a> <span class="muted">(after renewal, add the new league so offseason trades are read)</span></p>
+{% if found_leagues is not None %}
+{% if found_leagues %}<ul>{% for lg in found_leagues %}<li>{{ lg.leagueName }} <span class="muted">({{ lg.leagueId }})</span>
+  <form method="post" style="display:inline">{% csrf_token %}<input type="hidden" name="league_id" value="{{ lg.leagueId }}"><input type="hidden" name="name" value="{{ lg.leagueName }}">
+  <button type="submit" name="action" value="add_league">Add for the {{ league_season }} season</button></form></li>{% endfor %}</ul>
+{% else %}<p class="muted">No new leagues on your Fantrax account.</p>{% endif %}
+{% endif %}
+
 {% if not period or period.status == "planned" %}
 <h2>Before you open signing</h2>
 <ul class="checklist">

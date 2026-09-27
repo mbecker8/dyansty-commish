@@ -29,6 +29,11 @@
   </table></div>
 </details>
 
+{% if moves %}
+<h2>Moves this season</h2>
+<ul>{% for e in moves %}<li>{{ e.happened_at|date:"M j" }}: {{ e.detail }}</li>{% endfor %}</ul>
+{% endif %}
+
 <h2>Under contract for {{ next_season }}</h2>
 {% include "league/_contracts_table.html" with rows=contracts %}
 

@@ -10,7 +10,17 @@ from django.test import Client
 
 from league import signing
 from league.budget import team_budget
-from league.models import AuditEntry, CashTrade, Contract, Manager, SigningPeriod, Submission, Team
+from league.models import (
+    AuditEntry,
+    CashTrade,
+    Contract,
+    FantraxEvent,
+    FantraxLeague,
+    Manager,
+    SigningPeriod,
+    Submission,
+    Team,
+)
 from league.tests.test_signing import SNAPSHOT, settle_2026
 
 pytestmark = pytest.mark.django_db
@@ -313,3 +323,53 @@ def test_year_dropdown_keeps_an_older_year(ready, commish):
     contract = Contract.objects.order_by("year_signed").first()
     page = commish.get(f"/admin/league/contract/{contract.pk}/change/").content.decode()
     assert f'value="{contract.year_signed}" selected' in year_options(page, "year_signed")
+
+
+def test_console_sync_finds_nothing_new(ready, commish, monkeypatch, settings):
+    from league import fantrax_client
+    from league.tests.test_fantrax_client import FakeSession
+
+    settings.FANTRAX_COOKIE = "a=1"
+    monkeypatch.setattr(fantrax_client, "session", lambda cookie: FakeSession())
+    response = commish.post("/commish/", {"action": "sync"}, follow=True)
+    assert b"No new events" in response.content  # ready already applied the same data
+
+
+def test_console_sync_reports_an_expired_login(ready, commish, monkeypatch, settings):
+    from league import fantrax_client
+    from league.tests.test_fantrax_client import FakeSession
+
+    settings.FANTRAX_COOKIE = "a=1"
+    monkeypatch.setattr(fantrax_client, "session", lambda cookie: FakeSession(logged_in=False))
+    response = commish.post("/commish/", {"action": "sync"}, follow=True)
+    assert b"Fantrax login expired" in response.content
+
+
+def test_console_lists_and_resolves_exceptions(unsettled, commish):
+    e = FantraxEvent.objects.unresolved().get(player_name="Brendan Lawson")
+    assert b"Brendan Lawson is in" in commish.get("/commish/").content
+    commish.post("/commish/", {"action": "resolve", "event": e.pk, "note": ""})
+    e.refresh_from_db()
+    assert e.resolved_at is None  # a note is required
+    commish.post("/commish/", {"action": "resolve", "event": e.pk, "note": "added him"})
+    e.refresh_from_db()
+    assert e.resolved_note == "added him"
+    assert AuditEntry.objects.filter(action="Resolved Fantrax exception", note="added him").exists()
+
+
+def test_find_and_add_the_renewed_league(ready, commish, monkeypatch, settings):
+    from league import fantrax_client
+
+    monkeypatch.setattr(
+        fantrax_client,
+        "list_leagues",
+        lambda secret: [
+            {"leagueId": "p3z8zy75mgdm460o", "leagueName": "Dynasty Yr 19"},
+            {"leagueId": "newone", "leagueName": "Dynasty Yr 20"},
+        ],
+    )
+    found = commish.get("/commish/?find_leagues=1").content.decode().split("Find new Fantrax leagues")[1]
+    assert "newone" in found and "p3z8zy75mgdm460o" not in found
+    commish.post("/commish/", {"action": "add_league", "league_id": "newone", "name": "Dynasty Yr 20"})
+    commish.post("/commish/", {"action": "add_league", "league_id": "newone", "name": "Dynasty Yr 20"})
+    assert FantraxLeague.objects.get(league_id="newone").season == SEASON
