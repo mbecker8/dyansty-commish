@@ -26,6 +26,7 @@ details { margin:.5rem 0 1rem; } details summary { cursor:pointer; color:var(--a
 .doc { max-width:48rem; } .doc li { margin:.25rem 0; } code { background:#eef1f4; padding:0 .25rem; border-radius:3px; font-size:.9em; }
 .messages { list-style:none; padding:0; margin:0 0 1rem; } .messages li { padding:.5rem .75rem; border:1px solid var(--line); background:#fff; margin-bottom:.25rem; }
 .messages .success, .ok { color:#1b6b3a; } .messages .error, .errors, .error-text { color:#a1261b; }
+.pos { color:#1b6b3a; } .neg { color:#a1261b; }
 .tag.ok { border-color:#1b6b3a; color:#1b6b3a; }
 .banner-inline { padding:.5rem .75rem; background:var(--warn); border:1px solid #eedc9a; }
 .signing { display:grid; grid-template-columns:minmax(0,1fr) 20rem; gap:1.5rem; align-items:start; }

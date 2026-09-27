@@ -6,11 +6,11 @@
 
 <div class="summary">
   <div>Base<strong>${{ budget.base }}</strong></div>
-  <div>Contracts<strong>−${{ budget.contracts }}</strong></div>
-  <div>Buyouts<strong>−${{ budget.buyouts }}</strong></div>
-  <div>Farm<strong>−${{ budget.farm }}</strong></div>
-  <div>Cash<strong>{% if budget.cash_net >= 0 %}+{% else %}−{% endif %}${{ budget.cash_net|stringformat:"d"|cut:"-" }}</strong></div>
-  {% if budget.missed_ip %}<div>Missed IP<strong>−${{ budget.missed_ip }}</strong></div>{% endif %}
+  <div>Contracts<strong{% if budget.contracts %} class="neg"{% endif %}>${{ budget.contracts }}</strong></div>
+  <div>Buyouts<strong{% if budget.buyouts %} class="neg"{% endif %}>${{ budget.buyouts }}</strong></div>
+  <div>Farm<strong{% if budget.farm %} class="neg"{% endif %}>${{ budget.farm }}</strong></div>
+  <div>Cash<strong{% if budget.cash_net > 0 %} class="pos"{% elif budget.cash_net < 0 %} class="neg"{% endif %}>${{ budget.cash_net|stringformat:"d"|cut:"-" }}</strong></div>
+  {% if budget.missed_ip %}<div>Missed IP<strong class="neg">${{ budget.missed_ip }}</strong></div>{% endif %}
   <div>{% if signing_status == "locked" %}Auction budget{% else %}Left before signings{% endif %}<strong>${{ budget.remaining }}</strong></div>
 </div>
 <p class="muted">{% if signing_status == "locked" %}{{ next_season }} auction budget, after this year's signings and farm keeps.{% else %}{{ next_season }} auction budget from what's already committed. Signings and farm keeps come out of this in February.{% endif %}</p>
@@ -21,9 +21,9 @@
     <thead><tr><th>Charge</th><th>Player / note</th><th class="num">Amount</th></tr></thead>
     <tbody>
       <tr><td>Base budget</td><td></td><td class="num">${{ budget.base }}</td></tr>
-      {% for line in ledger %}<tr><td>{{ line.kind }}</td><td>{{ line.player.name|default:"?" }}</td><td class="num">−${{ line.amount }}</td></tr>{% endfor %}
-      {% for a in adjustments %}<tr><td>{{ a.get_kind_display }}</td><td>{{ a.note }}</td><td class="num">−${{ a.amount }}</td></tr>{% endfor %}
-      {% if budget.cash_net %}<tr><td>Cash trades (net)</td><td></td><td class="num">{% if budget.cash_net > 0 %}+{% else %}−{% endif %}${{ budget.cash_net|stringformat:"d"|cut:"-" }}</td></tr>{% endif %}
+      {% for line in ledger %}<tr><td>{{ line.kind }}</td><td>{{ line.player.name|default:"?" }}</td><td class="num{% if line.amount %} neg{% endif %}">${{ line.amount }}</td></tr>{% endfor %}
+      {% for a in adjustments %}<tr><td>{{ a.get_kind_display }}</td><td>{{ a.note }}</td><td class="num{% if a.amount %} neg{% endif %}">${{ a.amount }}</td></tr>{% endfor %}
+      {% if budget.cash_net %}<tr><td>Cash trades (net)</td><td></td><td class="num {% if budget.cash_net > 0 %}pos{% else %}neg{% endif %}">${{ budget.cash_net|stringformat:"d"|cut:"-" }}</td></tr>{% endif %}
     </tbody>
     <tfoot><tr><td>{% if signing_status == "locked" %}Auction budget{% else %}Left before signings{% endif %}</td><td></td><td class="num">${{ budget.remaining }}</td></tr></tfoot>
   </table></div>
