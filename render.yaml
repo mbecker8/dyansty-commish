@@ -1,5 +1,5 @@
-# Render Blueprint. Free tier for M1; switch plans to paid (starter web +
-# basic Postgres with backups) before the league beta. Free Postgres expires.
+# Render Blueprint. Basic Postgres is paid: daily backups, no expiry. The web service
+# stays free (it sleeps when idle) until signing opens; everything runs from the console.
 services:
   - type: web
     name: dynasty-commish
@@ -37,5 +37,5 @@ services:
 
 databases:
   - name: dynasty-commish-db
-    plan: free
+    plan: basic-256mb
     databaseName: dynasty_commish
