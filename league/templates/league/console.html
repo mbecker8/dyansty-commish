@@ -11,7 +11,7 @@
   2026 Fantrax league, then applies the 2026 Fantrax moves. Anything it can't interpret shows up here as an exception.
   Load the rosters once it's done.</p>
 <form method="post" onsubmit="const b = this.querySelector('button'); b.disabled = true; b.textContent = 'Loading…';">{% csrf_token %}
-  <button type="submit" name="action" value="load_league" class="primary">Load league</button></form>
+  <input type="hidden" name="action" value="load_league"><button type="submit" class="primary">Load league</button></form>
 {% else %}
 <h2>Fantrax</h2>
 <form method="post" onsubmit="const b = this.querySelector('button'); b.disabled = true; b.textContent = 'Syncing…';">{% csrf_token %}
