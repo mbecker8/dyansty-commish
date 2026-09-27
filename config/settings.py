@@ -115,6 +115,9 @@ LOGIN_REDIRECT_URL = "/"
 # redirect must be <site>/auth/discord/callback. Locally these come from secrets/discord.env.
 DISCORD_CLIENT_ID = os.environ.get("DISCORD_CLIENT_ID", "")
 DISCORD_CLIENT_SECRET = os.environ.get("DISCORD_CLIENT_SECRET", "")
+# Discord IDs (comma-separated) that are commissioners with or without a Manager: how the first
+# commissioner gets in on an empty database, with no shell. Set in the Render dashboard.
+COMMISSIONER_DISCORD_IDS = [x.strip() for x in os.environ.get("COMMISSIONER_DISCORD_IDS", "").split(",") if x.strip()]
 
 
 def _secret(name: str, filename: str) -> str:

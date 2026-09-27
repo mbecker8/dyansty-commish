@@ -21,6 +21,7 @@ SNAPSHOT = str(Path(settings.BASE_DIR) / "data" / "fantrax" / "2026-final")
 
 class Command(BaseCommand):
     help = "Load blackout rosters (and end-of-season salaries) for the signing period."
+    stealth_options = ("user",)  # the console passes who clicked Load rosters, for the audit log
 
     def add_arguments(self, parser):
         parser.add_argument("--season", type=int, default=None, help="The season that just ended (default: current)")
@@ -76,7 +77,7 @@ class Command(BaseCommand):
         RosterEntry.objects.bulk_create(entries)
         missing = sorted(e.player.name for e in entries if e.salary is None)
         audit(
-            None,
+            options.get("user"),
             "Synced rosters",
             f"{len(entries)} players from {Path(fantrax).name}; salaries from {Path(salaries).name}",
         )

@@ -5,6 +5,14 @@
 <p class="muted">Signing after the {{ league_season }} season: <strong>{{ period.get_status_display|default:"Not open yet" }}</strong>.
   <a href="{% url 'audit' %}">Audit log</a></p>
 
+{% if not league_loaded %}
+<h2>Load the league</h2>
+<p>The database is empty. This loads the Year 19 sheet, the league files in <code>data/league/</code> and the
+  2026 Fantrax league, then applies the 2026 Fantrax moves. Anything it can't interpret shows up here as an exception.
+  Load the rosters once it's done.</p>
+<form method="post" onsubmit="const b = this.querySelector('button'); b.disabled = true; b.textContent = 'Loading…';">{% csrf_token %}
+  <button type="submit" name="action" value="load_league" class="primary">Load league</button></form>
+{% else %}
 <h2>Fantrax</h2>
 <form method="post" onsubmit="const b = this.querySelector('button'); b.disabled = true; b.textContent = 'Syncing…';">{% csrf_token %}
   <input type="hidden" name="action" value="sync"><button type="submit" class="primary">Sync from Fantrax</button>
@@ -32,10 +40,14 @@
 <h2>Before you open signing</h2>
 <ul class="checklist">
   <li class="{% if exceptions %}todo{% else %}ok{% endif %}">{% if exceptions %}{{ exceptions|length }} Fantrax exception{{ exceptions|pluralize }} to resolve (above).{% else %}Fantrax moves are applied and nothing needs a look.{% endif %}</li>
-  <li class="{% if roster_count %}ok{% else %}todo{% endif %}">{% if roster_count %}{{ roster_count }} roster spots loaded.{% else %}No rosters loaded: run <code>manage.py sync_rosters</code> on the blackout snapshot.{% endif %}</li>
+  <li class="{% if roster_count %}ok{% else %}todo{% endif %}">{% if roster_count %}{{ roster_count }} roster spots loaded.{% else %}No rosters loaded yet: load them from the blackout snapshot below.{% endif %}</li>
   {% if missing_salaries %}<li class="todo">{{ missing_salaries|length }} player{{ missing_salaries|pluralize }} without an end-of-season salary can't be signed:
     {% for e in missing_salaries %}{{ e.player.name }} ({{ e.team.code }}){% if not forloop.last %}, {% endif %}{% endfor %}. Set it in Admin → Roster entries if needed.</li>{% endif %}
 </ul>
+<form method="post">{% csrf_token %}<input type="hidden" name="action" value="load_rosters">
+  <label>Load rosters from <select name="snapshot">{% for name in snapshots %}<option value="{{ name }}"{% if forloop.last %} selected{% endif %}>{{ name }}</option>{% endfor %}</select></label>
+  <button type="submit">Load rosters</button>
+  <span class="muted">The Fantrax snapshots committed to the app. Prices always come from the end-of-season snapshot. You can reload until signing opens.</span></form>
 <form method="post">{% csrf_token %}<button type="submit" name="action" value="open" class="primary">Open signing</button></form>
 {% endif %}
 
@@ -96,4 +108,5 @@
   <li><a href="{% url 'admin:league_contract_changelist' %}">Contracts</a> · <a href="{% url 'admin:league_rosterentry_changelist' %}">Roster entries</a> (fix a missing salary)</li>
 </ul>
 <p class="muted">Admin changes are recorded in the audit log too.</p>
+{% endif %}
 {% endblock %}

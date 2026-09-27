@@ -13,7 +13,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.dateparse import parse_datetime
 
-from league import events, fantrax_client, seasons, signing
+from league import events, fantrax_client, seasons, setup, signing
 from league.access import commissioner_required, is_league_member, manages, member_required
 from league.budget import team_budget
 from league.fantrax_client import FantraxError
@@ -221,12 +221,20 @@ def console(request):
                     raise ValueError("Enter the auction start")
                 seasons.set_dates(_local(request.POST.get("farm_draft_starts_at")), auction, request.user)
                 messages.success(request, "Season dates saved.")
+            elif action == "load_league":
+                messages.success(
+                    request, f"The league is loaded. 2026 Fantrax moves: {setup.load_league(request.user).summary()}."
+                )
+            elif action == "load_rosters":
+                setup.load_rosters(request.POST.get("snapshot", ""), request.user)
+                messages.success(request, f"Rosters loaded from {request.POST['snapshot']}.")
             elif action == "start_season":
                 started = seasons.start(int(request.POST.get("year") or 0), request.user)
                 messages.success(request, f"The {started.year} season has started. Auction budgets are frozen.")
         except (
             signing.SigningError,
             seasons.RolloverError,
+            setup.SetupError,
             FantraxError,
             events.UnmatchedTeam,
             events.SeasonMissing,
@@ -261,6 +269,8 @@ def console(request):
             "unsubmitted": [r["team"].code for r in rows if getattr(r["submission"], "status", None) != "submitted"],
             "exceptions": FantraxEvent.objects.unresolved().select_related("from_team", "to_team"),
             "fantrax_leagues": FantraxLeague.objects.filter(active=True),
+            "league_loaded": Team.objects.exists(),
+            "snapshots": setup.snapshots(),
             "found_leagues": found_leagues,
             "roster_count": RosterEntry.objects.filter(season=s).count(),
             "missing_salaries": RosterEntry.objects.filter(season=s, salary=None).select_related("player", "team"),
