@@ -26,8 +26,10 @@ def test_fetch_identity_exchanges_the_code_then_reads_the_user(settings):
 def test_fetch_identity_raises_on_a_refused_code(settings):
     with mock.patch("accounts.discord.requests") as http:
         http.RequestException = requests.RequestException
-        http.post.return_value = mock.Mock(status_code=400, json=lambda: {"error": "invalid_grant"})
-        with pytest.raises(discord.DiscordError):
+        http.post.return_value = mock.Mock(
+            status_code=400, json=lambda: {"error": "invalid_grant"}, text='{"error": "invalid_grant"}'
+        )
+        with pytest.raises(discord.DiscordError, match=r"\(400\).*invalid_grant"):
             discord.fetch_identity("bad", "http://127.0.0.1:8000/auth/discord/callback")
 
 

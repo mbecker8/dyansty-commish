@@ -27,11 +27,13 @@ def fetch_identity(code: str, redirect_uri: str) -> dict:
             timeout=TIMEOUT,
         )
         if token.status_code != 200:
-            raise DiscordError(f"token exchange failed ({token.status_code})")
+            # 401 invalid_client: wrong client ID/secret. 400 invalid_grant: stale code or redirect mismatch.
+            # 429: Discord is rate-limiting this server's IP.
+            raise DiscordError(f"token exchange failed ({token.status_code}): {token.text[:300]}")
         access_token = token.json()["access_token"]
         me = requests.get(ME_URL, headers={"Authorization": f"Bearer {access_token}"}, timeout=TIMEOUT)
         if me.status_code != 200:
-            raise DiscordError(f"identity lookup failed ({me.status_code})")
+            raise DiscordError(f"identity lookup failed ({me.status_code}): {me.text[:300]}")
         identity = me.json()
         if not str(identity.get("id", "")).isdigit():
             raise DiscordError("identity has no user id")

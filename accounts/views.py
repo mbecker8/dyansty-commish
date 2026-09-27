@@ -1,3 +1,4 @@
+import logging
 import secrets
 from urllib.parse import urlencode
 
@@ -12,6 +13,9 @@ from django.views.decorators.http import require_GET, require_POST
 from accounts import discord
 from league.access import discord_username, sync_commissioner_rights
 from league.models import Manager
+
+# Warnings reach stderr (Python's last-resort handler), which Render shows under Logs.
+logger = logging.getLogger(__name__)
 
 SESSION_STATE = "discord_oauth_state"
 SESSION_NEXT = "discord_oauth_next"
@@ -63,7 +67,8 @@ def discord_callback(request):
         return redirect(reverse("login"))
     try:
         identity = discord.fetch_identity(request.GET["code"], _callback_uri(request))
-    except discord.DiscordError:
+    except discord.DiscordError as e:
+        logger.warning("Discord sign-in failed: %s (redirect %s)", e, _callback_uri(request))
         return render(
             request, "accounts/error.html", {"message": "Couldn't reach Discord. Try again in a minute."}, status=502
         )
