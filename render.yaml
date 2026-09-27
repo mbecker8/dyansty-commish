@@ -1,10 +1,10 @@
-# Render Blueprint. Paid plans: a starter web instance (the Shell needs one, and it
-# doesn't sleep) and basic Postgres, which has daily backups and doesn't expire.
+# Render Blueprint. Basic Postgres is paid: daily backups, no expiry. The web service
+# stays free (it sleeps when idle) until signing opens; everything runs from the console.
 services:
   - type: web
     name: dynasty-commish
     runtime: python
-    plan: starter
+    plan: free
     buildCommand: ./bin/render-build.sh
     startCommand: uv run --frozen --no-dev gunicorn config.wsgi:application --timeout 120
     healthCheckPath: /healthz
