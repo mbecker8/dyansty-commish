@@ -3,26 +3,30 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
   <title>{% block title %}Dynasty Commish{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'core/site.css' %}">
   <script src="{% static 'core/htmx.min.js' %}" defer></script>
 </head>
 <body>
   <header class="site">
-    <a class="brand" href="/">Dynasty Commish</a>
+    <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DC</span>Dynasty Commish</a>
     {% if user.is_authenticated %}
-    <nav>
-      {% if signing_status == "open" %}<a href="{% url 'signing_home' %}"><strong>Signing</strong></a>{% endif %}
-      <a href="{% url 'teams' %}">Teams</a>
-      <a href="{% url 'contracts' %}">Contracts</a>
-      <a href="{% url 'buyouts' %}">Buyouts</a>
-      <a href="{% url 'farm' %}">Farm</a>
-      <a href="{% url 'picks' %}">Farm picks</a>
-      <a href="{% url 'cash' %}">Cash</a>
-      <a href="{% url 'export' %}">Export</a>
-      <a href="{% url 'help' %}">Help</a>
-      {% if user.is_staff %}<a href="{% url 'console' %}">Commish</a> <a href="{% url 'admin:index' %}">Admin</a>{% endif %}
+    {% with here=request.resolver_match.url_name %}
+    <nav aria-label="League">
+      {% if signing_status == "open" %}<a class="nav-signing" href="{% url 'signing_home' %}"{% if here == "signing" %} aria-current="page"{% endif %}><strong>Signing</strong></a>{% endif %}
+      <a href="{% url 'teams' %}"{% if here == "teams" or here == "team" %} aria-current="page"{% endif %}>Teams</a>
+      <a href="{% url 'contracts' %}"{% if here == "contracts" %} aria-current="page"{% endif %}>Contracts</a>
+      <a href="{% url 'buyouts' %}"{% if here == "buyouts" %} aria-current="page"{% endif %}>Buyouts</a>
+      <a href="{% url 'farm' %}"{% if here == "farm" %} aria-current="page"{% endif %}>Farm</a>
+      <a href="{% url 'picks' %}"{% if here == "picks" %} aria-current="page"{% endif %}>Farm picks</a>
+      <a href="{% url 'cash' %}"{% if here == "cash" %} aria-current="page"{% endif %}>Cash</a>
+      <a href="{% url 'export' %}"{% if here == "export" or here == "export_csv" %} aria-current="page"{% endif %}>Export</a>
+      <a href="{% url 'help' %}"{% if here == "help" %} aria-current="page"{% endif %}>Help</a>
+      {% if user.is_staff %}<a href="{% url 'console' %}"{% if here == "console" or here == "audit" %} aria-current="page"{% endif %}>Commish</a>
+      <a href="{% url 'admin:index' %}">Admin</a>{% endif %}
     </nav>
+    {% endwith %}
     <form method="post" action="{% url 'logout' %}" class="logout">{% csrf_token %}
       <span>{{ user.manager.name|default:user.get_username }}</span> <button type="submit">Sign out</button>
     </form>
