@@ -287,3 +287,8 @@ def test_permission_groups_are_hidden_from_the_admin():
 def test_contracts_have_no_unlabelled_column(manager_client):
     html = manager_client.get("/contracts/").content.decode()
     assert "<th></th>" not in html
+
+
+def test_every_page_has_the_baseball_icon(manager_client, admin_client):
+    assert "core/favicon.svg" in manager_client.get("/teams/").content.decode()
+    assert "core/favicon.svg" in admin_client.get("/admin/").content.decode()
