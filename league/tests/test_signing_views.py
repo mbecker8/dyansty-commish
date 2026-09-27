@@ -11,7 +11,7 @@ from django.test import Client
 from league import signing
 from league.budget import team_budget
 from league.models import AuditEntry, CashTrade, Contract, Manager, SigningPeriod, Submission, Team
-from league.tests.test_signing import decide_everything
+from league.tests.test_signing import SNAPSHOT, settle_2026
 
 pytestmark = pytest.mark.django_db
 SEASON = 2026
@@ -20,8 +20,7 @@ SEASON = 2026
 @pytest.fixture
 def ready():
     call_command("import_league", verbosity=0)
-    call_command("reconcile", verbosity=0)
-    decide_everything()
+    settle_2026()
     call_command("sync_rosters", verbosity=0)
 
 
@@ -180,15 +179,15 @@ def test_console_opens_and_locks(ready, commish):
 
 
 @pytest.fixture
-def unreconciled():
+def unsettled():
     call_command("import_league", verbosity=0)
-    call_command("reconcile", verbosity=0)
+    call_command("sync_fantrax", snapshot=str(SNAPSHOT), verbosity=0)
     call_command("sync_rosters", verbosity=0)
 
 
-def test_console_open_refuses_with_pending_reconciliation(unreconciled, commish):
+def test_console_open_refuses_with_unresolved_exceptions(unsettled, commish):
     response = commish.post("/commish/", {"action": "open"}, follow=True)
-    assert b"still pending" in response.content
+    assert b"unresolved" in response.content
     assert not SigningPeriod.objects.filter(status="open").exists()
 
 

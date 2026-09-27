@@ -29,7 +29,6 @@ from league.models import (
     FarmPick,
     FarmPlayer,
     Player,
-    ReconciliationItem,
     RosterEntry,
     SigningPeriod,
     Team,
@@ -56,10 +55,6 @@ class Command(BaseCommand):
         if Team.objects.exists():
             if not replace:
                 raise CommandError("League data already exists; pass --replace to reload it.")
-            if ReconciliationItem.objects.exclude(status=ReconciliationItem.Status.PENDING).exists():
-                raise CommandError(
-                    "The commissioner has accepted or rejected reconciliation items; --replace would erase them."
-                )
             if FantraxEvent.objects.exists():
                 raise CommandError("Fantrax events have been applied; --replace would erase them.")
             if LogEntry.objects.filter(content_type__app_label="league").exists():
@@ -73,7 +68,6 @@ class Command(BaseCommand):
                 FantraxEvent,
                 FantraxLeague,
                 RosterEntry,
-                ReconciliationItem,
                 BudgetAdjustment,
                 CashTrade,
                 FarmPick,

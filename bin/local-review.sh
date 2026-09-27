@@ -3,7 +3,7 @@
 #
 # Uses its own database (review.sqlite3) so dev and test runs never touch your
 # decisions. Safe to re-run: it loads the league only into an empty database,
-# and reconcile keeps every item you've already accepted or rejected.
+# and sync_fantrax applies each Fantrax move only once.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
@@ -18,7 +18,7 @@ uv run python manage.py migrate --verbosity 0
 if [ "$(uv run python manage.py shell --no-imports -c 'from league.models import Team; print(Team.objects.exists())')" = "False" ]; then
   uv run python manage.py import_league
 fi
-uv run python manage.py reconcile --season 2026 >/dev/null
+uv run python manage.py sync_fantrax --snapshot data/fantrax/2026-final
 # The signing pool. Rosters are fixed once signing opens, so load them only the first time.
 if [ "$(uv run python manage.py shell --no-imports -c 'from league.models import RosterEntry; print(RosterEntry.objects.exists())')" = "False" ]; then
   uv run python manage.py sync_rosters

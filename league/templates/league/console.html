@@ -8,7 +8,7 @@
 {% if not period or period.status == "planned" %}
 <h2>Before you open signing</h2>
 <ul class="checklist">
-  <li class="{% if pending %}todo{% else %}ok{% endif %}">{% if pending %}{{ pending }} reconciliation item{{ pending|pluralize }} still pending: <a href="{% url 'admin:league_reconciliationitem_changelist' %}?status__exact=pending">decide them</a>.{% else %}The season's moves are reconciled.{% endif %}</li>
+  <li class="{% if exceptions %}todo{% else %}ok{% endif %}">{% if exceptions %}{{ exceptions|length }} Fantrax exception{{ exceptions|pluralize }} to resolve (above).{% else %}Fantrax moves are applied and nothing needs a look.{% endif %}</li>
   <li class="{% if roster_count %}ok{% else %}todo{% endif %}">{% if roster_count %}{{ roster_count }} roster spots loaded.{% else %}No rosters loaded: run <code>manage.py sync_rosters</code> on the blackout snapshot.{% endif %}</li>
   {% if missing_salaries %}<li class="todo">{{ missing_salaries|length }} player{{ missing_salaries|pluralize }} without an end-of-season salary can't be signed:
     {% for e in missing_salaries %}{{ e.player.name }} ({{ e.team.code }}){% if not forloop.last %}, {% endif %}{% endfor %}. Set it in Admin → Roster entries if needed.</li>{% endif %}

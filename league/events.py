@@ -60,14 +60,21 @@ class Processor:
         period = SigningPeriod.objects.filter(season=self.season).first()
         self.locked_at = period.locked_at if period else None
         self.created: list[FantraxEvent] = []
-        self._players: dict[str, Player | None] = {}
+        self._players = {p.fantrax_id: p for p in Player.objects.exclude(fantrax_id=None)}
+        # Only these players' moves can change anything; the rest are logged in one batch.
+        self.tracked = set(
+            Contract.live.exclude(player__fantrax_id=None).values_list("player__fantrax_id", flat=True)
+        ) | set(
+            FarmPlayer.objects.filter(status=FarmPlayer.Status.ACTIVE)
+            .exclude(player__fantrax_id=None)
+            .values_list("player__fantrax_id", flat=True)
+        )
+        self._batch: list[FantraxEvent] = []
 
     # --- lookups -----------------------------------------------------------
 
     def player(self, fid: str) -> Player | None:
-        if fid not in self._players:
-            self._players[fid] = Player.objects.filter(fantrax_id=fid).first()
-        return self._players[fid]
+        return self._players.get(fid)
 
     def contract(self, fid: str, when: datetime) -> Contract | None:
         """The live contract a move at `when` can affect.
@@ -95,9 +102,9 @@ class Processor:
 
     # --- recording ---------------------------------------------------------
 
-    def record(self, key, kind, effect, when, detail, fid="", **links) -> FantraxEvent:
+    def record(self, key, kind, effect, when, detail, fid="", batch=False, **links) -> FantraxEvent:
         player = links.pop("player", None) or (self.player(fid) if fid else None)
-        event = FantraxEvent.objects.create(
+        event = FantraxEvent(
             key=key,
             league=self.league,
             happened_at=when,
@@ -109,9 +116,17 @@ class Processor:
             detail=detail,
             **links,
         )
+        if batch:
+            self._batch.append(event)
+        else:
+            event.save()
         self.known.add(key)
         self.created.append(event)
         return event
+
+    def flush(self):
+        FantraxEvent.objects.bulk_create(self._batch)
+        self._batch = []
 
     # --- transactions ------------------------------------------------------
 
@@ -126,12 +141,13 @@ class Processor:
         def rec(effect, detail, **links):
             return self.record(key, m.kind, effect, m.when, detail, m.fantrax_id, **teams, **links)
 
-        if m.kind == "CLAIM":
-            return rec(Effect.NONE, f"{to.code if to else '?'} claimed {name}")
+        if m.kind == "CLAIM" or m.fantrax_id not in self.tracked:
+            verb = {"CLAIM": "claimed", "DROP": "dropped", "TRADE": "traded"}[m.kind]
+            return self.record(key, m.kind, Effect.NONE, m.when, f"{verb} {name}", m.fantrax_id, batch=True, **teams)
         held = self.contract(m.fantrax_id, m.when) or self.farm(m.fantrax_id)
         if held is None:
             verb = "traded" if m.kind == "TRADE" else "dropped"
-            return rec(Effect.NONE, f"{verb} {name} (no contract or farm spot)")
+            return rec(Effect.NONE, f"{verb} {name} (no live contract or farm spot)")
         is_contract = isinstance(held, Contract)
         link = {"contract": held} if is_contract else {"farm_player": held}
         what = "contract" if is_contract else "farm spot"
@@ -340,6 +356,7 @@ def sync(sources, user=None, source_label: str = "", dry_run: bool = False) -> S
             proc = Processor(league, match_teams(snapshot), names, known)
             for m in snapshot.moves():
                 proc.apply_move(m)
+            proc.flush()
             proc.apply_rosters(snapshot, now)
             result.created += proc.created
         if dry_run:
