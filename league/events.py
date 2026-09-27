@@ -20,6 +20,7 @@ from league.models import (
     Contract,
     FantraxEvent,
     FantraxLeague,
+    FarmPick,
     FarmPlayer,
     Player,
     Season,
@@ -28,6 +29,7 @@ from league.models import (
     TeamAlias,
     audit,
 )
+from rules.farm import DRAFT_PICK_SALARY
 
 Effect, Kind = FantraxEvent.Effect, FantraxEvent.Kind
 
@@ -160,6 +162,8 @@ class Processor:
         def rec(effect, detail, **links):
             return self.record(key, m.kind, effect, m.when, detail, m.fantrax_id, **teams, **links)
 
+        if m.kind == "CLAIM" and (draft := seasons.farm_draft_at(m.when, self.seasons)):
+            return self.draft(m, key, draft.year, to, name)
         if m.kind == "CLAIM" or m.fantrax_id not in self.tracked:
             verb = {"CLAIM": "claimed", "DROP": "dropped", "TRADE": "traded"}[m.kind]
             return self.record(key, m.kind, Effect.NONE, m.when, f"{verb} {name}", m.fantrax_id, batch=True, **teams)
@@ -203,6 +207,44 @@ class Processor:
         held.voided_in_season = season
         held.save(update_fields=["voided_in_season"])
         return rec(Effect.VOIDED, f"dropped {name} ({frm.code}) in his final year: contract voided", **link)
+
+    def draft(self, m: Move, key: str, year: int, to: Team, name: str) -> FantraxEvent:
+        """A claim in the farm draft window is a farm pick: $1, spending the team's lowest unused pick."""
+
+        def rec(effect, detail, **links):
+            return self.record(key, m.kind, effect, m.when, detail, m.fantrax_id, to_team=to, **links)
+
+        if held := self.farm(m.fantrax_id):
+            if held.team == to:
+                return rec(Effect.ALREADY_REFLECTED, f"drafted {name}: already on the {to.code} farm", farm_player=held)
+            return rec(
+                Effect.EXCEPTION, f"{to.code} drafted {name}, but he's on the {held.team.code} farm", farm_player=held
+            )
+        if held := self.contract(m.fantrax_id, m.when):
+            detail = f"{to.code} drafted {name}, but he's under contract to {held.team.code}"
+            return rec(Effect.EXCEPTION, detail, contract=held)
+        pick = FarmPick.objects.filter(year=year, owner=to, player=None).order_by("round", "pk").first()
+        if pick is None:
+            return rec(
+                Effect.EXCEPTION,
+                f"{to.code} claimed {name} in the farm draft but has no {year} pick left: add him in the admin if "
+                "he's a farm player",
+            )
+        player = self.player(m.fantrax_id)
+        if player is None:
+            player = Player.objects.create(name=name, fantrax_id=m.fantrax_id)
+            self._players[m.fantrax_id] = player
+        farm = FarmPlayer.objects.create(
+            team=to, player=player, drafted_year=year, salary=DRAFT_PICK_SALARY, salary_season=year
+        )
+        pick.player = player
+        pick.save(update_fields=["player"])
+        self.tracked.add(m.fantrax_id)
+        return rec(
+            Effect.FARM_DRAFTED,
+            f"drafted {name} to the {to.code} farm ({year} round {pick.round}, ${DRAFT_PICK_SALARY})",
+            farm_player=farm,
+        )
 
     # --- facts from the latest rosters -------------------------------------
 

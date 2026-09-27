@@ -175,6 +175,9 @@ class FarmPick(models.Model):
     round = models.PositiveIntegerField()
     original_team = models.ForeignKey(Team, on_delete=models.PROTECT, related_name="+")
     owner = models.ForeignKey(Team, on_delete=models.PROTECT, related_name="farm_picks")
+    player = models.ForeignKey(
+        Player, on_delete=models.PROTECT, null=True, blank=True, related_name="+", help_text="Who the pick was spent on"
+    )
 
     class Meta:
         constraints = [models.UniqueConstraint(fields=["year", "round", "original_team"], name="unique_farm_pick")]
@@ -269,6 +272,7 @@ class FantraxEvent(models.Model):
         FARM_RELEASED = "FARM_RELEASED", "Farm released"
         FARM_PROMOTED = "FARM_PROMOTED", "Farm promoted"
         FARM_DEBUT = "FARM_DEBUT", "Farm debut"
+        FARM_DRAFTED = "FARM_DRAFTED", "Farm drafted"
         ALREADY_REFLECTED = "ALREADY_REFLECTED", "Already reflected"
         NONE = "NONE", "No change"
         EXCEPTION = "EXCEPTION", "Exception"

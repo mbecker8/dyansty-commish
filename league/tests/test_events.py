@@ -13,6 +13,7 @@ from league.models import (
     Contract,
     FantraxEvent,
     FantraxLeague,
+    FarmPick,
     FarmPlayer,
     Player,
     Season,
@@ -329,3 +330,52 @@ def test_sync_refuses_moves_a_year_past_the_last_auction(world):
     with pytest.raises(SeasonMissing, match="2027"):
         sync([(league, snap)])
     assert not FantraxEvent.objects.exists()
+
+
+# --- farm draft ---------------------------------------------------------------
+
+
+@pytest.fixture
+def draft(world):
+    league, proc, a, b, c, f = world
+    Season.objects.create(
+        year=2027,
+        farm_draft_starts_at=datetime(2027, 2, 20, 18, 0, tzinfo=EASTERN),
+        auction_starts_at=datetime(2027, 2, 24, 19, 0, tzinfo=EASTERN),
+    )
+    for r in (1, 2):
+        FarmPick.objects.create(year=2027, round=r, original_team=a, owner=a)
+    return league, Processor(league, proc.teams, {"p7": "Rook", "p8": "Kid", "p9": "Late"}), a, b
+
+
+def in_draft(fid, to, day=21, tx=None):
+    return Move(datetime(2027, 2, day, 20, 0, tzinfo=EASTERN), "CLAIM", fid, None, to, tx or f"d{fid}")
+
+
+def test_draft_claim_makes_a_one_dollar_farm_player(draft):
+    league, proc, a, b = draft
+    e = proc.apply_move(in_draft("p7", "ta"))
+    fp = FarmPlayer.objects.get(player__fantrax_id="p7")
+    assert (e.effect, fp.team, fp.salary, fp.salary_season, fp.drafted_year) == ("FARM_DRAFTED", a, 1, 2027, 2027)
+    assert FarmPick.objects.get(year=2027, round=1, owner=a).player == fp.player
+    proc.apply_move(in_draft("p8", "ta", day=22))
+    assert FarmPick.objects.get(year=2027, round=2, owner=a).player.name == "Kid"
+
+
+def test_draft_claim_without_a_pick_is_an_exception(draft):
+    league, proc, a, b = draft
+    e = proc.apply_move(in_draft("p7", "tb"))
+    assert e.effect == "EXCEPTION" and "no 2027 pick left" in e.detail
+    assert not FarmPlayer.objects.filter(player__fantrax_id="p7").exists()
+
+
+def test_claim_after_the_auction_start_is_not_a_draft_pick(draft):
+    league, proc, a, b = draft
+    late = Move(datetime(2027, 2, 24, 19, 0, tzinfo=EASTERN), "CLAIM", "p9", None, "ta", "late")
+    assert proc.apply_move(late).effect == "NONE"
+    assert not FarmPick.objects.exclude(player=None).exists()
+
+
+def test_draft_claim_of_a_contracted_player_is_an_exception(draft):
+    league, proc, a, b = draft
+    assert proc.apply_move(in_draft("p1", "tb")).effect == "EXCEPTION"
