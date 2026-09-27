@@ -109,7 +109,16 @@ header.site {
 .sidebar a { padding: .38rem .6rem; border-radius: var(--radius-sm); color: var(--fg); font-weight: 500; font-size: .92rem; }
 .sidebar a:hover { background: var(--surface-2); text-decoration: none; }
 .sidebar a[aria-current="page"] { color: var(--accent); background: var(--accent-soft); }
-.sidebar a.nav-signing { color: var(--accent-fg); background: var(--accent); font-weight: 600; margin-bottom: .25rem; }
+.sidebar a.nav-signing {
+  display: grid; gap: .15rem; margin-bottom: .5rem; padding: .7rem .8rem; border-radius: var(--radius);
+  color: #fff; background: linear-gradient(135deg, #2563eb, #7c3aed);
+  box-shadow: 0 4px 14px rgb(37 99 235 / 0.35);
+}
+.sidebar a.nav-signing strong { font-size: 1rem; font-weight: 700; letter-spacing: -0.01em; }
+.sidebar a.nav-signing strong::after { content: " →"; }
+.sidebar a.nav-signing small { font-size: .78rem; font-weight: 500; opacity: .9; line-height: 1.35; }
+.sidebar a.nav-signing:hover { filter: brightness(1.08); text-decoration: none; background: linear-gradient(135deg, #2563eb, #7c3aed); }
+.sidebar a.nav-signing[aria-current="page"] { outline: 2px solid var(--accent); outline-offset: 2px; color: #fff; }
 .layout.with-sidebar main { margin: 0; max-width: 76rem; min-width: 0; }
 
 .crumbs ol { list-style: none; display: flex; flex-wrap: wrap; gap: .35rem; margin: 0 0 .25rem; padding: 0; font-size: .85rem; color: var(--muted); }

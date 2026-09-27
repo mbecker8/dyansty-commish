@@ -1,7 +1,7 @@
 from django.urls import reverse
 
 from league.access import is_league_member
-from league.models import SigningPeriod
+from league.models import SigningPeriod, Submission
 from league.seasons import current_season
 
 # Breadcrumb trail per page: (label, url name) ancestors, then the page's own label (None: the team code).
@@ -42,4 +42,16 @@ def league(request):
     if is_league_member(request.user):
         period = SigningPeriod.objects.filter(season=season).first()
         context["signing_status"] = period.status if period else None
+        if period and period.status == SigningPeriod.Status.OPEN:
+            context["signing_deadline"] = period.deadline
+            context["my_submission"] = my_submission(request.user, period)
     return context
+
+
+def my_submission(user, period):
+    """How far the user's own team has got: "submitted", "draft" (saved, not sent) or "todo"."""
+    manager = getattr(user, "manager", None)
+    if manager is None:
+        return None
+    submission = Submission.objects.filter(period=period, team=manager.team).first()
+    return submission.status if submission else "todo"
