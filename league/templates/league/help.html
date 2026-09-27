@@ -89,6 +89,9 @@ done by hand outside Fantrax: contracts, buyouts, the farm system, and the aucti
   <li><strong>The first commissioner</strong> on an empty site: put your Discord ID in the server's
     <code>COMMISSIONER_DISCORD_IDS</code> setting (a Render environment variable, comma-separated). That ID is a
     commissioner even with no Manager, so you can sign in, load the league and then add your own Manager.</li>
+  <li><strong>If sign-in fails</strong> with "temporarily blocking sign-ins" or "Couldn't reach Discord": the reason is in the
+    server log (Render → Logs, a line starting <code>Discord sign-in failed:</code>). Production sends its Discord calls
+    through a Cloudflare Worker. Setup and fixes are in <code>docs/discord-signin.md</code> in the repo.</li>
 </ul>
 
 <h3>Set up an empty site</h3>

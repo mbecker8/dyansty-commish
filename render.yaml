@@ -25,6 +25,13 @@ services:
         sync: false
       - key: DISCORD_CLIENT_SECRET
         sync: false
+      # Discord's Cloudflare blocks Render's shared outbound IPs, so the two sign-in API calls go
+      # through our Cloudflare Worker (docs/discord-signin.md): its https://….workers.dev URL, and
+      # the shared key (the Worker's PROXY_KEY secret). Unset, the app calls discord.com directly.
+      - key: DISCORD_API_BASE
+        sync: false
+      - key: DISCORD_PROXY_KEY
+        sync: false
       # Discord IDs (comma-separated) that are commissioners even with no Manager: the first sign-in.
       - key: COMMISSIONER_DISCORD_IDS
         sync: false

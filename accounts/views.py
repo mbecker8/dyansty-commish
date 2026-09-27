@@ -70,9 +70,13 @@ def discord_callback(request):
         identity = discord.fetch_identity(request.GET["code"], _callback_uri(request))
     except discord.DiscordError as e:
         logger.warning("Discord sign-in failed: %s (redirect %s)", e, _callback_uri(request))
-        return render(
-            request, "accounts/error.html", {"message": "Couldn't reach Discord. Try again in a minute."}, status=502
-        )
+        if isinstance(e, discord.DiscordBlocked):
+            message = (
+                "Discord is temporarily blocking sign-ins from this server. Try again later, and tell the commissioner."
+            )
+        else:
+            message = "Couldn't reach Discord. Try again in a minute."
+        return render(request, "accounts/error.html", {"message": message}, status=502)
 
     manager = Manager.objects.select_related("user", "team").filter(discord_id=identity["id"]).first()
     if manager is None and identity["id"] not in settings.COMMISSIONER_DISCORD_IDS:

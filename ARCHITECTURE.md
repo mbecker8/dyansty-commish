@@ -227,6 +227,11 @@ where the numbers come from.
 - **Auth (built in M3):** Sign in with Discord.
   - `accounts/views.py` stores a single-use `state` in the session and compares it in constant time.
   - It exchanges the code on the server and reads `/users/@me`. The token isn't kept.
+  - Those two server calls go to `DISCORD_API_BASE`. In production that's our Cloudflare Worker
+    (`cloudflare/discord-proxy/`), which forwards only those two calls and only with the
+    `X-Proxy-Key` header, because Discord's Cloudflare blocks Render's shared outbound IPs with 429s.
+    A 429 is `DiscordBlocked` and gets its own message. Every failure is logged with Discord's status.
+    Setup: `docs/discord-signin.md`.
   - Only a Discord ID that the commissioner has put on a `Manager` (in the admin) gets in. A User is
     created on that manager's first sign-in. Anyone else sees their Discord ID and is asked to send it
     to the commissioner.

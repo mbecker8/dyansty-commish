@@ -1,0 +1,6 @@
+# Optional: deploy from the command line with `npx wrangler deploy` (run in this folder).
+# The dashboard steps in docs/discord-signin.md do the same thing without installing anything.
+name = "dynasty-commish-discord"
+main = "worker.js"
+compatibility_date = "2026-09-01"
+# PROXY_KEY is a secret: `npx wrangler secret put PROXY_KEY`, never in this file.

@@ -68,3 +68,7 @@ Render Blueprint (`render.yaml`): https://dynasty-commish.onrender.com. It runs 
 tier for now. Before the league beta, upgrade to paid Postgres with backups, and set
 `DISCORD_CLIENT_ID` / `DISCORD_CLIENT_SECRET` and `FANTRAX_COOKIE` / `FANTRAX_SECRET_ID` in the
 dashboard.
+
+Discord sign-in in production goes through a small Cloudflare Worker, because Discord's Cloudflare
+blocks Render's shared outbound IPs. Setup and troubleshooting are in
+[docs/discord-signin.md](docs/discord-signin.md).
