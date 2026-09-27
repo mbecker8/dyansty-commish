@@ -25,6 +25,13 @@ services:
         sync: false
       - key: DISCORD_CLIENT_SECRET
         sync: false
+      # Discord's Cloudflare blocks Render's shared outbound IPs, so the two sign-in API calls go
+      # through our Cloudflare Worker (docs/discord-signin.md): its https://….workers.dev URL, and
+      # the shared key (the Worker's PROXY_KEY secret). Unset, the app calls discord.com directly.
+      - key: DISCORD_API_BASE
+        sync: false
+      - key: DISCORD_PROXY_KEY
+        sync: false
       # Fantrax (read-only): the commissioner's browser Cookie header, and the Secret ID from
       # the Fantrax user profile (only used to find the renewed league). Set in the dashboard.
       - key: FANTRAX_COOKIE

@@ -140,6 +140,15 @@ def test_discord_outage_shows_an_error_not_a_crash(client, team, caplog):
     assert "token exchange failed (401)" in caplog.text and "/auth/discord/callback" in caplog.text
 
 
+def test_a_blocked_server_says_so(client, team):
+    from accounts.discord import DiscordBlocked
+
+    state = start_login(client)["state"][0]
+    with mock.patch("accounts.discord.fetch_identity", side_effect=DiscordBlocked("token exchange failed (429)")):
+        response = client.get("/auth/discord/callback", {"code": "abc", "state": state})
+    assert response.status_code == 502 and b"temporarily blocking sign-ins" in response.content
+
+
 def sign_in(client, user_id=DISCORD_ID):
     state = start_login(client)["state"][0]
     with discord_says(user_id=user_id):
