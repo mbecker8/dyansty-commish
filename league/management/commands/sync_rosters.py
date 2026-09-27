@@ -91,7 +91,7 @@ class Command(BaseCommand):
 
     @staticmethod
     def contract_problems(season):
-        """Contracts still running whose player isn't on the holder's blackout roster: a drop or trade to reconcile."""
+        """Contracts still running whose player isn't on the holder's blackout roster: an unsynced drop or trade."""
         where = {e.player_id: e.team for e in RosterEntry.objects.filter(season=season).select_related("team")}
         lines = []
         for c in Contract.live.select_related("player", "team").order_by("team__code", "player__name"):
@@ -101,6 +101,6 @@ class Command(BaseCommand):
             lines.append(
                 f"  {c.team.code} {c.player.name} (through {c.final_year}) is "
                 + (f"on {now.code}'s roster" if now else "on no roster")
-                + ": re-run reconcile on this snapshot"
+                + ": run sync_fantrax"
             )
         return ["Contracts not on their team's roster:", *lines] if lines else []

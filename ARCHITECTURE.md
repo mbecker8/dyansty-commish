@@ -44,7 +44,7 @@ through scripts or import commands, never from inside a request.
 |---|---|
 | `config/` | Django project: settings, root URLs, WSGI/ASGI. |
 | `core/` | Site shell: base template, CSS, `/healthz`. |
-| `league/` | Domain models, import and reconcile commands, budget adapter, league pages. |
+| `league/` | Domain models, import and Fantrax sync commands, event processor, budget adapter, league pages. |
 | `accounts/` | Sign in with Discord (OAuth2, `identify` scope). |
 | `rules/` | League rules engine plus its tests (`rules/tests/`), including golden tests. |
 | `scripts/` | Standalone tools run by hand: the Fantrax snapshot and the workbook fixture extractor. |
@@ -130,8 +130,7 @@ where the numbers come from.
   - `/signing/<code>/` is a team's signing page; `/commish/` and `/commish/audit/` are for commissioners.
   - `/auth/…` is Discord sign-in, `/healthz` is the Render health check, and `/admin/` is the Django admin.
 - League pages show the *next* auction's committed money (`LEAGUE_SEASON` + 1), using
-  `league.budget.team_budget`. While reconciliation items are pending, a banner says the numbers
-  may still change.
+  `league.budget.team_budget`.
 
 ### Signing, console, audit and export (built in M4)
 
@@ -160,12 +159,29 @@ where the numbers come from.
   budget and problems, jump to any team's page, and follow links to the admin for manual
   entries (cash trades, missed-IP penalties, farm picks and farm players).
 - **Audit log** (`/commish/audit/`): signing saves, submits, withdrawals, open, lock,
-  roster syncs, reconciliation decisions, and every admin add, change or delete (through
+  roster syncs, Fantrax syncs, resolved exceptions, and every admin add, change or delete (through
   `league.admin.AuditedAdmin`).
 - **Export** (`/export/`): CSV downloads of budgets, contracts, buyouts, farm, picks and
   cash, built from the same row helpers as the league pages.
-- `reconcile` skips contracts signed at the signing after the season it replays. Otherwise
-  re-running it after lock would replay the new contracts against last season's moves.
+
+### Fantrax events
+
+- **Models:** `FantraxLeague` (a league the sync reads: Fantrax ID, season, start time, active)
+  and `FantraxEvent` (one processed fact, unique `key`, with the effect and what it touched).
+  `import_league` seeds the 2026 league.
+- **`league/events.py`:** `sync([(league, snapshot)])` applies everything new in one
+  transaction. Transactions are keyed `tx:<txSetId>:<player>:<kind>`; roster-derived facts
+  (promotion, debut, unknown Minors player, cash comment, roster mismatch) have their own keys.
+  A key already stored is skipped, so re-running is safe and hand fixes in the admin stick.
+- Moves are applied against current records, so a trade after the signing locks moves the new
+  contract. A contract signed at the signing after a season ignores that season's moves from
+  before the lock.
+- Facts the app can't interpret are `EXCEPTION` events. `signing.open_period` refuses while
+  any are unresolved; the console resolves them with a required note.
+- **Entry points:** `manage.py sync_fantrax` (live, or `--snapshot`, `--dry-run`) and the
+  console's Sync from Fantrax. Both fetch before the transaction starts.
+- The golden test (`league/tests/test_sync_2026.py`) checks the 2026 result against the state
+  the old reconciliation queue produced when everything was accepted.
 
 ### Sign-in and permissions
 
@@ -189,22 +205,23 @@ where the numbers come from.
 ### Fantrax
 
 - **Read-only.** The app never writes to Fantrax.
-- Auth is the commissioner's browser cookie, kept in
-  `secrets/fantrax_cookie.txt` locally (gitignored). **(planned)** An env var
-  secret on Render.
-- `scripts/fantrax_client.py` is a minimal helper that POSTs to Fantrax's
-  `fxpa/req` endpoint. `scripts/fantrax_snapshot.py` saves league info, teams,
-  every roster, the transaction history and a flattened `rosters.csv` into
-  `data/fantrax/<name>/`.
+- Transactions, trades and stats need the logged-in `fxpa/req` API, so auth is the
+  commissioner's browser cookie: `FANTRAX_COOKIE` (a Render secret), else
+  `secrets/fantrax_cookie.txt` locally (gitignored). The Fantrax Secret ID
+  (`FANTRAX_SECRET_ID`, else `secrets/fantrax_secret_id.txt`) only works for the
+  public `getLeagues` call, which the console uses to find the renewed league.
+- `league/fantrax_client.py` fetches a league into memory; `Snapshot.from_raw`
+  reads it exactly like a saved snapshot. `scripts/fantrax_snapshot.py` uses the
+  same client to save league info, teams, every roster, the transaction history
+  and a flattened `rosters.csv` into `data/fantrax/<name>/`.
 - Raw JSON is committed so imports are reproducible and don't depend on
   Fantrax staying up. Fantrax renewal creates a **new league ID** and leaves the
   old one frozen, so an end-of-season snapshot isn't a race against rollover.
 - **Source-of-truth split:** Fantrax owns rosters and end-of-season salaries
   (salary = original price). The app owns contract history (lengths,
   buyouts, farm). When the sheet and Fantrax disagree on a salary, Fantrax wins.
-- **(planned)** All Fantrax access goes behind one sync interface (on-demand
-  command / commissioner button for the MVP). This leaves room for the
-  scheduled live sync on the roadmap without touching callers.
+- All transaction access goes through `league.events.sync` (on-demand command
+  and console button). A scheduled live sync (#33) can call the same code.
 
 ### Contract workbook
 

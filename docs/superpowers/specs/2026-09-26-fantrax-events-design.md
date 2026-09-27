@@ -1,6 +1,6 @@
 # Fantrax events: apply the season's moves automatically
 
-Status: design approved in chat 2026-09-26, awaiting spec review.
+Status: implemented 2026-09-26 (branch fantrax-events).
 Replaces the reconciliation queue. Related: #42 (renewed league, moves after lock), #45 (Fantrax on
 Render), #33 (live sync), #22 (dry run), #35 (Discord).
 
