@@ -1,10 +1,10 @@
-# Render Blueprint. Free tier for M1; switch plans to paid (starter web +
-# basic Postgres with backups) before the league beta. Free Postgres expires.
+# Render Blueprint. Paid plans: a starter web instance (the Shell needs one, and it
+# doesn't sleep) and basic Postgres, which has daily backups and doesn't expire.
 services:
   - type: web
     name: dynasty-commish
     runtime: python
-    plan: free
+    plan: starter
     buildCommand: ./bin/render-build.sh
     startCommand: uv run --frozen --no-dev gunicorn config.wsgi:application --timeout 120
     healthCheckPath: /healthz
@@ -34,5 +34,5 @@ services:
 
 databases:
   - name: dynasty-commish-db
-    plan: free
+    plan: basic-256mb
     databaseName: dynasty_commish
