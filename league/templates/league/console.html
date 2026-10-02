@@ -32,7 +32,7 @@
 {% if found_leagues is not None %}
 {% if found_leagues %}<ul>{% for lg in found_leagues %}<li>{{ lg.leagueName }} <span class="muted">({{ lg.leagueId }})</span>
   <form method="post" style="display:inline">{% csrf_token %}<input type="hidden" name="league_id" value="{{ lg.leagueId }}"><input type="hidden" name="name" value="{{ lg.leagueName }}">
-  <button type="submit" name="action" value="add_league">Add for the {{ league_season }} season</button></form></li>{% endfor %}</ul>
+  <button type="submit" name="action" value="add_league">{% if lg.season %}Add the {{ lg.season }} league{% else %}Add this league{% endif %}</button></form></li>{% endfor %}</ul>
 {% else %}<p class="muted">No new leagues on your Fantrax account.</p>{% endif %}
 {% endif %}
 

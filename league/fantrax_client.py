@@ -51,6 +51,15 @@ def _data(resp: dict) -> dict:
     return resp["responses"][0]["data"]
 
 
+def league_season(s, league_id: str) -> int:
+    """The year Fantrax gives a league. Renewal makes next year's league while this season's offseason runs."""
+    try:
+        info = _data(call(s, league_id, ("getFantasyLeagueInfo", {})))
+        return int(info["fantasySettings"]["season"]["displayYear"])
+    except (KeyError, TypeError, ValueError) as e:
+        raise FantraxError(f"Fantrax didn't give a season for league {league_id}") from e
+
+
 def fetch_raw(s, league_id: str) -> dict:
     """Everything a Snapshot needs, in memory."""
     info = _data(call(s, league_id, ("getFantasyLeagueInfo", {})))

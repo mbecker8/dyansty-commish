@@ -248,7 +248,9 @@ def console(request):
         try:
             known = set(FantraxLeague.objects.values_list("league_id", flat=True))
             found_leagues = [
-                lg for lg in fantrax_client.list_leagues(settings.FANTRAX_SECRET_ID) if lg["leagueId"] not in known
+                {**lg, "season": _fantrax_season(lg["leagueId"])}
+                for lg in fantrax_client.list_leagues(settings.FANTRAX_SECRET_ID)
+                if lg["leagueId"] not in known
             ]
         except FantraxError as e:
             messages.error(request, str(e))
@@ -280,6 +282,16 @@ def console(request):
             "checklist": seasons.checklist() if upcoming else [],
         },
     )
+
+
+def _fantrax_season(league_id):
+    """A found league's Fantrax year for its Add button, or None when the Fantrax login can't read it."""
+    if not settings.FANTRAX_COOKIE:
+        return None
+    try:
+        return fantrax_client.league_season(fantrax_client.session(settings.FANTRAX_COOKIE), league_id)
+    except FantraxError:
+        return None
 
 
 def _local(text):
