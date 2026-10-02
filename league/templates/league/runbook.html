@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}Season runbook · Dynasty Commish{% endblock %}
+{% block content %}
+<article class="doc">
+<h1>Season runbook</h1>
+<p>The commissioner's year, in order: from the end of the {{ league_season }} season to the start of the
+  {{ next_season }} season. Each step says where it happens: <strong>Fantrax</strong>, the
+  <a href="{% url 'console' %}">console</a>, the <a href="{% url 'admin:index' %}">admin</a>, or
+  <strong>your computer</strong> (a local copy of the repo). The <a href="{% url 'help' %}#commissioner">commissioner
+  guide</a> explains each part in more detail.</p>
+
+<h2>1. The season ends</h2>
+<ol>
+  <li><strong>Admin → Final standings</strong>: one row per team, 1 = champion. They set the {{ next_season }} farm draft
+    order. Check it under <a href="{% url 'draft_order' %}">Farm picks → Draft order</a>.</li>
+  <li><strong>Admin → Budget adjustments</strong>: any missed-IP penalties not yet entered.</li>
+  <li><strong>Your computer</strong>: save the end-of-season snapshot, which sets every new contract's price.
+    <pre><code>uv run python scripts/fantrax_snapshot.py &lt;league id&gt; data/fantrax/{{ league_season }}-final</code></pre>
+    Commit it and deploy. The league ID is in Admin → Fantrax leagues, or the Fantrax URL.</li>
+  <li><strong>Console → Sync from Fantrax</strong>, and resolve any exceptions.</li>
+</ol>
+
+<h2>2. Offseason trading</h2>
+<ol>
+  <li><strong>Fantrax</strong>: renew the league for {{ next_season }}.</li>
+  <li><strong>Console → Find new Fantrax leagues</strong>, then add the renewed league. Offseason
+    trades happen in the new league; the sync reads both.</li>
+  <li><strong>Console → Sync from Fantrax</strong> as often as you like, resolving exceptions as they come.</li>
+  <li><strong>Admin</strong>: enter cash trades (with the Fantrax trade ID) and farm pick trades as they're agreed.</li>
+</ol>
+
+<h2>3. Blackout and signing</h2>
+<p>Trading stops for the blackout, at most a week by the rulebook. Tell the league when it starts.</p>
+<ol>
+  <li><strong>Console → Sync from Fantrax</strong> once trades stop, and resolve every exception. Signing can't open
+    while any are listed.</li>
+  <li><strong>Your computer</strong>: save the blackout snapshot, which sets who's on each roster.
+    <pre><code>uv run python scripts/fantrax_snapshot.py &lt;new league id&gt; data/fantrax/{{ league_season }}-blackout</code></pre>
+    Commit it and deploy.</li>
+  <li><strong>Console → Load rosters</strong>: pick the blackout snapshot from the list. Fix whatever the checklist shows
+    (contracts not on their team's roster, players without a salary), then reload if needed.</li>
+  <li><strong>Console → Open signing</strong>. Optionally set a deadline in Admin → Signing periods, and tell the league.</li>
+  <li><strong>Console → Teams table</strong>: follow up on teams that haven't submitted or have problems.</li>
+  <li><strong>Console → Lock signing</strong> when every team is ready. This can't be undone from the console. New
+    contracts and budgets are published to every team.</li>
+</ol>
+
+<h2>4. Draft day</h2>
+<ol>
+  <li><strong>Console → The {{ next_season }} season</strong>: enter the farm draft start and the auction start (Eastern).
+    Do it straight after locking: the sync refuses to run until they're in, and moves synced before them would be
+    filed under the wrong season.</li>
+  <li><strong>Fantrax</strong>: run the farm draft (teams add picks as ordinary claims), then the auction.</li>
+  <li><strong>Console → Sync from Fantrax</strong> once the auction has started. The first sync after the auction start
+    freezes every team's auction budget. Resolve any exceptions (a farm claim by a team with no pick left, say).</li>
+  <li><strong>Console → Start the {{ next_season }} season</strong> once its checklist is all green. That makes
+    {{ next_season }} current and adds the next year of farm picks.</li>
+</ol>
+
+<h2>5. During the season</h2>
+<ul>
+  <li><strong>Console → Sync from Fantrax</strong> every week or two: trades, drops (buyouts), promotions and MLB debuts.
+    Resolve exceptions as they come.</li>
+  <li><strong>Admin</strong>: missed-IP penalties, cash trades and farm pick trades.</li>
+  <li><strong>Fantrax cookie</strong>: when the console says the login has expired, copy a fresh Cookie header from a
+    logged-in Fantrax tab into <code>secrets/fantrax_cookie.txt</code> on your computer, then run
+    <pre><code>scripts/set_render_secret.sh FANTRAX_COOKIE secrets/fantrax_cookie.txt</code></pre>
+    It sets the value on Render without printing it and redeploys.</li>
+</ul>
+
+<h2>Known gaps</h2>
+<p>Fix these before they bite. Until then, work around them by hand.</p>
+<ul>
+  <li><strong>Signing prices</strong> (#64): Load rosters always reads prices from <code>2026-final</code>. Fine for the
+    signing after 2026; must be fixed before the signing after 2027 (Feb 2028).</li>
+  <li><strong>Two renewed leagues</strong> (#50): after the October 2027 renewal, both leagues apply roster facts. Fix
+    before then, or deactivate the older league in Admin → Fantrax leagues once its moves are synced.</li>
+  <li><strong>Fantrax credentials</strong> (#65): the cookie and Secret ID are Render settings, so changing them needs
+    the script above and a redeploy.</li>
+</ul>
+</article>
+{% endblock %}

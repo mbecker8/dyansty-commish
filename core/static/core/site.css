@@ -280,6 +280,8 @@ details[open] summary { margin-bottom: .5rem; }
 
 .doc { max-width: 48rem; }
 .doc li { margin: .3rem 0; }
+.doc pre { overflow-x: auto; margin: .4rem 0; }
+.doc pre code { display: block; padding: .5rem .7rem; }
 
 @media (max-width: 60rem) {
   .signing { grid-template-columns: 1fr; }

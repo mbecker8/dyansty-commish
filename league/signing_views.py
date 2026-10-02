@@ -301,6 +301,11 @@ def sync_from_fantrax(user) -> events.SyncResult:
 
 
 @commissioner_required
+def runbook(request):
+    return render(request, "league/runbook.html")
+
+
+@commissioner_required
 def audit_log(request):
     entries = AuditEntry.objects.select_related("user", "team")
     if code := request.GET.get("team"):

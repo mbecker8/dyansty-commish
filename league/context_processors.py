@@ -17,6 +17,7 @@ PAGES = {
     "signing": ([("Signing", "signing_home")], None),
     "console": ([], "Commissioner"),
     "audit": ([("Commissioner", "console")], "Audit log"),
+    "runbook": ([("Commissioner", "console")], "Season runbook"),
     "export": ([], "Export"),
     "help": ([], "Help"),
 }

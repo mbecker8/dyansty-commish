@@ -3,7 +3,7 @@
 {% block content %}
 <h1>Commissioner console</h1>
 <p class="muted">Signing after the {{ league_season }} season: <strong>{{ period.get_status_display|default:"Not open yet" }}</strong>.
-  <a href="{% url 'audit' %}">Audit log</a></p>
+  <a href="{% url 'audit' %}">Audit log</a> · <a href="{% url 'runbook' %}">Season runbook</a></p>
 
 {% if not league_loaded %}
 <h2>Load the league</h2>

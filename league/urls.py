@@ -17,6 +17,7 @@ urlpatterns = [
     path("signing/<str:code>/preview", signing_views.signing_preview, name="signing_preview"),
     path("commish/", signing_views.console, name="console"),
     path("commish/audit/", signing_views.audit_log, name="audit"),
+    path("commish/runbook/", signing_views.runbook, name="runbook"),
     path("export/", signing_views.export, name="export"),
     path("export/<str:name>.csv", signing_views.export, name="export_csv"),
 ]

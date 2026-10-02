@@ -44,6 +44,7 @@
       <h2>Commissioner</h2>
       <a href="{% url 'console' %}"{% if here == "console" %} aria-current="page"{% endif %}>Console</a>
       <a href="{% url 'audit' %}"{% if here == "audit" %} aria-current="page"{% endif %}>Audit log</a>
+      <a href="{% url 'runbook' %}"{% if here == "runbook" %} aria-current="page"{% endif %}>Season runbook</a>
       <a href="{% url 'admin:index' %}">Admin</a>
       {% endif %}
     </nav>
