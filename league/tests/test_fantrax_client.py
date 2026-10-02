@@ -54,6 +54,10 @@ def test_fetch_raw_matches_the_saved_snapshot():
     assert live.season == saved.season
 
 
+def test_league_season_is_the_year_fantrax_gives_the_league():
+    assert fantrax_client.league_season(FakeSession(), "p3z8zy75mgdm460o") == 2026
+
+
 def test_not_logged_in_raises_login_expired():
     with pytest.raises(fantrax_client.FantraxLoginExpired):
         fantrax_client.fetch_raw(FakeSession(logged_in=False), "p3z8zy75mgdm460o")

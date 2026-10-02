@@ -214,7 +214,9 @@ def console(request):
                 )
                 if created:
                     audit(request.user, "Added Fantrax league", str(league))
-                messages.success(request, f"{league} is added. Sync from Fantrax reads it from now on.")
+                messages.success(
+                    request, f"{league.name or league.league_id} is added. Sync from Fantrax reads it from now on."
+                )
             elif action == "season_dates":
                 auction = _local(request.POST.get("auction_starts_at"))
                 if auction is None:
@@ -248,7 +250,9 @@ def console(request):
         try:
             known = set(FantraxLeague.objects.values_list("league_id", flat=True))
             found_leagues = [
-                lg for lg in fantrax_client.list_leagues(settings.FANTRAX_SECRET_ID) if lg["leagueId"] not in known
+                {**lg, "season": _fantrax_season(lg["leagueId"])}
+                for lg in fantrax_client.list_leagues(settings.FANTRAX_SECRET_ID)
+                if lg["leagueId"] not in known
             ]
         except FantraxError as e:
             messages.error(request, str(e))
@@ -282,6 +286,16 @@ def console(request):
     )
 
 
+def _fantrax_season(league_id):
+    """A found league's Fantrax year for its Add button, or None when the Fantrax login can't read it."""
+    if not settings.FANTRAX_COOKIE:
+        return None
+    try:
+        return fantrax_client.league_season(fantrax_client.session(settings.FANTRAX_COOKIE), league_id)
+    except FantraxError:
+        return None
+
+
 def _local(text):
     """A datetime-local form value, in the league's time zone. Blank is None."""
     value = parse_datetime(text or "")
@@ -298,6 +312,11 @@ def sync_from_fantrax(user) -> events.SyncResult:
         for lg in FantraxLeague.objects.filter(active=True)
     ]
     return events.sync(sources, user, source_label="Sync from Fantrax")
+
+
+@commissioner_required
+def runbook(request):
+    return render(request, "league/runbook.html")
 
 
 @commissioner_required

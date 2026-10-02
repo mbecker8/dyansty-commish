@@ -70,9 +70,11 @@ done by hand outside Fantrax: contracts, buyouts, the farm system, and the aucti
 
 {% if is_commissioner %}
 <h2 id="commissioner">Commissioner guide</h2>
-<p>You see this section because you're a commissioner. Everything below happens in the <a href="{% url 'admin:index' %}">admin</a>.</p>
+<p>You see this section because you're a commissioner. For the whole year in order, from the end of one season to the
+  start of the next, see the <a href="{% url 'runbook' %}">season runbook</a>.</p>
 
 <h3>Link a manager to a team</h3>
+<p>This happens in the <a href="{% url 'admin:index' %}">admin</a>.</p>
 <ol>
   <li>Ask them to sign in once. The page they land on shows their Discord ID. (Or, in Discord, turn on
     Developer Mode, right-click their name and choose <em>Copy User ID</em>.)</li>
@@ -119,7 +121,8 @@ done by hand outside Fantrax: contracts, buyouts, the farm system, and the aucti
     the console to add it; the sync then reads both.</li>
   <li><strong>Fantrax login</strong>: the sync uses your browser's Fantrax cookie (<code>FANTRAX_COOKIE</code> on the server,
     <code>secrets/fantrax_cookie.txt</code> locally). When it expires, the console says so. Copy a fresh Cookie header from a
-    logged-in Fantrax tab and update it.</li>
+    logged-in Fantrax tab into that file and run <code>scripts/set_render_secret.sh FANTRAX_COOKIE secrets/fantrax_cookie.txt</code>,
+    which sets it on Render and redeploys.</li>
   <li>Every change is listed under <em>Moves this season</em> on each team's page, and in full in Admin → Fantrax events.</li>
 </ul>
 

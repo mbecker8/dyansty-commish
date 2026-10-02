@@ -411,11 +411,32 @@ def test_find_and_add_the_renewed_league(ready, commish, monkeypatch, settings):
             {"leagueId": "newone", "leagueName": "Dynasty Yr 20"},
         ],
     )
+    settings.FANTRAX_COOKIE = "a=1"
+    monkeypatch.setattr(fantrax_client, "league_season", lambda session, league_id: 2027)
     found = commish.get("/commish/?find_leagues=1").content.decode().split("Find new Fantrax leagues")[1]
     assert "newone" in found and "p3z8zy75mgdm460o" not in found
+    # The button names the league's own Fantrax year; its offseason moves still belong to the current season.
+    assert "Add the 2027 league" in found
     commish.post("/commish/", {"action": "add_league", "league_id": "newone", "name": "Dynasty Yr 20"})
-    commish.post("/commish/", {"action": "add_league", "league_id": "newone", "name": "Dynasty Yr 20"})
+    added = commish.post(
+        "/commish/", {"action": "add_league", "league_id": "newone", "name": "Dynasty Yr 20"}, follow=True
+    ).content.decode()
     assert FantraxLeague.objects.get(league_id="newone").season == SEASON
+    # The console names leagues without a year: the stored season isn't the league's Fantrax year.
+    assert "Dynasty Yr 20 is added" in added and "Dynasty Yr 19, Dynasty Yr 20" in added
+    assert f"({SEASON})" not in added
+
+
+def test_found_league_is_still_offered_when_its_year_cant_be_read(ready, commish, monkeypatch, settings):
+    from league import fantrax_client
+
+    def expired(session, league_id):
+        raise fantrax_client.FantraxLoginExpired()
+
+    settings.FANTRAX_COOKIE = "a=1"
+    monkeypatch.setattr(fantrax_client, "list_leagues", lambda secret: [{"leagueId": "newone", "leagueName": "Yr 20"}])
+    monkeypatch.setattr(fantrax_client, "league_season", expired)
+    assert b"Add this league" in commish.get("/commish/?find_leagues=1").content
 
 
 @pytest.fixture

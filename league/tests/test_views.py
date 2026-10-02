@@ -241,6 +241,17 @@ def test_help_needs_sign_in(client):
     assert client.get("/help/").status_code == 302
 
 
+def test_runbook_is_for_commissioners(league, client):
+    client.force_login(User.objects.create_user("commish", is_staff=True))
+    html = client.get("/commish/runbook/").content.decode()
+    assert "Season runbook" in html and "Start the 2027 season" in html and "data/fantrax/2026-final" in html
+
+
+def test_runbook_is_hidden_from_managers(manager_client):
+    assert manager_client.get("/commish/runbook/").status_code == 403
+    assert "Season runbook" not in manager_client.get("/help/").content.decode()
+
+
 def test_team_page_lists_the_seasons_moves(manager_client):
     from league.tests.test_signing import settle_2026
 

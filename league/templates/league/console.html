@@ -3,7 +3,7 @@
 {% block content %}
 <h1>Commissioner console</h1>
 <p class="muted">Signing after the {{ league_season }} season: <strong>{{ period.get_status_display|default:"Not open yet" }}</strong>.
-  <a href="{% url 'audit' %}">Audit log</a></p>
+  <a href="{% url 'audit' %}">Audit log</a> · <a href="{% url 'runbook' %}">Season runbook</a></p>
 
 {% if not league_loaded %}
 <h2>Load the league</h2>
@@ -16,7 +16,7 @@
 <h2>Fantrax</h2>
 <form method="post" onsubmit="const b = this.querySelector('button'); b.disabled = true; b.textContent = 'Syncing…';">{% csrf_token %}
   <input type="hidden" name="action" value="sync"><button type="submit" class="primary">Sync from Fantrax</button>
-  <span class="muted">Reads {% for lg in fantrax_leagues %}{{ lg }}{% if not forloop.last %}, {% endif %}{% empty %}no leagues{% endfor %}
+  <span class="muted">Reads {% for lg in fantrax_leagues %}{{ lg.name|default:lg.league_id }}{% if not forloop.last %}, {% endif %}{% empty %}no leagues{% endfor %}
   and applies new trades, drops, promotions and MLB debuts.</span></form>
 {% if exceptions %}
 <h3>Fantrax exceptions ({{ exceptions|length }})</h3>
@@ -32,7 +32,7 @@
 {% if found_leagues is not None %}
 {% if found_leagues %}<ul>{% for lg in found_leagues %}<li>{{ lg.leagueName }} <span class="muted">({{ lg.leagueId }})</span>
   <form method="post" style="display:inline">{% csrf_token %}<input type="hidden" name="league_id" value="{{ lg.leagueId }}"><input type="hidden" name="name" value="{{ lg.leagueName }}">
-  <button type="submit" name="action" value="add_league">Add for the {{ league_season }} season</button></form></li>{% endfor %}</ul>
+  <button type="submit" name="action" value="add_league">{% if lg.season %}Add the {{ lg.season }} league{% else %}Add this league{% endif %}</button></form></li>{% endfor %}</ul>
 {% else %}<p class="muted">No new leagues on your Fantrax account.</p>{% endif %}
 {% endif %}
 

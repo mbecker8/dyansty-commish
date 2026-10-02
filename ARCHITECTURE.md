@@ -132,7 +132,7 @@ where the numbers come from.
 - Routes:
   - `/` sends you to your team, or to sign-in.
   - `/teams/`, `/teams/<code>/`, `/contracts/`, `/buyouts/`, `/farm/`, `/picks/`, `/picks/order/` (farm draft order), `/cash/`, `/export/` and `/help/` are league pages that need sign-in.
-  - `/signing/<code>/` is a team's signing page; `/commish/` and `/commish/audit/` are for commissioners.
+  - `/signing/<code>/` is a team's signing page; `/commish/`, `/commish/audit/` and `/commish/runbook/` (the season runbook) are for commissioners.
   - `/auth/…` is Discord sign-in, `/healthz` is the Render health check, and `/admin/` is the Django admin.
 - **Layout** (`core/templates/base.html`): a left sidebar grouped into League, More and Commissioner, plus
   breadcrumbs built by `league.context_processors.breadcrumbs` from the URL name.
