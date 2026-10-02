@@ -214,7 +214,9 @@ def console(request):
                 )
                 if created:
                     audit(request.user, "Added Fantrax league", str(league))
-                messages.success(request, f"{league} is added. Sync from Fantrax reads it from now on.")
+                messages.success(
+                    request, f"{league.name or league.league_id} is added. Sync from Fantrax reads it from now on."
+                )
             elif action == "season_dates":
                 auction = _local(request.POST.get("auction_starts_at"))
                 if auction is None:

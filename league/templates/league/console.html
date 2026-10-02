@@ -16,7 +16,7 @@
 <h2>Fantrax</h2>
 <form method="post" onsubmit="const b = this.querySelector('button'); b.disabled = true; b.textContent = 'Syncing…';">{% csrf_token %}
   <input type="hidden" name="action" value="sync"><button type="submit" class="primary">Sync from Fantrax</button>
-  <span class="muted">Reads {% for lg in fantrax_leagues %}{{ lg }}{% if not forloop.last %}, {% endif %}{% empty %}no leagues{% endfor %}
+  <span class="muted">Reads {% for lg in fantrax_leagues %}{{ lg.name|default:lg.league_id }}{% if not forloop.last %}, {% endif %}{% empty %}no leagues{% endfor %}
   and applies new trades, drops, promotions and MLB debuts.</span></form>
 {% if exceptions %}
 <h3>Fantrax exceptions ({{ exceptions|length }})</h3>

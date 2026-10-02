@@ -418,8 +418,13 @@ def test_find_and_add_the_renewed_league(ready, commish, monkeypatch, settings):
     # The button names the league's own Fantrax year; its offseason moves still belong to the current season.
     assert "Add the 2027 league" in found
     commish.post("/commish/", {"action": "add_league", "league_id": "newone", "name": "Dynasty Yr 20"})
-    commish.post("/commish/", {"action": "add_league", "league_id": "newone", "name": "Dynasty Yr 20"})
+    added = commish.post(
+        "/commish/", {"action": "add_league", "league_id": "newone", "name": "Dynasty Yr 20"}, follow=True
+    ).content.decode()
     assert FantraxLeague.objects.get(league_id="newone").season == SEASON
+    # The console names leagues without a year: the stored season isn't the league's Fantrax year.
+    assert "Dynasty Yr 20 is added" in added and "Dynasty Yr 19, Dynasty Yr 20" in added
+    assert f"({SEASON})" not in added
 
 
 def test_found_league_is_still_offered_when_its_year_cant_be_read(ready, commish, monkeypatch, settings):
