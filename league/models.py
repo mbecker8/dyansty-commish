@@ -3,6 +3,7 @@
 Budget math lives in the pure `rules` package; models convert to rules objects.
 """
 
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 from django.db import models, transaction
@@ -211,6 +212,10 @@ class CashTrade(models.Model):
     amount = models.PositiveIntegerField()
     note = models.CharField(max_length=200, blank=True)
     fantrax_tx_id = models.CharField(max_length=32, blank=True, help_text="Fantrax trade this cash was part of")
+    discord_message = models.ForeignKey(
+        "DiscordMessage", on_delete=models.PROTECT, null=True, blank=True, related_name="cash_trades",
+        help_text="The #trades-<year>-assets post this came from (Sync from Discord)",
+    )  # fmt: skip
 
     def __str__(self):
         return f"${self.amount} {self.from_team.code} -> {self.to_team.code} ({self.budget_season})"
@@ -377,6 +382,62 @@ class FantraxEvent(models.Model):
         self.resolved_note = note
         self.save(update_fields=["resolved_at", "resolved_by", "resolved_note"])
         audit(user, "Resolved Fantrax exception", self.detail, team=self.to_team or self.from_team, note=note)
+
+
+class DiscordMessageQuerySet(models.QuerySet):
+    def unresolved(self):
+        return self.filter(status=DiscordMessage.Status.EXCEPTION, resolved_at=None)
+
+
+class DiscordMessage(models.Model):
+    """One message in the league Discord's "Rules and Accounting" channels, stored once by its ID.
+
+    Posts in #trades-<year>-assets (2027 on) are the only source of those auctions' cash trades; each
+    sync keeps a post's cash trades equal to what it says now (league/discord_sync.py).
+    """
+
+    class Status(models.TextChoices):
+        CASH = "CASH", "Cash trade"
+        NOT_CASH = "NOT_CASH", "No cash"
+        IGNORED = "IGNORED", "Not a trade channel"
+        EXCEPTION = "EXCEPTION", "Exception"
+
+    message_id = models.CharField(max_length=32, unique=True)
+    channel_id = models.CharField(max_length=32)
+    channel_name = models.CharField(max_length=100)
+    author_id = models.CharField(max_length=32)
+    author_name = models.CharField(max_length=100, blank=True)
+    posted_at = models.DateTimeField()
+    edited_at = models.DateTimeField(null=True, blank=True)
+    content = models.TextField(blank=True)
+    readable = models.TextField(blank=True, help_text="The text with @mentions shown as usernames")
+    has_attachments = models.BooleanField(default=False)
+    deleted_at = models.DateTimeField(null=True, blank=True)
+    status = models.CharField(max_length=10, choices=Status.choices)
+    detail = models.TextField(blank=True)
+    synced_at = models.DateTimeField()
+    resolved_at = models.DateTimeField(null=True, blank=True)
+    resolved_by = models.ForeignKey("auth.User", on_delete=models.SET_NULL, null=True, blank=True, related_name="+")
+    resolved_note = models.TextField(blank=True)
+    resolved_content = models.TextField(blank=True, help_text="The text when resolved; an edit reopens it")
+
+    objects = DiscordMessageQuerySet.as_manager()
+
+    class Meta:
+        ordering = ["-posted_at"]
+
+    def __str__(self):
+        return f"#{self.channel_name} {self.posted_at:%Y-%m-%d} {self.author_name}: {self.readable[:60]}"
+
+    @property
+    def season(self) -> int | None:
+        from league.discord_cash import channel_season
+
+        return channel_season(self.channel_name)
+
+    @property
+    def url(self) -> str:
+        return f"https://discord.com/channels/{settings.DISCORD_GUILD_ID}/{self.channel_id}/{self.message_id}"
 
 
 class BudgetAdjustment(models.Model):

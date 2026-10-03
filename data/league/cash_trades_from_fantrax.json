@@ -1,8 +1,0 @@
-{
- "_comment": "Cash moved in 2026-season trades. Fantrax records these only as commissioner comments on the trade, so direction and season are entered here by hand. Confirmed with the commissioner 2026-09-26.",
- "cash_trades": [
-  {"fantrax_tx_id": "8vcw4amzms6u7gbe", "budget_season": 2027, "from": "MB", "to": "DC", "amount": 5, "note": "Fantrax comment: '$5 2027 budget to Devin'"},
-  {"fantrax_tx_id": "u64siqlbmmqe805c", "budget_season": 2027, "from": "MB", "to": "MT", "amount": 6, "note": "Fantrax comment: '$6 in 2027 cash to Tradezilla'"},
-  {"fantrax_tx_id": "7o4nrf9dmme7yit3", "budget_season": 2028, "from": "MH", "to": "AW", "amount": 10, "note": "Fantrax comment: 'For $10 2028 draft budget' (MH pays AW)"}
- ]
-}

@@ -204,17 +204,6 @@ def test_contract_on_the_wrong_roster_is_an_exception(world):
     assert e.detail == "Pat's contract is with AA, but Fantrax has him on BB"
 
 
-def test_cash_comment_is_an_exception_until_entered(world):
-    league, *_ = world
-    when = datetime(2026, 7, 1, tzinfo=EASTERN)
-    snap = FakeSnapshot(
-        {"p1": EndState("ta", "Active", 0), "p2": EndState("ta", "Minors", 0)},
-        comments=[("tx9", when, {"ta", "tb"}, "AA sends $5")],
-    )
-    (e,) = sync([(league, snap)]).exceptions
-    assert "AA / BB mentions cash" in e.detail
-
-
 def test_dry_run_changes_nothing(world):
     league, proc, a, b, c, f = world
     snap = FakeSnapshot(
@@ -266,14 +255,13 @@ def test_roster_links_move_to_the_renewed_league_after_its_first_sync(world):
     assert urls[b.pk].endswith("/league/R/team/roster;teamId=nb")
 
 
-def test_cash_comments_in_the_old_league_are_still_listed(world):
+def test_trade_comments_are_ignored(world):
+    """Cash comes from the league's Discord, never from Fantrax trade comments (often stale or wrong)."""
     old, *_ = world
-    renewed = FantraxLeague.objects.create(league_id="R", season=2026)
     when = datetime(2026, 7, 1, tzinfo=EASTERN)
     ends = {"p1": EndState("ta", "Active", 0), "p2": EndState("ta", "Minors", 0)}
-    old_snap = FakeSnapshot(ends, comments=[("tx9", when, {"ta", "tb"}, "AA sends $5")])
-    (e,) = sync([(old, old_snap), (renewed, FakeSnapshot(ends))]).exceptions
-    assert e.kind == "CASH_COMMENT"
+    snap = FakeSnapshot(ends, comments=[("tx9", when, {"ta", "tb"}, "AA sends $5")])
+    assert sync([(old, snap)]).exceptions == []
 
 
 def test_a_sync_racing_another_retries_and_skips_its_events(world, monkeypatch):

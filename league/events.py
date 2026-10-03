@@ -16,7 +16,6 @@ from league import seasons
 from league.fantrax_data import Move, normalize_name
 from league.models import (
     Buyout,
-    CashTrade,
     Contract,
     FantraxEvent,
     FantraxLeague,
@@ -313,23 +312,6 @@ class Processor:
 
         self.roster_mismatches(ends, now, rec)
 
-    def apply_trade_comments(self, snapshot):
-        """Cash in trades is only a free-text commissioner comment; list each for entry by hand."""
-        entered = set(CashTrade.objects.exclude(fantrax_tx_id="").values_list("fantrax_tx_id", flat=True))
-        for tx, when, team_ids, text in snapshot.trade_comments():
-            if tx in entered or (self.league.process_since and when < self.league.process_since):
-                continue
-            codes = " / ".join(sorted(self.teams[t].code for t in team_ids))
-            key = f"cash-comment:{tx}"
-            if key not in self.known:
-                self.record(
-                    key,
-                    Kind.CASH_COMMENT,
-                    Effect.EXCEPTION,
-                    when,
-                    f"Trade between {codes} mentions cash: {text!r}. Enter the cash trade by hand.",
-                )
-
     def debut(self, f: FarmPlayer, end, team, rec):
         fid = f.player.fantrax_id
         if f.has_mlb_appearance:
@@ -499,7 +481,6 @@ def _sync_once(sources, user, source_label, dry_run) -> SyncResult:
                     if m.when >= cutoff:
                         proc.apply_move(m)
                 proc.flush()
-            proc.apply_trade_comments(snap)
             if newest.get(proc.league.season, proc.league.pk) == proc.league.pk:
                 proc.apply_rosters(snap, now)
             result.created += proc.created

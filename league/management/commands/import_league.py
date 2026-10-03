@@ -4,7 +4,6 @@ Reads only committed files:
   data/league/teams.json               franchises and aliases
   data/league/player_aliases.json      reviewed sheet-spelling -> Fantrax ID map
   data/league/year19_post_signing.json sheet state going into the 2026 season
-  data/league/cash_trades_from_fantrax.json  cash from 2026 trades (Fantrax only has comments)
   data/league/final_standings.json     final places, which set each farm draft's order
   data/fantrax/2026-final/             end-of-2026 Fantrax snapshot
 """
@@ -99,7 +98,6 @@ class Command(BaseCommand):
         self.import_fantrax_players()
         self.import_sheet_teams()
         self.import_cash_trades()
-        self.import_cash_from_fantrax(load(DATA / "league" / "cash_trades_from_fantrax.json")["cash_trades"])
         self.import_farm_picks()
         self.import_final_standings(load(DATA / "league" / "final_standings.json")["standings"])
         league = FantraxLeague.objects.create(
@@ -231,17 +229,6 @@ class Command(BaseCommand):
                 to_team=self.team(c["to"]),
                 amount=c["amount"],
                 note=c["note"] or "",
-            )
-
-    def import_cash_from_fantrax(self, trades):
-        for c in trades:
-            CashTrade.objects.create(
-                budget_season=c["budget_season"],
-                from_team=self.team(c["from"]),
-                to_team=self.team(c["to"]),
-                amount=c["amount"],
-                note=c["note"],
-                fantrax_tx_id=c["fantrax_tx_id"],
             )
 
     def import_final_standings(self, standings):
