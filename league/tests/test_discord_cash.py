@@ -51,6 +51,14 @@ def test_exceptions(text, attachments, why):
     assert r.status == EXCEPTION and why in r.detail and not r.trades
 
 
+@pytest.mark.parametrize(
+    "text", ["<@1> sends 10 auction dollars to <@2>", "<@1> sends 10$ to <@2>", "<@1> sends ten bucks to <@2>"]
+)
+def test_cash_without_a_dollar_amount_is_an_exception(text):
+    r = read(text)
+    assert r.status == EXCEPTION and "$" in r.detail
+
+
 def test_only_an_unlinked_mention_clears_itself_once_linked():
     assert read("<@3> sends $3 to <@2> in a trade").needs_link
     assert not read("Kevin sends Devin $3 2027").needs_link

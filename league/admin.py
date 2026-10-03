@@ -136,8 +136,12 @@ class CashTradeForm(YearChoicesForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Only auctions before FIRST_SEASON are entered here; offer the few before it.
-        self.fields["budget_season"].choices = [(y, y) for y in range(FIRST_SEASON - 4, FIRST_SEASON + 1)]
+        # Auctions before FIRST_SEASON are entered here. FIRST_SEASON is offered so choosing it explains why
+        # not, and a record's own year is always offered so an old row can still be edited.
+        years = set(range(FIRST_SEASON - 4, FIRST_SEASON + 1))
+        if self.instance.pk and self.instance.budget_season:
+            years.add(self.instance.budget_season)
+        self.fields["budget_season"].choices = [(y, y) for y in sorted(years)]
 
     def clean_budget_season(self):
         season = self.cleaned_data["budget_season"]

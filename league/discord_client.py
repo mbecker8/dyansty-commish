@@ -16,6 +16,7 @@ TIMEOUT = 20  # seconds
 TEXT_CHANNELS = {0, 5}  # text and announcement channels
 RETRIES = 3
 MISSING_ACCESS = 50001
+PAGE = 100  # Discord's most messages per request
 
 
 class DiscordReadError(Exception):
@@ -58,14 +59,14 @@ def fetch_category() -> list[Channel]:
 def _read_history(channel: Channel) -> None:
     before = None
     while True:
-        r = _get(f"/channels/{channel.id}/messages", {"limit": 100} | ({"before": before} if before else {}))
+        r = _get(f"/channels/{channel.id}/messages", {"limit": PAGE} | ({"before": before} if before else {}))
         if r.status_code == 403 and _code(r) == MISSING_ACCESS:
             channel.readable, channel.messages = False, []
             return
         page = _json(_ok(r, f"#{channel.name}"))
-        if not page:
-            return
         channel.messages.extend(page)
+        if len(page) < PAGE:
+            return  # a short page is the last one
         before = page[-1]["id"]
 
 

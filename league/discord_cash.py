@@ -22,6 +22,8 @@ MENTION = re.compile(r"<@!?(\d+)>")
 AMOUNT = re.compile(r"\$\s?(\d+)")
 YEAR = re.compile(r"\b(20\d\d)\b")
 SENDS = re.compile(r"<@!?(\d+)>\s*sends\b.*?\bto\b\s*<@!?(\d+)>(.*)", re.IGNORECASE | re.DOTALL)
+CASH_WORDS = re.compile(r"\b(cash|dollars?|bucks?|budget)\b|\d\s*\$", re.IGNORECASE)
+NUMBER = re.compile(r"\b(?!20\d\d\b)\d+\b")  # a number that isn't a year (a year names a pick)
 NOTE_LENGTH = 200  # CashTrade.note
 
 
@@ -54,6 +56,9 @@ def read_post(content: str, has_attachments: bool, season: int, teams: dict, nam
     if not amounts:
         if not text and has_attachments:
             return Reading(EXCEPTION, "A picture with no text: if it moves cash, enter the trade here")
+        words = MENTION.sub(" ", text)
+        if SENDS.search(text) and (CASH_WORDS.search(words) or NUMBER.search(words)):
+            return Reading(EXCEPTION, "Looks like cash but has no $ amount (write it as $10): enter the cash here")
         return Reading(NOT_CASH, "No cash amount")
     if len(amounts) > 1:
         return Reading(EXCEPTION, f"More than one amount: enter the {season} cash here")

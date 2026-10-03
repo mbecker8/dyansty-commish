@@ -99,8 +99,15 @@ def _store(msg, channel, raw, now):
     msg.has_attachments = bool(raw.get("attachments"))
     msg.deleted_at, msg.synced_at = None, now
     msg.status = msg.status or Status.NOT_CASH
-    msg.save()
+    if msg.pk is None:
+        msg.save()  # cash trades link to it
     return msg, names
+
+
+def _reopen(msg, detail):
+    """Back to an open exception. The note stays: an exception that was once resolved waits for the commissioner."""
+    msg.resolved_at, msg.resolved_by = None, None
+    msg.status, msg.detail = Status.EXCEPTION, detail
 
 
 class _Context:
@@ -113,9 +120,10 @@ class _Context:
         if msg.resolved_at:
             if msg.content == msg.resolved_content:
                 return  # resolved and unchanged: what the commissioner decided stands
-            msg.resolved_at, msg.resolved_by, msg.resolved_note = None, None, ""
-            msg.status, msg.detail = Status.EXCEPTION, "Edited after it was resolved: check it again"
+            _reopen(msg, "Edited after it was resolved: check it again")
             return
+        if msg.resolved_note and msg.status == Status.EXCEPTION:
+            return  # reopened: its cash stays as resolved until the commissioner resolves it again
         reading = read_post(msg.content, msg.has_attachments, season, self.teams, names)
         msg.status, msg.detail, msg.needs_link = reading.status, reading.detail, reading.needs_link
         if reading.status != EXCEPTION:
@@ -128,15 +136,29 @@ class _Context:
     def make(self, msg, season, wanted, now_says) -> bool:
         """Make the message's cash trades equal `wanted`. False (and an exception) if the season is frozen."""
         current = list(msg.cash_trades.all())
-        have = sorted((c.from_team_id, c.to_team_id, c.amount) for c in current)
-        if have == sorted((w.from_team.pk, w.to_team.pk, w.amount) for w in wanted):
+        have = sorted((c.budget_season, *_money(c)) for c in current)
+        if have == sorted((season, *_wanted_money(w)) for w in wanted):
+            # The money is the same; follow a changed note (it doesn't move money, so even when frozen).
+            notes = zip(sorted(current, key=_money), (w.note for w in sorted(wanted, key=_wanted_money)), strict=True)
+            changed = [(c, note) for c, note in notes if c.note != note]
+            for c, note in changed:
+                c.note = note
+                c.save(update_fields=["note"])
+            self.result.changed += bool(changed)
             return True
         if season in self.frozen:
-            msg.status = Status.EXCEPTION
-            msg.detail = f"Changed after the {season} auction budgets were frozen, so nothing changed. Now: {now_says}"
+            _reopen(msg, f"Changed after the {season} auction budgets were frozen, so nothing changed. Now: {now_says}")
             return False
         replace(msg, season, wanted, self.user, self.result)
         return True
+
+
+def _money(c):
+    return (c.from_team_id, c.to_team_id, c.amount)
+
+
+def _wanted_money(w):
+    return (w.from_team.pk, w.to_team.pk, w.amount)
 
 
 def replace(msg, season, wanted, user, result=None):
@@ -172,14 +194,18 @@ def resolve(message_id: int, user, note: str, from_code: str = "", to_code: str 
     note = note.strip()
     if not note:
         raise ValueError("Say what you did in the note")
+    list(Team.objects.select_for_update())  # the sync's lock: a sync running now can't overwrite this
     msg = DiscordMessage.objects.select_for_update().filter(pk=message_id).first()
     if msg is None or msg.status != Status.EXCEPTION or msg.resolved_at:
         raise ValueError("This isn't an open exception")
-    if msg.needs_link:
-        raise ValueError("Link that manager's Discord ID in Admin → Managers, then Sync from Discord: it clears itself")
     season = msg.season
     frozen = SeasonBudget.objects.filter(season=season).exists()
     entered = [x.strip() for x in (from_code, to_code, amount)]
+    if msg.needs_link and not any(entered):
+        raise ValueError(
+            "Link that manager's Discord ID in Admin → Managers, then Sync from Discord: it clears itself. "
+            "If they'll never be linked (a former manager), enter the cash the post moves."
+        )
     if any(entered):
         if not all(entered):
             raise ValueError("Pick both teams and an amount, or leave all three blank")

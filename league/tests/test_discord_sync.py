@@ -137,6 +137,35 @@ def test_a_not_linked_exception_is_cleared_by_linking_not_resolved(teams):
     assert discord_sync.unresolved_count() == 1  # still blocks signing
 
 
+def test_a_mention_of_someone_never_linked_can_be_resolved_with_the_cash(teams):
+    """A former manager will never be linked; entering the cash by hand still closes it."""
+    discord_sync.sync([trades(post("m1", "<@3> sends $2 to <@2>"))])
+    discord_sync.resolve(DiscordMessage.objects.get().pk, None, "@user3 ran AA then", "AA", "BB", "2")
+    assert discord_sync.unresolved_count() == 0 and cash() == [(2027, "AA", "BB", 2)]
+
+
+def test_a_reopened_exception_waits_for_the_commissioner(teams):
+    discord_sync.sync([trades(post("m1", "Al sends Bo $3"))])
+    discord_sync.resolve(DiscordMessage.objects.get().pk, None, "names", "AA", "BB", "3")
+    discord_sync.sync([trades(post("m1", "<@2> sends $9 to <@1>"))])  # edited: reopens
+    discord_sync.sync([trades(post("m1", "<@2> sends $9 to <@1>"))])  # still waits, though it now reads
+    assert discord_sync.unresolved_count() == 1 and cash() == [(2027, "AA", "BB", 3)]
+
+
+def test_a_resolved_post_deleted_after_the_freeze_shows_again(teams):
+    discord_sync.sync([trades(post("m1", "Al sends Bo $3"))])
+    discord_sync.resolve(DiscordMessage.objects.get().pk, None, "names", "AA", "BB", "3")
+    freeze(2027, teams)
+    discord_sync.sync([trades()])
+    assert discord_sync.unresolved_count() == 1 and cash() == [(2027, "AA", "BB", 3)]
+
+
+def test_an_edit_to_the_note_alone_is_followed(teams):
+    discord_sync.sync([trades(post("m1", "<@1> sends $10 to <@2> in Stott trade"))])
+    result = discord_sync.sync([trades(post("m1", "<@1> sends $10 to <@2> in Stott/Rice trade"))])
+    assert result.changed == 1 and CashTrade.objects.get().note == "in Stott/Rice trade"
+
+
 def test_resolving_blank_means_no_cash(teams):
     discord_sync.sync([trades(post("m1", "", attachments=[{"id": "x"}]))])
     m = DiscordMessage.objects.get()

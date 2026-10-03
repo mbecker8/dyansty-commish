@@ -443,3 +443,30 @@ def test_sync_freezes_budgets_as_of_the_auction_start(world):
     assert Buyout.objects.get(contract=c).dropped_in_season == 2027
     assert team_budget(a, 2027).contracts < at_auction.contracts
     assert sync([(league, snap)]).froze is None  # only once
+
+
+def test_the_freeze_waits_for_discord(world, settings):
+    """The 2027 budgets freeze on this sync, so Discord's cash must be read first, with nothing open."""
+    from league.events import FreezeBlocked
+    from league.models import AuditEntry, DiscordMessage, SeasonBudget
+
+    settings.DISCORD_BOT_TOKEN, settings.DISCORD_GUILD_ID, settings.DISCORD_CATEGORY_ID = "t", "1", "10"
+    league, *_ = world
+    lock_2026()
+    Season.objects.create(
+        year=2027, farm_draft_starts_at=datetime(2026, 7, 15, tzinfo=EASTERN),
+        auction_starts_at=datetime(2026, 7, 20, 19, 0, tzinfo=EASTERN),
+    )  # fmt: skip
+    snap = FakeSnapshot({"p1": EndState("ta", "Active", 0), "p2": EndState("ta", "Minors", 0)})
+    with pytest.raises(FreezeBlocked, match="Sync from Discord first"):
+        sync([(league, snap)])
+    AuditEntry.objects.create(action="Synced Discord")  # now: after that auction start
+    m = DiscordMessage.objects.create(
+        message_id="9", channel_id="2", channel_name="trades-2027-assets", author_id="1",
+        posted_at="2026-07-01T00:00Z", synced_at="2026-07-01T00:00Z", status="EXCEPTION",
+    )  # fmt: skip
+    with pytest.raises(FreezeBlocked, match="Discord exception"):
+        sync([(league, snap)])
+    assert not SeasonBudget.objects.exists()
+    m.delete()
+    assert sync([(league, snap)]).froze == 2027

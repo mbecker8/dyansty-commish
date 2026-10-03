@@ -224,6 +224,10 @@ where the numbers come from.
   exception). Only channels read in the run can mark messages deleted. `resolve()` closes an
   exception, optionally entering the cash; an edit to a resolved post reopens it.
   `signing.open_period` refuses while any are unresolved.
+- **Freeze:** the Fantrax sync that would freeze the next auction's budgets raises `FreezeBlocked`
+  (nothing saved) until Discord has synced since the auction start with no open exceptions
+  (`seasons.discord_blocks_freeze`); the season checklist has the same two checks. Only when the
+  bot is configured.
 - **Entry points:** `manage.py sync_discord [--dry-run]` and the console's Sync from Discord.
   The admin refuses hand-entered cash for 2027 on; `DiscordMessage` is read-only there.
 

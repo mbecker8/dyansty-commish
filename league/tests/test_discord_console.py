@@ -43,13 +43,13 @@ def test_console_syncs_and_resolves(commish, monkeypatch, settings):
     assert "https://discord.com/channels/1/27/m1" in cash_page
 
 
-def test_a_not_linked_exception_shows_how_to_link_instead_of_a_form(commish, monkeypatch, settings):
+def test_a_not_linked_exception_says_to_link_them_first(commish, monkeypatch, settings):
     settings.DISCORD_BOT_TOKEN, settings.DISCORD_GUILD_ID, settings.DISCORD_CATEGORY_ID = "t", "1", "10"
     channel = Channel("27", "trades-2027-assets", [post("m1", "<@3> sends $2 to <@1>")])
     monkeypatch.setattr(discord_sync, "fetch_category", lambda: [channel])
     page = commish.post("/commish/", {"action": "discord_sync"}, follow=True).content.decode()
     assert "Discord exceptions (1)" in page and "then Sync from Discord" in page
-    assert 'value="discord_resolve"' not in page
+    assert "former manager" in page and 'value="discord_resolve"' in page  # entering the cash still works
 
 
 def test_console_reports_a_discord_error(commish, monkeypatch):
@@ -66,6 +66,14 @@ def test_console_reports_a_bad_resolve(commish):
         "/commish/", {"action": "discord_resolve", "message": "999", "note": "x"}, follow=True
     ).content.decode()
     assert "isn&#x27;t an open exception" in page
+
+
+def test_admin_keeps_an_older_cash_trades_year():
+    a, b = Team.objects.create(code="AA", name="A"), Team.objects.create(code="BB", name="B")
+    old = CashTrade.objects.create(budget_season=2019, from_team=a, to_team=b, amount=4)
+    form = CashTradeForm(instance=old, data={"budget_season": "2019", "from_team": a.pk, "to_team": b.pk,
+                                             "amount": "4", "note": "fixed"})  # fmt: skip
+    assert form.is_valid(), form.errors
 
 
 def test_admin_refuses_hand_entered_cash_from_2027():

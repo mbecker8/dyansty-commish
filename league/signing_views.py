@@ -249,6 +249,7 @@ def console(request):
             FantraxError,
             events.UnmatchedTeam,
             events.SeasonMissing,
+            events.FreezeBlocked,
             discord_client.DiscordReadError,
             Team.DoesNotExist,
             ValueError,

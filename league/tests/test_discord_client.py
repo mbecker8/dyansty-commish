@@ -45,7 +45,8 @@ def test_reads_every_text_channel_in_the_category_with_all_pages(bot):
     page2 = [{"id": "150"}]
 
     def history(params):
-        return reply(200, {None: page1, "201": page2, "150": []}[params.get("before")])
+        assert params.get("before") != "150", "a short page is the last one"
+        return reply(200, {None: page1, "201": page2}[params.get("before")])
 
     routes = {"/guilds/1/channels": reply(200, channels()), "/channels/11/": history, "/channels/12/": reply(200, [])}
     with mock.patch("league.discord_client.requests.get", side_effect=routed(routes)) as get:

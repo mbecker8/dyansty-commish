@@ -38,6 +38,10 @@ class UnmatchedTeam(Exception):
     pass
 
 
+class FreezeBlocked(Exception):
+    """This sync would freeze the next auction's budgets, but Discord's cash isn't all read yet."""
+
+
 class SeasonMissing(Exception):
     """A move is over a year past the last auction: the next season's auction start isn't entered."""
 
@@ -466,6 +470,8 @@ def _sync_once(sources, user, source_label, dry_run) -> SyncResult:
             record_team_ids(proc.league, proc.teams)
         # The next auction's budgets are frozen as of its start: moves before it count, later ones don't.
         due = seasons.budgets_due(now)
+        if due and (why := seasons.discord_blocks_freeze(due)):
+            raise FreezeBlocked(why)
         cutoff = due.auction_starts_at if due else None
         for proc, _, moves in procs:
             for m in moves:
