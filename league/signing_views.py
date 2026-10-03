@@ -13,7 +13,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.dateparse import parse_datetime
 
-from league import events, fantrax_client, seasons, setup, signing
+from league import discord_client, discord_sync, events, fantrax_client, seasons, setup, signing
 from league.access import commissioner_required, is_league_member, manages, member_required
 from league.budget import team_budget
 from league.fantrax_client import FantraxError
@@ -23,6 +23,7 @@ from league.models import (
     Buyout,
     CashTrade,
     Contract,
+    DiscordMessage,
     FantraxEvent,
     FantraxLeague,
     FarmPick,
@@ -230,6 +231,14 @@ def console(request):
             elif action == "load_rosters":
                 setup.load_rosters(request.POST.get("snapshot", ""), request.user)
                 messages.success(request, f"Rosters loaded from {request.POST['snapshot']}.")
+            elif action == "discord_sync":
+                messages.success(request, discord_sync.fetch_and_sync(request.user).summary())
+            elif action == "discord_resolve":
+                discord_sync.resolve(
+                    int(request.POST.get("message") or 0), request.user, request.POST.get("note", ""),
+                    request.POST.get("from_team", ""), request.POST.get("to_team", ""), request.POST.get("amount", ""),
+                )  # fmt: skip
+                messages.success(request, "Discord exception resolved.")
             elif action == "start_season":
                 started = seasons.start(int(request.POST.get("year") or 0), request.user)
                 messages.success(request, f"The {started.year} season has started. Auction budgets are frozen.")
@@ -240,6 +249,8 @@ def console(request):
             FantraxError,
             events.UnmatchedTeam,
             events.SeasonMissing,
+            discord_client.DiscordReadError,
+            Team.DoesNotExist,
             ValueError,
         ) as e:
             messages.error(request, str(e))
@@ -273,6 +284,12 @@ def console(request):
             "unsubmitted": [r["team"].code for r in rows if getattr(r["submission"], "status", None) != "submitted"],
             "exceptions": FantraxEvent.objects.unresolved().select_related("from_team", "to_team"),
             "fantrax_leagues": FantraxLeague.objects.filter(active=True),
+            "discord_configured": discord_client.configured(),
+            "discord_exceptions": DiscordMessage.objects.unresolved().prefetch_related(
+                "cash_trades__from_team", "cash_trades__to_team"
+            ),
+            "discord_last_sync": AuditEntry.objects.filter(action="Synced Discord").first(),
+            "teams": Team.objects.all(),
             "league_loaded": Team.objects.exists(),
             "snapshots": setup.snapshots(),
             "found_leagues": found_leagues,

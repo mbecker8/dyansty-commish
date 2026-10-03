@@ -5,7 +5,7 @@
 <div class="table-wrap"><table class="grid">
   <thead><tr><th class="num">Auction</th><th>From</th><th>To</th><th class="num">Amount</th><th>Note</th></tr></thead>
   <tbody>{% for t in trades %}
-    <tr><td class="num">{{ t.budget_season }}</td><td>{{ t.from_team.code }}</td><td>{{ t.to_team.code }}</td><td class="num">${{ t.amount }}</td><td class="muted">{{ t.note }}</td></tr>
+    <tr><td class="num">{{ t.budget_season }}</td><td>{{ t.from_team.code }}</td><td>{{ t.to_team.code }}</td><td class="num">${{ t.amount }}</td><td class="muted">{{ t.note }}{% if t.discord_message %} <a href="{{ t.discord_message.url }}">post</a>{% endif %}</td></tr>
   {% empty %}<tr><td colspan="5" class="muted">None.</td></tr>{% endfor %}</tbody>
 </table></div>
 {% endblock %}

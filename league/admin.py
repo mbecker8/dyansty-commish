@@ -5,6 +5,7 @@ from django.contrib import admin
 from django.contrib.auth.models import Group
 
 from league import models
+from league.discord_cash import FIRST_SEASON
 
 
 def _teams_of(obj) -> list:
@@ -125,7 +126,60 @@ class FarmPlayerAdmin(AuditedAdmin):
     list_filter = ["team", "status"]
 
 
-admin.site.register([models.TeamAlias, models.CashTrade, models.BudgetAdjustment], AuditedAdmin)
+admin.site.register([models.TeamAlias, models.BudgetAdjustment], AuditedAdmin)
+
+
+class CashTradeForm(YearChoicesForm):
+    class Meta:
+        model = models.CashTrade
+        fields = ["budget_season", "from_team", "to_team", "amount", "note", "fantrax_tx_id"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Only auctions before FIRST_SEASON are entered here; offer the few before it.
+        self.fields["budget_season"].choices = [(y, y) for y in range(FIRST_SEASON - 4, FIRST_SEASON + 1)]
+
+    def clean_budget_season(self):
+        season = self.cleaned_data["budget_season"]
+        if season is not None and season >= FIRST_SEASON:
+            raise forms.ValidationError(
+                f"Cash for {FIRST_SEASON} and later comes from Discord: post it in #trades-{season}-assets, "
+                "then Sync from Discord on the console."
+            )
+        return season
+
+
+@admin.register(models.CashTrade)
+class CashTradeAdmin(AuditedAdmin):
+    """Cash for 2027 on comes from the Discord trade channels; earlier auctions' cash is entered here."""
+
+    form = CashTradeForm
+    list_display = ["budget_season", "from_team", "to_team", "amount", "note", "discord_message"]
+    list_filter = ["budget_season"]
+
+    def has_change_permission(self, request, obj=None):
+        return super().has_change_permission(request, obj) and not (obj and obj.discord_message_id)
+
+    def has_delete_permission(self, request, obj=None):
+        return super().has_delete_permission(request, obj) and not (obj and obj.discord_message_id)
+
+
+@admin.register(models.DiscordMessage)
+class DiscordMessageAdmin(admin.ModelAdmin):
+    """What Sync from Discord read. Read-only: fix cash by editing the post, or on the console."""
+
+    list_display = ["posted_at", "channel_name", "author_name", "readable", "status", "detail", "resolved_at"]
+    list_filter = ["status", "channel_name"]
+    search_fields = ["readable", "author_name", "detail"]
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 
 @admin.register(models.FarmPick)

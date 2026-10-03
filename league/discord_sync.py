@@ -171,8 +171,8 @@ def resolve(message_id: int, user, note: str, from_code: str = "", to_code: str 
     note = note.strip()
     if not note:
         raise ValueError("Say what you did in the note")
-    msg = DiscordMessage.objects.select_for_update().get(pk=message_id)
-    if msg.status != Status.EXCEPTION or msg.resolved_at:
+    msg = DiscordMessage.objects.select_for_update().filter(pk=message_id).first()
+    if msg is None or msg.status != Status.EXCEPTION or msg.resolved_at:
         raise ValueError("This isn't an open exception")
     season = msg.season
     frozen = SeasonBudget.objects.filter(season=season).exists()

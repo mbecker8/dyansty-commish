@@ -36,10 +36,31 @@
 {% else %}<p class="muted">No new leagues on your Fantrax account.</p>{% endif %}
 {% endif %}
 
+<h2>Discord</h2>
+<form method="post" onsubmit="const b = this.querySelector('button'); b.disabled = true; b.textContent = 'Syncing…';">{% csrf_token %}
+  <input type="hidden" name="action" value="discord_sync"><button type="submit" class="primary"{% if not discord_configured %} disabled{% endif %}>Sync from Discord</button>
+  <span class="muted">{% if discord_configured %}Reads Rules and Accounting. Cash for the 2027 auction on comes only from the #trades-&lt;year&gt;-assets channels.{% if discord_last_sync %} Last synced {{ discord_last_sync.at|date:"M j, g:i a" }}.{% endif %}{% else %}Not set up: it needs DISCORD_BOT_TOKEN, DISCORD_GUILD_ID and DISCORD_CATEGORY_ID (docs/discord-signin.md).{% endif %}</span></form>
+{% if discord_exceptions %}
+<h3>Discord exceptions ({{ discord_exceptions|length }})</h3>
+<p class="muted">Enter the cash the post moves, or leave the teams and amount blank if it moves none. Signing can't open while any are listed.</p>
+<div class="table-wrap"><table class="panel"><tbody>
+{% for m in discord_exceptions %}<tr><td>{{ m.posted_at|date:"M j, Y" }}<br><span class="muted">#{{ m.channel_name }}</span></td>
+  <td class="wrap"><a href="{{ m.url }}">{{ m.author_name }}</a>: “{{ m.readable|default:"(no text)" }}”<br><span class="error-text">{{ m.detail }}</span>
+    {% for c in m.cash_trades.all %}<br><span class="muted">Now: {{ c.from_team.code }} → {{ c.to_team.code }} ${{ c.amount }}</span>{% endfor %}</td>
+  <td><form method="post">{% csrf_token %}<input type="hidden" name="message" value="{{ m.pk }}">
+    <select name="from_team" aria-label="From"><option value="">From</option>{% for t in teams %}<option>{{ t.code }}</option>{% endfor %}</select>
+    <select name="to_team" aria-label="To"><option value="">To</option>{% for t in teams %}<option>{{ t.code }}</option>{% endfor %}</select>
+    <input name="amount" inputmode="numeric" size="4" placeholder="$" aria-label="Amount">
+    <input name="note" required placeholder="What you did" aria-label="Note"> <button type="submit" name="action" value="discord_resolve">Resolve</button></form></td></tr>
+{% endfor %}
+</tbody></table></div>
+{% endif %}
+
 {% if not period or period.status == "planned" %}
 <h2>Before you open signing</h2>
 <ul class="checklist">
   <li class="{% if exceptions %}todo{% else %}ok{% endif %}">{% if exceptions %}{{ exceptions|length }} Fantrax exception{{ exceptions|pluralize }} to resolve (above).{% else %}Fantrax moves are applied and nothing needs a look.{% endif %}</li>
+  <li class="{% if discord_exceptions %}todo{% else %}ok{% endif %}">{% if discord_exceptions %}{{ discord_exceptions|length }} Discord exception{{ discord_exceptions|pluralize }} to resolve (above).{% else %}Discord cash posts are read and nothing needs a look.{% endif %}</li>
   <li class="{% if roster_count %}ok{% else %}todo{% endif %}">{% if roster_count %}{{ roster_count }} roster spots loaded.{% else %}No rosters loaded yet: load them from the blackout snapshot below.{% endif %}</li>
   {% if roster_count and off_roster %}<li class="todo">{{ off_roster|length }} contract{{ off_roster|pluralize }} whose player isn't on the team's roster.
     Usually a drop or trade not synced yet: Sync from Fantrax, then load the rosters again.<ul>
