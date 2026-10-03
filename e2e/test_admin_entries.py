@@ -4,8 +4,11 @@ import pytest
 from playwright.sync_api import expect
 
 from e2e.conftest import SEASON
-from e2e.pages import add_cash_trade, admin_saved, browse_signing, panel_line, team_label
+from e2e.pages import admin_saved, browse_signing, panel_line, team_label
+from league import discord_sync
+from league.discord_client import Channel
 from league.models import AuditEntry, FarmPick, FarmPlayer, Player
+from league.tests.test_discord_sync import post
 
 pytestmark = pytest.mark.usefixtures("opened")
 
@@ -15,14 +18,21 @@ def left_before_signings(page, code):
     return int(page.locator(".summary div").filter(has_text="Left before signings").locator("strong").inner_text()[1:])
 
 
-def test_cash_trade_moves_both_budgets(commish_page):
+def test_resolving_a_discord_post_moves_both_budgets(commish_page):
     page = commish_page
     mb, jj = left_before_signings(page, "MB"), left_before_signings(page, "JJ")
-    add_cash_trade(page, "MB", "JJ", 7, tx_id="e2e-cash")
+    discord_sync.sync([Channel("27", "trades-2027-assets", [post("m1", "Becker sends JJ $7 in the e2e trade")])])
+    page.goto("/commish/")
+    row = page.locator("tr").filter(has_text="Becker sends JJ $7")
+    row.get_by_label("From").select_option("MB")
+    row.get_by_label("To").select_option("JJ")
+    row.get_by_label("Amount").fill("7")
+    row.get_by_label("Note").fill("names, not mentions")
+    row.get_by_role("button", name="Resolve").click()
+    expect(page.locator(".messages")).to_contain_text("Discord exception resolved.")
     assert left_before_signings(page, "MB") == mb - 7
     assert left_before_signings(page, "JJ") == jj + 7
-    expect(page.get_by_text("2027: $7 from MB")).to_be_visible()
-    assert AuditEntry.objects.filter(action="Admin: added cash trade", team__code="JJ").exists()
+    assert AuditEntry.objects.filter(action="Discord: added cash trade", team__code="JJ").exists()
 
 
 def test_missed_ip_penalty_comes_off_the_budget(commish_page):

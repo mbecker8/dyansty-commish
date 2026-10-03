@@ -10,7 +10,7 @@ import pytest
 from playwright.sync_api import expect
 
 from e2e.conftest import SEASON, manager, signable
-from e2e.pages import add_cash_trade, browse_signing, left_for_auction, panel_line, status_tag
+from e2e.pages import browse_signing, give_cash, left_for_auction, panel_line, status_tag
 from league import signing
 from league.models import Contract, Team
 
@@ -112,7 +112,7 @@ def test_an_eleventh_contract_is_refused(browse, league):
     expect(status_tag(page)).to_have_text("Draft")
 
 
-def test_budget_may_end_at_zero_but_not_below(mb_page, commish_page):
+def test_budget_may_end_at_zero_but_not_below(mb_page):
     """A cash trade entered in the admin sets MB's budget so one signing leaves exactly $0; $1 more is refused."""
     player = signable("MB")[0]
     page = browse_signing(mb_page, "MB")
@@ -123,7 +123,7 @@ def test_budget_may_end_at_zero_but_not_below(mb_page, commish_page):
     expect(page.locator(".messages")).to_contain_text("Draft saved.")
     before = left_for_auction(page)
 
-    add_cash_trade(commish_page, "MB", "JJ", before - player.entry.salary, tx_id="e2e-zero")
+    give_cash("MB", "JJ", before - player.entry.salary)
     page.reload()
     page.get_by_label(f"Contract for {player.player.name}").select_option("1")
     expect(page.locator("#panel tfoot")).to_contain_text("$0")
@@ -133,7 +133,7 @@ def test_budget_may_end_at_zero_but_not_below(mb_page, commish_page):
     page.get_by_role("button", name="Withdraw submission").click()
     expect(status_tag(page)).to_have_text("Draft")
 
-    add_cash_trade(commish_page, "MB", "JJ", 1, tx_id="e2e-one-more")
+    give_cash("MB", "JJ", 1)
     page.reload()
     expect(page.locator("#panel tfoot")).to_contain_text("$-1")
     expect(page.locator("#panel .errors")).to_contain_text("can't go below $0")
