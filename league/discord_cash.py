@@ -40,6 +40,7 @@ class Reading:
     status: str
     detail: str
     trades: list[Wanted] = field(default_factory=list)
+    needs_link: bool = False  # a mentioned manager isn't linked yet: linking them clears it, not a resolve
 
 
 def readable_text(content: str, names: dict[str, str]) -> str:
@@ -68,7 +69,9 @@ def read_post(content: str, has_attachments: bool, season: int, teams: dict, nam
         if uid not in teams:
             name = names.get(uid, uid)
             return Reading(
-                EXCEPTION, f"@{name} isn't linked to a manager: set their Discord ID in the admin, then sync again"
+                EXCEPTION,
+                f"@{name} isn't linked to a manager: set their Discord ID in Admin → Managers, then Sync from Discord",
+                needs_link=True,
             )
     sender, receiver, amount = teams[m[1]], teams[m[2]], int(amounts[0])
     if sender == receiver:

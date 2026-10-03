@@ -43,6 +43,15 @@ def test_console_syncs_and_resolves(commish, monkeypatch, settings):
     assert "https://discord.com/channels/1/27/m1" in cash_page
 
 
+def test_a_not_linked_exception_shows_how_to_link_instead_of_a_form(commish, monkeypatch, settings):
+    settings.DISCORD_BOT_TOKEN, settings.DISCORD_GUILD_ID, settings.DISCORD_CATEGORY_ID = "t", "1", "10"
+    channel = Channel("27", "trades-2027-assets", [post("m1", "<@3> sends $2 to <@1>")])
+    monkeypatch.setattr(discord_sync, "fetch_category", lambda: [channel])
+    page = commish.post("/commish/", {"action": "discord_sync"}, follow=True).content.decode()
+    assert "Discord exceptions (1)" in page and "then Sync from Discord" in page
+    assert 'value="discord_resolve"' not in page
+
+
 def test_console_reports_a_discord_error(commish, monkeypatch):
     def fail():
         raise DiscordReadError("Discord rejected the bot token: update DISCORD_BOT_TOKEN")

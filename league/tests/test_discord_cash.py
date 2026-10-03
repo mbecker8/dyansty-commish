@@ -51,5 +51,11 @@ def test_exceptions(text, attachments, why):
     assert r.status == EXCEPTION and why in r.detail and not r.trades
 
 
+def test_only_an_unlinked_mention_clears_itself_once_linked():
+    assert read("<@3> sends $3 to <@2> in a trade").needs_link
+    assert not read("Kevin sends Devin $3 2027").needs_link
+    assert not read("<@1> sends $3 to <@2>").needs_link
+
+
 def test_readable_text_names_mentions():
     assert readable_text("<@1> sends $3 to <@!9>", NAMES) == "@alice sends $3 to @9"

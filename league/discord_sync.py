@@ -62,6 +62,7 @@ def sync(channels: list[Channel], user=None, dry_run: bool = False) -> DiscordSy
             for raw in channel.messages:
                 result.read += 1
                 msg, names = _store(stored.pop(raw["id"], None), channel, raw, now)
+                msg.needs_link = False
                 if season is None:
                     msg.status, msg.detail = Status.IGNORED, ""
                 else:
@@ -116,7 +117,7 @@ class _Context:
             msg.status, msg.detail = Status.EXCEPTION, "Edited after it was resolved: check it again"
             return
         reading = read_post(msg.content, msg.has_attachments, season, self.teams, names)
-        msg.status, msg.detail = reading.status, reading.detail
+        msg.status, msg.detail, msg.needs_link = reading.status, reading.detail, reading.needs_link
         if reading.status != EXCEPTION:
             self.make(msg, season, reading.trades, reading.detail)
 
@@ -174,6 +175,8 @@ def resolve(message_id: int, user, note: str, from_code: str = "", to_code: str 
     msg = DiscordMessage.objects.select_for_update().filter(pk=message_id).first()
     if msg is None or msg.status != Status.EXCEPTION or msg.resolved_at:
         raise ValueError("This isn't an open exception")
+    if msg.needs_link:
+        raise ValueError("Link that manager's Discord ID in Admin → Managers, then Sync from Discord: it clears itself")
     season = msg.season
     frozen = SeasonBudget.objects.filter(season=season).exists()
     entered = [x.strip() for x in (from_code, to_code, amount)]

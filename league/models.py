@@ -415,6 +415,9 @@ class DiscordMessage(models.Model):
     deleted_at = models.DateTimeField(null=True, blank=True)
     status = models.CharField(max_length=10, choices=Status.choices)
     detail = models.TextField(blank=True)
+    needs_link = models.BooleanField(
+        default=False, help_text="A mentioned manager isn't linked: linking them clears it, not resolving"
+    )
     synced_at = models.DateTimeField()
     resolved_at = models.DateTimeField(null=True, blank=True)
     resolved_by = models.ForeignKey("auth.User", on_delete=models.SET_NULL, null=True, blank=True, related_name="+")

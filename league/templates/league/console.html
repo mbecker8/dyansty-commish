@@ -47,11 +47,11 @@
 {% for m in discord_exceptions %}<tr><td>{{ m.posted_at|date:"M j, Y" }}<br><span class="muted">#{{ m.channel_name }}</span></td>
   <td class="wrap"><a href="{{ m.url }}">{{ m.author_name }}</a>: “{{ m.readable|default:"(no text)" }}”<br><span class="error-text">{{ m.detail }}</span>
     {% for c in m.cash_trades.all %}<br><span class="muted">Now: {{ c.from_team.code }} → {{ c.to_team.code }} ${{ c.amount }}</span>{% endfor %}</td>
-  <td><form method="post">{% csrf_token %}<input type="hidden" name="message" value="{{ m.pk }}">
+  <td>{% if m.needs_link %}<span class="muted">Link them in <a href="{% url 'admin:league_manager_changelist' %}">Admin → Managers</a>, then Sync from Discord. It clears itself.</span>{% else %}<form method="post">{% csrf_token %}<input type="hidden" name="message" value="{{ m.pk }}">
     <select name="from_team" aria-label="From"><option value="">From</option>{% for t in teams %}<option>{{ t.code }}</option>{% endfor %}</select>
     <select name="to_team" aria-label="To"><option value="">To</option>{% for t in teams %}<option>{{ t.code }}</option>{% endfor %}</select>
     <input name="amount" inputmode="numeric" size="4" placeholder="$" aria-label="Amount">
-    <input name="note" required placeholder="What you did" aria-label="Note"> <button type="submit" name="action" value="discord_resolve">Resolve</button></form></td></tr>
+    <input name="note" required placeholder="What you did" aria-label="Note"> <button type="submit" name="action" value="discord_resolve">Resolve</button></form>{% endif %}</td></tr>
 {% endfor %}
 </tbody></table></div>
 {% endif %}

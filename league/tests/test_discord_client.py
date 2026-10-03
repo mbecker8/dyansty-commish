@@ -72,6 +72,7 @@ def test_private_channel_is_skipped(bot):
         (401, {"message": "401: Unauthorized"}, "DISCORD_BOT_TOKEN"),
         (403, {"message": "Missing Access", "code": 50001}, "still in the league server"),
         (403, "Forbidden", "DISCORD_PROXY_KEY"),
+        (404, "Not found", "redeploy the Worker"),
         (500, {"message": "boom"}, "500"),
     ],
 )

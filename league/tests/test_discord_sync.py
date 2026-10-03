@@ -129,6 +129,14 @@ def test_an_edit_reopens_a_resolved_exception(teams):
         signing.open_period(2026, None)
 
 
+def test_a_not_linked_exception_is_cleared_by_linking_not_resolved(teams):
+    discord_sync.sync([trades(post("m1", "<@3> sends $2 to <@2>"))])
+    m = DiscordMessage.objects.get()
+    with pytest.raises(ValueError, match="Admin → Managers"):
+        discord_sync.resolve(m.pk, None, "linking him")
+    assert discord_sync.unresolved_count() == 1  # still blocks signing
+
+
 def test_resolving_blank_means_no_cash(teams):
     discord_sync.sync([trades(post("m1", "", attachments=[{"id": "x"}]))])
     m = DiscordMessage.objects.get()

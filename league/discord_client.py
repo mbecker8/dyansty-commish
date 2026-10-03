@@ -93,6 +93,10 @@ def _ok(r, what: str):
         raise DiscordReadError("Discord rejected the bot token: update DISCORD_BOT_TOKEN")
     if r.status_code == 403 and _code(r) is None:
         raise DiscordReadError("Our Discord proxy refused the key: DISCORD_PROXY_KEY must match the Worker's PROXY_KEY")
+    if r.status_code == 404 and _code(r) is None:
+        raise DiscordReadError(
+            "Our Discord proxy doesn't forward this yet: redeploy the Worker (docs/discord-signin.md, section 5)"
+        )
     if r.status_code in (403, 404):
         raise DiscordReadError(
             f"Discord refused {what} ({r.status_code}): is Commissioner Bot still in the league server, "
