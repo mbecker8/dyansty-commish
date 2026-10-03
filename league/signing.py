@@ -10,7 +10,7 @@ from django.db import transaction
 from django.utils import timezone
 
 import rules.contracts
-from league import events
+from league import discord_sync, events
 from league.budget import Changes, team_budget
 from league.models import (
     Buyout,
@@ -312,6 +312,8 @@ def open_period(season: int, user) -> SigningPeriod:
         raise SigningError(f"Signing after {season} is already {period.get_status_display().lower()}")
     if n := events.unresolved_count():
         raise SigningError(f"{n} Fantrax exception(s) are unresolved; resolve them on the console first")
+    if n := discord_sync.unresolved_count():
+        raise SigningError(f"{n} Discord exception(s) are unresolved; resolve them on the console first")
     if not RosterEntry.objects.filter(season=season).exists():
         raise SigningError(f"No rosters loaded for {season}; run sync_rosters first")
     period.status = SigningPeriod.Status.OPEN
