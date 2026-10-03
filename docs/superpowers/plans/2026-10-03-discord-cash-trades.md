@@ -318,7 +318,9 @@ def fetch_category() -> list[Channel]:
         )
     listed = _json(_ok(_get(f"/guilds/{settings.DISCORD_GUILD_ID}/channels"), "the server's channel list"))
     try:
-        inside = [c for c in listed if c.get("parent_id") == settings.DISCORD_CATEGORY_ID and c.get("type") in TEXT_CHANNELS]
+        inside = [
+            c for c in listed if c.get("parent_id") == settings.DISCORD_CATEGORY_ID and c.get("type") in TEXT_CHANNELS
+        ]
         channels = [Channel(c["id"], c["name"]) for c in sorted(inside, key=lambda c: c.get("position", 0))]
     except (AttributeError, KeyError, TypeError) as e:
         raise DiscordReadError(f"Unexpected channel list from Discord: {e!r}") from e
@@ -387,14 +389,14 @@ def _json(r):
 def _code(r):
     try:
         return r.json().get("code")
-    except (ValueError, AttributeError):
+    except ValueError, AttributeError:
         return None
 
 
 def _retry_after(r) -> float:
     try:
         return float(r.json().get("retry_after", 1))
-    except (ValueError, AttributeError, TypeError):
+    except ValueError, AttributeError, TypeError:
         return 1.0
 ```
 
@@ -562,8 +564,10 @@ from django.db import migrations
 def drop_fantrax_comment_cash(apps, schema_editor):
     CashTrade = apps.get_model("league", "CashTrade")
     AuditEntry = apps.get_model("league", "AuditEntry")
-    for c in CashTrade.objects.filter(budget_season__gte=2027).exclude(fantrax_tx_id="").select_related(
-        "from_team", "to_team"
+    for c in (
+        CashTrade.objects.filter(budget_season__gte=2027)
+        .exclude(fantrax_tx_id="")
+        .select_related("from_team", "to_team")
     ):
         detail = f"${c.amount} {c.from_team.code} -> {c.to_team.code} ({c.budget_season}), from a Fantrax comment"
         for team in (c.from_team, c.to_team):
@@ -699,11 +703,15 @@ def read_post(content: str, has_attachments: bool, season: int, teams: dict, nam
         return Reading(EXCEPTION, f"Mentions {years} in the {season} channel: check which auction the cash is for")
     m = SENDS.search(text)
     if not m:
-        return Reading(EXCEPTION, "Couldn't tell who sends and who receives: posts need @mentions (“@A sends $5 to @B”)")
+        return Reading(
+            EXCEPTION, "Couldn't tell who sends and who receives: posts need @mentions (“@A sends $5 to @B”)"
+        )
     for uid in (m[1], m[2]):
         if uid not in teams:
             name = names.get(uid, uid)
-            return Reading(EXCEPTION, f"@{name} isn't linked to a manager: set their Discord ID in the admin, then sync again")
+            return Reading(
+                EXCEPTION, f"@{name} isn't linked to a manager: set their Discord ID in the admin, then sync again"
+            )
     sender, receiver, amount = teams[m[1]], teams[m[2]], int(amounts[0])
     if sender == receiver:
         return Reading(EXCEPTION, "Sender and receiver are the same team")
@@ -971,7 +979,10 @@ def sync(channels: list[Channel], user=None, dry_run: bool = False) -> DiscordSy
                 if (season := msg.season) is not None:
                     ctx.follow_deletion(msg, season)
                 msg.save()
-        result.open = [f"#{m.channel_name} {m.author_name}: {m.readable[:80]!r}: {m.detail}" for m in DiscordMessage.objects.unresolved()]
+        result.open = [
+            f"#{m.channel_name} {m.author_name}: {m.readable[:80]!r}: {m.detail}"
+            for m in DiscordMessage.objects.unresolved()
+        ]
         if dry_run:
             transaction.set_rollback(True)
         else:
@@ -1056,7 +1067,12 @@ def replace(msg, season, wanted, user, result=None):
 
 def _audit(user, action, c, where):
     for team in (c.from_team, c.to_team):
-        audit(user, action, f"{c.from_team.code} → {c.to_team.code} ${c.amount} for {c.budget_season}, from {where}", team=team)
+        audit(
+            user,
+            action,
+            f"{c.from_team.code} → {c.to_team.code} ${c.amount} for {c.budget_season}, from {where}",
+            team=team,
+        )
 
 
 @transaction.atomic
