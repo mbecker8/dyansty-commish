@@ -354,10 +354,12 @@ def test_year_fields_are_dropdowns_from_this_year(ready, commish):
     import datetime
 
     this_year = datetime.date.today().year
-    for url, name in [("cashtrade", "budget_season"), ("budgetadjustment", "season")]:
-        options = year_options(commish.get(f"/admin/league/{url}/add/").content.decode(), name)
-        assert options.index(f'value="{this_year}"') < options.index(f'value="{this_year + 1}"')
-        assert f'value="{this_year - 1}"' not in options
+    options = year_options(commish.get("/admin/league/budgetadjustment/add/").content.decode(), "season")
+    assert options.index(f'value="{this_year}"') < options.index(f'value="{this_year + 1}"')
+    assert f'value="{this_year - 1}"' not in options
+    # Cash for 2027 on comes from Discord, so hand entry offers the auctions up to it (2027 says so).
+    options = year_options(commish.get("/admin/league/cashtrade/add/").content.decode(), "budget_season")
+    assert 'value="2026"' in options and 'value="2027"' in options and 'value="2028"' not in options
     options = year_options(commish.get("/admin/league/contract/add/").content.decode(), "year_signed")
     assert options.index(f'value="{this_year}"') < options.index(f'value="{this_year - 1}"')
 

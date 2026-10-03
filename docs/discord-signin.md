@@ -1,4 +1,4 @@
-# Discord sign-in: setup and troubleshooting
+# Discord sign-in and Commissioner Bot: setup and troubleshooting
 
 Everyone signs in with Discord. The app asks only for the `identify` scope, so all it learns is
 each person's Discord ID and username. This page covers the whole production setup: the Discord
@@ -24,7 +24,9 @@ Upgrading the Render plan doesn't help, because paid instances share outbound IP
 So in production the two server calls in step 2 go through a small **Cloudflare Worker**
 (`cloudflare/discord-proxy/worker.js`). It runs on Cloudflare's network, so its requests don't come
 from Render's shared IP. The Worker:
-- forwards only `POST /oauth2/token` and `GET /users/@me`, and returns 404 for anything else;
+- forwards only `POST /oauth2/token` and `GET /users/@me`, plus Commissioner Bot's two reads
+  (`GET /v10/guilds/<id>/channels` and `GET /v10/channels/<id>/messages`, with only the `limit`,
+  `before` and `after` parameters; see section 5), and returns 404 for anything else;
 - requires the shared key in an `X-Proxy-Key` header, so nobody else can use it as a proxy;
 - passes Discord's answer back unchanged, including its status code.
 
@@ -135,6 +137,46 @@ the Discord values. Leave `DISCORD_API_BASE` unset and the app calls discord.com
 4. You should land signed in. If your ID isn't linked yet, you'll see a page showing your Discord ID,
    which also means sign-in itself worked.
 
+## 5. Commissioner Bot (cash trades from the trade channels)
+
+Cash for the 2027 auction on comes from the league Discord's "Rules and Accounting" channels
+named `#trades-<year>-assets`. A separate Discord application, **Commissioner Bot**, reads them.
+It's separate from the sign-in apps (Fantasy Manager locally, Fantasy Manager - Prod), so sign-in
+never depends on it. The bot only reads, and only when someone presses **Sync from Discord** on
+the console or runs `manage.py sync_discord`.
+
+1. **Developer Portal → Commissioner Bot → Bot**: **Reset Token** and copy it (shown once). Turn
+   **Public Bot** off. Under **Privileged Gateway Intents**, turn on **Message Content Intent**:
+   without it Discord returns every message with empty text. Save. (If saving complains about a
+   default authorization link, set **Installation → Install Link** to **None** first.)
+2. **Add it to the league server** with *its own* client ID. Using a sign-in app's ID adds the
+   wrong bot, which then can't be read with this token:
+   ```
+   https://discord.com/oauth2/authorize?client_id=<Commissioner Bot app ID>&scope=bot&permissions=66560&guild_id=<server ID>
+   ```
+   `66560` is View Channels + Read Message History, nothing else. It shows as offline in the
+   member list; that's expected. If a sign-in app's bot got added by mistake, kick it.
+3. **IDs**: in Discord, **User Settings → Advanced → Developer Mode** on. Right-click the server
+   icon → **Copy Server ID**; right-click the "Rules and Accounting" category → **Copy Channel ID**.
+4. **Settings**:
+
+   | Key | Value |
+   |---|---|
+   | `DISCORD_BOT_TOKEN` | the token from step 1 (a secret) |
+   | `DISCORD_GUILD_ID` | the server ID |
+   | `DISCORD_CATEGORY_ID` | the category ID |
+
+   Locally, put the three lines in `secrets/discord.env`. On Render, set them under
+   **Environment**. Production uses the same `DISCORD_API_BASE` and `DISCORD_PROXY_KEY` as
+   sign-in.
+5. **Redeploy the Worker** whenever `worker.js` changes (see "Updating the Worker"). The bot's
+   routes were added with this feature, so a Worker deployed before it returns 404 to the sync.
+6. **Check it**: `uv run python manage.py sync_discord --dry-run` locally prints what a sync would
+   do and saves nothing.
+
+The bot sees what an ordinary member sees. A private channel in the category (today
+`#rule-change-proposals`) is skipped, which is intended.
+
 ## Troubleshooting
 
 Every failed sign-in is logged in **Render → dynasty-commish → Logs** as one line starting
@@ -150,6 +192,10 @@ redirect the app used.
 | Log shows **(403)** and the body `Forbidden` | The Worker rejected the key | `DISCORD_PROXY_KEY` on Render must equal the Worker's `PROXY_KEY` |
 | Log shows **(404)** and the body `Not found` | `DISCORD_API_BASE` has an extra path | Use the bare Worker URL, with nothing after `.workers.dev` |
 | Page says your account **isn't linked** | Sign-in worked, but the ID isn't on a Manager or in `COMMISSIONER_DISCORD_IDS` | Add it in Admin → Managers, or to the env var |
+| Sync from Discord says **rejected the bot token** | `DISCORD_BOT_TOKEN` is wrong or was reset | Reset it in the portal (section 5, step 1) and update it everywhere |
+| Sync from Discord says **refused … is Commissioner Bot still in the league server** | The bot isn't in the server, or a wrong server/category ID | Section 5, steps 2 and 3 |
+| Sync from Discord says **No text channels in that category** | `DISCORD_CATEGORY_ID` is a channel or another category | Copy the category's ID again (section 5, step 3) |
+| Sync from Discord says **proxy refused the key**, or gets 404 | Worker key mismatch, or the Worker predates the bot routes | Check `DISCORD_PROXY_KEY`; redeploy the Worker |
 
 ## Changing the key
 

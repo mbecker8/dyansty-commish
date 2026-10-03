@@ -125,6 +125,26 @@ DISCORD_API_BASE = os.environ.get("DISCORD_API_BASE", "").strip() or "https://di
 DISCORD_PROXY_KEY = os.environ.get("DISCORD_PROXY_KEY", "").strip()
 
 
+def _discord_env(name: str) -> str:
+    """Env var, else its line in the gitignored secrets/discord.env (local runs)."""
+    if value := os.environ.get(name, "").strip():
+        return value
+    path = BASE_DIR / "secrets" / "discord.env"
+    if path.exists():
+        for line in path.read_text().splitlines():
+            key, _, value = line.partition("=")
+            if key.strip() == name:
+                return value.strip().strip("'\"")
+    return ""
+
+
+# Commissioner Bot (its own Discord app) reads the league server's "Rules and Accounting" channels.
+# Cash for the 2027 auction on comes from its #trades-<year>-assets channels (league/discord_sync.py).
+DISCORD_BOT_TOKEN = _discord_env("DISCORD_BOT_TOKEN")
+DISCORD_GUILD_ID = _discord_env("DISCORD_GUILD_ID")
+DISCORD_CATEGORY_ID = _discord_env("DISCORD_CATEGORY_ID")
+
+
 def _secret(name: str, filename: str) -> str:
     """Env var, else the gitignored secrets/ file (local runs)."""
     if value := os.environ.get(name):

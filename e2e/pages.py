@@ -2,7 +2,7 @@
 
 from playwright.sync_api import expect
 
-from league.models import Team
+from league.models import CashTrade, Team
 
 
 def browse_signing(page, code):
@@ -34,12 +34,9 @@ def admin_saved(page):
     expect(page.locator(".messagelist")).to_contain_text("successfully")
 
 
-def add_cash_trade(page, sender, receiver, amount, tx_id):
-    page.goto("/admin/league/cashtrade/add/")
-    page.get_by_label("Budget season").select_option("2027")
-    page.get_by_label("From team").select_option(label=team_label(sender))
-    page.get_by_label("To team").select_option(label=team_label(receiver))
-    page.get_by_label("Amount").fill(str(amount))
-    page.get_by_label("Fantrax tx id").fill(tx_id)
-    page.get_by_role("button", name="Save", exact=True).click()
-    admin_saved(page)
+def give_cash(sender, receiver, amount):
+    """Cash for the 2027 auction, as a synced Discord post would make it (the admin refuses 2027 cash)."""
+    CashTrade.objects.create(
+        budget_season=2027, from_team=Team.objects.get(code=sender), to_team=Team.objects.get(code=receiver),
+        amount=amount,
+    )  # fmt: skip

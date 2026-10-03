@@ -26,14 +26,16 @@
   <li><strong>Console → Find new Fantrax leagues</strong>, then add the renewed league. Offseason
     trades happen in the new league; the sync reads both.</li>
   <li><strong>Console → Sync from Fantrax</strong> as often as you like, resolving exceptions as they come.</li>
-  <li><strong>Admin</strong>: enter cash trades (with the Fantrax trade ID) and farm pick trades as they're agreed.</li>
+  <li><strong>Console → Sync from Discord</strong>: cash trades are posted in the league Discord's
+    #trades-&lt;year&gt;-assets channels; the sync reads them. Resolve any Discord exceptions.</li>
+  <li><strong>Admin</strong>: enter farm pick trades as they're agreed.</li>
 </ol>
 
 <h2>3. Blackout and signing</h2>
 <p>Trading stops for the blackout, at most a week by the rulebook. Tell the league when it starts.</p>
 <ol>
-  <li><strong>Console → Sync from Fantrax</strong> once trades stop, and resolve every exception. Signing can't open
-    while any are listed.</li>
+  <li><strong>Console → Sync from Fantrax</strong> and <strong>Sync from Discord</strong> once trades stop, and
+    resolve every exception. Signing can't open while any are listed.</li>
   <li><strong>Your computer</strong>: save the blackout snapshot, which sets who's on each roster.
     <pre><code>uv run python scripts/fantrax_snapshot.py &lt;new league id&gt; data/fantrax/{{ league_season }}-blackout</code></pre>
     Commit it and deploy.</li>
@@ -51,6 +53,8 @@
     Do it straight after locking: the sync refuses to run until they're in, and moves synced before them would be
     filed under the wrong season.</li>
   <li><strong>Fantrax</strong>: run the farm draft (teams add picks as ordinary claims), then the auction.</li>
+  <li><strong>Console → Sync from Discord</strong> once the auction has started, and resolve its exceptions. The
+    Fantrax sync below freezes the auction budgets and won't until Discord is read.</li>
   <li><strong>Console → Sync from Fantrax</strong> once the auction has started. The first sync after the auction start
     freezes every team's auction budget. Resolve any exceptions (a farm claim by a team with no pick left, say).</li>
   <li><strong>Console → Start the {{ next_season }} season</strong> once its checklist is all green. That makes
@@ -61,7 +65,8 @@
 <ul>
   <li><strong>Console → Sync from Fantrax</strong> every week or two: trades, drops (buyouts), promotions and MLB debuts.
     Resolve exceptions as they come.</li>
-  <li><strong>Admin</strong>: missed-IP penalties, cash trades and farm pick trades.</li>
+  <li><strong>Console → Sync from Discord</strong> now and then, for cash trades posted in the trade channels.</li>
+  <li><strong>Admin</strong>: missed-IP penalties and farm pick trades.</li>
   <li><strong>Fantrax cookie</strong>: when the console says the login has expired, copy a fresh Cookie header from a
     logged-in Fantrax tab into <code>secrets/fantrax_cookie.txt</code> on your computer, then run
     <pre><code>scripts/set_render_secret.sh FANTRAX_COOKIE secrets/fantrax_cookie.txt</code></pre>

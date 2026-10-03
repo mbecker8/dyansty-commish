@@ -106,6 +106,16 @@ def test_checklist_lists_what_is_missing(league_2026):
     assert all(c.ok for c in seasons.checklist())
 
 
+def test_checklist_needs_discord_when_it_is_set_up(league_2026, settings):
+    settings.DISCORD_BOT_TOKEN, settings.DISCORD_GUILD_ID, settings.DISCORD_CATEGORY_ID = "t", "1", "10"
+    ready_to_start()
+    labels = {c.label: c.ok for c in seasons.checklist()}
+    assert labels["Discord synced since the auction started"] is False
+    assert labels["No unresolved Discord exceptions"] is True
+    AuditEntry.objects.create(action="Synced Discord")
+    assert all(c.ok for c in seasons.checklist())
+
+
 def test_start_is_refused_until_ready(league_2026):
     add_2027()
     with pytest.raises(seasons.RolloverError, match="Signing after 2026 is locked"):

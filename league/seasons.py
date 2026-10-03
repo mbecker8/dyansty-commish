@@ -11,6 +11,7 @@ from django.db import transaction
 from django.db.models import Max
 from django.utils import timezone
 
+from league import discord_client, discord_sync
 from league.budget import team_budget
 from league.models import AuditEntry, FantraxEvent, FarmPick, Season, SeasonBudget, SigningPeriod, Team, audit
 
@@ -151,12 +152,36 @@ def checklist(now=None) -> list[Check]:
     nxt = Season.objects.filter(year=year + 1).first()
     auction_ran = bool(nxt and nxt.auction_starts_at <= now)
     synced = auction_ran and AuditEntry.objects.filter(action="Synced Fantrax", at__gte=nxt.auction_starts_at).exists()
-    return [
+    checks = [
         Check(f"Signing after {year} is locked", bool(period and period.status == SigningPeriod.Status.LOCKED)),
         Check(f"The {year + 1} auction start is entered and has passed", auction_ran),
         Check("Fantrax synced since the auction started", synced),
         Check("No unresolved Fantrax exceptions", not FantraxEvent.objects.unresolved().exists()),
     ]
+    if discord_client.configured():
+        checks += [
+            Check(
+                "Discord synced since the auction started", auction_ran and discord_synced_since(nxt.auction_starts_at)
+            ),
+            Check("No unresolved Discord exceptions", not discord_sync.unresolved_count()),
+        ]
+    return checks
+
+
+def discord_synced_since(when: datetime) -> bool:
+    return AuditEntry.objects.filter(action="Synced Discord", at__gte=when).exists()
+
+
+def discord_blocks_freeze(season: Season) -> str | None:
+    """Why a sync can't freeze `season`'s auction budgets yet: its cash comes from Discord. None when it can."""
+    if not discord_client.configured():
+        return None
+    why = f"the {season.year} auction budgets freeze on this Fantrax sync, so they need all of Discord's cash"
+    if not discord_synced_since(season.auction_starts_at):
+        return f"Sync from Discord first: {why}"
+    if n := discord_sync.unresolved_count():
+        return f"Resolve the {n} Discord exception(s) on the console first: {why}"
+    return None
 
 
 @transaction.atomic

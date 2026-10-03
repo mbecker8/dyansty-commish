@@ -217,7 +217,9 @@ def draft_order(request):
 
 @member_required
 def cash(request):
-    trades = CashTrade.objects.select_related("from_team", "to_team").order_by("-budget_season", "from_team__code")
+    trades = CashTrade.objects.select_related("from_team", "to_team", "discord_message").order_by(
+        "-budget_season", "from_team__code"
+    )
     return render(request, "league/cash.html", {"trades": trades})
 
 
