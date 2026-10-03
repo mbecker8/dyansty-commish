@@ -35,6 +35,14 @@ services:
       # Discord IDs (comma-separated) that are commissioners even with no Manager: the first sign-in.
       - key: COMMISSIONER_DISCORD_IDS
         sync: false
+      # Commissioner Bot reads the league Discord's Rules and Accounting channels (cash trades for
+      # 2027 on): its bot token, the server ID and the category ID (docs/discord-signin.md).
+      - key: DISCORD_BOT_TOKEN
+        sync: false
+      - key: DISCORD_GUILD_ID
+        sync: false
+      - key: DISCORD_CATEGORY_ID
+        sync: false
       # Fantrax (read-only): the commissioner's browser Cookie header, and the Secret ID from
       # the Fantrax user profile (only used to find the renewed league). Set in the dashboard.
       - key: FANTRAX_COOKIE
