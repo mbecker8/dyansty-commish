@@ -174,7 +174,8 @@ where the numbers come from.
   - A commissioner can edit any team, with a required note.
 - **Commissioner console** (`/commish/`): open and lock signing, see every team's status,
   budget and problems, jump to any team's page, and follow links to the admin for manual
-  entries (cash trades, missed-IP penalties, farm picks and farm players).
+  entries (cash trades before 2027, missed-IP penalties, farm picks and farm players), and the
+  Discord panel (Sync from Discord, Discord exceptions).
 - **Audit log** (`/commish/audit/`): signing saves, submits, withdrawals, open, lock,
   roster syncs, Fantrax syncs, resolved exceptions, and every admin add, change or delete (through
   `league.admin.AuditedAdmin`).
@@ -188,7 +189,8 @@ where the numbers come from.
   `import_league` seeds the 2026 league.
 - **`league/events.py`:** `sync([(league, snapshot)])` applies everything new in one
   transaction. Transactions are keyed `tx:<txSetId>:<player>:<kind>`; roster-derived facts
-  (promotion, debut, unknown Minors player, cash comment, roster mismatch) have their own keys.
+  (promotion, debut, unknown Minors player, roster mismatch) have their own keys. Fantrax trade
+  comments are ignored: cash comes from Discord.
   A key already stored is skipped, so re-running is safe and hand fixes in the admin stick.
 - Moves are applied against current records, so a trade after the signing locks moves the new
   contract. A contract signed at the signing after a season ignores that season's moves from
@@ -204,6 +206,26 @@ where the numbers come from.
   console's Sync from Fantrax. Both fetch before the transaction starts.
 - The golden test (`league/tests/test_sync_2026.py`) checks the 2026 result against the state
   the old reconciliation queue produced when everything was accepted.
+
+### Discord cash trades
+
+- Cash for the 2027 auction on comes only from the league Discord's "Rules and Accounting"
+  category, channels `#trades-<year>-assets` (the year is `CashTrade.budget_season`). Commissioner
+  Bot (its own Discord app) reads them over REST, on demand; production goes through the
+  Cloudflare Worker (`docs/discord-signin.md`).
+- **`league/discord_client.py`:** `fetch_category()` lists the category's text channels and pages
+  through each one's messages. A private channel is skipped, not an error.
+- **`league/discord_cash.py`:** pure rules. `read_post()` turns a post into a `Reading` (CASH,
+  NOT_CASH or EXCEPTION, with the wanted cash trades); mentions map to teams through
+  `Manager.discord_id`.
+- **`league/discord_sync.py`:** `sync(channels)` stores every message once as a `DiscordMessage`
+  (by its Discord ID) and makes each post's `CashTrade`s equal what it says now: edits update,
+  deletions remove, both audited, unless that season has a `SeasonBudget` (then it's an
+  exception). Only channels read in the run can mark messages deleted. `resolve()` closes an
+  exception, optionally entering the cash; an edit to a resolved post reopens it.
+  `signing.open_period` refuses while any are unresolved.
+- **Entry points:** `manage.py sync_discord [--dry-run]` and the console's Sync from Discord.
+  The admin refuses hand-entered cash for 2027 on; `DiscordMessage` is read-only there.
 
 ### Seasons and rollover
 

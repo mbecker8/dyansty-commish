@@ -111,8 +111,8 @@ done by hand outside Fantrax: contracts, buyouts, the farm system, and the aucti
     farm drop releases him; a farm player in an active roster slot is promoted; a farm player's first plate appearance or out
     records his MLB debut. Claims change nothing. A claimed player has no contract until he's signed.</li>
   <li><strong>Exceptions</strong> are the few things it can't sort out: a move that contradicts the records, a Minors player
-    who isn't on a farm (usually a draft pick to add), MLB games with no plate appearance or out, a trade comment that
-    mentions cash, or a contract whose Fantrax roster doesn't match. They're listed on the console. Fix the data by hand
+    who isn't on a farm (usually a draft pick to add), MLB games with no plate appearance or out, or a contract whose
+    Fantrax roster doesn't match. They're listed on the console. Fix the data by hand
     (usually in the admin), then resolve the exception with a note saying what you did. Signing can't open while any are
     listed.</li>
   <li><strong>If the app applied something wrongly</strong> (a trade that was later reversed, say), correct the contract,
@@ -124,6 +124,23 @@ done by hand outside Fantrax: contracts, buyouts, the farm system, and the aucti
     logged-in Fantrax tab into that file and run <code>scripts/set_render_secret.sh FANTRAX_COOKIE secrets/fantrax_cookie.txt</code>,
     which sets it on Render and redeploys.</li>
   <li>Every change is listed under <em>Moves this season</em> on each team's page, and in full in Admin → Fantrax events.</li>
+</ul>
+
+<h3>Cash trades (Discord)</h3>
+<p>Cash for the 2027 auction and later comes only from the league Discord's <em>Rules and Accounting</em> channels named
+  <code>#trades-&lt;year&gt;-assets</code>: the channel's year is the auction the money applies to. Fantrax trade comments
+  are ignored. Posts read best as <em>@sender sends $5 to @receiver in the Smith trade</em>, with both managers
+  @mentioned.</p>
+<ul>
+  <li><strong>Sync from Discord</strong> on the <a href="{% url 'console' %}">console</a> reads the channels. Each post
+    becomes a cash trade, and the app follows the post: edit it and the cash trade changes, delete it and the cash trade
+    goes, each in the audit log. Once an auction's budgets are frozen, a change is an exception instead and nothing
+    moves.</li>
+  <li><strong>"isn't linked to a manager"</strong>: set that manager's Discord ID in Admin → Managers, then sync again.
+    The exception clears itself.</li>
+  <li><strong>Other exceptions</strong> (names instead of @mentions, two amounts, another year, a picture): pick the
+    teams and amount the post moves and resolve it, or leave them blank if it moves no cash. If the post is edited
+    later, the exception comes back. Signing can't open while any are listed.</li>
 </ul>
 
 <h3>Run the signing period</h3>
@@ -168,8 +185,8 @@ done by hand outside Fantrax: contracts, buyouts, the farm system, and the aucti
 
 <h3>Enter things by hand</h3>
 <ul>
-  <li><strong>Cash trades</strong>: Admin → Cash trades. The budget season is the auction the money applies to. Enter the
-    Fantrax trade ID too when there is one: a trade comment that mentions cash then stops being flagged.</li>
+  <li><strong>Cash trades</strong> for auctions before 2027: Admin → Cash trades. The budget season is the auction the
+    money applies to. From 2027 on, cash comes only from Discord (above).</li>
   <li><strong>Farm draft picks</strong>: Admin → Farm players ($1, drafted this season). Until you add one, the sync flags him
     as a Minors player who isn't on a farm.</li>
   <li><strong>Missed-IP penalties</strong>: Admin → Budget adjustments, kind “Missed IP penalty”, the season it's charged to, and a note (e.g. the week).</li>
