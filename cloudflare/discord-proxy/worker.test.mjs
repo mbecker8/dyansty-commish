@@ -35,4 +35,22 @@ assert.equal(calls[0].init.headers.get("x-proxy-key"), null);
 globalThis.fetch = async () => new Response("slow down", { status: 429, headers: { "content-type": "text/html" } });
 const me = await call("GET", "/users/@me", { "x-proxy-key": "k3y", authorization: "Bearer tok" });
 assert.equal(me.status, 429);
+
+// Commissioner Bot's reads: GET only, digits only, and only the paging parameters reach Discord.
+calls.length = 0;
+globalThis.fetch = async (url, init) => {
+  calls.push({ url, init });
+  return new Response("[]", { status: 200, headers: { "content-type": "application/json" } });
+};
+const bot = { "x-proxy-key": "k3y", authorization: "Bot t0k" };
+assert.equal((await call("GET", "/v10/guilds/123/channels", bot)).status, 200);
+assert.equal(calls[0].url, "https://discord.com/api/v10/guilds/123/channels");
+assert.equal(calls[0].init.headers.get("authorization"), "Bot t0k");
+assert.equal((await call("GET", "/v10/channels/45/messages?limit=100&before=9&with=x", bot)).status, 200);
+assert.equal(calls[1].url, "https://discord.com/api/v10/channels/45/messages?limit=100&before=9");
+assert.equal((await call("POST", "/v10/channels/45/messages", bot, "{}")).status, 404);
+assert.equal((await call("GET", "/v10/channels/abc/messages", bot)).status, 404);
+assert.equal((await call("GET", "/v10/guilds/123/members", bot)).status, 404);
+assert.equal((await call("GET", "/v10/guilds/123/channels")).status, 403);
+assert.equal(calls.length, 2);
 console.log("worker ok");
