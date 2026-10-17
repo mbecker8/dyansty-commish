@@ -2,6 +2,12 @@
    Green leads where Fantrax uses blue, and amber marks what needs a manager's attention.
    Tokens first; everything else reads them, so dark mode only swaps tokens. */
 
+/* Poppins, served from here (latin subset, from @fontsource/poppins 5; licence in fonts/OFL.txt). */
+@font-face { font-family: Poppins; font-style: normal; font-weight: 400; font-display: swap; src: url("fonts/poppins-latin-400.woff2") format("woff2"); }
+@font-face { font-family: Poppins; font-style: normal; font-weight: 500; font-display: swap; src: url("fonts/poppins-latin-500.woff2") format("woff2"); }
+@font-face { font-family: Poppins; font-style: normal; font-weight: 600; font-display: swap; src: url("fonts/poppins-latin-600.woff2") format("woff2"); }
+@font-face { font-family: Poppins; font-style: normal; font-weight: 700; font-display: swap; src: url("fonts/poppins-latin-700.woff2") format("woff2"); }
+
 :root {
   color-scheme: light dark;
   --bg: #eceef1;
