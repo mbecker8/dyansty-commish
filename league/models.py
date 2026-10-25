@@ -568,3 +568,18 @@ def audit(user, action: str, detail: str = "", team: Team | None = None, note: s
     return AuditEntry.objects.create(
         user=user if user and user.is_authenticated else None, team=team, action=action, detail=detail, note=note
     )
+
+
+class Credential(models.Model):
+    """A secret the commissioner pastes on the console (the Fantrax cookie and Secret ID), encrypted.
+
+    Write-only: league.credentials decrypts it for use, and nothing renders it back. Not in the admin.
+    """
+
+    name = models.CharField(max_length=50, unique=True)
+    ciphertext = models.TextField()
+    updated_at = models.DateTimeField(auto_now=True)
+    updated_by = models.ForeignKey("auth.User", on_delete=models.SET_NULL, null=True, blank=True, related_name="+")
+
+    def __str__(self):
+        return self.name

@@ -66,8 +66,8 @@ Secret ID, Discord credentials, or the workbook with managers' contact details.
 
 Render Blueprint (`render.yaml`): https://dynasty-commish.onrender.com. It runs on the free
 tier for now. Before the league beta, upgrade to paid Postgres with backups, and set
-`DISCORD_CLIENT_ID` / `DISCORD_CLIENT_SECRET` and `FANTRAX_COOKIE` / `FANTRAX_SECRET_ID` in the
-dashboard.
+`DISCORD_CLIENT_ID` / `DISCORD_CLIENT_SECRET` in the dashboard. The Fantrax cookie and Secret ID
+are pasted on the commissioner console (*Fantrax login*), stored encrypted.
 
 Discord sign-in in production goes through a small Cloudflare Worker, because Discord's Cloudflare
 blocks Render's shared outbound IPs. Setup and troubleshooting are in

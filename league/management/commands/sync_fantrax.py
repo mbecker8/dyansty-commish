@@ -1,15 +1,14 @@
 """Apply new Fantrax trades, drops, promotions and debuts to the league's records.
 
-Live by default (every active FantraxLeague, using FANTRAX_COOKIE), or from a saved snapshot.
+Live by default (every active FantraxLeague, with the cookie from league.credentials), or from a saved snapshot.
 Each fact is applied once; anything the app can't interpret is listed as an exception.
 """
 
 from pathlib import Path
 
-from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 
-from league import fantrax_client
+from league import credentials, fantrax_client
 from league.events import FreezeBlocked, SeasonMissing, UnmatchedTeam, sync, unresolved_count
 from league.fantrax_client import FantraxError
 from league.fantrax_data import Snapshot
@@ -51,9 +50,11 @@ class Command(BaseCommand):
         return [(leagues[0], snap)]
 
     def live(self):
-        if not settings.FANTRAX_COOKIE:
-            raise CommandError("FANTRAX_COOKIE isn't set (env var, or secrets/fantrax_cookie.txt locally)")
-        s = fantrax_client.session(settings.FANTRAX_COOKIE)
+        if not (cookie := credentials.fantrax_cookie()):
+            raise CommandError(
+                "FANTRAX_COOKIE isn't set (Fantrax login on the console, the env var, or secrets/fantrax_cookie.txt)"
+            )
+        s = fantrax_client.session(cookie)
         try:
             # Fetch everything first; the sync itself is one transaction with no network calls.
             return [
