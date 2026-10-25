@@ -16,7 +16,7 @@ class FantraxError(Exception):
 
 class FantraxLoginExpired(FantraxError):
     def __init__(self):
-        super().__init__("Fantrax login expired: update FANTRAX_COOKIE with a fresh browser cookie")
+        super().__init__("Fantrax login expired: paste a fresh browser cookie under Fantrax login on the console")
 
 
 def session(cookie: str) -> requests.Session:

@@ -5,15 +5,15 @@ Every number comes from `league.signing.evaluate`, which prices decisions throug
 
 import csv
 
-from django.conf import settings
 from django.contrib import messages
 from django.db import transaction
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.dateparse import parse_datetime
+from django.views.decorators.debug import sensitive_post_parameters
 
-from league import discord_client, discord_sync, events, fantrax_client, seasons, setup, signing
+from league import credentials, discord_client, discord_sync, events, fantrax_client, seasons, setup, signing
 from league.access import commissioner_required, is_league_member, manages, member_required
 from league.budget import team_budget
 from league.fantrax_client import FantraxError
@@ -184,6 +184,7 @@ def signing_preview(request, code):
 # --- commissioner console ------------------------------------------------------------
 
 
+@sensitive_post_parameters("fantrax_cookie", "fantrax_secret_id")
 @commissioner_required
 def console(request):
     s = season()
@@ -239,6 +240,17 @@ def console(request):
                     request.POST.get("from_team", ""), request.POST.get("to_team", ""), request.POST.get("amount", ""),
                 )  # fmt: skip
                 messages.success(request, "Discord exception resolved.")
+            elif action == "fantrax_credentials":
+                pasted = {
+                    name: request.POST.get(name, "").strip()
+                    for name in (credentials.FANTRAX_COOKIE, credentials.FANTRAX_SECRET_ID)
+                }
+                if not any(pasted.values()):
+                    raise ValueError("Paste a cookie or a Secret ID. Nothing was saved.")
+                for name, value in pasted.items():
+                    if value:  # a blank field keeps what's saved
+                        credentials.save(name, value, request.user)
+                messages.success(request, "Fantrax login saved.")
             elif action == "start_season":
                 started = seasons.start(int(request.POST.get("year") or 0), request.user)
                 messages.success(request, f"The {started.year} season has started. Auction budgets are frozen.")
@@ -263,7 +275,7 @@ def console(request):
             known = set(FantraxLeague.objects.values_list("league_id", flat=True))
             found_leagues = [
                 {**lg, "season": _fantrax_season(lg["leagueId"])}
-                for lg in fantrax_client.list_leagues(settings.FANTRAX_SECRET_ID)
+                for lg in fantrax_client.list_leagues(credentials.fantrax_secret_id())
                 if lg["leagueId"] not in known
             ]
         except FantraxError as e:
@@ -291,6 +303,10 @@ def console(request):
             ),
             "discord_last_sync": AuditEntry.objects.filter(action="Synced Discord").first(),
             "teams": Team.objects.all(),
+            "fantrax_status": [
+                ("Cookie", credentials.status(credentials.FANTRAX_COOKIE)),
+                ("Secret ID", credentials.status(credentials.FANTRAX_SECRET_ID)),
+            ],
             "league_loaded": Team.objects.exists(),
             "snapshots": setup.snapshots(),
             "found_leagues": found_leagues,
@@ -306,10 +322,10 @@ def console(request):
 
 def _fantrax_season(league_id):
     """A found league's Fantrax year for its Add button, or None when the Fantrax login can't read it."""
-    if not settings.FANTRAX_COOKIE:
+    if not (cookie := credentials.fantrax_cookie()):
         return None
     try:
-        return fantrax_client.league_season(fantrax_client.session(settings.FANTRAX_COOKIE), league_id)
+        return fantrax_client.league_season(fantrax_client.session(cookie), league_id)
     except FantraxError:
         return None
 
@@ -322,9 +338,9 @@ def _local(text):
 
 def sync_from_fantrax(user) -> events.SyncResult:
     """Fetch every active league live, then apply what's new in one transaction."""
-    if not settings.FANTRAX_COOKIE:
-        raise FantraxError("FANTRAX_COOKIE isn't set")
-    s = fantrax_client.session(settings.FANTRAX_COOKIE)
+    if not (cookie := credentials.fantrax_cookie()):
+        raise FantraxError("The Fantrax cookie isn't set: paste it under Fantrax login on the console")
+    s = fantrax_client.session(cookie)
     sources = [
         (lg, Snapshot.from_raw(fantrax_client.fetch_raw(s, lg.league_id)))
         for lg in FantraxLeague.objects.filter(active=True)

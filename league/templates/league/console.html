@@ -133,4 +133,16 @@
 </ul>
 <p class="muted">Admin changes are recorded in the audit log too.</p>
 {% endif %}
+
+<h2 id="fantrax-login">Fantrax login</h2>
+<p class="muted">Sync from Fantrax uses your browser's Fantrax cookie, which expires: when a sync says the login expired,
+  paste a fresh one here. The Secret ID (on your Fantrax user profile) only finds new leagues. Saved values are
+  encrypted and never shown again. Leave a box blank to keep what's saved.</p>
+<ul class="checklist">
+{% for label, c in fantrax_status %}<li class="{% if c.state == 'saved' or c.state == 'env' %}ok{% else %}todo{% endif %}">{{ label }}: {% if c.state == "saved" %}saved on the console {{ c.updated_at|date:"M j, Y g:i a" }}{% if c.updated_by %} by {{ c.updated_by }}{% endif %}.{% elif c.state == "unreadable" %}saved, but it can't be decrypted (the server's key changed). Paste it again.{% elif c.state == "env" %}set on the server.{% else %}not set.{% endif %}</li>
+{% endfor %}</ul>
+<form method="post" autocomplete="off">{% csrf_token %}<input type="hidden" name="action" value="fantrax_credentials">
+  <label>Cookie <input type="password" name="fantrax_cookie" autocomplete="off" placeholder="The Cookie header from a logged-in Fantrax tab"></label>
+  <label>Secret ID <input type="password" name="fantrax_secret_id" autocomplete="off"></label>
+  <button type="submit">Save Fantrax login</button></form>
 {% endblock %}
