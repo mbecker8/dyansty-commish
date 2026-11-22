@@ -104,6 +104,15 @@
   <label class="note">Note (optional)<textarea name="note" rows="2"></textarea></label>
   <button type="submit" name="action" value="lock" class="primary">Lock signing</button>
 </form>
+
+<h2>Reset signing</h2>
+<p>Resetting deletes every team's saved decisions and closes signing, so it can be opened again from scratch. Use it
+  after a beta, or if signing was opened too early. Nothing else changes, and the audit log keeps its history.</p>
+<form method="post" class="lock">{% csrf_token %}
+  <label><input type="checkbox" name="confirm" value="yes"> Delete the saved decisions of {{ started }} team{{ started|pluralize }} and close signing</label>
+  <label class="note">Reason (optional)<textarea name="note" rows="2"></textarea></label>
+  <button type="submit" name="action" value="reset">Reset signing</button>
+</form>
 {% endif %}
 
 {% if period.status == "locked" %}

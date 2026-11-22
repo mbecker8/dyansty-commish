@@ -26,6 +26,9 @@ from league.models import (
     Season,
     SigningPeriod,
     Submission,
+    SubmissionBuyout,
+    SubmissionFarm,
+    SubmissionSigning,
     Team,
 )
 from rules.contracts import annual_price
@@ -153,6 +156,45 @@ def test_lock_twice_is_refused(opened):
     signing.lock_period(SEASON, None)
     with pytest.raises(signing.SigningError):
         signing.lock_period(SEASON, None)
+
+
+def test_reset_deletes_every_decision_and_closes_signing(opened):
+    opened.deadline = timezone.now()
+    opened.save()
+    mb = team()
+    contract = signing.buyout_candidates(mb, SEASON)[0]
+    sub = submit(mb, signing.Plan(signings={signable(mb)[0].player.pk: 2}, buyouts={contract.pk}, farm=farm_all(mb)))
+    submit(team("AG"), signing.Plan())
+    signing.reset_period(SEASON, None, note="beta over")
+    period = SigningPeriod.objects.get(season=SEASON)
+    assert (period.status, period.opened_at, period.deadline) == (SigningPeriod.Status.PLANNED, None, None)
+    assert not Submission.objects.exists()
+    assert not SubmissionSigning.objects.exists() and not SubmissionBuyout.objects.exists()
+    assert not SubmissionFarm.objects.filter(submission_id=sub.pk).exists()
+    entry = AuditEntry.objects.get(action="Reset signing")
+    assert "2 teams" in entry.detail and entry.note == "beta over"
+
+
+def test_after_a_reset_rosters_reload_and_signing_opens_again(opened):
+    signing.reset_period(SEASON, None)
+    call_command("sync_rosters", verbosity=0)
+    assert signing.open_period(SEASON, None).status == SigningPeriod.Status.OPEN
+
+
+def test_reset_is_refused_once_locked(opened):
+    for t in Team.objects.all():
+        submit(t, signing.Plan(farm=farm_all(t)))
+    signing.lock_period(SEASON, None)
+    with pytest.raises(signing.SigningError, match="already applied"):
+        signing.reset_period(SEASON, None)
+    assert SigningPeriod.objects.get(season=SEASON).status == SigningPeriod.Status.LOCKED
+    assert Submission.objects.count() == 14
+
+
+def test_reset_is_refused_before_signing_opens(ready):
+    with pytest.raises(signing.SigningError, match="isn't open"):
+        signing.reset_period(SEASON, None)
+    assert not AuditEntry.objects.filter(action="Reset signing").exists()
 
 
 def test_lock_refuses_while_a_team_has_undecided_farm_players(opened):

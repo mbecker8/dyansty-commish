@@ -200,6 +200,20 @@ def test_console_opens_and_locks(ready, commish):
     assert AuditEntry.objects.filter(action="Locked signing", note="all in").exists()
 
 
+def test_console_resets_only_when_confirmed(opened, commish, mb):
+    mb.post("/signing/MB/", {"action": "save"})
+    assert b"Delete the saved decisions of 1 team and close signing" in commish.get("/commish/").content
+    response = commish.post("/commish/", {"action": "reset"}, follow=True)
+    assert b"Tick the box" in response.content
+    assert SigningPeriod.objects.get(season=SEASON).status == "open" and Submission.objects.count() == 1
+
+    response = commish.post("/commish/", {"action": "reset", "confirm": "yes", "note": "beta"}, follow=True)
+    assert SigningPeriod.objects.get(season=SEASON).status == "planned"
+    assert not Submission.objects.exists()
+    assert b"Open signing" in response.content
+    assert AuditEntry.objects.filter(action="Reset signing", note="beta").exists()
+
+
 @pytest.fixture
 def unsettled():
     call_command("import_league", verbosity=0)

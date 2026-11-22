@@ -121,3 +121,25 @@ def test_open_decide_lock_and_publish(league, commish_page, mb_page):
     expect(checklist.locator("li.ok")).to_contain_text(["Signing after 2026 is locked"])
     expect(checklist.locator("li.todo").first).to_contain_text("auction start is entered and has passed")
     expect(console.get_by_role("button", name="Start the 2027 season")).to_be_visible()
+
+
+def test_reset_after_a_beta(opened, commish_page, mb_page):
+    player = signable("MB")[0]
+    page = browse_signing(mb_page, "MB")
+    page.get_by_label(f"Contract for {player.player.name}").select_option("2")
+    page.get_by_role("button", name="Save draft").click()
+    expect(status_tag(page)).to_have_text("Draft")
+
+    console = commish_page
+    console.goto("/commish/")
+    console.get_by_label("Delete the saved decisions of 1 team and close signing").check()
+    console.get_by_role("button", name="Reset signing").click()
+    expect(console.locator(".messages")).to_contain_text("Signing is reset")
+    expect(console.get_by_role("button", name="Open signing")).to_be_visible()
+    assert AuditEntry.objects.filter(action="Reset signing").exists()
+
+    mb_page.goto("/signing/MB/")
+    expect(mb_page.locator("main")).to_contain_text("isn't open yet")
+    console.get_by_role("button", name="Open signing").click()
+    mb_page.goto("/signing/MB/")
+    expect(status_tag(mb_page)).to_have_text("Not started")
