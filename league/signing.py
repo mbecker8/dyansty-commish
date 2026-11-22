@@ -324,6 +324,24 @@ def open_period(season: int, user) -> SigningPeriod:
 
 
 @transaction.atomic
+def reset_period(season: int, user, note: str = "") -> SigningPeriod:
+    """Back to not open: every team's saved decisions are deleted. For a beta, or a period opened too early."""
+    period = SigningPeriod.objects.select_for_update().filter(season=season).first()
+    if period is not None and period.status == SigningPeriod.Status.LOCKED:
+        raise SigningError("Signing is locked and its decisions are already applied; it can't be reset")
+    if period is None or period.status != SigningPeriod.Status.OPEN:
+        raise SigningError("Signing isn't open, so there's nothing to reset")
+    deleted = period.submissions.count()
+    period.submissions.all().delete()  # their signings, buyouts and farm decisions cascade
+    period.status = SigningPeriod.Status.PLANNED
+    period.opened_at = None
+    period.deadline = None
+    period.save()
+    audit(user, "Reset signing", f"Signing after the {season} season; deleted {deleted} teams' decisions", note=note)
+    return period
+
+
+@transaction.atomic
 def lock_period(season: int, user, note: str = "") -> SigningPeriod:
     """Apply every team's saved decisions, all or nothing. Refuses if any team isn't ready."""
     period = SigningPeriod.objects.select_for_update().filter(season=season).first()

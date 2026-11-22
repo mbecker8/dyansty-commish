@@ -200,6 +200,12 @@ def console(request):
                 else:
                     signing.lock_period(s, request.user, note=request.POST.get("note", "").strip())
                     messages.success(request, "Signing is locked and every team's decisions are applied.")
+            elif action == "reset":
+                if request.POST.get("confirm") != "yes":
+                    messages.error(request, "Tick the box to confirm. Resetting deletes every team's saved decisions.")
+                else:
+                    signing.reset_period(s, request.user, note=request.POST.get("note", "").strip())
+                    messages.success(request, "Signing is reset: every team's decisions are deleted and it's not open.")
             elif action == "sync":
                 messages.success(request, sync_from_fantrax(request.user).summary())
             elif action == "resolve":
@@ -283,6 +289,7 @@ def console(request):
             "rows": rows,
             "ready": all(r["ev"].complete for r in rows),
             "unsubmitted": [r["team"].code for r in rows if getattr(r["submission"], "status", None) != "submitted"],
+            "started": sum(1 for r in rows if r["submission"]),
             "exceptions": FantraxEvent.objects.unresolved().select_related("from_team", "to_team"),
             "fantrax_leagues": FantraxLeague.objects.filter(active=True),
             "discord_configured": discord_client.configured(),
